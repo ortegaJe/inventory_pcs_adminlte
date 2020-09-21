@@ -6,6 +6,8 @@ use App\Http\Requests\MachineFormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Machine;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Hash;
 
 class MachineController extends Controller
 {
@@ -46,25 +48,25 @@ class MachineController extends Controller
      */
     public function store(Request $request)
     {
-        $machine = new Machine();
+        $machines = new Machine();
 
         //        [db]           [name] (db campos en la base de datos - name campus en el blade create)
-        $machine->type = request('type');
-        $machine->manufacturer = request('manufact');
-        $machine->model = request('model');
-        $machine->serial = request('serial');
-        $machine->ram_slot_00 = request('ramslot00');
-        $machine->ram_slot_01 = request('ramslot01');
-        $machine->hard_drive = request('hard-drive');
-        $machine->cpu = request('cpu');
-        $machine->ip_range = request('ip');
-        $machine->mac_address = request('mac');
-        $machine->anydesk = request('anydesk');
-        $machine->campus = request('campus');
-        $machine->location = request('location');
-        $machine->comment = request('comment');
+        $machines->type = request('type');
+        $machines->manufacturer = request('manufact');
+        $machines->model = request('model');
+        $machines->serial = request('serial');
+        $machines->ram_slot_00 = request('ramslot00');
+        $machines->ram_slot_01 = request('ramslot01');
+        $machines->hard_drive = request('hard-drive');
+        $machines->cpu = request('cpu');
+        $machines->ip_range = request('ip');
+        $machines->mac_address = request('mac');
+        $machines->anydesk = request('anydesk');
+        $machines->campus = request('campus');
+        $machines->location = request('location');
+        $machines->comment = request('comment');
 
-        $machine->save();
+        $machines->save();
 
         return redirect('/machines');
     }

@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container-fluid">
-<div style="padding-bottom: 6%"><a href="machines/create"><button type="button" class="btn bg-gradient-primary btn-lg float-left" style="color: aliceblue">Agregar</button></a></div>
+<div style="padding-bottom: 4%"><a href="machines/create"><button type="button" class="btn bg-gradient-primary btn-lg float-left" style="color: aliceblue">Agregar</button></a></div>
 <table class="table table-hover table-bordered text-center">
   <thead class="thead-dark">
     <tr>

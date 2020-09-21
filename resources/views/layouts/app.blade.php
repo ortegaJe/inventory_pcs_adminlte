@@ -26,8 +26,8 @@
     <link href="{{ asset('dist/css/adminlte.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-
-<body class="hold-transition sidebar-mini layout-fixed">
+<!--class="hold-transition sidebar-mini layout-fixed"-->
+<body class="sidebar-mini sidebar-collapse" style="height: auto;">
     <div id="app">
         <div class="wrapper">
 
@@ -151,7 +151,7 @@
             <!-- /.navbar -->
 
             <!-- Main Sidebar Container -->
-            <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <aside class="main-sidebar sidebar-collapse sidebar-dark-primary elevation-4">
                 <!-- Brand Logo -->
                 <a href="{{ url('/') }}" class="brand-link">
                     <img src="{{ asset('dist/img/svg/inventor-icon.svg') }}" alt="Inventor Machines Logo" class="brand-image img-circle elevation-3"
@@ -193,16 +193,24 @@
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                             data-accordion="false">
 
+<li class="nav-item has-treeview menu-open">
+            <ul class="nav-link active">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Dashboard
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </ul>
+            <ul class="nav nav-treeview" style="display: block;">
                             <li class="nav-item">
                                 <a href="/" class="{{ Request::path() === '/' ? 'nav-link active' : 'nav-link' }}">
-                                    <i class="nav-icon fas fa-tachometer-alt"></i>
-                                    <p>Dashboard</p>
+                                    <i class="nav-icon fas fa-home"></i>
+                                    <p>Home</p>
                                 </a>
                             </li>
-
                             <li class="nav-item">
                                 <a href="{{ url('technicians') }}"
-                                    class="{{ Request::path() === 'usuarios' ? 'nav-link active' : 'nav-link' }}">
+                                    class="{{ Request::path() === 'technicians' ? 'nav-link active' : 'nav-link' }}">
                                     <i class="nav-icon fas fa-users"></i>
                                     <p>
                                         Usuarios
@@ -211,7 +219,6 @@
                                     </p>
                                 </a>
                             </li>
-
                              <li class="nav-item">
                                 <a href="{{ url('machines') }}"
                                     class="{{ Request::path() === 'machines' ? 'nav-link active' : 'nav-link' }}">
@@ -223,6 +230,8 @@
                                     </p>
                                 </a>
                             </li>
+            </ul>
+          </li>
 
                             <li class="nav-item has-treeview">
                                 <a href="#" class="nav-link">
@@ -342,10 +351,10 @@
                 <!-- footer -->
                 <strong>Inventor Machines Project
                     <div class="float-left d-none d-sm-inline-block" style="margin-right: 0.2em">
-                        <a href="https://laravel.com/" target="_blank" ><img src="{{ asset('dist/img/svg/laravel.svg') }}" alt="larevel-icon" width="25px"></a>
+                        <a href="https://laravel.com/" target="_blank" rel="noopener noreferrer"><img src="{{ asset('dist/img/svg/laravel.svg') }}" alt="larevel-icon" width="25px"></a>
                     </div>
                    <div class="float-left d-none d-sm-inline-block" style="margin-right: 0.2em">
-                        <img src="{{ asset('dist/img/svg/github-icon.svg') }}" alt="" width="25px">
+                        <a href="https://github.com/ortegaJe/Laravel-Inventor-Machines" target="_blank" rel="noopener noreferrer"><img src="{{ asset('dist/img/svg/github-icon.svg') }}" alt="" width="25px"></a>
                     </div>
 
                     <div class="float-right d-none d-sm-inline-block">
