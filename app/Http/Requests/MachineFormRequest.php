@@ -18,7 +18,9 @@ class MachineFormRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
+     *      'serial' => 'required|unique:machines,serial',
+     *      'ip' => 'required|ipv4|max:15|unique:machines,ip_range',
+     *      'mac' => 'required|max:17|unique:machines,mac_address',
      * @return array
      */
     public function rules()
