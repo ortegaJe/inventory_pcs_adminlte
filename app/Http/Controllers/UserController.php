@@ -42,7 +42,7 @@ class UserController extends Controller
         $users->nick_name = request('nick-name');
         $users->email = request('email');
         $users->phone = request('phone');
-        $users->campus = request('campus');
+        $users->campu = request('campus');
         $users->pos_job = request('pos-job');
         $users->password = Hash::make(request('password'));
 
