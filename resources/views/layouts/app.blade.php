@@ -20,14 +20,16 @@
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
 
     <!-- Styles -->
     <link href="{{ asset('dist/css/adminlte.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <!--class="hold-transition sidebar-mini layout-fixed"-->
-<body class="sidebar-mini sidebar-collapse" style="height: auto;">
+<!--class="sidebar-mini sidebar-collapse" style="height: auto;"-->
+
+<body class="hold-transition sidebar-mini layout-fixed">
     <div id="app">
         <div class="wrapper">
 
@@ -154,8 +156,8 @@
             <aside class="main-sidebar sidebar-collapse sidebar-dark-primary elevation-4">
                 <!-- Brand Logo -->
                 <a href="{{ url('/') }}" class="brand-link">
-                    <img src="{{ asset('dist/img/svg/inventor-icon.svg') }}" alt="Inventor Machines Logo" class="brand-image img-circle elevation-3"
-                        style="opacity: 1.2">
+                    <img src="{{ asset('dist/img/svg/inventor-icon.svg') }}" alt="Inventor Machines Logo"
+                        class="brand-image img-circle elevation-3" style="opacity: 1.2">
                     <span class="brand-text font-weight-light">Inventory Machines</span>
                 </a>
 
@@ -164,7 +166,8 @@
                     <!-- Sidebar user panel (optional) -->
                     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                         <div class="image">
-                            <img src="{{ asset('dist/img/svg/boss.svg') }}" class="img-circle elevation-2" alt="User Image">
+                            <img src="{{ asset('dist/img/svg/boss.svg') }}" class="img-circle elevation-2"
+                                alt="User Image">
                         </div>
                         <div class="info">
                             <a href="#" class="d-block">
@@ -172,9 +175,12 @@
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Iniciar Sesión') }}</a>
                                 @else
                                 {{ Auth::user()->name }}
-                                <a class="nav-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                <div style="color: aliceblue"><a>
+                                        <p><i class="fa fa-circle text-success"></i> Online</p>
+                                    </a></div>
+                                <a class="nav-item mt-6" href="{{ route('logout') }}" onclick="event.preventDefault();
                                            document.getElementById('logout-form').submit();">
-                                    <i class="nav-icon fas fa-power-off red"></i>
+                                    <i class="nav-icon fas fa-power-off text-red"></i>
                                     Cerrar Sesión
                                 </a>
 
@@ -193,56 +199,61 @@
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                             data-accordion="false">
 
-<li class="nav-item has-treeview menu-open">
-            <ul class="nav-link active">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                Dashboard
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </ul>
-            <ul class="nav nav-treeview" style="display: block;">
-                            <li class="nav-item">
-                                <a href="/" class="{{ Request::path() === '/' ? 'nav-link active' : 'nav-link' }}">
-                                    <i class="nav-icon fas fa-home"></i>
-                                    <p>Home</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ url('technicians') }}"
-                                    class="{{ Request::path() === 'technicians' ? 'nav-link active' : 'nav-link' }}">
-                                    <i class="nav-icon fas fa-users"></i>
+                            <li class="nav-item has-treeview menu-open">
+                                <ul class="nav-link active">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
                                     <p>
-                                        Usuarios
-                                        <?php use App\User; $users_count = User::all()->count(); ?>
-                                        <span class="right badge badge-warning">{{ $users_count ?? '0' }}</span>
+                                        Dashboard
+                                        <i class="right fas fa-angle-left"></i>
                                     </p>
-                                </a>
+                                </ul>
+                                <ul class="nav nav-treeview" style="display: block;">
+                                    <li class="nav-item">
+                                        <a href="/"
+                                            class="{{ Request::path() === '/' ? 'nav-link active' : 'nav-link' }}">
+                                            <i class="nav-icon fas fa-home"></i>
+                                            <p>Home</p>
+                                        </a>
+                                    </li>
+                                    @can('ADMINISTRATOR')
+                                    <li class="nav-item">
+                                        <a href="{{ url('technicians') }}"
+                                            class="{{ Request::path() === 'technicians' ? 'nav-link active' : 'nav-link' }}">
+                                            <i class="nav-icon fas fa-users"></i>
+                                            <p>
+                                                Usuarios
+                                                <?php $users_count = DB::table('users')->count(); ?>
+                                                <span class="right badge badge-warning">{{ $users_count ?? '0' }}</span>
+                                            </p>
+                                        </a>
+                                    </li>
+                                    @endcan
+
+                                    <li class="nav-item">
+                                        <a href="{{ url('machines') }}"
+                                            class="{{ Request::path() === 'machines' ? 'nav-link active' : 'nav-link' }}">
+                                            <i class="nav-icon fas fa-desktop"></i>
+                                            <p>
+                                                Equipos
+                                                <?php use App\Machine; $machines_count = Machine::all()->count(); ?>
+                                                <span
+                                                    class="right badge badge-success">{{ $machines_count ?? '0' }}</span>
+                                            </p>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
-                             <li class="nav-item">
-                                <a href="{{ url('machines') }}"
-                                    class="{{ Request::path() === 'machines' ? 'nav-link active' : 'nav-link' }}">
-                                    <i class="nav-icon fas fa-desktop"></i>
-                                    <p>
-                                        Equipos
-                                        <?php use App\Machine; $machines_count = Machine::all()->count(); ?>
-                                        <span class="right badge badge-success">{{ $machines_count ?? '0' }}</span>
-                                    </p>
-                                </a>
-                            </li>
-            </ul>
-          </li>
 
                             <li class="nav-item has-treeview">
                                 <a href="#" class="nav-link">
-                                    <i class="nav-icon far fa-sticky-note"></i>
-                                    <p>Notas<i class="fas fa-angle-left right"></i></p>
+                                    <i class="nav-icon far fa-building"></i>
+                                    <p>Mis sedes<i class="fas fa-angle-left right"></i></p>
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
                                         <a href="notas/todas"
                                             class="{{ Request::path() === 'notas/todas' ? 'nav-link active' : 'nav-link' }}">
-                                            <i class="far fa-circle nav-icon"></i>
+                                            <i class="far fa-building nav-icon"></i>
                                             <p>Todas</p>
                                         </a>
                                     </li>
@@ -262,7 +273,6 @@
                                     </li>
                                 </ul>
                             </li>
-
                         </ul>
                     </nav>
                     <!-- /.sidebar-menu -->
@@ -274,70 +284,73 @@
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
                 <div class="content-header">
-    <div class="container-fluid">
-        <div class="row">
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box">
-              <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12 col-sm-6 col-md-3">
+                                <div class="info-box">
+                                    <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
 
-              <div class="info-box-content">
-                <span class="info-box-text">CPU Traffic</span>
-                <span class="info-box-number">
-                  10
-                  <small>%</small>
-                </span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-          </div>
-          <!-- /.col -->
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-thumbs-up"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">CPU Traffic</span>
+                                        <span class="info-box-number">
+                                            10
+                                            <small>%</small>
+                                        </span>
+                                    </div>
+                                    <!-- /.info-box-content -->
+                                </div>
+                                <!-- /.info-box -->
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-12 col-sm-6 col-md-3">
+                                <div class="info-box mb-3">
+                                    <span class="info-box-icon bg-danger elevation-1"><i
+                                            class="fas fa-thumbs-up"></i></span>
 
-              <div class="info-box-content">
-                <span class="info-box-text">Likes</span>
-                <span class="info-box-number">41,410</span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-          </div>
-          <!-- /.col -->
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Likes</span>
+                                        <span class="info-box-number">41,410</span>
+                                    </div>
+                                    <!-- /.info-box-content -->
+                                </div>
+                                <!-- /.info-box -->
+                            </div>
+                            <!-- /.col -->
 
-          <!-- fix for small devices only -->
-          <div class="clearfix hidden-md-up"></div>
+                            <!-- fix for small devices only -->
+                            <div class="clearfix hidden-md-up"></div>
 
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-success elevation-1"><i class="fas fa-desktop"></i></span>
+                            <div class="col-12 col-sm-6 col-md-3">
+                                <div class="info-box mb-3">
+                                    <span class="info-box-icon bg-success elevation-1"><i
+                                            class="fas fa-desktop"></i></span>
 
-              <div class="info-box-content">
-                <span class="info-box-text">Equipos</span>
-                <span class="info-box-number">{{ $machines_count ?? '0' }}</span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-          </div>
-          <!-- /.col -->
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Equipos</span>
+                                        <span class="info-box-number">{{ $machines_count ?? '0' }}</span>
+                                    </div>
+                                    <!-- /.info-box-content -->
+                                </div>
+                                <!-- /.info-box -->
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-12 col-sm-6 col-md-3">
+                                <div class="info-box mb-3">
+                                    <span class="info-box-icon bg-warning elevation-1"><i
+                                            class="fas fa-users"></i></span>
 
-              <div class="info-box-content">
-                <span class="info-box-text">Usuarios</span>
-                <span class="info-box-number">{{ $users_count ?? '0' }}</span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-          </div>
-          <!-- /.col -->
-         </div>
-        </div>
-    </div>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Usuarios</span>
+                                        <span class="info-box-number">{{ $users_count ?? '0' }}</span>
+                                    </div>
+                                    <!-- /.info-box-content -->
+                                </div>
+                                <!-- /.info-box -->
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                    </div>
+                </div>
                 <!-- /.content-header -->
 
                 <!-- Main content -->
@@ -351,10 +364,13 @@
                 <!-- footer -->
                 <strong>Inventor Machines Project
                     <div class="float-left d-none d-sm-inline-block" style="margin-right: 0.2em">
-                        <a href="https://laravel.com/" target="_blank" rel="noopener noreferrer"><img src="{{ asset('dist/img/svg/laravel.svg') }}" alt="larevel-icon" width="25px"></a>
+                        <a href="https://laravel.com/" target="_blank" rel="noopener noreferrer"><img
+                                src="{{ asset('dist/img/svg/laravel.svg') }}" alt="larevel-icon" width="25px"></a>
                     </div>
-                   <div class="float-left d-none d-sm-inline-block" style="margin-right: 0.2em">
-                        <a href="https://github.com/ortegaJe/Laravel-Inventor-Machines" target="_blank" rel="noopener noreferrer"><img src="{{ asset('dist/img/svg/github-icon.svg') }}" alt="" width="25px"></a>
+                    <div class="float-left d-none d-sm-inline-block" style="margin-right: 0.2em">
+                        <a href="https://github.com/ortegaJe/Laravel-Inventor-Machines" target="_blank"
+                            rel="noopener noreferrer"><img src="{{ asset('dist/img/svg/github-icon.svg') }}" alt=""
+                                width="25px"></a>
                     </div>
 
                     <div class="float-right d-none d-sm-inline-block">
