@@ -62,7 +62,7 @@ class MachineController extends Controller
         $machines->ip_range = request('ip');
         $machines->mac_address = request('mac');
         $machines->anydesk = request('anydesk');
-        $machines->campus = request('campus');
+        $machines->campus_id = request('campus');
         $machines->location = request('location');
         $machines->comment = request('comment');
 
@@ -116,7 +116,7 @@ class MachineController extends Controller
         $machine->ip_range = $request->get('ip');
         $machine->mac_address = $request->get('mac');
         $machine->anydesk = $request->get('anydesk');
-        $machine->campus = $request->get('campus');
+        $machine->campus_id = $request->get('campus');
         $machine->location = $request->get('location');
         $machine->comment = $request->get('comment');
 

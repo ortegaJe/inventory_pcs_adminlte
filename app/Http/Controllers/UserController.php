@@ -30,22 +30,24 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $this->validate($request, [
+        /*$this->validate($request, [
             'name' => 'required|max:120',
             'email' => 'required|email',
-            'phone' => 'required|min:11|numeric'
-        ]);
+            'phone' => 'required|max:10|numeric'
+        ]);*/
 
         $users = new User();
+        $users->cc = request('cc');
         $users->name = request('name');
         $users->last_name = request('last-name');
         $users->nick_name = request('nick-name');
         $users->email = request('email');
         $users->phone = request('phone');
-        $users->campu = request('campus');
-        $users->pos_job = request('pos-job');
+        $users->campus_id = request('campus');
+        $users->work_function = request('work-function');
         $users->password = Hash::make(request('password'));
-
+        
+        //dd($users);
         $users->save();
 
         return redirect('/technicians');

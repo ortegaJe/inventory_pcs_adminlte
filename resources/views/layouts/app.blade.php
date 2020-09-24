@@ -174,7 +174,7 @@
                                 @guest
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Iniciar Sesión') }}</a>
                                 @else
-                                {{ Auth::user()->name }}
+                                {{ Auth::user()->nick_name }}
                                 <div style="color: aliceblue"><a>
                                         <p><i class="fa fa-circle text-success"></i> Online</p>
                                     </a></div>

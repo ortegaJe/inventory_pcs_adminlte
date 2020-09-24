@@ -208,9 +208,9 @@
                                     </div>
                                     <select class="custom-select" name="campus" required>
                                         <option value="">Seleccione sede...</option>
-                                        <option data-value="">VIVA 1A IPS MACARENA</option>
-                                        <option data-value="">VIVA 1A IPS CALLE 30</option>
-                                        <option data-value="">VIVA 1A IPS SOLEDAD</option>
+                                        <option data-value="">1</option>
+                                        <option data-value="">2</option>
+                                        <option data-value="">3</option>
                                     </select>
                                 </div>
                             </div>

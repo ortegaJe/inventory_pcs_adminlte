@@ -33,7 +33,7 @@ class MachineFormRequest extends FormRequest
             'cpu' => 'required',
             'ip' => 'required|ipv4|max:15',
             'mac' => 'required|max:17',
-            'campus' => 'required',
+            'campus_id' => 'required',
             'location' => 'required|max:20'
         ];
     }

@@ -27,11 +27,11 @@ class CreateUsersTable extends Migration
             $table->integer('cc')->unique();
             $table->string('name');
             $table->string('last_name');
-            $table->string('nickname');
+            $table->string('nick_name');
             $table->string('password');
-            $table->integer('phone');
-            $table->string('campu');
-            $table->string('pos_job');
+            $table->bigInteger('phone');
+            $table->string('campus_id');
+            $table->string('work_function');
             $table->string('email');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
