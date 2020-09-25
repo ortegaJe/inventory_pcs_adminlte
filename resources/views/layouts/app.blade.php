@@ -228,6 +228,17 @@
                                         </a>
                                     </li>
                                     @endcan
+                                    @can('ADMINISTRATOR')
+                                    <li class="nav-item">
+                                        <a href="{{ url('roles') }}"
+                                            class="{{ Request::path() === 'roles' ? 'nav-link active' : 'nav-link' }}">
+                                            <i class="nav-icon fas fa-users"></i>
+                                            <p>
+                                                Roles
+                                            </p>
+                                        </a>
+                                    </li>
+                                    @endcan
 
                                     <li class="nav-item">
                                         <a href="{{ url('machines') }}"
