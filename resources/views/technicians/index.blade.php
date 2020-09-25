@@ -4,7 +4,7 @@
 <div class="container-fluid">
   <div style="padding-bottom: 4%"><a href="technicians/create"><button type="button"
         class="btn bg-gradient-primary btn-lg float-left" style="color: aliceblue">Agregar</button></a></div>
-  <table class="table table-bordered text-center">
+  <table class="table table-hover table-bordered text-center">
     <thead class="thead-dark">
       <tr>
         <th scope="col">ID</th>

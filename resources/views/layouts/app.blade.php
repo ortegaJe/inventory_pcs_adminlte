@@ -232,7 +232,7 @@
                                     <li class="nav-item">
                                         <a href="{{ url('roles') }}"
                                             class="{{ Request::path() === 'roles' ? 'nav-link active' : 'nav-link' }}">
-                                            <i class="nav-icon fas fa-users"></i>
+                                            <i class="fas fa-users-cog"></i>
                                             <p>
                                                 Roles
                                             </p>
@@ -262,10 +262,10 @@
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="notas/todas"
+                                        <a href="sedes/?=macarena"
                                             class="{{ Request::path() === 'notas/todas' ? 'nav-link active' : 'nav-link' }}">
                                             <i class="far fa-building nav-icon"></i>
-                                            <p>Todas</p>
+                                            <p>Macarena</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">

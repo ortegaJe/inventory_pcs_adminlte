@@ -3,7 +3,7 @@
 @section('content')
 <div class="content-fluid">
     <div class="col-20">
-        <div class="col-sm-6" style="margin-left: 410px">
+        <div class="col-sm-6 mx-auto">
             <div class="card card-primary">
                 <div class="card-header">
                     <h3 class="card-title" style="font-weight: 700; font-size:20px">Registrar Equipo</h3>

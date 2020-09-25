@@ -25,7 +25,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -36,7 +36,13 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+                $role = new Role();
+
+                $role->name = request('rol-name');
+
+                $role->save();
+
+                return redirect('roles');
     }
 
     /**

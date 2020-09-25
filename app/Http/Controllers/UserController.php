@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Role;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -25,7 +26,8 @@ class UserController extends Controller
 
     public function create()
     {
-        return view('technicians.create');
+        $roles = Role::all();
+        return view('technicians.create', ['roles' => $roles]);
     }
 
     public function store(Request $request)
@@ -49,6 +51,9 @@ class UserController extends Controller
         
         //dd($users);
         $users->save();
+
+        $users->assignRole($request->get('rol'));
+
 
         return redirect('/technicians');
     }
