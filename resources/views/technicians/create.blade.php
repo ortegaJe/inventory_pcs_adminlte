@@ -1,22 +1,38 @@
-@extends('layouts.app')
+<div style="padding-bottom: 6ch"><button type="button" class="btn bg-gradient-primary float-right" data-toggle="modal"
+    data-target="#AddTechnicians" style="color: aliceblue">
+    Agregar Tecnico</button></div>
 
-@section('content')
-
-<div class="content-fluid">
-  <div class="col-sm-6 mx-auto">
-    <div class="card card-primary">
-      <div class="card-header">
-        <h3 class="card-title" style="font-weight: 700; font-size:20px">Registrar Tecnico</h3>
+{!! Form::open(['url' => 'technicians', 'enctype' => 'multipart/form-data']) !!}
+<!--composer require laravelcollective/html-->
+{{ Form::token() }}
+<div class="modal fade" id="AddTechnicians" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-gradient-primary">
+        <h5 class="modal-title" id="exampleModalLabel" style="font-weight: 600">Registrar nuevo Tecnico
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-      <div class="card-body">
-        <form action="/technicians" method="POST">
-          @csrf
+      <div class="modal-body mx-auto">
+        @if ($errors->any())
+        <div class="alert alert-danger">
+          <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+          </ul>
+        </div>
+        @endif
+        <form>
           <div class="form-row">
             <div class="col-md-4 mb-3">
               <label for="name">Indentificación:</label>
               <div class="input-group">
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fas fa-user"></i></span>
+                  <span class="input-group-text"><i class="fas fa-id-card"></i></span>
                 </div>
                 <input type="text" class="form-control" name="cc" required>
               </div>
@@ -39,7 +55,7 @@
                   <span class="input-group-text"><i class="fas fa-user"></i></span>
                 </div>
                 <input type="text" class="form-control" name="last-name" style="text-transform:uppercase;"
-                  onkeyup="javascript:this.value=this.value.toUpperCase();" required>
+                  onkeyup="javascript:this.value=this.value.toUpperCase();">
               </div>
             </div>
           </div>
@@ -76,19 +92,23 @@
                   <span class="input-group-text"><i class="fas fa-mobile-alt"></i></span>
                 </div>
                 <input type="tel" class="form-control" id="phone" name="phone" placeholder="300-0000-000"
-                  pattern="[3-10]{3}-[0-10]{4}-[0-10]{3}" maxlength="10">
+                  pattern="[3-10]{3}-[0-10]{4}-[0-10]{3}" maxlength="10" required>
               </div>
             </div>
-          </div>
 
-          <div class="form-row">
-            <div class="form-check">
-              @foreach($roles as $role)
-              <input class="form-check-input" type="checkbox" value="{{ $role->id }}">
-              <label class="form-check-label" name="rol">
-                {{ $role->name }}
-              </label>
-              @endforeach
+            <div class="col-md-6 mb-3">
+              <label for="phone">Roles:</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-users-cog"></i></span>
+                </div>
+                <select class="custom-select" name="rol" required>
+                  <option selected disabled>Seleccionar un rol...</option>
+                  @foreach($roles as $role)
+                  <option value="{{ $role->id }}">{{ $role->name }}</option>
+                  @endforeach
+                </select>
+              </div>
             </div>
           </div>
 
@@ -100,7 +120,7 @@
                   <span class="input-group-text"><i class="fas fa-building"></i></span>
                 </div>
                 <select class="custom-select" name="campus" required>
-                  <option>Seleccione la sede...</option>
+                  <option selected disabled>Seleccione la sede...</option>
                   <option>1</option>
                   <option>2</option>
                 </select>
@@ -111,10 +131,10 @@
               <label for="work-function">Cargo:</label>
               <div class="input-group">
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fas fa-memory"></i></span>
+                  <span class="input-group-text"><i class="fas fa-briefcase"></i></span>
                 </div>
-                <select class="custom-select" name="work-function">
-                  <option>Seleccione el cargo...</option>
+                <select class="custom-select" name="work-function" required>
+                  <option selected disabled>Seleccione el cargo...</option>
                   <option>Support IT</option>
                   <option>Network Administrator</option>
                   <option>Tech Support Enginner</option>
@@ -125,7 +145,7 @@
           </div>
 
           <div class="form-row">
-            <div class="col-sm-4 mb-6">
+            <div class="col-sm-4 mb-3">
               <label for="password">Contraseña:</label>
               <div class="input-group">
                 <div class="input-group-prepend">
@@ -134,19 +154,39 @@
                 <input type="password" class="form-control" name="password" maxlength="8" required>
               </div>
             </div>
+
+            <div class="col-sm-4 mb-3">
+              <label for="password-re">Confirmar contraseña:</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-key"></i></span>
+                </div>
+                <input type="password" class="form-control" name="password_confirmation" maxlength="8" required>
+              </div>
+            </div>
           </div>
 
-          <div class="modal-footer mt-4">
+          <div class="input-group md-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroupFileAddon01">Subir Avatar</span>
+            </div>
+            <div class="custom-file">
+              <input type="file" name="avatar" class="custom-file-input" id="inputGroupFile01"
+                aria-describedby="inputGroupFileAddon01">
+              <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             <button type="reset" class="btn btn-secondary">Borrar todo</button>
-            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button type="submit" class="btn btn-primary">Registrar</button>
           </div>
         </form>
+
       </div>
+
     </div>
   </div>
 </div>
-</div>
-</div>
-
-
-@endsection
+{!! Form::close() !!}

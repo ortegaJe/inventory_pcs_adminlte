@@ -2,20 +2,22 @@
 
 @section('content')
 <div class="container-fluid">
-  <div style="padding-bottom: 4%"><a href="technicians/create"><button type="button"
-        class="btn bg-gradient-primary btn-lg float-left" style="color: aliceblue">Agregar</button></a></div>
-  <table class="table table-hover table-bordered text-center">
+  <h2 style="font-weight: 700">Listado de Usuarios</h2>
+  @include('technicians.create')
+  <table id="datatable-technicians" class="table table-responsive table-hover table-bordered text-center">
     <thead class="thead-dark">
       <tr>
         <th scope="col">ID</th>
         <th scope="col">IDENTIFICATION</th>
+        <th scope="col">AVATAR</th>
         <th scope="col">NAME</th>
         <th scope="col">NICKNAME</th>
         <th scope="col">EMAIL</th>
         <th scope="col">PHONE</th>
         <th scope="col">WORK FUNCTION</th>
+        <th scope="col">ROL</th>
         <th scope="col">CAMPUS</th>
-        <th scope="col">ACTIONS</th>
+        <th scope="" style="width: 12%">ACTIONS</th>
       </tr>
     </thead>
     <tbody>
@@ -23,21 +25,28 @@
       <tr>
         <th scope="row">{{ $user->id }}</th>
         <th>{{ $user->cc }}</th>
+        <th><span class="badge badge-info"><img src="{{ asset('upload/'.$user->image) }}" alt="{{ $user->image }}"
+              width="50px" height="50px">
+          </span></th>
         <td>{{ $user->name }}</td>
         <td>{{ $user->nick_name }}</td>
         <td>{{ $user->email }}</td>
         <td>{{ $user->phone }}</td>
         <td>{{ $user->work_function }}</td>
+        <td><span class="badge badge-success">
+            @foreach( $user->roles as $role)*
+            {{ $role->name }} @endforeach
+          </span></td>
         <td>{{ $user->campus_id }}</td>
         <td>
           <form action="{{ route('technicians.destroy', $user->id) }}" method="POST">
-            <a href=""><button type="button" class="btn bg-gradient-secondary btn-xs"><i
+            <a href=""><button type="button" class="btn bg-gradient-secondary btn-sm"><i
                   class="fas fa-eye"></i></button></a>
-            <a href=""><button type="button" class="btn bg-gradient-success btn-xs"><i
-                  class="fas fa-edit"></i></button></a>
+            <a href="{{ route('technicians.edit', $user->id) }}"><button type="button"
+                class="btn bg-gradient-success btn-sm"><i class="fas fa-edit"></i></button></a>
             @csrf
             @method('DELETE')
-            <button type="submit" class="btn bg-gradient-danger btn-xs"><i class="fas fa-trash-alt"></i></button>
+            <button type="submit" class="btn bg-gradient-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
           </form>
         </td>
       </tr>
