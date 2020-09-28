@@ -7,58 +7,193 @@
         <div class="col-sm-6 mx-auto">
             <div class="card card-success">
                 <div class="card-header">
-                    <h3 class="card-title" style="font-weight: 700; font-size:20px">Actualizar Equipo |
-                        {{ $user->id }}
+                    <h3 class="card-title" style="font-weight: 700; font-size:20px">Actualizar informacion |
+                        {{ $user->cc }}
                     </h3>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('technicians.update', $user->id ) }}" method="POST">
+                    <form action="{{ route('technicians.update', $user->id ) }}"
+                        method="POST">
                         @method('PATCH')
                         @csrf
 
-                        @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
+                        @if($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
                         @endif
 
                         <div class="form-row">
-                            <div class="col-md-6 mb-8">
-                                <label for="type">Tipo de equipo:</label>
+                            <div class="col-md-4 mb-3">
+                                <label for="name">Indentificación:</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-desktop"></i></span>
+                                        <span class="input-group-text"><i class="fas fa-id-card"></i></span>
                                     </div>
-                                    <select class="custom-select" name="type" value="">
-                                        <option data-value=""></option>
-                                        <option>PC</option>
-                                        <option>ATRIL</option>
-                                        <option>LAPTOP</option>
-                                        <option>TV RASPBERRY PI</option>
-                                    </select>
+																	<input type="text" class="form-control" name="cc" value="{{ $user->cc }}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="name">Nombres:</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" name="name" value="{{ $user->name }}"
+                                        style="text-transform:uppercase;"
+                                        onkeyup="javascript:this.value=this.value.toUpperCase();" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label for="last-name">Apellidos:</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" name="last-name" value="{{ $user->last_name }}"
+                                        style="text-transform:uppercase;"
+                                        onkeyup="javascript:this.value=this.value.toUpperCase();">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="col-md-4 mb-3">
+                                <label for="nick-name">Nickname:</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" name="nick-name" value="{{ $user->nick_name }}"
+                                        style="text-transform:uppercase;"
+                                        onkeyup="javascript:this.value=this.value.toUpperCase();" required>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6 mb-3">
+                                <label for="email">Email:</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-at"></i></span>
+                                    </div>
+                                    <input type="email" class="form-control" name="email" value="{{ $user->email }}" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="col-md-3 mb-3">
+                                <label for="phone">Numero de contacto:</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-mobile-alt"></i></span>
+                                    </div>
+                                    <input type="tel" class="form-control" id="phone" name="phone" value="{{ $user->phone }}"
+                                        placeholder="300-0000-000" pattern="[3-10]{3}-[0-10]{4}-[0-10]{3}"
+                                        maxlength="10" required>
                                 </div>
                             </div>
 
                             <div class="col-md-6 mb-3">
-                                <label for="manufacturer">Fabricante:</label>
+                                <label for="phone">Roles:</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-wrench"></i></span>
+                                        <span class="input-group-text"><i class="fas fa-users-cog"></i></span>
                                     </div>
-                                    <input value="" name="manufact" style="text-transform:uppercase;"
-                                        onkeyup="javascript:this.value=this.value.toUpperCase();" type="text"
-                                        class="form-control" id="name-input" placeholder="HP">
+                                    <select class="custom-select" name="rol" required>
+                                        <option selected disabled>Seleccionar un rol...</option>
+																				@foreach ($roles as $role)
+																				@if($role->name == str_replace(array('["','"]'), '', $user->haveRol()))
+                                            <option value="{{ $role->id }}" selected>{{ $role->name }}</option>
+																				@else
+                                            <option value="{{ $role->id }}">{{ $role->name }}</option>
+																				@endif
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>
 
+                        <div class="form-row">
+                            <div class="col-sm-6 mb-3">
+                                <label for="campus">Sede:</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-building"></i></span>
+                                    </div>
+                                    <select class="custom-select" name="campus" value="{{ $user->campus_id }}" required>
+                                        <option selected disabled>Seleccione la sede...</option>
+                                        <option>1</option>
+                                        <option>2</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 mb-3">
+                                <label for="work-function">Cargo:</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-briefcase"></i></span>
+                                    </div>
+                                    <select class="custom-select" name="work-function" value="{{ $user->work_function }}" required>
+                                        <option selected disabled>Seleccione el cargo...</option>
+                                        <option>Support IT</option>
+                                        <option>Network Administrator</option>
+                                        <option>Tech Support Enginner</option>
+                                        <option>Administrator Database</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="col-sm-4 mb-3">
+                                <label for="password">Contraseña:<span class="small">(Opcional)</span></label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                    </div>
+                                    <input type="password" class="form-control" name="password" maxlength="8" required>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4 mb-3">
+                                <label for="password-re">Confirmar contraseña:<span class="small">(Opcional)</span></label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                    </div>
+                                    <input type="password" class="form-control" name="password_confirmation"
+                                        maxlength="8" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group md-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroupFileAddon01">Subir Avatar</span>
+                            </div>
+                            <div class="custom-file">
+                                <input type="file" name="avatar" class="custom-file-input" id="inputGroupFile01"
+                                    aria-describedby="inputGroupFileAddon01">
+																<label class="custom-file-label" for="inputGroupFile01">
+																      @if($user->image != "")
+                                    <img src="{{ asset('upload/'.$user->image) }}"
+																			alt="{{ $user->image }}" width="50px" height="50px"></label>																	
+																@endif
+                            </div>
+                        </div>
+
                         <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                             <button type="reset" class="btn btn-secondary">Borrar todo</button>
-                            <button type="submit" class="btn btn-success">Actualizar</button>
+                            <button type="submit" class="btn btn-primary">Actualizar</button>
                         </div>
                     </form>
                 </div>
