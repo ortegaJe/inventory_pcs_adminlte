@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserEditFormRequest;
 use App\Http\Requests\UserFormRequest;
 use App\Role;
 use App\User;
@@ -18,7 +19,7 @@ class UserController extends Controller
         $users = User::all();
         $roles = Role::all();
 
-        return view('technicians.index', ['users' => $users, 'roles' =>$roles]);
+        return view('technicians.index', ['users' => $users, 'roles' => $roles]);
     }
 
     public function create()
@@ -50,7 +51,7 @@ class UserController extends Controller
             $file->move(public_path() . '/upload', $file->getClientOriginalName());
             $users->image = $file->getClientOriginalName();
         }
-        
+
         //dd($users);
         $users->save();
 
@@ -62,24 +63,50 @@ class UserController extends Controller
 
     public function edit($id)
     {
-    
-      $user = User::findOrFail($id);
-      $roles = Role::all();
-        return view('technicians.edit', ['user' => $user, 'roles' =>$roles]);
 
+        $user = User::findOrFail($id);
+        $roles = Role::all();
+        return view('technicians.edit', ['user' => $user, 'roles' => $roles]);
     }
 
-   public function update($id)
-  {
-    $users = User::findOrFail($id);
-    
-    $users->cc = request('cc');
-    $users->name = request('name');
+    public function update(UserEditFormRequest $request, $id)
+    {
+        $this->validate(
+            request(),
+            ['cc' => ['required', 'max:10', 'unique:users,cc,' . $id]],
+            ['email' => ['required', 'email', 'max:255', 'unique:users,email,' . $id]]
+        );
 
-    $users->update();
+        $users = User::findOrFail($id);
 
-    return redirect('/technicians');
-  }
+        $users->name = $request->get('name');
+        $users->last_name = $request->get('last-name');
+        $users->nick_name = $request->get('nick-name');
+        $users->phone = $request->get('phone');
+
+        if ($request->hasFile('avatar')) {
+            $file = $request->avatar;
+            $file->move(public_path() . '/upload', $file->getClientOriginalName());
+            $users->image = $file->getClientOriginalName();
+        }
+
+        $pass = $request->get('password');
+        if ($pass != null) {
+            $users->password = Hash::make($request->get('password'));
+        } else {
+            unset($users->password);
+        }
+
+        $role = $users->roles;
+        if (count($role) > 0) {
+            $role_id = $role[0]->id;
+        }
+        User::find($id)->roles()->updateExistingPivot($role_id, ['role_id' => $request->get('rol')]);
+
+        $users->update();
+
+        return redirect('/technicians');
+    }
 
     public function destroy($id)
     {

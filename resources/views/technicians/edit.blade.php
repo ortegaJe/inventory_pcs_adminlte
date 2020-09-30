@@ -4,7 +4,7 @@
 
 <div class="content-fluid">
     <div class="col-20">
-        <div class="col-sm-6 mx-auto">
+        <div class="col-sm-8 mx-auto">
             <div class="card card-success">
                 <div class="card-header">
                     <h3 class="card-title" style="font-weight: 700; font-size:20px">Actualizar informacion |
@@ -12,19 +12,18 @@
                     </h3>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('technicians.update', $user->id ) }}"
-                        method="POST">
+                    <form action="{{ route('technicians.update', $user->id ) }}" method="POST">
                         @method('PATCH')
                         @csrf
 
                         @if($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
                         @endif
 
                         <div class="form-row">
@@ -34,7 +33,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-id-card"></i></span>
                                     </div>
-																	<input type="text" class="form-control" name="cc" value="{{ $user->cc }}" required>
+                                    <input type="text" class="form-control" name="cc" value="{{ $user->cc }}">
                                 </div>
                             </div>
                             <div class="col-md-4 mb-3">
@@ -45,7 +44,7 @@
                                     </div>
                                     <input type="text" class="form-control" name="name" value="{{ $user->name }}"
                                         style="text-transform:uppercase;"
-                                        onkeyup="javascript:this.value=this.value.toUpperCase();" required>
+                                        onkeyup="javascript:this.value=this.value.toUpperCase();">
                                 </div>
                             </div>
 
@@ -55,8 +54,8 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-user"></i></span>
                                     </div>
-                                    <input type="text" class="form-control" name="last-name" value="{{ $user->last_name }}"
-                                        style="text-transform:uppercase;"
+                                    <input type="text" class="form-control" name="last-name"
+                                        value="{{ $user->last_name }}" style="text-transform:uppercase;"
                                         onkeyup="javascript:this.value=this.value.toUpperCase();">
                                 </div>
                             </div>
@@ -69,9 +68,9 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
                                     </div>
-                                    <input type="text" class="form-control" name="nick-name" value="{{ $user->nick_name }}"
-                                        style="text-transform:uppercase;"
-                                        onkeyup="javascript:this.value=this.value.toUpperCase();" required>
+                                    <input type="text" class="form-control" name="nick-name"
+                                        value="{{ $user->nick_name }}" style="text-transform:uppercase;"
+                                        onkeyup="javascript:this.value=this.value.toUpperCase();">
                                 </div>
                             </div>
 
@@ -82,7 +81,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-at"></i></span>
                                     </div>
-                                    <input type="email" class="form-control" name="email" value="{{ $user->email }}" required>
+                                    <input type="email" class="form-control" name="email" value="{{ $user->email }}">
                                 </div>
                             </div>
                         </div>
@@ -94,9 +93,9 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-mobile-alt"></i></span>
                                     </div>
-                                    <input type="tel" class="form-control" id="phone" name="phone" value="{{ $user->phone }}"
-                                        placeholder="300-0000-000" pattern="[3-10]{3}-[0-10]{4}-[0-10]{3}"
-                                        maxlength="10" required>
+                                    <input type="tel" class="form-control" id="phone" name="phone"
+                                        value="{{ $user->phone }}" placeholder="300-0000-000"
+                                        pattern="[3-10]{3}-[0-10]{4}-[0-10]{3}" maxlength="10" required>
                                 </div>
                             </div>
 
@@ -106,14 +105,14 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-users-cog"></i></span>
                                     </div>
-                                    <select class="custom-select" name="rol" required>
+                                    <select class="custom-select" name="rol">
                                         <option selected disabled>Seleccionar un rol...</option>
-																				@foreach ($roles as $role)
-																				@if($role->name == str_replace(array('["','"]'), '', $user->haveRol()))
-                                            <option value="{{ $role->id }}" selected>{{ $role->name }}</option>
-																				@else
-                                            <option value="{{ $role->id }}">{{ $role->name }}</option>
-																				@endif
+                                        @foreach ($roles as $role)
+                                        @if($role->name == str_replace(array('["','"]'), '', $user->haveRol()))
+                                        <option value="{{ $role->id }}" selected>{{ $role->name }}</option>
+                                        @else
+                                        <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                        @endif
                                         @endforeach
                                     </select>
                                 </div>
@@ -127,7 +126,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-building"></i></span>
                                     </div>
-                                    <select class="custom-select" name="campus" value="{{ $user->campus_id }}" required>
+                                    <select class="custom-select" name="campus" value="{{ $user->campus_id }}">
                                         <option selected disabled>Seleccione la sede...</option>
                                         <option>1</option>
                                         <option>2</option>
@@ -141,7 +140,8 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-briefcase"></i></span>
                                     </div>
-                                    <select class="custom-select" name="work-function" value="{{ $user->work_function }}" required>
+                                    <select class="custom-select" name="work-function"
+                                        value="{{ $user->work_function }}">
                                         <option selected disabled>Seleccione el cargo...</option>
                                         <option>Support IT</option>
                                         <option>Network Administrator</option>
@@ -159,41 +159,44 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-key"></i></span>
                                     </div>
-                                    <input type="password" class="form-control" name="password" maxlength="8" required>
+                                    <input type="password" class="form-control" name="password" maxlength="8">
                                 </div>
                             </div>
 
                             <div class="col-sm-4 mb-3">
-                                <label for="password-re">Confirmar contraseña:<span class="small">(Opcional)</span></label>
+                                <label for="password-re">Confirmar contraseña:<span
+                                        class="small">(Opcional)</span></label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-key"></i></span>
                                     </div>
                                     <input type="password" class="form-control" name="password_confirmation"
-                                        maxlength="8" required>
+                                        maxlength="8">
                                 </div>
                             </div>
                         </div>
 
-                        <div class="input-group md-3">
+                        <div class="input-group col-sm-6 mx-auto">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="inputGroupFileAddon01">Subir Avatar</span>
                             </div>
                             <div class="custom-file">
                                 <input type="file" name="avatar" class="custom-file-input" id="inputGroupFile01"
                                     aria-describedby="inputGroupFileAddon01">
-																<label class="custom-file-label" for="inputGroupFile01">
-																      @if($user->image != "")
-                                    <img src="{{ asset('upload/'.$user->image) }}"
-																			alt="{{ $user->image }}" width="50px" height="50px"></label>																	
-																@endif
+                                <label class="custom-file-label" for="inputGroupFile01">
+                                    @if($user->image != "")
+                                    <label class="badge badge-success"><img src="{{ asset('upload/'.$user->image) }}"
+                                            alt="{{ $user->image }}" width="50px" height="50px"></label>
+                                    @endif
                             </div>
                         </div>
 
+                        <div class="card-view mt-2 mb-4" style="margin-left: 30%">
+                        </div>
+
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                             <button type="reset" class="btn btn-secondary">Borrar todo</button>
-                            <button type="submit" class="btn btn-primary">Actualizar</button>
+                            <button type="submit" class="btn btn-success">Actualizar</button>
                         </div>
                     </form>
                 </div>
