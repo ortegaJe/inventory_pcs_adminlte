@@ -4,10 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\MachineFormRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Machine;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Hash;
+use App\Type;
 
 class MachineController extends Controller
 {
@@ -21,7 +19,9 @@ class MachineController extends Controller
 
         //$users = DB::table('table_machines')->where('id_machine', $name)->first();
         $machines = Machine::all();
-        return view('machines.index', ['machines' => $machines]);
+        $types = Type::all();
+
+        return view('machines.index', ['machines' => $machines, 'types' => $types]);
 
 
         //if (!$users) {
@@ -37,7 +37,9 @@ class MachineController extends Controller
      */
     public function create()
     {
-        return view('machines.create');
+        $types = Type::all();
+
+        return view('machines.create', ['types' => $types]);
     }
 
     /**

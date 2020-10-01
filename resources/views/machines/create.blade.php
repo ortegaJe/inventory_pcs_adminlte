@@ -3,7 +3,7 @@
 @section('content')
 <div class="content-fluid">
   <div class="col-20">
-    <div class="col-sm-6 mx-auto">
+    <div class="col-sm-8 mx-auto">
       <div class="card card-primary">
         <div class="card-header">
           <h3 class="card-title" style="font-weight: 700; font-size:20px">Registrar Equipo</h3>
@@ -19,11 +19,10 @@
                     <span class="input-group-text"><i class="fas fa-desktop"></i></span>
                   </div>
                   <select class="custom-select" name="type" required>
-                    <option value="">Seleccione tipo...</option>
-                    <option>PC</option>
-                    <option>ATRIL</option>
-                    <option>LAPTOP</option>
-                    <option>TV RASPBERRY PI</option>
+                    <option selected disabled>Seleccione tipo...</option>
+                    @foreach ($types as $type)
+                    <option value="{{ $type->id }}">{{ $type->name }}</option>
+                    @endforeach
                   </select>
                 </div>
               </div>

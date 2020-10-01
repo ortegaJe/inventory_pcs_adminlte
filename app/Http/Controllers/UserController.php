@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserEditFormRequest;
 use App\Http\Requests\UserFormRequest;
 use App\Role;
+use App\Type;
+use App\TypeMachine;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -25,6 +27,7 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::all();
+
         return view('technicians.create', ['roles' => $roles]);
     }
 
@@ -85,9 +88,9 @@ class UserController extends Controller
         $users->phone = $request->get('phone');
 
         if ($request->hasFile('avatar')) {
-        $file = $request->avatar;
-        $file->move(public_path() . '/upload', $file->getClientOriginalName());
-        $users->image = $file->getClientOriginalName();
+            $file = $request->avatar;
+            $file->move(public_path() . '/upload', $file->getClientOriginalName());
+            $users->image = $file->getClientOriginalName();
         }
 
         $pass = $request->get('password');
@@ -114,7 +117,6 @@ class UserController extends Controller
         $roles = Role::all();
 
         return view('technicians.show', ['user' => $user, 'roles' => $roles]);
-
     }
 
     public function destroy($id)

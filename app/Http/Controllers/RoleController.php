@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RoleCreateFormRequest;
 use App\Role;
 use App\User;
 use Illuminate\Http\Request;
@@ -26,7 +27,6 @@ class RoleController extends Controller
      */
     public function create()
     {
-        
     }
 
     /**
@@ -35,15 +35,16 @@ class RoleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RoleCreateFormRequest $request)
     {
-                $role = new Role();
 
-                $role->name = request('rol-name');
+        $role = new Role();
 
-                $role->save();
+        $role->name = request('rol-name');
 
-                return redirect('roles');
+        $role->save();
+
+        return redirect('roles');
     }
 
     /**
@@ -88,6 +89,10 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $users = Role::findOrFail($id);
+
+        $users->delete();
+
+        return redirect('/roles');
     }
 }

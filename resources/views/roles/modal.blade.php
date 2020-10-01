@@ -1,6 +1,6 @@
-<div style="padding-bottom: 6ch"><button type="button" class="btn bg-gradient-warning float-right" data-toggle="modal"
+<div style="padding-bottom: 6ch"><button type="button" class="btn btn-app float-right" data-toggle="modal"
     data-target="#AddRol">
-    Agregar Role</button></div>
+    <i class="fa fa-plus"></i> Agregar Rol</button></div>
 
 {!! Form::open(['url' => 'roles']) !!}
 <!--composer require laravelcollective/html-->
@@ -15,6 +15,7 @@
         </button>
       </div>
       <div class="modal-body mx-auto">
+
         <form>
           <div class="form-row">
             <div class="col-md-12 mb-4">
@@ -24,7 +25,7 @@
                   <span class="input-group-text"><i class="fas fa-users-cog"></i></span>
                 </div>
                 <input style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
-                  type="text" class="form-control" name="rol-name" required>
+                  type="text" class="form-control" name="rol-name">
               </div>
             </div>
           </div>

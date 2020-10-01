@@ -82,9 +82,6 @@
                 <input type="email" class="form-control" name="email" required>
               </div>
             </div>
-          </div>
-
-          <div class="form-row">
             <div class="col-md-3 mb-3">
               <label for="phone">Numero de contacto:</label>
               <div class="input-group">
@@ -95,9 +92,53 @@
                   pattern="[3-10]{3}-[0-10]{4}-[0-10]{3}" maxlength="10" required>
               </div>
             </div>
+          </div>
 
+          <div class="form-row">
             <div class="col-md-6 mb-3">
-              <label for="phone">Roles:</label>
+              <label for="phone">Role 1:</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-users-cog"></i></span>
+                </div>
+                <select class="custom-select" name="rol" required>
+                  <option selected disabled>Seleccionar un rol...</option>
+                  @foreach($roles as $role)
+                  <option value="{{ $role->id }}">{{ $role->name }}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="phone">Role 2:</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-users-cog"></i></span>
+                </div>
+                <select class="custom-select" name="rol" required>
+                  <option selected disabled>Seleccionar un rol...</option>
+                  @foreach($roles as $role)
+                  <option value="{{ $role->id }}">{{ $role->name }}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="phone">Role 3:</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-users-cog"></i></span>
+                </div>
+                <select class="custom-select" name="rol" required>
+                  <option selected disabled>Seleccionar un rol...</option>
+                  @foreach($roles as $role)
+                  <option value="{{ $role->id }}">{{ $role->name }}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="phone">Role 4:</label>
               <div class="input-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fas fa-users-cog"></i></span>
@@ -166,15 +207,9 @@
             </div>
           </div>
 
-          <div class="input-group md-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="inputGroupFileAddon01">Subir Avatar</span>
-            </div>
-            <div class="custom-file">
-              <input type="file" name="avatar" class="custom-file-input" id="inputGroupFile01"
-                aria-describedby="inputGroupFileAddon01">
-              <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-            </div>
+          <div class="form-group">
+            <label for="exampleFormControlFile1">Subir foto:</label>
+            <input type="file" class="form-control-file" name="avatar">
           </div>
 
           <div class="modal-footer">

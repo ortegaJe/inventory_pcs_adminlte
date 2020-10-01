@@ -31,7 +31,9 @@
       @foreach ($machines as $machine)
       <tr>
         <th scope="row">{{ $machine->id }}</th>
-        <td>{{ $machine->type }}</td>
+        <td>
+          {{ $machine->type }}
+        </td>
         <td>{{ $machine->ip_range }}</td>
         <td>{{ $machine->mac_address }}</td>
         <td>{{ $machine->anydesk }}</td>
