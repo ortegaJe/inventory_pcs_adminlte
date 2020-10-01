@@ -24,6 +24,7 @@ class UserEditFormRequest extends FormRequest
     public function rules()
     {
         return [
+            'cc' => 'required|numeric',
             'name' => 'required',
             'last-name' => 'nullable',
             'nick-name' => 'required',
@@ -32,7 +33,7 @@ class UserEditFormRequest extends FormRequest
             'campus' => 'required',
             'work-function' => 'required',
             'password' => 'confirmed',
-            //'avatar' => 'mimes:jpg,bpm,png'
+            'avatar' => 'mimes:jpg,bpm,png,svg'
         ];
     }
 }

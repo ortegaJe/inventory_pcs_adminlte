@@ -40,8 +40,8 @@
         <td>{{ $user->campus_id }}</td>
         <td>
           <form action="{{ route('technicians.destroy', $user->id) }}" method="POST">
-            <a href=""><button type="button" class="btn bg-gradient-secondary btn-sm"><i
-                  class="fas fa-eye"></i></button></a>
+            <a href="{{ route('technicians.show', $user->id) }}"><button type="button"
+                class="btn bg-gradient-secondary btn-sm"><i class="fas fa-eye"></i></button></a>
             <a href="{{ route('technicians.edit', $user->id) }}"><button type="button"
                 class="btn bg-gradient-success btn-sm"><i class="fas fa-edit"></i></button></a>
             @csrf

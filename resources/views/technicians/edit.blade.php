@@ -12,7 +12,8 @@
                     </h3>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('technicians.update', $user->id ) }}" method="POST">
+                    <form action="{{ route('technicians.update', $user->id ) }}" method="POST"
+                        enctype="multipart/form-data">
                         @method('PATCH')
                         @csrf
 
@@ -93,9 +94,9 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-mobile-alt"></i></span>
                                     </div>
-                                    <input type="tel" class="form-control" id="phone" name="phone"
-                                        value="{{ $user->phone }}" placeholder="300-0000-000"
-                                        pattern="[3-10]{3}-[0-10]{4}-[0-10]{3}" maxlength="10" required>
+                                    <input type="tel" class="form-control" name="phone" value="{{ $user->phone }}"
+                                        placeholder="300-0000-000" pattern="[3-10]{3}-[0-10]{4}-[0-10]{3}"
+                                        maxlength="10" required>
                                 </div>
                             </div>
 
@@ -176,22 +177,13 @@
                             </div>
                         </div>
 
-                        <div class="input-group col-sm-6 mx-auto">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="inputGroupFileAddon01">Subir Avatar</span>
-                            </div>
-                            <div class="custom-file">
-                                <input type="file" name="avatar" class="custom-file-input" id="inputGroupFile01"
-                                    aria-describedby="inputGroupFileAddon01">
-                                <label class="custom-file-label" for="inputGroupFile01">
-                                    @if($user->image != "")
-                                    <label class="badge badge-success"><img src="{{ asset('upload/'.$user->image) }}"
-                                            alt="{{ $user->image }}" width="50px" height="50px"></label>
-                                    @endif
-                            </div>
-                        </div>
-
-                        <div class="card-view mt-2 mb-4" style="margin-left: 30%">
+                        <div class="form-group">
+                            <label for="exampleFormControlFile1">Actualizar foto:</label>
+                            <input type="file" class="form-control-file" name="avatar">
+                            @if($user->image != "")
+                            <label class="badge badge-success mt-2"><img src="{{ asset('upload/'.$user->image) }}"
+                                    alt="{{ $user->image }}" width="50px" height="50px"></label>
+                            @endif
                         </div>
 
                         <div class="modal-footer">

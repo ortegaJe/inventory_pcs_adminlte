@@ -73,7 +73,7 @@ class UserController extends Controller
     {
         $this->validate(
             request(),
-            ['cc' => ['required', 'max:10', 'unique:users,cc,' . $id]],
+            ['cc' => ['required', 'numeric', 'min:11', 'unique:users,cc,' . $id]],
             ['email' => ['required', 'email', 'max:255', 'unique:users,email,' . $id]]
         );
 
@@ -85,9 +85,9 @@ class UserController extends Controller
         $users->phone = $request->get('phone');
 
         if ($request->hasFile('avatar')) {
-            $file = $request->avatar;
-            $file->move(public_path() . '/upload', $file->getClientOriginalName());
-            $users->image = $file->getClientOriginalName();
+        $file = $request->avatar;
+        $file->move(public_path() . '/upload', $file->getClientOriginalName());
+        $users->image = $file->getClientOriginalName();
         }
 
         $pass = $request->get('password');
@@ -106,6 +106,15 @@ class UserController extends Controller
         $users->update();
 
         return redirect('/technicians');
+    }
+
+    public function show($id)
+    {
+        $user = User::findOrFail($id);
+        $roles = Role::all();
+
+        return view('technicians.show', ['user' => $user, 'roles' => $roles]);
+
     }
 
     public function destroy($id)
