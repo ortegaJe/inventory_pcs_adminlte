@@ -34,14 +34,16 @@
                   <select class="custom-select" name="type">
                     <option selected disabled>Seleccionar tipo...</option>
                     @foreach ($types as $type)
-                    @if($type->id == $machine->type_id)
-                    <option value="{{ $type->id }}" selected>{{ $type->name }}</option>
-                    @else
-                    <option value="{{ $type->id }}">{{ $type->name }}</option>
-                    @endif
+                    <option value="{{ $type->id }}" {{ $type->id == $machine->type_id ? 'selected' : '' }}>
+                      {{ $type->name }}</option>
                     @endforeach
                     </td>
                   </select>
+                  @if ($errors->has('type'))
+                  <span class="invalid-feedback">
+                    {{ $errors->first('type') }}
+                  </span>
+                  @endif
                 </div>
               </div>
 

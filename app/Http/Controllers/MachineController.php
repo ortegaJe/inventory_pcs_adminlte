@@ -22,10 +22,10 @@ class MachineController extends Controller
         $machines = Machine::all();
         $types = Type::all();
 
-         DB::table('types')
-        ->join('machines', 'types.id', '=', 'machines.type_id')
-        ->select('types.*', 'types.name')
-        ->get();
+        //$types = DB::table('types')
+        //->join('machines', 'types.id', '=', 'machines.type_id')
+        //->select('types.*', 'types.name')
+        //->get();
 
         //dd($types);
 
@@ -113,7 +113,7 @@ class MachineController extends Controller
         $machine = Machine::findOrFail($id);
 
         //        [db]                 [name] (db campos en la base de datos - name campus en el blade edit)
-        //$machine->type_id = $request->get('type');
+        $machine->type_id = $request->get('type');
         $machine->manufacturer = $request->get('manufact');
         $machine->model = $request->get('model');
         $machine->serial = $request->get('serial');
@@ -127,13 +127,6 @@ class MachineController extends Controller
         $machine->campus_id = $request->get('campus');
         $machine->location = $request->get('location');
         $machine->comment = $request->get('comment');
-
-                $type = $machine->type;
-                if (count($type) > 0) {
-                $type_id = $type[0]->id;
-                }
-                Type::find($id)->type()->updateExistingPivot($type_id, ['type_id' => $request->get('type')]);
-
 
         $machine->update();
 
