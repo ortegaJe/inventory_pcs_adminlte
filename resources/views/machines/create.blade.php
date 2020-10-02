@@ -202,9 +202,9 @@
                   </div>
                   <select class="custom-select" name="campus" required>
                     <option value="">Seleccione sede...</option>
-                    <option data-value="">1</option>
-                    <option data-value="">2</option>
-                    <option data-value="">3</option>
+                    <option value="">1</option>
+                    <option value="">2</option>
+                    <option value="">3</option>
                   </select>
                 </div>
               </div>

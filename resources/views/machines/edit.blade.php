@@ -230,11 +230,11 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-building"></i></span>
                   </div>
-                  <select class="custom-select" name="campus">
-                    <option value="">{{ $machine->campus }}</option>
-                    <option value="">1</option>
-                    <option value="">2</option>
-                    <option value="">3</option>
+                  <select class="custom-select" name="campus_id">
+                    <option value="" selected disabled>Seleccione sede...</option>
+                    <option value="">{{ $machine->campus_id }}</option>
+                    <option value="">VIVA 1A IPS CALLE 30</option>
+                    <option value="">VIVA 1A IPS CALLE 30</option>
                   </select>
                 </div>
               </div>
