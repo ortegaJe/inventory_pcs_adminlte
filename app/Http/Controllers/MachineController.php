@@ -6,6 +6,7 @@ use App\Http\Requests\MachineFormRequest;
 use Illuminate\Http\Request;
 use App\Machine;
 use App\Type;
+use Illuminate\Support\Facades\DB;
 
 class MachineController extends Controller
 {
@@ -21,13 +22,16 @@ class MachineController extends Controller
         $machines = Machine::all();
         $types = Type::all();
 
+         DB::table('types')
+        ->join('machines', 'types.id', '=', 'machines.type_id')
+        ->select('types.*', 'types.name')
+        ->get();
+
+        //dd($types);
+
         return view('machines.index', ['machines' => $machines, 'types' => $types]);
 
-
-        //if (!$users) {
-        // abort(404);
-        //}
-        //dd($users);
+        //print_r(['machines' => $machines, 'types' => $types]);
     }
 
     /**
@@ -53,7 +57,7 @@ class MachineController extends Controller
         $machines = new Machine();
 
         //        [db]           [name] (db campos en la base de datos - name campus en el blade create)
-        $machines->type = request('type');
+        $machines->type_id = request('type');
         $machines->manufacturer = request('manufact');
         $machines->model = request('model');
         $machines->serial = request('serial');
@@ -90,9 +94,11 @@ class MachineController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($machines)
     {
-        return view('machines.edit', ['machine' => Machine::findOrFail($id)]);
+         $types = Type::all();
+
+        return view('machines.edit', ['machine' => Machine::findOrFail($machines), 'types' => $types]);
     }
 
     /**
@@ -107,7 +113,7 @@ class MachineController extends Controller
         $machine = Machine::findOrFail($id);
 
         //        [db]                 [name] (db campos en la base de datos - name campus en el blade edit)
-        $machine->type = $request->get('type');
+        //$machine->type_id = $request->get('type');
         $machine->manufacturer = $request->get('manufact');
         $machine->model = $request->get('model');
         $machine->serial = $request->get('serial');
@@ -121,6 +127,13 @@ class MachineController extends Controller
         $machine->campus_id = $request->get('campus');
         $machine->location = $request->get('location');
         $machine->comment = $request->get('comment');
+
+                $type = $machine->type;
+                if (count($type) > 0) {
+                $type_id = $type[0]->id;
+                }
+                Type::find($id)->type()->updateExistingPivot($type_id, ['type_id' => $request->get('type')]);
+
 
         $machine->update();
 

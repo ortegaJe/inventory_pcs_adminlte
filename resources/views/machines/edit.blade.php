@@ -3,7 +3,7 @@
 @section('content')
 <div class="content-fluid">
   <div class="col-20">
-    <div class="col-sm-6 mx-auto">
+    <div class="col-sm-8 mx-auto">
       <div class="card card-success">
         <div class="card-header">
           <h3 class="card-title" style="font-weight: 700; font-size:20px">Actualizar Equipo | {{ $machine->serial }}
@@ -31,12 +31,16 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-desktop"></i></span>
                   </div>
-                  <select class="custom-select" name="type" value="">
-                    <option data-value="">{{ $machine->type }}</option>
-                    <option>PC</option>
-                    <option>ATRIL</option>
-                    <option>LAPTOP</option>
-                    <option>TV RASPBERRY PI</option>
+                  <select class="custom-select" name="type">
+                    <option selected disabled>Seleccionar tipo...</option>
+                    @foreach ($types as $type)
+                    @if($type->id == $machine->type_id)
+                    <option value="{{ $type->id }}" selected>{{ $type->name }}</option>
+                    @else
+                    <option value="{{ $type->id }}">{{ $type->name }}</option>
+                    @endif
+                    @endforeach
+                    </td>
                   </select>
                 </div>
               </div>
@@ -226,9 +230,9 @@
                   </div>
                   <select class="custom-select" name="campus">
                     <option value="">{{ $machine->campus }}</option>
-                    <option data-value="">VIVA 1A IPS MACARENA</option>
-                    <option data-value="">VIVA 1A IPS CALLE 30</option>
-                    <option data-value="">VIVA 1A IPS SOLEDAD</option>
+                    <option value="">1</option>
+                    <option value="">2</option>
+                    <option value="">3</option>
                   </select>
                 </div>
               </div>

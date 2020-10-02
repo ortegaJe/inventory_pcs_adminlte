@@ -32,7 +32,11 @@
       <tr>
         <th scope="row">{{ $machine->id }}</th>
         <td>
-          {{ $machine->type }}
+          @foreach ($types as $type)
+          @if($type->id == $machine->type_id)
+          {{ $type->name }}
+          @endif
+          @endforeach
         </td>
         <td>{{ $machine->ip_range }}</td>
         <td>{{ $machine->mac_address }}</td>

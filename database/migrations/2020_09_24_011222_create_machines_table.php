@@ -13,14 +13,23 @@ class CreateMachinesTable extends Migration
      */
     public function up()
     {
+
+        Schema::create('types', function (Blueprint $table) {
+        $table->bigIncrements('id');
+        $table->string('name');
+        $table->timestamps();
+        $table->engine = 'InnoDB';
+        $table->charset = 'utf8mb4';
+
+       });
+
         Schema::create('machines', function (Blueprint $table) {
             $table->id();
             $table->string('serial',56);
             $table->smallInteger('lote')->nullable();
-            $table->string('type',20);
+            $table->unsignedBigInteger('type_id')->index();
             $table->string('manufacturer',25);
             $table->string('model',56);
-            //$table->unsignedBigInteger('machine_registered_id')->unique();
             $table->string('ram_slot_00',20);
             $table->string('ram_slot_01',20);
             $table->string('hard_drive',20);
@@ -28,13 +37,19 @@ class CreateMachinesTable extends Migration
             $table->string('ip_range',15);
             $table->macAddress('mac_address');
             $table->string('anydesk')->nullable();
-            $table->unsignedBigInteger('campus_id')->unique();
+            $table->unsignedBigInteger('campus_id')->index();
             $table->String('location');
             $table->string('image')->nullable();
             $table->string('comment')->nullable();
             $table->timestamps();
             $table->engine = 'InnoDB';
             $table->charset = 'utf8mb4';
+
+            $table->foreign('type_id')
+            ->references('id')
+            ->on('types')
+            ->onDelete('cascade');
+
         });
 
                 Schema::create('machine_registration', function (Blueprint $table) {
@@ -63,5 +78,7 @@ class CreateMachinesTable extends Migration
     public function down()
     {
         Schema::dropIfExists('machines');
+        Schema::dropIfExists('machine_registration');
+        Schema::dropIfExists('types');
     }
 }
