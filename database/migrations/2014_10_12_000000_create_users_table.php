@@ -30,7 +30,8 @@ class CreateUsersTable extends Migration
             $table->string('nick_name');
             $table->string('password');
             $table->bigInteger('phone');
-            $table->string('campus_id');
+            //$table->string('campus_id');
+            //$table->unsignedBigInteger('rol_id')->index();
             $table->string('work_function');
             $table->string('email');
             $table->timestamp('email_verified_at')->nullable();

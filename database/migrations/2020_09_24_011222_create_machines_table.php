@@ -37,7 +37,7 @@ class CreateMachinesTable extends Migration
             $table->string('ip_range',15);
             $table->macAddress('mac_address');
             $table->string('anydesk')->nullable();
-            $table->unsignedBigInteger('campus_id')->index();
+            //$table->unsignedBigInteger('campus_id')->index();
             $table->String('location');
             $table->string('image')->nullable();
             $table->string('comment')->nullable();
@@ -80,5 +80,6 @@ class CreateMachinesTable extends Migration
         Schema::dropIfExists('machines');
         Schema::dropIfExists('machine_registration');
         Schema::dropIfExists('types');
+        Schema::dropIfExists('roles');
     }
 }

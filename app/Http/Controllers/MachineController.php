@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\DB;
 
 class MachineController extends Controller
 {
+        public function __construct()
+        {
+        $this->middleware('auth');
+        }
     /**
      * Display a listing of the resource.
      *
@@ -96,7 +100,7 @@ class MachineController extends Controller
      */
     public function edit($machines)
     {
-         $types = Type::all();
+        $types = Type::all();
 
         return view('machines.edit', ['machine' => Machine::findOrFail($machines), 'types' => $types]);
     }

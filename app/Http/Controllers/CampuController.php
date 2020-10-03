@@ -2,17 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\RoleCreateFormRequest;
-use App\Role;
-use App\User;
+use App\Campu;
 use Illuminate\Http\Request;
 
-class RoleController extends Controller
+class CampuController extends Controller
 {
-        public function __construct()
-        {
-        $this->middleware('auth');
-        }
+            public function __construct()
+            {
+            $this->middleware('auth');
+            }
     /**
      * Display a listing of the resource.
      *
@@ -20,8 +18,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::all();
-        return view('roles.index', ['roles' => $roles]);
+        
     }
 
     /**
@@ -31,6 +28,7 @@ class RoleController extends Controller
      */
     public function create()
     {
+        //
     }
 
     /**
@@ -39,25 +37,18 @@ class RoleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(RoleCreateFormRequest $request)
+    public function store(Request $request)
     {
-
-        $role = new Role();
-
-        $role->name = request('rol-name');
-
-        $role->save();
-
-        return redirect('roles');
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Campu  $campu
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Campu $campu)
     {
         //
     }
@@ -65,10 +56,10 @@ class RoleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Campu  $campu
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Campu $campu)
     {
         //
     }
@@ -77,10 +68,10 @@ class RoleController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Campu  $campu
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Campu $campu)
     {
         //
     }
@@ -88,15 +79,11 @@ class RoleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Campu  $campu
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Campu $campu)
     {
-        $users = Role::findOrFail($id);
-
-        $users->delete();
-
-        return redirect('/roles');
+        //
     }
 }

@@ -51,4 +51,19 @@ class User extends Authenticatable
     {
         return $this->roles->flatten()->pluck('name')->unique();
     }
+
+        public function campus()
+        {
+        return $this->belongsToMany(Campu::class)->withTimestamps();
+        }
+
+        public function assignCampu($campu)
+        {
+        $this->campus()->sync($campu, false);
+        }
+
+        public function haveCampu()
+        {
+        return $this->campus->flatten()->pluck('name')->unique();
+        }
 }

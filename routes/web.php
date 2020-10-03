@@ -20,3 +20,4 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::resource('machines', 'MachineController');
 Route::resource('technicians', 'UserController');
 Route::resource('roles', 'RoleController');
+Route::resource('campus', 'CampuController');

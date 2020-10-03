@@ -14,6 +14,12 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+
+            public function __construct()
+            {
+            $this->middleware('auth');
+            }
+
     public function index()
     {
 
@@ -103,8 +109,11 @@ class UserController extends Controller
         $role = $users->roles;
         if (count($role) > 0) {
             $role_id = $role[0]->id;
+             User::find($id)->roles()->updateExistingPivot($role_id, ['role_id' => $request->get('rol')]);
+        } else 
+        {
+          $users->assignRole($request->get('rol'));
         }
-        User::find($id)->roles()->updateExistingPivot($role_id, ['role_id' => $request->get('rol')]);
 
         $users->update();
 
