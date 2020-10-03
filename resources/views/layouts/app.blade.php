@@ -278,6 +278,15 @@
                     </a>
                   </li>
                   @endcan
+                  @can('TECNICO SOLEDAD')
+                  <li class="nav-item">
+                    <a href="sedes/?=calle30"
+                      class="{{ Request::path() === 'notas/archivadas' ? 'nav-link active' : 'nav-link' }}">
+                      <i class="far fa-building nav-icon"></i>
+                      <p>Soledad</p>
+                    </a>
+                  </li>
+                  @endcan
                 </ul>
               </li>
             </ul>

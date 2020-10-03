@@ -128,7 +128,7 @@ class MachineController extends Controller
         $machine->ip_range = $request->get('ip');
         $machine->mac_address = $request->get('mac');
         $machine->anydesk = $request->get('anydesk');
-        $machine->campus_id = $request->get('campus');
+        $machine->campus_id = $request->get('campus_id');
         $machine->location = $request->get('location');
         $machine->comment = $request->get('comment');
 
