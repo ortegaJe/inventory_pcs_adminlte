@@ -232,9 +232,10 @@
                   </div>
                   <select class="custom-select" name="campus_id">
                     <option value="" selected disabled>Seleccione sede...</option>
-                    <option value="">{{ $machine->campus_id }}</option>
-                    <option value="">VIVA 1A IPS CALLE 30</option>
-                    <option value="">VIVA 1A IPS CALLE 30</option>
+                    @foreach ($campus as $campu)
+                    <option value="{{ $campu->id }}" {{ $campu->id == $machine->campus_id ? 'selected' : '' }}>
+                      {{ $campu->name }}</option>
+                    @endforeach
                   </select>
                 </div>
               </div>

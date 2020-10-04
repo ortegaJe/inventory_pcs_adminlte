@@ -21,3 +21,4 @@ Route::resource('machines', 'MachineController');
 Route::resource('technicians', 'UserController');
 Route::resource('roles', 'RoleController');
 Route::resource('campus', 'CampuController');
+Route::resource('parts', 'PartController');

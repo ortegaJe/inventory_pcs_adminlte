@@ -41,7 +41,13 @@
         <td>{{ $machine->ip_range }}</td>
         <td>{{ $machine->mac_address }}</td>
         <td>{{ $machine->anydesk }}</td>
-        <td>{{ $machine->campus_id }}</td>
+        <td>
+          @foreach ($campus as $campu)
+          @if($campu->id == $machine->campus_id)
+          {{ $campu->name }}
+          @endif
+          @endforeach
+        </td>
         <td>
           <form action="{{ route('machines.destroy', $machine->id) }}" method="POST">
             <a href="{{ route('machines.show', $machine->id) }}"><button type="button"

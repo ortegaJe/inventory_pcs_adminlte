@@ -30,8 +30,8 @@ class UserFormRequest extends FormRequest
             'nick-name' => 'required',
             'email' => 'required|email',
             'phone' => 'required',
-            'campus' => 'required',
-            'work-function' => 'required',
+            //'campus' => 'required',
+            //'work-function' => 'required',
             'password' => 'required|min:8|confirmed',
             'rol' => 'required'
         ];

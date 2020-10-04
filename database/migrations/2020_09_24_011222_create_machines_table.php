@@ -23,8 +23,66 @@ class CreateMachinesTable extends Migration
 
        });
 
+               Schema::create('campus', function (Blueprint $table) {
+               $table->id();
+               $table->string('name');
+               //$table->unsignedBigInteger('user_id')->unique();
+               $table->timestamps();
+               $table->engine = 'InnoDB';
+               $table->charset = 'utf8mb4';
+
+               });
+
+                       Schema::create('users', function (Blueprint $table) {
+                       $table->id();
+                       $table->integer('cc')->unique();
+                       $table->string('name');
+                       $table->string('last_name');
+                       $table->string('nick_name');
+                       $table->string('password');
+                       $table->bigInteger('phone');
+                       $table->unsignedBigInteger('campus_id')->index();
+                       $table->unsignedBigInteger('rol_id')->index();
+                       $table->string('work_function');
+                       $table->string('email');
+                       $table->timestamp('email_verified_at')->nullable();
+                       $table->rememberToken();
+                       $table->timestamps();
+
+                       $table->foreign('campus_id')
+                       ->references('id')
+                       ->on('campus')
+                       ->onDelete('cascade');
+                       });
+
+                               Schema::create('roles', function (Blueprint $table) {
+                               $table->bigIncrements('id');
+                               $table->string('name');
+                               $table->string('label')->nullable();
+                               $table->timestamps();
+                               });
+
+                               Schema::create('role_user', function (Blueprint $table) {
+                               $table->id();
+                               $table->index('user_id', 'role_id');
+                               $table->unsignedBigInteger('user_id');
+                               $table->unsignedBigInteger('role_id');
+                               $table->timestamps();
+
+                               $table->foreign('user_id')
+                               ->references('id')
+                               ->on('users')
+                               ->onDelete('cascade');
+
+                               $table->foreign('role_id')
+                               ->references('id')
+                               ->on('roles')
+                               ->onDelete('cascade');
+                               });
+
         Schema::create('machines', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('tec_id')->index();
             $table->string('serial',56);
             $table->smallInteger('lote')->nullable();
             $table->unsignedBigInteger('type_id')->index();
@@ -37,7 +95,7 @@ class CreateMachinesTable extends Migration
             $table->string('ip_range',15);
             $table->macAddress('mac_address');
             $table->string('anydesk')->nullable();
-            //$table->unsignedBigInteger('campus_id')->index();
+            $table->unsignedBigInteger('campus_id')->index();
             $table->String('location');
             $table->string('image')->nullable();
             $table->string('comment')->nullable();
@@ -49,6 +107,11 @@ class CreateMachinesTable extends Migration
             ->references('id')
             ->on('types')
             ->onDelete('cascade');
+
+                        $table->foreign('campus_id')
+                        ->references('id')
+                        ->on('campus')
+                        ->onDelete('cascade');
 
         });
 
@@ -81,5 +144,9 @@ class CreateMachinesTable extends Migration
         Schema::dropIfExists('machine_registration');
         Schema::dropIfExists('types');
         Schema::dropIfExists('roles');
+        Schema::dropIfExists('campus');
+        Schema::dropIfExists('users');
+
+
     }
 }

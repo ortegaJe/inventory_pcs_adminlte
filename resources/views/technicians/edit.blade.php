@@ -127,10 +127,13 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-building"></i></span>
                                     </div>
-                                    <select class="custom-select" name="campus" value="{{ $user->campus_id }}">
+                                    <select class="custom-select" name="campus">
                                         <option selected disabled>Seleccione la sede...</option>
-                                        <option>1</option>
-                                        <option>2</option>
+                                        @foreach ($campus as $campu)
+                                        <option value="{{ $campu->id }}"
+                                            {{ $campu->id == $user->campus_id ? 'selected' : '' }}>
+                                            {{ $campu->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -181,8 +184,8 @@
                             <label for="exampleFormControlFile1">Actualizar foto:</label>
                             <input type="file" class="form-control-file" name="avatar">
                             @if($user->image != "")
-                            <label class="badge badge-success mt-2"><img src="{{ asset('upload/'.$user->image) }}"
-                                    alt="{{ $user->image }}" width="50px" height="50px"></label>
+                            <img class="img-circle elevation-2 mt-2" src="{{ asset('upload/'.$user->image) }}"
+                                alt="{{ $user->image }}" width="50px" height="50px">
                             @endif
                         </div>
 

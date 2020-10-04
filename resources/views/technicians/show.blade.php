@@ -45,6 +45,42 @@
                     </div>
                     <!-- /.row -->
                 </div>
+
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-sm-4 border-right">
+                            <div class="description-block">
+                                <h5 class="description-header">{{ $user->phone }}</h5>
+                                <span class="description-text">PHONE</span>
+                            </div>
+                            <!-- /.description-block -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-4 border-right">
+                            <div class="description-block">
+                                <h5 class="description-header">
+                                    @foreach ($campus as $campu)
+                                    @if($campu->id == $user->campus_id)
+                                    {{ $campu->name }}
+                                    @endif
+                                    @endforeach
+                                </h5>
+                                <span class="description-text">CAMPUS</span>
+                            </div>
+                            <!-- /.description-block -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-4">
+                            <div class="description-block">
+                                <h5 class="description-header"></h5>
+                                <span class="description-text"></span>
+                            </div>
+                            <!-- /.description-block -->
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
             </div>
             <!-- /.widget-user -->
         </div>

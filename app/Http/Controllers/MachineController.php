@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Campu;
 use App\Http\Requests\MachineFormRequest;
 use Illuminate\Http\Request;
 use App\Machine;
 use App\Type;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class MachineController extends Controller
@@ -25,6 +27,7 @@ class MachineController extends Controller
         //$users = DB::table('table_machines')->where('id_machine', $name)->first();
         $machines = Machine::all();
         $types = Type::all();
+        $campus = Campu::all();
 
         //$types = DB::table('types')
         //->join('machines', 'types.id', '=', 'machines.type_id')
@@ -33,7 +36,7 @@ class MachineController extends Controller
 
         //dd($types);
 
-        return view('machines.index', ['machines' => $machines, 'types' => $types]);
+        return view('machines.index', ['machines' => $machines, 'types' => $types, 'campus' => $campus]);
 
         //print_r(['machines' => $machines, 'types' => $types]);
     }
@@ -46,8 +49,9 @@ class MachineController extends Controller
     public function create()
     {
         $types = Type::all();
+        $campus = Campu::all();
 
-        return view('machines.create', ['types' => $types]);
+        return view('machines.create', ['types' => $types, 'campus' => $campus]);
     }
 
     /**
@@ -101,8 +105,9 @@ class MachineController extends Controller
     public function edit($machines)
     {
         $types = Type::all();
+        $campus = Campu::all();
 
-        return view('machines.edit', ['machine' => Machine::findOrFail($machines), 'types' => $types]);
+        return view('machines.edit', ['machine' => Machine::findOrFail($machines), 'types' => $types, 'campus' => $campus]);
     }
 
     /**

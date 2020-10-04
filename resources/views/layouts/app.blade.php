@@ -220,8 +220,6 @@
                       </p>
                     </a>
                   </li>
-                  @endcan
-                  @can('ADMINISTRATOR')
                   <li class="nav-item">
                     <a href="{{ url('roles') }}"
                       class="{{ Request::path() === 'roles' ? 'nav-link active' : 'nav-link' }}">
@@ -231,19 +229,35 @@
                       </p>
                     </a>
                   </li>
-                  @endcan
+                  <li class="nav-item">
+                    <a href="{{ url('campus') }}"
+                      class="{{ Request::path() === 'campus' ? 'nav-link active' : 'nav-link' }}">
+                      <i class="fas fa-building"></i>
+                      <p>
+                        Sedes
+                      </p>
+                    </a>
+                  </li>
                   <li class="nav-item">
                     <a href="{{ url('machines') }}"
                       class="{{ Request::path() === 'machines' ? 'nav-link active' : 'nav-link' }}">
                       <i class="nav-icon fas fa-desktop"></i>
                       <p>
                         Equipos
-                        <?php use App\Machine; $machines_count = Machine::all()->count(); ?>
-                        <span class="right badge badge-success">{{ $machines_count ?? '0' }}</span>
+                        <?php $machines_count = DB::table('machines')->count(); ?>
+                        <span class="right badge badge-warning">{{ $machines_count ?? '0' }}</span> </p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{ url('parts') }}"
+                      class="{{ Request::path() === 'parts' ? 'nav-link active' : 'nav-link' }}">
+                      <i class="nav-icon fas fa-tools"></i>
+                      <p>
+                        Partes
                       </p>
                     </a>
                   </li>
-                </ul>
+                  @endcan
               </li>
 
               <li class="nav-item has-treeview">
@@ -262,6 +276,7 @@
                     </a>
                   </li>
                   @endcan
+                  @can('TECNICO SAN JOSE')
                   <li class="nav-item">
                     <a href="sedes/?=surasanjose"
                       class="{{ Request::path() === 'notas/favoritas' ? 'nav-link active' : 'nav-link' }}">
@@ -269,6 +284,7 @@
                       <p>Sura San Jose</p>
                     </a>
                   </li>
+                  @endcan
                   @can('TECNICO CALLE 30')
                   <li class="nav-item">
                     <a href="sedes/?=calle30"

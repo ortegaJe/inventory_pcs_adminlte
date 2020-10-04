@@ -25,9 +25,8 @@
       <tr>
         <th scope="row">{{ $user->id }}</th>
         <th>{{ $user->cc }}</th>
-        <th><span class="badge badge-info"><img src="{{ asset('upload/'.$user->image) }}" alt="{{ $user->image }}"
-              width="50px" height="50px">
-          </span></th>
+        <th><img class="img-circle elevation-2" src=" {{ asset('upload/'.$user->image) }}" alt="{{ $user->image }}"
+            width="50px" height="50px"></th>
         <td>{{ $user->name }}</td>
         <td>{{ $user->nick_name }}</td>
         <td>{{ $user->email }}</td>
@@ -37,7 +36,13 @@
             @foreach( $user->roles as $role)*
             {{ $role->name }} @endforeach
           </span></td>
-        <td>{{ $user->campus_id }}</td>
+        <td>
+          @foreach ($campus as $campu)
+          @if($campu->id == $user->campus_id)
+          {{ $campu->name }}
+          @endif
+          @endforeach
+        </td>
         <td>
           <form action="{{ route('technicians.destroy', $user->id) }}" method="POST">
             <a href="{{ route('technicians.show', $user->id) }}"><button type="button"

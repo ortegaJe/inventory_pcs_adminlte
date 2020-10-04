@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Campu;
 use App\Http\Requests\UserEditFormRequest;
 use App\Http\Requests\UserFormRequest;
 use App\Role;
@@ -9,6 +10,8 @@ use App\Type;
 use App\TypeMachine;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -26,15 +29,17 @@ class UserController extends Controller
         //$users = DB::table('table_machines')->where('id_machine', $name)->first();
         $users = User::all();
         $roles = Role::all();
+        $campus = Campu::all();
 
-        return view('technicians.index', ['users' => $users, 'roles' => $roles]);
+        return view('technicians.index', ['users' => $users, 'roles' => $roles, 'campus' => $campus]);
     }
 
     public function create()
     {
         $roles = Role::all();
+        $campus = Campu::all();
 
-        return view('technicians.create', ['roles' => $roles]);
+        return view('technicians.create', ['roles' => $roles, 'campus' => $campus]);
     }
 
     public function store(UserFormRequest $request)
@@ -46,13 +51,14 @@ class UserController extends Controller
         ]);*/
 
         $users = new User();
+        
         $users->cc = request('cc');
         $users->name = request('name');
         $users->last_name = request('last-name');
         $users->nick_name = request('nick-name');
         $users->email = request('email');
         $users->phone = request('phone');
-        $users->campus_id = request('campus');
+        $users->campus_id = request('campu-name');
         $users->work_function = request('work-function');
         $users->password = Hash::make(request('password'));
         if ($request->hasFile('avatar')) {
@@ -75,7 +81,8 @@ class UserController extends Controller
 
         $user = User::findOrFail($id);
         $roles = Role::all();
-        return view('technicians.edit', ['user' => $user, 'roles' => $roles]);
+        $campus = Campu::all();
+        return view('technicians.edit', ['user' => $user, 'roles' => $roles, 'campus' => $campus]);
     }
 
     public function update(UserEditFormRequest $request, $id)
@@ -92,6 +99,7 @@ class UserController extends Controller
         $users->last_name = $request->get('last-name');
         $users->nick_name = $request->get('nick-name');
         $users->phone = $request->get('phone');
+        $users->campus_id = request('campus');
 
         if ($request->hasFile('avatar')) {
             $file = $request->avatar;
@@ -124,8 +132,13 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $roles = Role::all();
+        
+        $campus = DB::table('campus')
+         ->join('users', 'campus.id', '=', 'users.campus_id')
+         ->select('campus.*', 'campus.name')
+         ->get();
 
-        return view('technicians.show', ['user' => $user, 'roles' => $roles]);
+        return view('technicians.show', ['user' => $user, 'roles' => $roles, 'campus' => $campus]);
     }
 
     public function destroy($id)

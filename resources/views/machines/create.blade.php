@@ -201,10 +201,10 @@
                     <span class="input-group-text"><i class="fas fa-building"></i></span>
                   </div>
                   <select class="custom-select" name="campus" required>
-                    <option value="">Seleccione sede...</option>
-                    <option value="">1</option>
-                    <option value="">2</option>
-                    <option value="">3</option>
+                    <option selected disabled>Seleccione sede...</option>
+                    @foreach ($campus as $campu)
+                    <option value="{{ $campu->id }}">{{ $campu->name }}</option>
+                    @endforeach
                   </select>
                 </div>
               </div>
