@@ -6,9 +6,11 @@ use App\Campu;
 use App\Http\Requests\MachineFormRequest;
 use Illuminate\Http\Request;
 use App\Machine;
+use App\Ram;
 use App\Type;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Helpers\UserSystemInfoHelper;
 
 class MachineController extends Controller
 {
@@ -16,18 +18,25 @@ class MachineController extends Controller
         {
         $this->middleware('auth');
         }
+
+
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
 
         //$users = DB::table('table_machines')->where('id_machine', $name)->first();
         $machines = Machine::all();
         $types = Type::all();
+        $rams = DB::select('SELECT id,ram FROM rams', [1]);
         $campus = Campu::all();
+        //$user_ip_address = $request->ip();[
+        $getbrowser = UserSystemInfoHelper::get_browsers();
+        $getdevice = UserSystemInfoHelper::get_device();
 
         //$types = DB::table('types')
         //->join('machines', 'types.id', '=', 'machines.type_id')
@@ -36,7 +45,7 @@ class MachineController extends Controller
 
         //dd($types);
 
-        return view('machines.index', ['machines' => $machines, 'types' => $types, 'campus' => $campus]);
+        return view('machines.index', ['machines' => $machines, 'types' => $types,'campus' => $campus,'rams' => $rams]);
 
         //print_r(['machines' => $machines, 'types' => $types]);
     }
@@ -46,12 +55,19 @@ class MachineController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         $types = Type::all();
+        $rams = DB::select('SELECT id,ram FROM rams', [1]);
         $campus = Campu::all();
+        $getip = UserSystemInfoHelper::get_ip();
+        $findmacaddress = exec('getmac');
+        $getmacaddress = strtok($findmacaddress, ' ');
+        $getos = UserSystemInfoHelper::get_os();
 
-        return view('machines.create', ['types' => $types, 'campus' => $campus]);
+
+        return view('machines.create', ['getmacaddress' => $getmacaddress, 'getos' => $getos,'getip' => $getip,
+         'types' => $types, 'campus' => $campus, 'rams' => $rams]);
     }
 
     /**
@@ -62,6 +78,9 @@ class MachineController extends Controller
      */
     public function store(Request $request)
     {
+        $getip = UserSystemInfoHelper::get_ip();
+        $findmacaddress = exec('getmac');
+        $getmacaddress = strtok($findmacaddress, ' ');
         $machines = new Machine();
 
         //        [db]           [name] (db campos en la base de datos - name campus en el blade create)
@@ -73,8 +92,8 @@ class MachineController extends Controller
         $machines->ram_slot_01 = request('ramslot01');
         $machines->hard_drive = request('hard-drive');
         $machines->cpu = request('cpu');
-        $machines->ip_range = request('ip');
-        $machines->mac_address = request('mac');
+        $machines->ip_range = $getip;
+        $machines->mac_address = $getmacaddress;
         $machines->anydesk = request('anydesk');
         $machines->campus_id = request('campus');
         $machines->location = request('location');

@@ -14,7 +14,7 @@
             <div class="form-row">
               <div class="col-md-6 mb-8">
                 <label for="type">Tipo de equipo:</label>
-                <div class="input-group">
+                <div class="input-group input-group-sm">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-desktop"></i></span>
                   </div>
@@ -71,20 +71,10 @@
                     <span class="input-group-text"><i class="fas fa-memory"></i></span>
                   </div>
                   <select class="custom-select" name="ramslot00" required>
-                    <option>1GB DDR2 SO-DIMM</option>
-                    <option>1GB DDR2 DIMM</option>
-                    <option>2GB DDR2 SO-DIMM</option>
-                    <option>2GB DDR2 DIMM</option>
-                    <option>4GB DDR3 SO-DIMM</option>
-                    <option>4GB DDR3 DIMM</option>
-                    <option>4GB DDR4 SO-DIMM</option>
-                    <option>4GB DDR4 DIMM</option>
-                    <option>8GB DDR3 SO-DIMM</option>
-                    <option>8GB DDR3 SO-DIMM</option>
-                    <option>8GB DDR4 SO-DIMM</option>
-                    <option>8GB DDR4 SO-DIMM</option>
-                    <option>16GB DDR4 SO-DIMM</option>
-                    <option>16GB DDR4 DIMM</option>
+                    <option selected disabled>Seleccionar RAM...</option>
+                    @foreach ($rams as $ram)
+                    <option value="{{ $ram->id }}">{{ $ram->ram }}</option>
+                    @endforeach
                   </select>
                 </div>
               </div>
@@ -96,21 +86,10 @@
                     <span class="input-group-text"><i class="fas fa-memory"></i></span>
                   </div>
                   <select class="custom-select" name="ramslot01">
-                    <option>NULL</option>
-                    <option>1GB DDR2 SO-DIMM</option>
-                    <option>1GB DDR2 DIMM</option>
-                    <option>2GB DDR2 SO-DIMM</option>
-                    <option>2GB DDR2 DIMM</option>
-                    <option>4GB DDR3 SO-DIMM</option>
-                    <option>4GB DDR3 DIMM</option>
-                    <option>4GB DDR4 SO-DIMM</option>
-                    <option>4GB DDR4 DIMM</option>
-                    <option>8GB DDR3 SO-DIMM</option>
-                    <option>8GB DDR3 SO-DIMM</option>
-                    <option>8GB DDR4 SO-DIMM</option>
-                    <option>8GB DDR4 SO-DIMM</option>
-                    <option>16GB DDR4 SO-DIMM</option>
-                    <option>16GB DDR4 DIMM</option>
+                    <option selected disabled>Seleccionar RAM...</option>
+                    @foreach ($rams as $ram)
+                    <option value="{{ $ram->id }}">{{ $ram->ram }}</option>
+                    @endforeach
                   </select>
                 </div>
               </div>
@@ -154,8 +133,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-ethernet"></i></span>
                   </div>
-                  <input type="text" maxlength="15" class="form-control" name="ip" placeholder="000.000.000.000"
-                    required>
+                  <input type="text" maxlength="15" class="form-control" name="ip" value="{{ $getip }}" disabled>
                 </div>
               </div>
 
@@ -167,7 +145,7 @@
                   </div>
                   <input style="text-transform:uppercase;" maxlength="17"
                     onkeyup="javascript:this.value=this.value.toUpperCase();" type="text" class="form-control"
-                    name="mac" placeholder="00-00-00-00-00-00" required>
+                    name="mac" value="{{ $getmacaddress }}" disabled>
                 </div>
               </div>
 
@@ -178,6 +156,20 @@
                     <span class="input-group-text"><img src="" width="20px" alt="" /></span>
                   </div>
                   <input type="text" class="form-control" name="anydesk" placeholder="000 000 000">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="col-md-6 mb-3">
+                <label for="os">OS:</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><img
+                        src="https://www.flaticon.com/svg/static/icons/svg/732/732225.svg" width="20px" alt=""></span>
+                  </div>
+                  <input style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
+                    type="text" class="form-control" name="os" value="{{ $getos }}" disabled>
                 </div>
               </div>
             </div>

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Ram;
 use App\Type;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PartController extends Controller
 {
@@ -19,9 +21,10 @@ class PartController extends Controller
      */
     public function index()
     {
-        $types = Type::all(); 
-
-        return view('parts.index', ['types' => $types]);
+        $types = Type::all();
+        $rams = DB::select('SELECT id,ram FROM rams', [1]);
+ 
+        return view('parts.index', ['types' => $types, 'rams' => $rams]);
 
     }
 
@@ -32,7 +35,7 @@ class PartController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -43,7 +46,13 @@ class PartController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rams = new Ram();
+
+        $rams->ram = request('ram-name');
+
+        $rams->save();
+
+        return redirect('parts');
     }
 
     /**

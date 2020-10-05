@@ -1,6 +1,5 @@
-<div style="padding-bottom: 6ch"><button type="button" class="btn btn-app float-right" data-toggle="modal"
-    data-target="#AddRol">
-    <i class="fa fa-plus"></i> Agregar Rol</button></div>
+<button type="button" class="btn bg-info float-right btn-sm" data-toggle="modal" data-target="#AddRol">
+  <i class="fa fa-plus"></i> Agregar Rol</button>
 
 {!! Form::open(['url' => 'roles']) !!}
 <!--composer require laravelcollective/html-->

@@ -10,7 +10,7 @@
         <th scope="col">ID</th>
         <th scope="col">TYPE</th>
         <th scope="col">IP RANGE</th>
-        <th scope="col">MAC ADDRESS</th>
+        <th scope="col">ANYDESK</th>
         <th scope="col"><img src="{{ asset('png/anydesk.png') }}" width="32px" height="32px" alt=""></th>
         <th scope="col">CAMPUS</th>
         <th scope="col">ACTIONS</th>
