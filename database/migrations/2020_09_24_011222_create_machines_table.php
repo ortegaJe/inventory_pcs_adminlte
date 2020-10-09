@@ -25,9 +25,18 @@ class CreateMachinesTable extends Migration
         Schema::create('rams', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('size');
-            $table->string('standart');//ddr2 ddr3 etc
+            $table->string('standart'); //ddr2 ddr3 etc
             $table->string('type');
             $table->string('mhz');
+            $table->timestamps();
+            $table->engine = 'InnoDB';
+            $table->charset = 'utf8mb4';
+        });
+
+        Schema::create('hdds', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('size');
+            $table->string('type');
             $table->timestamps();
             $table->engine = 'InnoDB';
             $table->charset = 'utf8mb4';
@@ -91,7 +100,7 @@ class CreateMachinesTable extends Migration
 
         Schema::create('machines', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('tec_id')->index();
+            //$table->unsignedBigInteger('tec_id')->index();
             $table->string('serial', 56);
             $table->smallInteger('lote')->nullable();
             $table->unsignedBigInteger('type_id')->index();
@@ -99,9 +108,9 @@ class CreateMachinesTable extends Migration
             $table->string('model', 56);
             $table->unsignedBigInteger('ram_slot_00_id')->index();
             $table->unsignedBigInteger('ram_slot_01_id')->index();
-            $table->string('hard_drive', 20);
+            $table->string('hard_drive_id')->index;
             $table->string('cpu');
-            $table->string('ip_range', 15);
+            $table->ipAddress('ip_range', 15);
             $table->macAddress('mac_address');
             $table->string('anydesk')->nullable();
             $table->unsignedBigInteger('campus_id')->index();
@@ -125,6 +134,11 @@ class CreateMachinesTable extends Migration
             $table->foreign('ram_slot_01_id')
                 ->references('id')
                 ->on('rams')
+                ->onDelete('cascade');
+
+            $table->foreign('hard_drive_id')
+                ->references('id')
+                ->on('hdds')
                 ->onDelete('cascade');
 
             $table->foreign('campus_id')

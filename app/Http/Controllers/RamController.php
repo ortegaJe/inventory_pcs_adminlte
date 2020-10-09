@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Campu;
+use App\Ram;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
-class CampuController extends Controller
+class RamController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     /**
      * Display a listing of the resource.
      *
@@ -18,8 +15,12 @@ class CampuController extends Controller
      */
     public function index()
     {
-        $campus = Campu::all();
-        return view('campus.index', ['campus' => $campus]);
+        $rams = DB::select('SELECT id,ram FROM rams', [1]);
+        //dd($rams);
+
+        return view('ram.index', [
+            'rams' => $rams, 200
+        ]);
     }
 
     /**
@@ -29,8 +30,7 @@ class CampuController extends Controller
      */
     public function create()
     {
-        $campus = Campu::all();
-        return view('campus.index', ['campus' => $campus]);
+        //
     }
 
     /**
@@ -41,22 +41,22 @@ class CampuController extends Controller
      */
     public function store(Request $request)
     {
-        $campus = new Campu();
+        $rams = new Ram();
 
-        $campus->name = request('campu-name');
+        $rams->ram = request('ram-name');
 
-        $campus->save();
+        $rams->save();
 
-        return redirect('/campus');
+        return redirect('/ram', 302);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Campu  $campu
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Campu $campu)
+    public function show($id)
     {
         //
     }
@@ -64,10 +64,10 @@ class CampuController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Campu  $campu
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Campu $campu)
+    public function edit($id)
     {
         //
     }
@@ -76,10 +76,10 @@ class CampuController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Campu  $campu
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Campu $campu)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -87,15 +87,15 @@ class CampuController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Campu  $campu
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $campus = Campu::findOrFail($id);
+        $rams = Ram::findOrFail($id);
 
-        $campus->delete();
+        $rams->delete();
 
-        return redirect('/campus');
+        return redirect('/ram', 302);
     }
 }

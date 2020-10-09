@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RamController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +21,11 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::resource('machines', 'MachineController');
 Route::resource('technicians', 'UserController');
 Route::resource('roles', 'RoleController');
-Route::resource('campus', 'CampuController');
+Route::resource('campus', 'CampuController'); // colocar un solo controlador para las sedes
+Route::get('/sede/mac', 'CampusController@all');
 Route::resource('parts', 'PartController');
+Route::resource('ram', 'RamController');
+Route::resource('hdd', 'HddController');
+Route::resource('type', 'TypeController');
+
 //Route::get('/getusersysteminfo', 'UserSystemInfoController@getusersysteminfo');

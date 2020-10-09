@@ -101,15 +101,10 @@
                     <span class="input-group-text"><i class="fas fa-hdd"></i></span>
                   </div>
                   <select class="custom-select" name="hard-drive" required>
-                    <option>70GB</option>
-                    <option>100GB</option>
-                    <option>150GB</option>
-                    <option>250GB</option>
-                    <option>300GB</option>
-                    <option>500GB</option>
-                    <option>800GB</option>
-                    <option>1TB</option>
-                    <option>2TB</option>
+                    <option selected disabled>Seleccionar disco duro...</option>
+                    @foreach ($hdds as $hdd)
+                    <option value="{{ $hdd->id }}">{{ $hdd->size }} {{ $hdd->type}}</option>
+                    @endforeach
                   </select>
                 </div>
               </div>
@@ -133,7 +128,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-ethernet"></i></span>
                   </div>
-                  <input type="text" maxlength="15" class="form-control" name="ip" value="{{ $getip }}" disabled>
+                  <input type="text" maxlength="15" class="form-control" name="ip" value="">
                 </div>
               </div>
 
@@ -145,7 +140,7 @@
                   </div>
                   <input style="text-transform:uppercase;" maxlength="17"
                     onkeyup="javascript:this.value=this.value.toUpperCase();" type="text" class="form-control"
-                    name="mac" value="{{ $getmacaddress }}" disabled>
+                    name="mac" value="">
                 </div>
               </div>
 

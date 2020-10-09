@@ -14,10 +14,10 @@ use App\Helpers\UserSystemInfoHelper;
 
 class MachineController extends Controller
 {
-        public function __construct()
-        {
+    public function __construct()
+    {
         $this->middleware('auth');
-        }
+    }
 
 
 
@@ -33,6 +33,8 @@ class MachineController extends Controller
         $machines = Machine::all();
         $types = Type::all();
         $rams = DB::select('SELECT id,ram FROM rams', [1]);
+        $options = DB::select('SELECT id,label FROM options', [1]);
+        $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
         $campus = Campu::all();
         //$user_ip_address = $request->ip();[
         $getbrowser = UserSystemInfoHelper::get_browsers();
@@ -45,7 +47,14 @@ class MachineController extends Controller
 
         //dd($types);
 
-        return view('machines.index', ['machines' => $machines, 'types' => $types,'campus' => $campus,'rams' => $rams]);
+        return view('machines.index', [
+            'machines' => $machines,
+            'types' => $types,
+            'campus' => $campus,
+            'rams' => $rams,
+            'options' => $options,
+            'hddss' => $hdds
+        ]);
 
         //print_r(['machines' => $machines, 'types' => $types]);
     }
@@ -59,6 +68,8 @@ class MachineController extends Controller
     {
         $types = Type::all();
         $rams = DB::select('SELECT id,ram FROM rams', [1]);
+        $options = DB::select('SELECT id,label FROM options', [1]);
+        $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
         $campus = Campu::all();
         $getip = UserSystemInfoHelper::get_ip();
         $findmacaddress = exec('getmac');
@@ -66,8 +77,16 @@ class MachineController extends Controller
         $getos = UserSystemInfoHelper::get_os();
 
 
-        return view('machines.create', ['getmacaddress' => $getmacaddress, 'getos' => $getos,'getip' => $getip,
-         'types' => $types, 'campus' => $campus, 'rams' => $rams]);
+        return view('machines.create', [
+            'getmacaddress' => $getmacaddress,
+            'getos' => $getos,
+            'getip' => $getip,
+            'types' => $types,
+            'campus' => $campus,
+            'rams' => $rams,
+            'options' => $options,
+            'hdds' => $hdds
+        ]);
     }
 
     /**
@@ -88,12 +107,12 @@ class MachineController extends Controller
         $machines->manufacturer = request('manufact');
         $machines->model = request('model');
         $machines->serial = request('serial');
-        $machines->ram_slot_00 = request('ramslot00');
-        $machines->ram_slot_01 = request('ramslot01');
+        $machines->ram_slot_00_id = request('ramslot00');
+        $machines->ram_slot_01_id = request('ramslot01');
         $machines->hard_drive = request('hard-drive');
         $machines->cpu = request('cpu');
-        $machines->ip_range = $getip;
-        $machines->mac_address = $getmacaddress;
+        $machines->ip_range = request('ip');
+        $machines->mac_address = request('mac');
         $machines->anydesk = request('anydesk');
         $machines->campus_id = request('campus');
         $machines->location = request('location');
@@ -124,9 +143,10 @@ class MachineController extends Controller
     public function edit($machines)
     {
         $types = Type::all();
+        $rams = DB::select('SELECT id,ram FROM rams', [1]);
         $campus = Campu::all();
 
-        return view('machines.edit', ['machine' => Machine::findOrFail($machines), 'types' => $types, 'campus' => $campus]);
+        return view('machines.edit', ['machine' => Machine::findOrFail($machines), 'types' => $types, 'campus' => $campus, 'rams' => $rams]);
     }
 
     /**
@@ -145,8 +165,8 @@ class MachineController extends Controller
         $machine->manufacturer = $request->get('manufact');
         $machine->model = $request->get('model');
         $machine->serial = $request->get('serial');
-        $machine->ram_slot_00 = $request->get('ramslot00');
-        $machine->ram_slot_01 = $request->get('ramslot01');
+        $machine->ram_slot_00_id = $request->get('ramslot00');
+        $machine->ram_slot_01_id = $request->get('ramslot01');
         $machine->hard_drive = $request->get('hard-drive');
         $machine->cpu = $request->get('cpu');
         $machine->ip_range = $request->get('ip');

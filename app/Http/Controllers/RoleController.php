@@ -9,10 +9,10 @@ use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
-        public function __construct()
-        {
+    public function __construct()
+    {
         $this->middleware('auth');
-        }
+    }
     /**
      * Display a listing of the resource.
      *
@@ -31,7 +31,6 @@ class RoleController extends Controller
      */
     public function create()
     {
-        
     }
 
     /**
@@ -40,7 +39,7 @@ class RoleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(RoleCreateFormRequest $request)
+    public function store(Request $request)
     {
 
         $role = new Role();
@@ -49,7 +48,7 @@ class RoleController extends Controller
 
         $role->save();
 
-        return redirect('roles');
+        return redirect('/roles');
     }
 
     /**

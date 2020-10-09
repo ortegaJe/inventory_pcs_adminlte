@@ -5,20 +5,19 @@
 <div class="container-fluid">
   <div class="row">
     <!--type table-->
-    <div class="col-md-4 mx-auto">
+    <div class="col-md-5 mx-auto">
       <div class="card card-primary card-outline">
         <div class="card-header">
           <div class="card-title text-center">
             <h2 style="font-weight: 700">Tipos de equipos</h2>
           </div>
-          @include('roles.modal')
           <div class="card-body pad">
             <table class="table table-hover table-bordered">
               <thead class="thead-light">
                 <tr>
                   <th hidden scope="col">ID</th>
                   <th scope="col" class="text-center">
-                    <i class="fas fa-users-cog"></i>
+                    <i class="fas fa-desktop"></i>
                   </th>
                   <th scope="col"></th>
                 </tr>
@@ -45,7 +44,6 @@
           </div>
         </div>
       </div>
-
     </div>
     <!--os table-->
     <div class="col-md-6 mx-auto">
@@ -94,7 +92,6 @@
           <div class="card-title">
             <h2 style="font-weight: 700">Memorias RAM</h2>
           </div>
-          @include('parts.ramsModal')
           <div class="card-body pad">
             <table class="table table-hover table-bordered">
               <thead class="thead-light">
@@ -139,8 +136,8 @@
           </div>
         </div>
       </div>
-
     </div>
+    <!--end ram table-->
     <!--hhd table-->
     <div class="col-md-6 mx-auto">
       <div class="card card-primary card-outline">
@@ -153,18 +150,21 @@
             <table class="table table-hover table-bordered">
               <thead class="thead-light">
                 <tr>
-                  <th hidden scope="col">ID</th>
                   <th scope="col" class="text-center">
                     <i class="fas fa-hdd"></i>
                   </th>
+                  <th class="text-center">Tipo</th>
                   <th scope="col"></th>
                 </tr>
               </thead>
               <tbody>
-                @foreach ($types as $type)
+                @foreach ($hdds as $hdd)
                 <tr>
                   <th>
-                    <h6>{{ $type->name }}
+                    <h6>{{ $hdd->size }}
+                  </th>
+                  <th>
+                    <h6>{{ $hdd->type }}
                   </th>
                   </h6>
                   <th>

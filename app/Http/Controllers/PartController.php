@@ -9,10 +9,10 @@ use Illuminate\Support\Facades\DB;
 
 class PartController extends Controller
 {
-            public function __construct()
-            {
-            $this->middleware('auth');
-            }
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     /**
      * Display a listing of the resource.
@@ -21,11 +21,15 @@ class PartController extends Controller
      */
     public function index()
     {
-        $types = Type::all();
+        $types = DB::select('SELECT id,name FROM types', [1]);
         $rams = DB::select('SELECT id,ram FROM rams', [1]);
- 
-        return view('parts.index', ['types' => $types, 'rams' => $rams]);
+        $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
 
+        return view('parts.index', [
+            'types' => $types,
+            'rams' => $rams,
+            'hdds' => $hdds
+        ]);
     }
 
     /**
@@ -35,7 +39,6 @@ class PartController extends Controller
      */
     public function create()
     {
-
     }
 
     /**
@@ -46,13 +49,6 @@ class PartController extends Controller
      */
     public function store(Request $request)
     {
-        $rams = new Ram();
-
-        $rams->ram = request('ram-name');
-
-        $rams->save();
-
-        return redirect('parts');
     }
 
     /**

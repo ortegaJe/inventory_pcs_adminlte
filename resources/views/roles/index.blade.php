@@ -36,16 +36,6 @@
           @endforeach
         </tbody>
       </table>
-      @if($errors->any())
-      <div class="alert alert-danger">
-        <ul>
-          @foreach($errors->all() as $error)
-          <h4><i class="icon fa fa-ban"></i> Alert!</h4>
-          <li>{{ $error }}</li>
-          @endforeach
-        </ul>
-      </div>
-      @endif
     </div>
   </div>
 </div>

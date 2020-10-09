@@ -94,21 +94,10 @@
                     <span class="input-group-text"><i class="fas fa-memory"></i></span>
                   </div>
                   <select class="custom-select" name="ramslot00">
-                    <option>{{ $machine->ram_slot_00 }}</option>
-                    <option>1GB DDR2 SO-DIMM</option>
-                    <option>1GB DDR2 DIMM</option>
-                    <option>2GB DDR2 SO-DIMM</option>
-                    <option>2GB DDR2 DIMM</option>
-                    <option>4GB DDR3 SO-DIMM</option>
-                    <option>4GB DDR3 DIMM</option>
-                    <option>4GB DDR4 SO-DIMM</option>
-                    <option>4GB DDR4 DIMM</option>
-                    <option>8GB DDR3 SO-DIMM</option>
-                    <option>8GB DDR3 SO-DIMM</option>
-                    <option>8GB DDR4 SO-DIMM</option>
-                    <option>8GB DDR4 SO-DIMM</option>
-                    <option>16GB DDR4 SO-DIMM</option>
-                    <option>16GB DDR4 DIMM</option>
+                    @foreach ($rams as $ram)
+                    <option value="{{ $ram->id }}" {{ $ram->id == $machine->ram_slot_00_id ? 'selected' : '' }}>
+                      {{ $ram->ram }}</option>
+                    @endforeach
                   </select>
                 </div>
               </div>
@@ -120,22 +109,10 @@
                     <span class="input-group-text"><i class="fas fa-memory"></i></span>
                   </div>
                   <select class="custom-select" name="ramslot01">
-                    <option>{{ $machine->ram_slot_01 }}</option>
-                    <option>NULL</option>
-                    <option>1GB DDR2 SO-DIMM</option>
-                    <option>1GB DDR2 DIMM</option>
-                    <option>2GB DDR2 SO-DIMM</option>
-                    <option>2GB DDR2 DIMM</option>
-                    <option>4GB DDR3 SO-DIMM</option>
-                    <option>4GB DDR3 DIMM</option>
-                    <option>4GB DDR4 SO-DIMM</option>
-                    <option>4GB DDR4 DIMM</option>
-                    <option>8GB DDR3 SO-DIMM</option>
-                    <option>8GB DDR3 SO-DIMM</option>
-                    <option>8GB DDR4 SO-DIMM</option>
-                    <option>8GB DDR4 SO-DIMM</option>
-                    <option>16GB DDR4 SO-DIMM</option>
-                    <option>16GB DDR4 DIMM</option>
+                    @foreach ($rams as $ram)
+                    <option value="{{ $ram->id }}" {{ $ram->id == $machine->ram_slot_01_id ? 'selected' : '' }}>
+                      {{ $ram->ram }}</option>
+                    @endforeach
                   </select>
                 </div>
               </div>

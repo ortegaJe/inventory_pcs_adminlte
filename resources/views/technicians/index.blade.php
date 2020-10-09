@@ -7,13 +7,12 @@
   <table id="datatable-technicians" class="table table-responsive table-hover table-bordered text-center">
     <thead class="thead-dark">
       <tr>
-        <th scope="col">ID</th>
         <th scope="col">IDENTIFICATION</th>
         <th scope="col">AVATAR</th>
         <th scope="col">NAME</th>
         <th scope="col">NICKNAME</th>
         <th scope="col">EMAIL</th>
-        <th scope="col">PHONE</th>
+        <!--<th scope="col">PHONE</th>-->
         <th scope="col">WORK FUNCTION</th>
         <th scope="col">ROL</th>
         <th scope="col">CAMPUS</th>
@@ -23,14 +22,13 @@
     <tbody>
       @foreach ($users as $user)
       <tr>
-        <th scope="row">{{ $user->id }}</th>
         <th>{{ $user->cc }}</th>
         <th><img class="img-circle elevation-2" src=" {{ asset('upload/'.$user->image) }}" alt="{{ $user->image }}"
             width="50px" height="50px"></th>
         <td>{{ $user->name }}</td>
         <td>{{ $user->nick_name }}</td>
         <td>{{ $user->email }}</td>
-        <td>{{ $user->phone }}</td>
+        <!--<td>{{ $user->phone }}</td>-->
         <td>{{ $user->work_function }}</td>
         <td><span class="badge badge-success">
             @foreach( $user->roles as $role)*

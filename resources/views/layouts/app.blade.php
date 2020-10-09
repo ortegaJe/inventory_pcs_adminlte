@@ -9,6 +9,7 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
   <title>Inventor</title>
+  <link rel="icon" type="image/svg" href="{{ asset('dist/img/svg/server-storage.svg')}}" />
 
   <!-- Scripts -->
   <script src="{{ asset('js/app.js') }}" defer></script>
@@ -149,8 +150,8 @@
       <aside class="main-sidebar sidebar-collapse sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
         <a href="{{ url('/') }}" class="brand-link">
-          <img src="{{ asset('dist/img/svg/inventor-icon.svg') }}" alt="Inventor Machines Logo"
-            class="brand-image img-circle elevation-3" style="opacity: 1.2">
+          <img src="{{ asset('dist/img/svg/server-storage.svg') }}" alt="Inventor Machines Logo"
+            class="brand-image elevation-3" style="opacity: 1.2">
           <span class="brand-text font-weight-light">Inventor</span>
         </a>
 
@@ -248,64 +249,92 @@
                         <span class="right badge badge-warning">{{ $machines_count ?? '0' }}</span> </p>
                     </a>
                   </li>
-                  <li class="nav-item">
-                    <a href="{{ url('parts') }}"
-                      class="{{ Request::path() === 'parts' ? 'nav-link active' : 'nav-link' }}">
+                  <li class="nav-item has-treeview menu-open">
+                    <a href="#" class="nav-link">
                       <i class="nav-icon fas fa-tools"></i>
-                      <p>
-                        Partes
-                      </p>
+                      <p>Partes<i class="fas fa-angle-left right"></i></p>
                     </a>
-                  </li>
-                  @endcan
-              </li>
 
-              <li class="nav-item has-treeview">
-                <a href="/" class="nav-link">
-                  <i class="nav-icon far fa-building"></i>
-                  <p>Mis sedes<i class="fas fa-angle-left right"></i></p>
-                </a>
-
-                <ul class="nav nav-treeview">
-                  @can('TECNICO MACARENA')
-                  <li class="nav-item">
-                    <a href="sedes/?=macarena"
-                      class="{{ Request::path() === 'notas/todas' ? 'nav-link active' : 'nav-link' }}">
-                      <i class="far fa-building nav-icon"></i>
-                      <p>Macarena</p>
-                    </a>
+                    <ul class="nav nav-treeview">
+                      <li class="nav-item">
+                        <a href="{{ url('parts') }}"
+                          class="{{ Request::path() === 'parts' ? 'nav-link active' : 'nav-link' }}">
+                          <i class="fas fa-th-large nav-icon"></i>
+                          <p>Categorias</p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="{{ url('ram')}}"
+                          class="{{ Request::path() === 'ram' ? 'nav-link active' : 'nav-link' }}">
+                          <i class="fas fa-memory nav-icon"></i>
+                          <p>Memorias RAM</p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="{{ url('hdd')}}"
+                          class="{{ Request::path() === 'hdd' ? 'nav-link active' : 'nav-link' }}">
+                          <i class="fas fa-hdd nav-icon"></i>
+                          <p>Discos Duros</p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="{{ url('type')}}"
+                          class="{{ Request::path() === 'type' ? 'nav-link active' : 'nav-link' }}">
+                          <i class="fas fa-project-diagram nav-icon"></i>
+                          <p>Tipo de equipos</p>
+                        </a>
+                      </li>
+                    </ul>
                   </li>
                   @endcan
-                  @can('TECNICO SAN JOSE')
-                  <li class="nav-item">
-                    <a href="sedes/?=surasanjose"
-                      class="{{ Request::path() === 'notas/favoritas' ? 'nav-link active' : 'nav-link' }}">
-                      <i class="far fa-building nav-icon"></i>
-                      <p>Sura San Jose</p>
-                    </a>
-                  </li>
-                  @endcan
-                  @can('TECNICO CALLE 30')
-                  <li class="nav-item">
-                    <a href="sedes/?=calle30"
-                      class="{{ Request::path() === 'notas/archivadas' ? 'nav-link active' : 'nav-link' }}">
-                      <i class="far fa-building nav-icon"></i>
-                      <p>Calle 30</p>
-                    </a>
-                  </li>
-                  @endcan
-                  @can('TECNICO SOLEDAD')
-                  <li class="nav-item">
-                    <a href="sedes/?=calle30"
-                      class="{{ Request::path() === 'notas/archivadas' ? 'nav-link active' : 'nav-link' }}">
-                      <i class="far fa-building nav-icon"></i>
-                      <p>Soledad</p>
-                    </a>
-                  </li>
-                  @endcan
-                </ul>
               </li>
             </ul>
+
+            <li class="nav-item has-treeview">
+              <a href="#" class="nav-link">
+                <i class="nav-icon far fa-building"></i>
+                <p>Mis sedes<i class="fas fa-angle-left right"></i></p>
+              </a>
+
+              <ul class="nav nav-treeview">
+                @can('TECNICO MACARENA')
+                <li class="nav-item">
+                  <a href="{{ url('sede/mac')}}"
+                    class="{{ Request::path() === 'sede/mac' ? 'nav-link active' : 'nav-link' }}">
+                    <i class="far fa-building nav-icon"></i>
+                    <p>Macarena</p>
+                  </a>
+                </li>
+                @endcan
+                @can('TECNICO SAN JOSE')
+                <li class="nav-item">
+                  <a href="sedes/?=surasanjose"
+                    class="{{ Request::path() === 'notas/favoritas' ? 'nav-link active' : 'nav-link' }}">
+                    <i class="far fa-building nav-icon"></i>
+                    <p>Sura San Jose</p>
+                  </a>
+                </li>
+                @endcan
+                @can('TECNICO CALLE 30')
+                <li class="nav-item">
+                  <a href="sedes/?=calle30"
+                    class="{{ Request::path() === 'notas/archivadas' ? 'nav-link active' : 'nav-link' }}">
+                    <i class="far fa-building nav-icon"></i>
+                    <p>Calle 30</p>
+                  </a>
+                </li>
+                @endcan
+                @can('TECNICO SOLEDAD')
+                <li class="nav-item">
+                  <a href="sedes/?=calle30"
+                    class="{{ Request::path() === 'notas/archivadas' ? 'nav-link active' : 'nav-link' }}">
+                    <i class="far fa-building nav-icon"></i>
+                    <p>Soledad</p>
+                  </a>
+                </li>
+                @endcan
+              </ul>
+            </li>
           </nav>
           <!-- /.sidebar-menu -->
         </div>
