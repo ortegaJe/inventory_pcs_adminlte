@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Usuarios')
+
 @section('content')
 <div class="container-fluid">
   <h2 style="font-weight: 700">Listado de Usuarios</h2>

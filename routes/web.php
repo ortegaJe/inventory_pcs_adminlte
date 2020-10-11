@@ -22,7 +22,8 @@ Route::resource('machines', 'MachineController');
 Route::resource('technicians', 'UserController');
 Route::resource('roles', 'RoleController');
 Route::resource('campus', 'CampuController'); // colocar un solo controlador para las sedes
-Route::get('/sede/mac', 'CampusController@all');
+Route::resource('/sedes/macarena', 'CampusController');
+Route::resource('/sedes/calle30', 'CampusController');
 Route::resource('parts', 'PartController');
 Route::resource('ram', 'RamController');
 Route::resource('hdd', 'HddController');

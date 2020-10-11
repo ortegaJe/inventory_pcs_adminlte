@@ -3,7 +3,6 @@
 @section('content')
 
 <section class="content">
-  @yield('table_machines')
 
   <div class="container-fluid">
     <div style="padding-bottom: 4%"><a href="machines/create"><button type="button"
@@ -61,5 +60,4 @@
     </table>
   </div>
 
-</section>
-@endsection
+  @endsection

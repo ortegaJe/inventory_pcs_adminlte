@@ -9,12 +9,12 @@
           <h3 class="card-title" style="font-weight: 700; font-size:20px">Registrar Equipo</h3>
         </div>
         <div class="card-body">
-          <form action="/machines" method="POST">
+          <form action="/sedes/macarena" method="POST">
             @csrf
             <div class="form-row">
               <div class="col-md-6 mb-8">
                 <label for="type">Tipo de equipo:</label>
-                <div class="input-group input-group-sm">
+                <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-desktop"></i></span>
                   </div>

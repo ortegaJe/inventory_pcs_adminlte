@@ -68,7 +68,6 @@ class MachineController extends Controller
     {
         $types = Type::all();
         $rams = DB::select('SELECT id,ram FROM rams', [1]);
-        $options = DB::select('SELECT id,label FROM options', [1]);
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
         $campus = Campu::all();
         $getip = UserSystemInfoHelper::get_ip();
@@ -84,7 +83,6 @@ class MachineController extends Controller
             'types' => $types,
             'campus' => $campus,
             'rams' => $rams,
-            'options' => $options,
             'hdds' => $hdds
         ]);
     }
