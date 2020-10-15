@@ -1,6 +1,6 @@
-<div style="padding-bottom: 6ch"><button type="button" class="btn bg-gradient-primary float-right" data-toggle="modal"
-    data-target="#AddTechnicians" style="color: aliceblue">
-    Agregar Tecnico</button></div>
+<div style="padding-bottom: 6ch"><button type="button" class="btn bg-info float-right btn-sm" data-toggle="modal"
+    data-target="#AddTechnicians">
+    <i class="fa fa-plus"></i> Agregar técnico</button></a></div>
 
 {!! Form::open(['url' => 'technicians', 'enctype' => 'multipart/form-data']) !!}
 <!--composer require laravelcollective/html-->

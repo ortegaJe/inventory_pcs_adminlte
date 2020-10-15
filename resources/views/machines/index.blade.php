@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Lista de equipos')
+
 @section('content')
 
 <section class="content">
@@ -11,7 +13,6 @@
     <table class="table table-hover table-bordered text-center">
       <thead class="thead-dark">
         <tr>
-          <th scope="col">ID</th>
           <th scope="col">TYPE</th>
           <th scope="col">IP</th>
           <th scope="col">MAC</th>
@@ -25,7 +26,6 @@
       <tbody>
         @foreach ($machines as $machine)
         <tr>
-          <th scope="row">{{ $machine->id }}</th>
           <td>
             @foreach ($types as $type)
             @if($type->id == $machine->type_id)

@@ -11,7 +11,6 @@
       <tr>
         <th scope="col">IDENTIFICATION</th>
         <th scope="col">AVATAR</th>
-        <th scope="col">NAME</th>
         <th scope="col">NICKNAME</th>
         <th scope="col">EMAIL</th>
         <!--<th scope="col">PHONE</th>-->
@@ -24,10 +23,11 @@
     <tbody>
       @foreach ($users as $user)
       <tr>
-        <th>{{ $user->cc }}</th>
-        <th><img class="img-circle elevation-2" src=" {{ asset('upload/'.$user->image) }}" alt="{{ $user->image }}"
-            width="50px" height="50px"></th>
-        <td>{{ $user->name }}</td>
+        <td>{{ $user->cc }}</td>
+        <td><img class="img-circle elevation-2 img-size-64" src=" {{ asset('upload/'.$user->image) }}"
+            alt="{{ $user->image }}">
+          <div class="float-right">{{ $user->name }}</div>
+        </td>
         <td>{{ $user->nick_name }}</td>
         <td>{{ $user->email }}</td>
         <!--<td>{{ $user->phone }}</td>-->

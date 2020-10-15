@@ -113,6 +113,7 @@ class CreateMachinesTable extends Migration
             $table->ipAddress('ip_range', 15);
             $table->macAddress('mac_address');
             $table->string('anydesk')->nullable();
+            $table->string('os')->nullable();
             $table->unsignedBigInteger('campus_id')->index();
             $table->String('location');
             $table->string('image')->nullable();

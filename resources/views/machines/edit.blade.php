@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Actaulizar equipo')
+
 @section('content')
 <div class="content-fluid">
   <div class="col-20">
@@ -184,6 +186,20 @@
                   </div>
                   <input type="text" class="form-control" name="anydesk" value="{{ $machine->anydesk }}"
                     placeholder="000 000 000">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="col-md-6 mb-3">
+                <label for="os">OS:</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><img
+                        src="https://www.flaticon.com/svg/static/icons/svg/732/732225.svg" width="20px" alt=""></span>
+                  </div>
+                  <input style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
+                    type="text" class="form-control" name="os" value="{{ $getos }}" disabled>
                 </div>
               </div>
             </div>

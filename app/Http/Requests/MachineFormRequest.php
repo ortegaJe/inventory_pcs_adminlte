@@ -34,7 +34,7 @@ class MachineFormRequest extends FormRequest
             'ip' => 'required|ipv4|max:15',
             'mac' => 'required|max:17',
             //'campus_id' => 'required',
-            'location' => 'required|max:20'
+            'location' => 'required|max:56'
         ];
     }
 }

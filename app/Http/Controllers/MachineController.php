@@ -31,12 +31,11 @@ class MachineController extends Controller
 
         //$users = DB::table('table_machines')->where('id_machine', $name)->first();
         $machines = Machine::all();
-        $types = Type::all();
+        $types = DB::select('SELECT id,name FROM types', [1]);
         $rams = DB::select('SELECT id,ram FROM rams', [1]);
-        $options = DB::select('SELECT id,label FROM options', [1]);
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
-        $campus = Campu::all();
-        //$user_ip_address = $request->ip();[
+        $campus = DB::select('SELECT id,name FROM campus', [1]);
+
         $getbrowser = UserSystemInfoHelper::get_browsers();
         $getdevice = UserSystemInfoHelper::get_device();
 
@@ -52,7 +51,6 @@ class MachineController extends Controller
             'types' => $types,
             'campus' => $campus,
             'rams' => $rams,
-            'options' => $options,
             'hddss' => $hdds
         ]);
 
@@ -66,10 +64,11 @@ class MachineController extends Controller
      */
     public function create(Request $request)
     {
-        $types = Type::all();
+        $types = DB::select('SELECT id,name FROM types', [1]);
         $rams = DB::select('SELECT id,ram FROM rams', [1]);
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
-        $campus = Campu::all();
+        $campus = DB::select('SELECT id,name FROM campus', [1]);
+
         $getip = UserSystemInfoHelper::get_ip();
         $findmacaddress = exec('getmac');
         $getmacaddress = strtok($findmacaddress, ' ');
@@ -98,6 +97,8 @@ class MachineController extends Controller
         $getip = UserSystemInfoHelper::get_ip();
         $findmacaddress = exec('getmac');
         $getmacaddress = strtok($findmacaddress, ' ');
+        $getos = UserSystemInfoHelper::get_os();
+
         $machines = new Machine();
 
         //        [db]           [name] (db campos en la base de datos - name campus en el blade create)
@@ -112,6 +113,7 @@ class MachineController extends Controller
         $machines->ip_range = request('ip');
         $machines->mac_address = request('mac');
         $machines->anydesk = request('anydesk');
+        $machines->os = $getos;
         $machines->campus_id = request('campus');
         $machines->location = request('location');
         $machines->comment = request('comment');
@@ -140,11 +142,21 @@ class MachineController extends Controller
      */
     public function edit($machines)
     {
-        $types = Type::all();
+        $types = DB::select('SELECT id,name FROM types', [1]);
         $rams = DB::select('SELECT id,ram FROM rams', [1]);
-        $campus = Campu::all();
+        $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
+        $campus = DB::select('SELECT id,name FROM campus', [1]);
 
-        return view('machines.edit', ['machine' => Machine::findOrFail($machines), 'types' => $types, 'campus' => $campus, 'rams' => $rams]);
+        $getos = UserSystemInfoHelper::get_os();
+
+        return view('machines.edit', [
+            'machine' => Machine::findOrFail($machines),
+            'getos' => $getos,
+            'types' => $types,
+            'campus' => $campus,
+            'rams' => $rams,
+            'hdds' => $hdds
+        ]);
     }
 
     /**
@@ -156,25 +168,28 @@ class MachineController extends Controller
      */
     public function update(MachineFormRequest $request, $id)
     {
-        $machine = Machine::findOrFail($id);
+        $getos = UserSystemInfoHelper::get_os();
+
+        $machines = Machine::findOrFail($id);
 
         //        [db]                 [name] (db campos en la base de datos - name campus en el blade edit)
-        $machine->type_id = $request->get('type');
-        $machine->manufacturer = $request->get('manufact');
-        $machine->model = $request->get('model');
-        $machine->serial = $request->get('serial');
-        $machine->ram_slot_00_id = $request->get('ramslot00');
-        $machine->ram_slot_01_id = $request->get('ramslot01');
-        $machine->hard_drive = $request->get('hard-drive');
-        $machine->cpu = $request->get('cpu');
-        $machine->ip_range = $request->get('ip');
-        $machine->mac_address = $request->get('mac');
-        $machine->anydesk = $request->get('anydesk');
-        $machine->campus_id = $request->get('campus_id');
-        $machine->location = $request->get('location');
-        $machine->comment = $request->get('comment');
+        $machines->type_id = $request->get('type');
+        $machines->manufacturer = $request->get('manufact');
+        $machines->model = $request->get('model');
+        $machines->serial = $request->get('serial');
+        $machines->ram_slot_00_id = $request->get('ramslot00');
+        $machines->ram_slot_01_id = $request->get('ramslot01');
+        $machines->hard_drive = $request->get('hard-drive');
+        $machines->cpu = $request->get('cpu');
+        $machines->ip_range = $request->get('ip');
+        $machines->mac_address = $request->get('mac');
+        $machines->anydesk = $request->get('anydesk');
+        $machines->os = $getos;
+        $machines->campus_id = $request->get('campus_id');
+        $machines->location = $request->get('location');
+        $machines->comment = $request->get('comment');
 
-        $machine->update();
+        $machines->update();
 
         return redirect('/machines');
     }

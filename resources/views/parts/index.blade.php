@@ -2,34 +2,45 @@
 
 @section('content')
 
+@section('title', 'Partes-Todas')
+
 <div class="container-fluid">
   <div class="row">
     <!--type table-->
-    <div class="col-md-5 mx-auto">
+    <div class="col-md-6">
       <div class="card card-primary card-outline">
-        <div class="card-header">
-          <div class="card-title text-center">
-            <h2 style="font-weight: 700">Tipos de equipos</h2>
+        <div class="card-header border-transparent">
+          <h3 class="card-title">Tipos de equipos</h3>
+
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+              <i class="fas fa-minus"></i>
+            </button>
           </div>
-          <div class="card-body pad">
-            <table class="table table-hover table-bordered">
-              <thead class="thead-light">
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body p-0" style="display: block;">
+          <div class="table-responsive">
+            <table class="table m-0">
+              <thead>
                 <tr>
-                  <th hidden scope="col">ID</th>
                   <th scope="col" class="text-center">
                     <i class="fas fa-desktop"></i>
                   </th>
-                  <th scope="col"></th>
+                  <th scope="col" class="text-center">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody>
-                @foreach ($types as $type)
+                <tr>
+                  @foreach ($types as $type)
                 <tr>
                   <th>
                     <h6>{{ $type->name }}
                   </th>
                   </h6>
-                  <th>
+                  <th class="text-center">
                     <form action="" method="POST">
                       @csrf
                       @method('DELETE')
@@ -39,12 +50,26 @@
                   </th>
                 </tr>
                 @endforeach
+                </tr>
               </tbody>
             </table>
           </div>
+          <!-- /.table-responsive -->
         </div>
+        <!-- /.card-body -->
+        <div class="card-footer clearfix">
+          <ul class="pagination pagination-sm m-0 float-right">
+            <li class="page-item"><a class="page-link" href="#">«</a></li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">»</a></li>
+          </ul>
+        </div>
+        <!-- /.card-footer -->
       </div>
     </div>
+    <!--end type table-->
     <!--os table-->
     <div class="col-md-6 mx-auto">
       <div class="card card-primary card-outline">
@@ -85,43 +110,49 @@
       </div>
 
     </div>
+    <!--end os table-->
     <!--ram table-->
-    <div class="col-md-6 mx-auto">
+    <div class="col-md-6">
       <div class="card card-primary card-outline">
-        <div class="card-header">
-          <div class="card-title">
-            <h2 style="font-weight: 700">Memorias RAM</h2>
+        <div class="card-header border-transparent">
+          <h3 class="card-title"><i class="fas fa-memory"></i> RAM memory</h3>
+
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+              <i class="fas fa-minus"></i>
+            </button>
           </div>
-          <div class="card-body pad">
-            <table class="table table-hover table-bordered">
-              <thead class="thead-light">
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body p-0" style="display: block;">
+          <div class="table-responsive">
+            <table class="table m-0">
+              <thead>
                 <tr>
-                  <th scope="col" class="text-center">
-                    <i class="fas fa-memory"></i>
+                  <th scope="col">
                   </th>
-                  <th scope="col">Size</th>
-                  <th scope="col">Type</th>
-                  <th scope="col">MHz</th>
-                  <th scope="col"></th>
+                  <th>size</th>
+                  <th>standart</th>
+                  <th>type</th>
+                  <th>mhz</th>
+                  <th scope="col" class="text-center">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody>
-                @foreach ($rams as $ram)
+                <tr>
+                  @foreach ($rams as $ram)
                 <tr>
                   <th>
                     <h6>{{ $ram->ram }}
                   </th>
-                  <th>
-                    <h6>
-                  </th>
-                  <th>
-                    <h6>
-                  </th>
-                  <th>
-                    <h6>
-                  </th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
                   </h6>
-                  <th>
+                  <th class="text-center">
                     <form action="" method="POST">
                       @csrf
                       @method('DELETE')
@@ -131,43 +162,62 @@
                   </th>
                 </tr>
                 @endforeach
+                </tr>
               </tbody>
             </table>
           </div>
+          <!-- /.table-responsive -->
         </div>
+        <!-- /.card-body -->
+        <div class="card-footer clearfix">
+          <ul class="pagination pagination-sm m-0 float-right">
+            <li class="page-item"><a class="page-link" href="#">«</a></li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">»</a></li>
+          </ul>
+        </div>
+        <!-- /.card-footer -->
       </div>
     </div>
     <!--end ram table-->
     <!--hhd table-->
-    <div class="col-md-6 mx-auto">
+    <div class="col-md-6">
       <div class="card card-primary card-outline">
-        <div class="card-header">
-          <div class="card-title text-center">
-            <h2 style="font-weight: 700">Discos Duros</h2>
+        <div class="card-header border-transparent">
+          <h3 class="card-title"><i class="fas fa-hdd"></i> Hard Drive</h3>
+
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+              <i class="fas fa-minus"></i>
+            </button>
           </div>
-          @include('roles.modal')
-          <div class="card-body pad">
-            <table class="table table-hover table-bordered">
-              <thead class="thead-light">
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body p-0" style="display: block;">
+          <div class="table-responsive">
+            <table class="table m-0">
+              <thead>
                 <tr>
-                  <th scope="col" class="text-center">
-                    <i class="fas fa-hdd"></i>
+                  <th scope="col">
+                    Size
                   </th>
-                  <th class="text-center">Tipo</th>
-                  <th scope="col"></th>
+                  <th>type</th>
+                  <th scope="col" class="text-center">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody>
-                @foreach ($hdds as $hdd)
+                <tr>
+                  @foreach ($hdds as $hdd)
                 <tr>
                   <th>
-                    <h6>{{ $hdd->size }}
+                    {{ $hdd->size }}
                   </th>
-                  <th>
-                    <h6>{{ $hdd->type }}
-                  </th>
-                  </h6>
-                  <th>
+                  <th>{{$hdd->type}}</th>
+                  <th class="text-center">
                     <form action="" method="POST">
                       @csrf
                       @method('DELETE')
@@ -177,13 +227,26 @@
                   </th>
                 </tr>
                 @endforeach
+                </tr>
               </tbody>
             </table>
           </div>
+          <!-- /.table-responsive -->
         </div>
+        <!-- /.card-body -->
+        <div class="card-footer clearfix">
+          <ul class="pagination pagination-sm m-0 float-right">
+            <li class="page-item"><a class="page-link" href="#">«</a></li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">»</a></li>
+          </ul>
+        </div>
+        <!-- /.card-footer -->
       </div>
-
     </div>
+    <!--end hdd table-->
   </div>
 </div>
 
