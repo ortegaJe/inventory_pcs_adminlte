@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 09-10-2020 a las 21:53:01
+-- Tiempo de generación: 16-10-2020 a las 21:27:19
 -- Versión del servidor: 5.7.24
 -- Versión de PHP: 7.2.19
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 09-10-2020 a las 21:52:38
+-- Tiempo de generación: 16-10-2020 a las 21:26:54
 -- Versión del servidor: 5.7.24
 -- Versión de PHP: 7.2.19
 
@@ -121,6 +121,7 @@ CREATE TABLE `machines` (
   `ip_range` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
   `mac_address` varchar(17) COLLATE utf8mb4_unicode_ci NOT NULL,
   `anydesk` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `os` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `campus_id` bigint(20) UNSIGNED NOT NULL,
   `location` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -133,76 +134,76 @@ CREATE TABLE `machines` (
 -- Volcado de datos para la tabla `machines`
 --
 
-INSERT INTO `machines` (`id`, `serial`, `lote`, `type_id`, `manufacturer`, `model`, `ram_slot_00_id`, `ram_slot_01_id`, `hard_drive`, `cpu`, `ip_range`, `mac_address`, `anydesk`, `campus_id`, `location`, `image`, `comment`, `created_at`, `updated_at`) VALUES
-(1, '', 9999, 4, '', '', NULL, NULL, '', '', ' 192.168.71.26 ', 'B8:27:EB:71:97:71', NULL, 1, '', NULL, NULL, NULL, NULL),
-(2, '', 9999, 4, '', '', NULL, NULL, '', '', ' 192.168.71.27 ', 'B8:27:EB:39:0C:5C', NULL, 1, '', NULL, NULL, NULL, NULL),
-(3, '', 9999, 4, '', '', NULL, NULL, '', '', ' 192.168.71.28 ', 'B8:27:EB:5F:59:D3', NULL, 1, '', NULL, NULL, NULL, NULL),
-(4, '', 9999, 4, '', '', NULL, NULL, '', '', ' 192.168.71.29 ', 'B8:27:EB:3E:16:A7', NULL, 1, '', NULL, NULL, NULL, NULL),
-(5, '', 9999, 4, '', '', NULL, NULL, '', '', ' 192.168.71.80 ', 'B8:27:EB:7B:FA:B3', NULL, 1, '', NULL, NULL, NULL, NULL),
-(6, '', 9999, 4, '', '', NULL, NULL, '', '', ' 192.168.71.81 ', 'B8:27:EB:7F:5C:23', NULL, 1, '', NULL, NULL, NULL, NULL),
-(7, '', 9999, 4, '', '', NULL, NULL, '', '', ' 192.168.71.64 ', '  ', NULL, 1, '', NULL, NULL, NULL, NULL),
-(8, '', 9999, 2, '', '', NULL, NULL, '120 GB', 'Mobile DualCore Intel Core i5-3230M, 2600 MHz', ' 192.168.71.24', '00-0E-C4-D0-0B-6C', '939224578', 1, 'ENTRADA', NULL, 'Microsoft Windows 10 Enterprise 2016 LTSB\r\nV1AMAC-ATRIL01', NULL, NULL),
-(9, '', 9999, 2, '', '', NULL, NULL, '', '', ' 192.168.71.25 ', '6C:4B:90:50:01:76', NULL, 1, '', NULL, NULL, NULL, NULL),
-(10, '', 9999, 2, '', '', NULL, NULL, '', '', ' 192.168.71.213', '  ', NULL, 1, '', NULL, NULL, NULL, NULL),
-(35, 'S1H03LKD', 0, 1, 'LENOVO              ', 'THINKCENTRE ALL IN ONE', NULL, NULL, '500GB', 'INTEL(R) CORE(TM) I5-4460T CPU @ 1.90GHZ, 1901 MHZ, 4 PROCESADORES PRINCIPALES, 4 PROCESADORES LÓGICOS', '192.168.71.240', '98-EE-CB-25-1F-C2', '465 562 426', 1, 'OFICINA DE SISTEMAS ', NULL, 'EQUIPO DE TECNICO DE SISTEMAS', NULL, NULL),
-(48, 'MJ06PZFW', 0, 1, 'LENOVO', 'M710Q', NULL, NULL, '1TB', 'Intel(R) Core(TM) i5-7400T CPU @ 2.40GHz, 2400 Mhz', '192.168.71.123', '6C-4B-90-EA-67', '791 415 611', 1, 'LINEA DE FRENTE MODULO 02', NULL, '', NULL, NULL),
-(49, 'MJ06PZKJ', 0, 1, 'LENOVO', 'M710Q', NULL, NULL, '1TB', 'Intel(R) Core(TM) i5-7400T CPU @ 2.40GHz, 2400 Mhz', '192.168.71.162', '6C-4B-90-EA-67', '929 589 135', 1, 'LINEA DE FRENTE MODULO 08', NULL, '', NULL, NULL),
-(50, 'MJ06PZHR', 0, 1, 'LENOVO', 'M710Q', NULL, NULL, '1TB', 'Intel(R) Core(TM) i5-7400T CPU @ 2.40GHz, 2400 Mhz', '192.168.71.67', '6C-4B-90-52-50', '694 961 071', 1, 'CONSULTORIO 24', NULL, '', NULL, NULL),
-(51, 'MJ06PZFR', 0, 1, 'LENOVO', 'M710Q', NULL, NULL, '1TB', 'Intel(R) Core(TM) i5-7400T CPU @ 2.40GHz, 2400 Mhz', '192.168.71.180', '6C-4B-90-52-4F', '421662546', 1, 'CONSULTORIO 25', NULL, '', NULL, NULL),
-(116, ' PC0UF1HX ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' consultorio1 ', NULL, NULL, NULL, NULL),
-(117, 'PC0UF3CU ', 1000, 1, 'LENOVO', 'V520S-08IKL', NULL, NULL, '1TB', 'QUADCORE INTEL CORE I5-7400, 2979 MHZ', '192.168.71.167', '6C-4B-90-61-EB-BB', '453 476 656', 1, ' consultorio2 ', NULL, '', NULL, NULL),
-(118, ' PC0UF3CN ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' consultorio3 ', NULL, NULL, NULL, NULL),
-(119, ' PC0UF3P6 ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' consultorio4 ', NULL, NULL, NULL, NULL),
-(120, ' PC0UF3P4 ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' consultorio5 ', NULL, NULL, NULL, NULL),
-(121, ' MJ06PZGB ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' consultorio7 ', NULL, NULL, NULL, NULL),
-(122, ' MJ06PZJJ ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' consultorio8 ', NULL, NULL, NULL, NULL),
-(123, ' MJ06PZG8 ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' consultorio9 ', NULL, NULL, NULL, NULL),
-(124, ' MJ06PZHH ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' consultorio10 ', NULL, NULL, NULL, NULL),
-(125, ' MJ06PZGT ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' consultorio11 ', NULL, NULL, NULL, NULL),
-(126, ' MJ06PZK1 ', 1000, 1, 'LENOVO', 'THINKCENTRE M710Q', NULL, NULL, '1TB', 'QuadCore Intel Core i5-7400T, 2400 MHz', '192.168.71.235', '6C-4B-90-52-4F-CE', '444 258 948', 1, ' consultorio12 ', NULL, 'Microsoft Windows 10 Pro', NULL, NULL),
-(127, ' MJ06PZFH ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' consultorio13 ', NULL, NULL, NULL, NULL),
-(128, ' MJ06PZFU ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' consultorio14 ', NULL, NULL, NULL, NULL),
-(129, ' MJ06PZGG ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' consultorio15 ', NULL, NULL, NULL, NULL),
-(130, ' MJ06PZJX ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' consultorio16 ', NULL, NULL, NULL, NULL),
-(131, ' MJ06PZEV ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' consultorio17 ', NULL, NULL, NULL, NULL),
-(132, ' MJ06PZKE ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' consultorio19 ', NULL, NULL, NULL, NULL),
-(133, ' MJ06PZEB ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' consultorio20 ', NULL, NULL, NULL, NULL),
-(134, ' MJ06PZKZ ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' consultorio21 ', NULL, NULL, NULL, NULL),
-(135, ' MJ06PZJR ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' consultorio23 ', NULL, NULL, NULL, NULL),
-(136, ' MJ06PZF8 ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' consultorio27 ', NULL, NULL, NULL, NULL),
-(137, ' MJ06PZHB ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' consultorio28 ', NULL, NULL, NULL, NULL),
-(138, ' MJ06PZJG ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' consultorio29 ', NULL, NULL, NULL, NULL),
-(139, ' MJ06PZH6 ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' consultorio30 ', NULL, NULL, NULL, NULL),
-(140, ' MJ06PZGS ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' consultorio31 ', NULL, NULL, NULL, NULL),
-(141, ' MJ06PZG2 ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' consultorio32ELECTRO ', NULL, NULL, NULL, NULL),
-(142, ' MJ06PZKP ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' consultorio32CARDIOLOGIA ', NULL, NULL, NULL, NULL),
-(143, ' YL002MN3 ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' consultorio33 ', NULL, NULL, NULL, NULL),
-(144, ' MJ06PZ6K ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' Modulo1 ', NULL, NULL, NULL, NULL),
-(145, ' MJ06PZH8 ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' Modulo4 ', NULL, NULL, NULL, NULL),
-(146, ' MJ06PZJ9 ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' Modulo5 ', NULL, NULL, NULL, NULL),
-(147, ' MJ06PZFN ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' Modulo6 ', NULL, NULL, NULL, NULL),
-(148, ' MJ06PZHJ ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' Modulo7 ', NULL, NULL, NULL, NULL),
-(149, ' MJ06PZK7 ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' Modulo9 ', NULL, NULL, NULL, NULL),
-(150, ' MJ06PZH2 ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' Modulo10 ', NULL, NULL, NULL, NULL),
-(151, 'MJ06PZL4 ', 1000, 1, 'LENOVO', 'THINKCENTRE M710Q', NULL, NULL, '1TB', 'INTEL CORE I5-7400T, 2400 MHZ QUADCORE ', '192.168.71.100', '6C-4B-90-52-50-84', '696 059 473', 1, 'LINEA DE FRENTE MODULO 11 ', NULL, 'Microsoft Windows 10 Pro\r\nV1AMAC-LF11\r\n', NULL, NULL),
-(154, ' MJ06PZF4 ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' Modulo14 ', NULL, NULL, NULL, NULL),
-(155, ' MJ06PZHC ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' Modulo15 ', NULL, NULL, NULL, NULL),
-(156, ' MJ06PZGA ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' Modulo16 ', NULL, NULL, NULL, NULL),
-(157, ' MJ06PZHF ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' Modulo17 ', NULL, NULL, NULL, NULL),
-(158, ' PC0UF3Q7 ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' Modulo23 ', NULL, NULL, NULL, NULL),
-(159, ' MJ06APXK ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' Modulo18 ', NULL, NULL, NULL, NULL),
-(160, ' 3CR52904FG ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' Modulo2 ', NULL, NULL, NULL, NULL),
-(161, ' MJ07PZ6W ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' odontologia1 ', NULL, NULL, NULL, NULL),
-(162, ' MJ06PZGW ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' odontologia2 ', NULL, NULL, NULL, NULL),
-(163, ' YL002L9C ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' odontologia3 ', NULL, NULL, NULL, NULL),
-(164, ' PC0UAXPA ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' ECOGRAFIA ', NULL, NULL, NULL, NULL),
-(165, ' PC0UF3Z5 ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' procedimiento ', NULL, NULL, NULL, NULL),
-(166, ' PC0UF3N4 ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' FISIO TERAPIA ', NULL, NULL, NULL, NULL),
-(167, ' MJ06PZHK ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' AUDITORIO ', NULL, NULL, NULL, NULL),
-(168, ' MJ06APWM ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, 1, ' ATRIL ', NULL, NULL, NULL, NULL),
-(172, 'MJ06APXK', 0, 1, 'LENOVO', 'THINKCENTRE M710Q', NULL, NULL, '500GB', 'DUALCORE INTEL CORE I3-6100T, 3200 MHZ', '192.168.71.83', '6C-4B-90-34-35-2F', '405 296 429', 1, 'LINEA DE FRENTE MODULO 13', NULL, 'Microsoft Windows 10 Pro\r\nV1AMAC-LF13', NULL, NULL),
-(195, 'MJ06PZG9', 0, 1, 'LENOVO', 'THINKCENTRE M710Q', NULL, NULL, '1TB', 'INTEL CORE I5-7400T, 2400 MHZ QUADCORE', '192.168.71.127', '6C-4B-90-52-4F-E3', '186 636 320', 1, 'LINEA DE FRENTE MODULO 12', NULL, '', NULL, NULL),
-(196, 'PF1F460D', NULL, 1, 'LENOVO', '20KQ', 2, 1, '37', 'QUADCORE INTEL CORE I5-7400T, 2500 MHZ (25 X 100)', '192.168.71.102', '6C:4B:90:34:35:10', '327 921 07', 2, 'OFICINA DE SISTEMAS', NULL, NULL, '2020-10-10 01:12:57', '2020-10-10 01:12:57');
+INSERT INTO `machines` (`id`, `serial`, `lote`, `type_id`, `manufacturer`, `model`, `ram_slot_00_id`, `ram_slot_01_id`, `hard_drive`, `cpu`, `ip_range`, `mac_address`, `anydesk`, `os`, `campus_id`, `location`, `image`, `comment`, `created_at`, `updated_at`) VALUES
+(1, '', 9999, 4, '', '', NULL, NULL, '', '', ' 192.168.71.26 ', 'B8:27:EB:71:97:71', NULL, NULL, 1, '', NULL, NULL, NULL, NULL),
+(2, '', 9999, 4, '', '', NULL, NULL, '', '', ' 192.168.71.27 ', 'B8:27:EB:39:0C:5C', NULL, NULL, 1, '', NULL, NULL, NULL, NULL),
+(3, '', 9999, 4, '', '', NULL, NULL, '', '', ' 192.168.71.28 ', 'B8:27:EB:5F:59:D3', NULL, NULL, 1, '', NULL, NULL, NULL, NULL),
+(4, '', 9999, 4, '', '', NULL, NULL, '', '', ' 192.168.71.29 ', 'B8:27:EB:3E:16:A7', NULL, NULL, 1, '', NULL, NULL, NULL, NULL),
+(5, '', 9999, 4, '', '', NULL, NULL, '', '', ' 192.168.71.80 ', 'B8:27:EB:7B:FA:B3', NULL, NULL, 1, '', NULL, NULL, NULL, NULL),
+(6, '', 9999, 4, '', '', NULL, NULL, '', '', ' 192.168.71.81 ', 'B8:27:EB:7F:5C:23', NULL, NULL, 1, '', NULL, NULL, NULL, NULL),
+(7, '', 9999, 4, '', '', NULL, NULL, '', '', ' 192.168.71.64 ', '  ', NULL, NULL, 1, '', NULL, NULL, NULL, NULL),
+(8, '', 9999, 2, '', '', NULL, NULL, '120 GB', 'Mobile DualCore Intel Core i5-3230M, 2600 MHz', ' 192.168.71.24', '00-0E-C4-D0-0B-6C', '939224578', NULL, 1, 'ENTRADA', NULL, 'Microsoft Windows 10 Enterprise 2016 LTSB\r\nV1AMAC-ATRIL01', NULL, NULL),
+(9, '', 9999, 2, '', '', NULL, NULL, '', '', ' 192.168.71.25 ', '6C:4B:90:50:01:76', NULL, NULL, 1, '', NULL, NULL, NULL, NULL),
+(10, '', 9999, 2, '', '', NULL, NULL, '', '', ' 192.168.71.213', '  ', NULL, NULL, 1, '', NULL, NULL, NULL, NULL),
+(35, 'S1H03LKD', 0, 1, 'LENOVO              ', 'THINKCENTRE ALL IN ONE', NULL, NULL, '500GB', 'INTEL(R) CORE(TM) I5-4460T CPU @ 1.90GHZ, 1901 MHZ, 4 PROCESADORES PRINCIPALES, 4 PROCESADORES LÓGICOS', '192.168.71.240', '98-EE-CB-25-1F-C2', '465 562 426', NULL, 1, 'OFICINA DE SISTEMAS ', NULL, 'EQUIPO DE TECNICO DE SISTEMAS', NULL, NULL),
+(48, 'MJ06PZFW', 0, 1, 'LENOVO', 'M710Q', NULL, NULL, '1TB', 'Intel(R) Core(TM) i5-7400T CPU @ 2.40GHz, 2400 Mhz', '192.168.71.123', '6C-4B-90-EA-67', '791 415 611', NULL, 1, 'LINEA DE FRENTE MODULO 02', NULL, '', NULL, NULL),
+(49, 'MJ06PZKJ', 0, 1, 'LENOVO', 'M710Q', NULL, NULL, '1TB', 'Intel(R) Core(TM) i5-7400T CPU @ 2.40GHz, 2400 Mhz', '192.168.71.162', '6C-4B-90-EA-67', '929 589 135', NULL, 1, 'LINEA DE FRENTE MODULO 08', NULL, '', NULL, NULL),
+(50, 'MJ06PZHR', 0, 1, 'LENOVO', 'M710Q', NULL, NULL, '1TB', 'Intel(R) Core(TM) i5-7400T CPU @ 2.40GHz, 2400 Mhz', '192.168.71.67', '6C-4B-90-52-50', '694 961 071', NULL, 1, 'CONSULTORIO 24', NULL, '', NULL, NULL),
+(51, 'MJ06PZFR', 0, 1, 'LENOVO', 'M710Q', NULL, NULL, '1TB', 'Intel(R) Core(TM) i5-7400T CPU @ 2.40GHz, 2400 Mhz', '192.168.71.180', '6C-4B-90-52-4F', '421662546', NULL, 1, 'CONSULTORIO 25', NULL, '', NULL, NULL),
+(116, ' PC0UF1HX ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' consultorio1 ', NULL, NULL, NULL, NULL),
+(117, 'PC0UF3CU ', 1000, 1, 'LENOVO', 'V520S-08IKL', NULL, NULL, '1TB', 'QUADCORE INTEL CORE I5-7400, 2979 MHZ', '192.168.71.167', '6C-4B-90-61-EB-BB', '453 476 656', NULL, 1, ' consultorio2 ', NULL, '', NULL, NULL),
+(118, ' PC0UF3CN ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' consultorio3 ', NULL, NULL, NULL, NULL),
+(119, ' PC0UF3P6 ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' consultorio4 ', NULL, NULL, NULL, NULL),
+(120, ' PC0UF3P4 ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' consultorio5 ', NULL, NULL, NULL, NULL),
+(121, ' MJ06PZGB ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' consultorio7 ', NULL, NULL, NULL, NULL),
+(122, ' MJ06PZJJ ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' consultorio8 ', NULL, NULL, NULL, NULL),
+(123, ' MJ06PZG8 ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' consultorio9 ', NULL, NULL, NULL, NULL),
+(124, ' MJ06PZHH ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' consultorio10 ', NULL, NULL, NULL, NULL),
+(125, ' MJ06PZGT ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' consultorio11 ', NULL, NULL, NULL, NULL),
+(126, ' MJ06PZK1 ', 1000, 1, 'LENOVO', 'THINKCENTRE M710Q', NULL, NULL, '1TB', 'QuadCore Intel Core i5-7400T, 2400 MHz', '192.168.71.235', '6C-4B-90-52-4F-CE', '444 258 948', NULL, 1, ' consultorio12 ', NULL, 'Microsoft Windows 10 Pro', NULL, NULL),
+(127, ' MJ06PZFH ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' consultorio13 ', NULL, NULL, NULL, NULL),
+(128, ' MJ06PZFU ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' consultorio14 ', NULL, NULL, NULL, NULL),
+(129, ' MJ06PZGG ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' consultorio15 ', NULL, NULL, NULL, NULL),
+(130, ' MJ06PZJX ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' consultorio16 ', NULL, NULL, NULL, NULL),
+(131, ' MJ06PZEV ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' consultorio17 ', NULL, NULL, NULL, NULL),
+(132, ' MJ06PZKE ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' consultorio19 ', NULL, NULL, NULL, NULL),
+(133, ' MJ06PZEB ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' consultorio20 ', NULL, NULL, NULL, NULL),
+(134, ' MJ06PZKZ ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' consultorio21 ', NULL, NULL, NULL, NULL),
+(135, ' MJ06PZJR ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' consultorio23 ', NULL, NULL, NULL, NULL),
+(136, ' MJ06PZF8 ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' consultorio27 ', NULL, NULL, NULL, NULL),
+(137, ' MJ06PZHB ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' consultorio28 ', NULL, NULL, NULL, NULL),
+(138, ' MJ06PZJG ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' consultorio29 ', NULL, NULL, NULL, NULL),
+(139, ' MJ06PZH6 ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' consultorio30 ', NULL, NULL, NULL, NULL),
+(140, ' MJ06PZGS ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' consultorio31 ', NULL, NULL, NULL, NULL),
+(141, ' MJ06PZG2 ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' consultorio32ELECTRO ', NULL, NULL, NULL, NULL),
+(142, ' MJ06PZKP ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' consultorio32CARDIOLOGIA ', NULL, NULL, NULL, NULL),
+(143, ' YL002MN3 ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' consultorio33 ', NULL, NULL, NULL, NULL),
+(144, ' MJ06PZ6K ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' Modulo1 ', NULL, NULL, NULL, NULL),
+(145, ' MJ06PZH8 ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' Modulo4 ', NULL, NULL, NULL, NULL),
+(146, ' MJ06PZJ9 ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' Modulo5 ', NULL, NULL, NULL, NULL),
+(147, ' MJ06PZFN ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' Modulo6 ', NULL, NULL, NULL, NULL),
+(148, ' MJ06PZHJ ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' Modulo7 ', NULL, NULL, NULL, NULL),
+(149, ' MJ06PZK7 ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' Modulo9 ', NULL, NULL, NULL, NULL),
+(150, ' MJ06PZH2 ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' Modulo10 ', NULL, NULL, NULL, NULL),
+(151, 'MJ06PZL4 ', 1000, 1, 'LENOVO', 'THINKCENTRE M710Q', NULL, NULL, '1TB', 'INTEL CORE I5-7400T, 2400 MHZ QUADCORE ', '192.168.71.100', '6C-4B-90-52-50-84', '696 059 473', NULL, 1, 'LINEA DE FRENTE MODULO 11 ', NULL, 'Microsoft Windows 10 Pro\r\nV1AMAC-LF11\r\n', NULL, NULL),
+(154, ' MJ06PZF4 ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' Modulo14 ', NULL, NULL, NULL, NULL),
+(155, ' MJ06PZHC ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' Modulo15 ', NULL, NULL, NULL, NULL),
+(156, ' MJ06PZGA ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' Modulo16 ', NULL, NULL, NULL, NULL),
+(157, ' MJ06PZHF ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' Modulo17 ', NULL, NULL, NULL, NULL),
+(158, ' PC0UF3Q7 ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' Modulo23 ', NULL, NULL, NULL, NULL),
+(159, ' MJ06APXK ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' Modulo18 ', NULL, NULL, NULL, NULL),
+(160, ' 3CR52904FG ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' Modulo2 ', NULL, NULL, NULL, NULL),
+(161, ' MJ07PZ6W ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' odontologia1 ', NULL, NULL, NULL, NULL),
+(162, ' MJ06PZGW ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' odontologia2 ', NULL, NULL, NULL, NULL),
+(163, ' YL002L9C ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' odontologia3 ', NULL, NULL, NULL, NULL),
+(164, ' PC0UAXPA ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' ECOGRAFIA ', NULL, NULL, NULL, NULL),
+(165, ' PC0UF3Z5 ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' procedimiento ', NULL, NULL, NULL, NULL),
+(166, ' PC0UF3N4 ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' FISIO TERAPIA ', NULL, NULL, NULL, NULL),
+(167, ' MJ06PZHK ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' AUDITORIO ', NULL, NULL, NULL, NULL),
+(168, ' MJ06APWM ', 1000, 1, '', '', NULL, NULL, '', '', '', '', NULL, NULL, 1, ' ATRIL ', NULL, NULL, NULL, NULL),
+(172, 'MJ06APXK', 0, 1, 'LENOVO', 'THINKCENTRE M710Q', 1, 1, '500GB', 'DUALCORE INTEL CORE I3-6100T, 3200 MHZ', '192.168.71.83', '6C-4B-90-34-35-2F', '405 296 429', 'Windows 10', 1, 'LINEA DE FRENTE MODULO 13', NULL, NULL, NULL, '2020-10-16 02:06:10'),
+(195, 'MJ06PZG9', 0, 1, 'LENOVO', 'THINKCENTRE M710Q', NULL, NULL, '1TB', 'INTEL CORE I5-7400T, 2400 MHZ QUADCORE', '192.168.71.127', '6C-4B-90-52-4F-E3', '186 636 320', NULL, 1, 'LINEA DE FRENTE MODULO 12', NULL, '', NULL, NULL),
+(196, 'PF1F460D', NULL, 1, 'LENOVO', '20KQ', 2, 1, '37', 'QUADCORE INTEL CORE I5-7400T, 2500 MHZ (25 X 100)', '192.168.71.102', '6C:4B:90:34:35:10', '327 921 07', 'Windows 10', 2, 'OFICINA DE SISTEMAS', NULL, NULL, '2020-10-10 01:12:57', '2020-10-16 02:06:33');
 
 -- --------------------------------------------------------
 
@@ -352,7 +353,8 @@ CREATE TABLE `role_user` (
 INSERT INTO `role_user` (`id`, `user_id`, `role_id`, `created_at`, `updated_at`) VALUES
 (1, 1, 1, '2020-10-09 17:44:04', '2020-10-09 17:44:04'),
 (3, 3, 1, '2020-10-03 16:29:29', '2020-10-06 01:48:35'),
-(5, 1, 2, '2020-10-09 17:44:42', '2020-10-09 17:44:42');
+(5, 1, 2, '2020-10-09 17:44:42', '2020-10-09 17:44:42'),
+(6, 2, 3, '2020-10-17 02:21:32', '2020-10-17 02:21:32');
 
 -- --------------------------------------------------------
 
@@ -525,7 +527,7 @@ ALTER TABLE `hdds`
 -- AUTO_INCREMENT de la tabla `machines`
 --
 ALTER TABLE `machines`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=197;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=199;
 
 --
 -- AUTO_INCREMENT de la tabla `migrations`
@@ -555,7 +557,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `role_user`
 --
 ALTER TABLE `role_user`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `types`
