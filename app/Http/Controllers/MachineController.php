@@ -11,12 +11,14 @@ use App\Type;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\UserSystemInfoHelper;
+use Yajra\DataTables\Facades\DataTables;
 
 class MachineController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('verified');
     }
 
 
@@ -28,33 +30,17 @@ class MachineController extends Controller
      */
     public function index(Request $request)
     {
+        if ($request->ajax()) {
+            $machines = Machine::all();
+            $types = DB::select('SELECT id,name FROM types', [1]);
 
-        //$users = DB::table('table_machines')->where('id_machine', $name)->first();
-        $machines = Machine::all();
-        $types = DB::select('SELECT id,name FROM types', [1]);
-        $rams = DB::select('SELECT id,ram FROM rams', [1]);
-        $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
-        $campus = DB::select('SELECT id,name FROM campus', [1]);
+            return DataTables::of($machines)
+                ->addColumn('action', 'machines.actions')
+                ->rawColumns(['action'])
+                ->make(true);
+        }
 
-        $getbrowser = UserSystemInfoHelper::get_browsers();
-        $getdevice = UserSystemInfoHelper::get_device();
-
-        //$types = DB::table('types')
-        //->join('machines', 'types.id', '=', 'machines.type_id')
-        //->select('types.*', 'types.name')
-        //->get();
-
-        //dd($types);
-
-        return view('machines.index', [
-            'machines' => $machines,
-            'types' => $types,
-            'campus' => $campus,
-            'rams' => $rams,
-            'hddss' => $hdds
-        ]);
-
-        //print_r(['machines' => $machines, 'types' => $types]);
+        return view('machines.index');
     }
 
     /**
