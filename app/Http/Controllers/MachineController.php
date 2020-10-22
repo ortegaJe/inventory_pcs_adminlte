@@ -31,10 +31,13 @@ class MachineController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $machines = Machine::all();
-            $types = DB::select('SELECT id,name FROM types', [1]);
+            $machines = DB::table('machines')
+                ->join('types', 'types.id', '=', 'machines.type_id')
+                ->join('campus', 'campus.id', '=', 'machines.campus_id')
+                ->select('machines.id', 'machines.ip_range', 'machines.mac_address', 'machines.anydesk', 'types.id', 'types.name', 'campus.id', 'campus.campu_name');
 
             return DataTables::of($machines)
+
                 ->addColumn('action', 'machines.actions')
                 ->rawColumns(['action'])
                 ->make(true);

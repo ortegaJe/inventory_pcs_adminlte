@@ -70,17 +70,17 @@
       var table = $('#data-table').DataTable({
         processing: true,
         serverSide: true,
-        responsive: true,
+        //responsive: true,
         autoWidth: true,
         lengthMenu: [[5, 10, 25, 50, 100], [5, 10, 25, 50, 100]],
         ajax: "{{ route('machines.index')}}",
         columns: [
-          { data: 'id'},
-          { data: 'type_id'},
-          { data: 'ip_range'},
-          { data: 'mac_address'},
-          { data: 'anydesk'},
-          { data: 'campus_id'},
+          { data: 'id', name: 'machines.id', visible: false },
+          { data: 'name', name: 'types.name' },
+          { data: 'ip_range', name: 'machines.ip_range' },
+          { data: 'mac_address', name: 'machines.mac_address'},
+          { data: 'anydesk', name: 'machines.anydesk'},
+          { data: 'campu_name', name: 'campus.campu_name'},
           { data: 'action', orderable: false, searchable: false},
         ]
       });
