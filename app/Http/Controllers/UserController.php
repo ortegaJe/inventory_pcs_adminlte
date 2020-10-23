@@ -135,7 +135,7 @@ class UserController extends Controller
         
         $campus = DB::table('campus')
          ->join('users', 'campus.id', '=', 'users.campus_id')
-         ->select('campus.*', 'campus.name')
+         ->select('campus.id', 'campus.campu_name')
          ->get();
 
         return view('technicians.show', ['user' => $user, 'roles' => $roles, 'campus' => $campus]);

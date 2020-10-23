@@ -302,28 +302,21 @@
                           class="{{ Request::path() === 'sedes/macarena' ? 'nav-link active' : 'nav-link' }}">
                           <i class="fas fa-building nav-icon"></i>
                           <p>Macarena</p>
+                          <?php $machines_count = DB::table('machines')->where('campus_id', '=', [1])->count(); ?>
+                          <span class="right badge badge-primary">{{ $machines_count ?? '0' }}</span> </p>
                         </a>
                       </li>
                       @endcan
                       <li class="nav-item">
-                        <a href="{{ url('ram')}}"
-                          class="{{ Request::path() === 'ram' ? 'nav-link active' : 'nav-link' }}">
-                          <i class="fas fa-memory nav-icon"></i>
-                          <p>Memorias RAM</p>
+                        <a href="#" class="nav-link">
+                          <i class="fas fa-building nav-icon"></i>
+                          <p>Sura San Jose</p>
                         </a>
                       </li>
                       <li class="nav-item">
-                        <a href="{{ url('hdd')}}"
-                          class="{{ Request::path() === 'hdd' ? 'nav-link active' : 'nav-link' }}">
-                          <i class="fas fa-hdd nav-icon"></i>
-                          <p>Discos Duros</p>
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a href="{{ url('type')}}"
-                          class="{{ Request::path() === 'type' ? 'nav-link active' : 'nav-link' }}">
-                          <i class="fas fa-project-diagram nav-icon"></i>
-                          <p>Tipo de equipos</p>
+                        <a href="#" class="nav-link">
+                          <i class="fas fa-building nav-icon"></i>
+                          <p>Carrera 16</p>
                         </a>
                       </li>
                     </ul>

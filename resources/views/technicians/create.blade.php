@@ -163,7 +163,7 @@
                 <select class="custom-select" name="campu-name" required>
                   <option selected disabled>Seleccione la sede...</option>
                   @foreach($campus as $campu)
-                  <option value="{{ $campu->id }}">{{ $campu->name }}</option>
+                  <option value="{{ $campu->id }}">{{ $campu->campu_name }}</option>
                   @endforeach
                 </select>
               </div>

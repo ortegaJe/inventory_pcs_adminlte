@@ -22,7 +22,7 @@
                     <tr>
                         <th hidden scope="row">{{ $campu->id }}</th>
                         <th>
-                            <h4>{{ $campu->name }}
+                            <h4>{{ $campu->campu_name }}
                         </th>
                         </h4>
                         <th>

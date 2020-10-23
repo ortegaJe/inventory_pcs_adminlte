@@ -191,7 +191,7 @@
             </div>
 
             <div class="form-row">
-              <div class="col-md-6 mb-3">
+              <div class="col-md-3 mb-3">
                 <label for="os">OS:</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
@@ -227,7 +227,7 @@
                     <option value="" selected disabled>Seleccione sede...</option>
                     @foreach ($campus as $campu)
                     <option value="{{ $campu->id }}" {{ $campu->id == $machine->campus_id ? 'selected' : '' }}>
-                      {{ $campu->name }}</option>
+                      {{ $campu->campu_name }}</option>
                     @endforeach
                   </select>
                 </div>

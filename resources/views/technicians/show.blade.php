@@ -61,7 +61,7 @@
                                 <h5 class="description-header">
                                     @foreach ($campus as $campu)
                                     @if($campu->id == $user->campus_id)
-                                    {{ $campu->name }}
+                                    {{ $campu->campu_name }}
                                     @endif
                                     @endforeach
                                 </h5>

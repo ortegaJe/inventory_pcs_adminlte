@@ -32,15 +32,15 @@ class MachineController extends Controller
     {
         if ($request->ajax()) {
             $machines = DB::table('machines')
-                ->join('types', 'types.id', '=', 'machines.type_id')
-                ->join('campus', 'campus.id', '=', 'machines.campus_id')
-                ->select('machines.id', 'machines.ip_range', 'machines.mac_address', 'machines.anydesk', 'types.id', 'types.name', 'campus.id', 'campus.campu_name');
+            ->join('types', 'types.id', '=', 'machines.type_id')
+            ->join('campus', 'campus.id', '=', 'machines.campus_id')
+            ->select('machines.id','machines.ip_range', 'machines.mac_address',
+                     'machines.anydesk','types.name', 'campus.campu_name');
 
             return DataTables::of($machines)
-
-                ->addColumn('action', 'machines.actions')
-                ->rawColumns(['action'])
-                ->make(true);
+            ->addColumn('action', 'machines.actions')
+            ->rawColumns(['action'])
+            ->make(true);
         }
 
         return view('machines.index');
@@ -56,7 +56,7 @@ class MachineController extends Controller
         $types = DB::select('SELECT id,name FROM types', [1]);
         $rams = DB::select('SELECT id,ram FROM rams', [1]);
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
-        $campus = DB::select('SELECT id,name FROM campus', [1]);
+        $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
 
         $getip = UserSystemInfoHelper::get_ip();
         $findmacaddress = exec('getmac');
@@ -134,7 +134,7 @@ class MachineController extends Controller
         $types = DB::select('SELECT id,name FROM types', [1]);
         $rams = DB::select('SELECT id,ram FROM rams', [1]);
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
-        $campus = DB::select('SELECT id,name FROM campus', [1]);
+        $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
 
         $getos = UserSystemInfoHelper::get_os();
 
@@ -191,9 +191,9 @@ class MachineController extends Controller
      */
     public function destroy($id)
     {
-        $machine = Machine::findOrFail($id);
+        $machines = Machine::findOrFail($id);
 
-        $machine->delete();
+        $machines->delete();
 
         return redirect('/machines');
     }

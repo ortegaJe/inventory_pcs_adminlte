@@ -3,7 +3,7 @@
 @section('content')
 <div class="content-fluid">
   <div class="col-20">
-    <div class="col-sm-6 mx-auto">
+    <div class="col-sm-8 mx-auto">
       <div class="card card-primary">
         <div class="card-header">
           <h3 class="card-title" style="font-weight: 700; font-size:20px">Registrar Equipo</h3>
@@ -156,7 +156,7 @@
             </div>
 
             <div class="form-row">
-              <div class="col-md-6 mb-3">
+              <div class="col-md-3 mb-3">
                 <label for="os">OS:</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
@@ -190,7 +190,7 @@
                   <select class="custom-select" name="campus" required>
                     <option selected disabled>Seleccione sede...</option>
                     @foreach ($campus as $campu)
-                    <option value="{{ $campu->id }}">{{ $campu->name }}</option>
+                    <option value="{{ $campu->id }}">{{ $campu->campu_name }}</option>
                     @endforeach
                   </select>
                 </div>

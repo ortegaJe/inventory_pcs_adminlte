@@ -105,7 +105,7 @@
                   <select class="custom-select" name="hard-drive" required>
                     <option selected disabled>Seleccionar disco duro...</option>
                     @foreach ($hdds as $hdd)
-                    <option value="{{ $hdd->id }}">{{ $hdd->size }} {{ $hdd->type}}</option>
+                    <option value="{{ $hdd->id }}">{{ $hdd->size }} | {{ $hdd->type}}</option>
                     @endforeach
                   </select>
                 </div>
@@ -158,7 +158,7 @@
             </div>
 
             <div class="form-row">
-              <div class="col-md-6 mb-3">
+              <div class="col-md-3 mb-3">
                 <label for="os">OS:</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
@@ -192,7 +192,7 @@
                   <select class="custom-select" name="campus" required>
                     <option selected disabled>Seleccione sede...</option>
                     @foreach ($campus as $campu)
-                    <option value="{{ $campu->id }}">{{ $campu->name }}</option>
+                    <option value="{{ $campu->id }}">{{ $campu->campu_name }}</option>
                     @endforeach
                   </select>
                 </div>

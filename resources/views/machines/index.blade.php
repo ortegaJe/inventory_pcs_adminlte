@@ -43,7 +43,7 @@
                         alt="{{ asset('png/anydesk.png') }}">
                     </th>
                     <th scope="col">CAMPUS</th>
-                    <th scope="col" width="100px">ACTIONS</th>
+                    <th scope="col">ACTIONS</th>
                   </tr>
                 </thead>
                 <tbody>
