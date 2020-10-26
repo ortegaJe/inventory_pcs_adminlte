@@ -8,11 +8,12 @@
     <div class="col-sm-8 mx-auto">
       <div class="card card-success">
         <div class="card-header">
-          <h3 class="card-title" style="font-weight: 700; font-size:20px">Actualizar Equipo | {{ $machine->serial }}
+          <h3 class="card-title" style="font-weight: 700; font-size:20px">Actualizar Equipo |
+            {{ $machine->serial }}
           </h3>
         </div>
         <div class="card-body">
-          <form action="{{ route('machines.update', $machine->id ) }}" method="POST">
+          <form action="{{ route('macarena.update', $machine->id ) }}" method="POST">
             @method('PATCH')
             @csrf
 

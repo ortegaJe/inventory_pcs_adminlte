@@ -59,11 +59,7 @@
         <!-- /.card-body -->
         <div class="card-footer clearfix">
           <ul class="pagination pagination-sm m-0 float-right">
-            <li class="page-item"><a class="page-link" href="#">«</a></li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">»</a></li>
+            {{ $types->appends(['hdds' => $hdds->currentPage(1)])->links() }}
           </ul>
         </div>
         <!-- /.card-footer -->
@@ -171,11 +167,7 @@
         <!-- /.card-body -->
         <div class="card-footer clearfix">
           <ul class="pagination pagination-sm m-0 float-right">
-            <li class="page-item"><a class="page-link" href="#">«</a></li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">»</a></li>
+            {{ $rams->appends(['hdds' => $hdds->currentPage()])->links() }}
           </ul>
         </div>
         <!-- /.card-footer -->
@@ -236,11 +228,7 @@
         <!-- /.card-body -->
         <div class="card-footer clearfix">
           <ul class="pagination pagination-sm m-0 float-right">
-            <li class="page-item"><a class="page-link" href="#">«</a></li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">»</a></li>
+            {{ $hdds->appends(['rams' => $rams->currentPage()])->links() }}
           </ul>
         </div>
         <!-- /.card-footer -->

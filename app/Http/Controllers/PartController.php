@@ -21,9 +21,9 @@ class PartController extends Controller
      */
     public function index()
     {
-        $types = DB::select('SELECT id,name FROM types', [1]);
-        $rams = DB::select('SELECT id,ram FROM rams', [1]);
-        $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
+        $types = DB::table('types')->select('id','name')->paginate(2, ['*'], 'types');
+        $rams = DB::table('rams')->select('id','ram')->paginate(5, ['*'], 'rams');
+        $hdds = DB::table('hdds')->select('id','size','type')->paginate(5, ['*'], 'hdds');
 
         return view('parts.index', [
             'types' => $types,
