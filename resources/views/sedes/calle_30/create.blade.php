@@ -1,32 +1,18 @@
 @extends('layouts.app')
 
-@section('title', 'Actualizar equipo')
+@section('title', 'Registro')
 
 @section('content')
 <div class="content-fluid">
   <div class="col-20">
     <div class="col-sm-8 mx-auto">
-      <div class="card card-success">
+      <div class="card card-primary">
         <div class="card-header">
-          <h3 class="card-title" style="font-weight: 700; font-size:20px">Actualizar Equipo |
-            {{ $machine->serial }}
-          </h3>
+          <h3 class="card-title" style="font-weight: 700; font-size:20px">Registrar Equipo</h3>
         </div>
         <div class="card-body">
-          <form action="{{ route('macarena.update', $machine->id ) }}" method="POST">
-            @method('PATCH')
+          <form action="/sedes/macarena" method="POST">
             @csrf
-
-            @if ($errors->any())
-            <div class="alert alert-danger">
-              <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-              </ul>
-            </div>
-            @endif
-
             <div class="form-row">
               <div class="col-md-6 mb-8">
                 <label for="type">Tipo de equipo:</label>
@@ -34,19 +20,12 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-desktop"></i></span>
                   </div>
-                  <select class="custom-select" name="type">
-                    <option selected disabled>Seleccionar tipo...</option>
+                  <select class="custom-select" name="type" required>
+                    <option selected disabled>Seleccione tipo...</option>
                     @foreach ($types as $type)
-                    <option value="{{ $type->id }}" {{ $type->id == $machine->type_id ? 'selected' : '' }}>
-                      {{ $type->name }}</option>
+                    <option value="{{ $type->id }}">{{ $type->name }}</option>
                     @endforeach
-                    </td>
                   </select>
-                  @if ($errors->has('type'))
-                  <span class="invalid-feedback">
-                    {{ $errors->first('type') }}
-                  </span>
-                  @endif
                 </div>
               </div>
 
@@ -56,9 +35,8 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-wrench"></i></span>
                   </div>
-                  <input value="{{ $machine->manufacturer }}" name="manufact" style="text-transform:uppercase;"
-                    onkeyup="javascript:this.value=this.value.toUpperCase();" type="text" class="form-control"
-                    id="name-input" placeholder="HP">
+                  <input style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
+                    type="text" class="form-control" id="name-input" name="manufact" placeholder="HP">
                 </div>
               </div>
             </div>
@@ -70,9 +48,8 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-pencil-ruler"></i></span>
                   </div>
-                  <input value="{{ $machine->model }}" name="model" style="text-transform:uppercase;"
-                    onkeyup="javascript:this.value=this.value.toUpperCase();" type="text" class="form-control"
-                    placeholder="">
+                  <input style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
+                    type="text" class="form-control" name="model" placeholder="">
                 </div>
               </div>
 
@@ -82,9 +59,8 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-tag"></i></span>
                   </div>
-                  <input value="{{ $machine->serial }}" name="serial" style="text-transform:uppercase;"
-                    onkeyup="javascript:this.value=this.value.toUpperCase();" type="text" class="form-control"
-                    placeholder="S/N">
+                  <input style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
+                    type="text" class="form-control" name="serial" placeholder="S/N" required>
                 </div>
               </div>
             </div>
@@ -96,10 +72,10 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-memory"></i></span>
                   </div>
-                  <select class="custom-select" name="ramslot00">
+                  <select class="custom-select" name="ramslot00" required>
+                    <option selected disabled>Seleccionar RAM...</option>
                     @foreach ($rams as $ram)
-                    <option value="{{ $ram->id }}" {{ $ram->id == $machine->ram_slot_00_id ? 'selected' : '' }}>
-                      {{ $ram->ram }}</option>
+                    <option value="{{ $ram->id }}">{{ $ram->ram }}</option>
                     @endforeach
                   </select>
                 </div>
@@ -112,9 +88,9 @@
                     <span class="input-group-text"><i class="fas fa-memory"></i></span>
                   </div>
                   <select class="custom-select" name="ramslot01">
+                    <option selected disabled>Seleccionar RAM...</option>
                     @foreach ($rams as $ram)
-                    <option value="{{ $ram->id }}" {{ $ram->id == $machine->ram_slot_01_id ? 'selected' : '' }}>
-                      {{ $ram->ram }}</option>
+                    <option value="{{ $ram->id }}">{{ $ram->ram }}</option>
                     @endforeach
                   </select>
                 </div>
@@ -126,10 +102,10 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-hdd"></i></span>
                   </div>
-                  <select class="custom-select" name="hard-drive">
+                  <select class="custom-select" name="hard-drive" required>
+                    <option selected disabled>Seleccionar disco duro...</option>
                     @foreach ($hdds as $hdd)
-                    <option value="{{ $hdd->id }}" {{ $hdd->id == $machine->hard_drive_id ? 'selected' : '' }}>
-                      {{ $hdd->size }} | {{ $hdd->type }}</option>
+                    <option value="{{ $hdd->id }}">{{ $hdd->size }} {{ $hdd->type}}</option>
                     @endforeach
                   </select>
                 </div>
@@ -141,9 +117,8 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-microchip"></i></span>
                   </div>
-                  <input name="cpu" value="{{ $machine->cpu }}" style="text-transform:uppercase;"
-                    onkeyup="javascript:this.value=this.value.toUpperCase();" type="text" class="form-control"
-                    placeholder="">
+                  <input style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
+                    type="text" class="form-control" name="cpu" placeholder="">
                 </div>
               </div>
             </div>
@@ -155,8 +130,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-ethernet"></i></span>
                   </div>
-                  <input type="text" maxlength="15" class="form-control" name="ip" value="{{ $machine->ip_range }}"
-                    placeholder="000.000.000.000">
+                  <input type="text" maxlength="15" class="form-control" name="ip" value="">
                 </div>
               </div>
 
@@ -166,9 +140,9 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-barcode"></i></span>
                   </div>
-                  <input name="mac" value="{{ $machine->mac_address }}" style="text-transform:uppercase;" maxlength="17"
+                  <input style="text-transform:uppercase;" maxlength="17"
                     onkeyup="javascript:this.value=this.value.toUpperCase();" type="text" class="form-control"
-                    placeholder="00-00-00-00-00-00">
+                    name="mac" value="">
                 </div>
               </div>
 
@@ -176,11 +150,9 @@
                 <label for="anydesk">Anydesk:</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
-                    <span class="input-group-text"><img src="{{ asset('png/anydesk.png') }}" width="20px"
-                        alt="" /></span>
+                    <span class="input-group-text"><img src="" width="20px" alt="" /></span>
                   </div>
-                  <input type="text" class="form-control" name="anydesk" value="{{ $machine->anydesk }}"
-                    placeholder="000 000 000">
+                  <input type="text" class="form-control" name="anydesk" placeholder="000 000 000">
                 </div>
               </div>
             </div>
@@ -204,25 +176,23 @@
                 <label for="location">Ubicación:</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
-                    <span class="input-group-text"><img src="img/svg/aim.svg" width="20px" alt="" /></span>
+                    <span class="input-group-text"><img src="" width="20px" alt="" /></span>
                   </div>
-                  <input name="location" value="{{ $machine->location }}" style="text-transform:uppercase;"
-                    onkeyup="javascript:this.value=this.value.toUpperCase();" type="text" class="form-control"
-                    placeholder="">
+                  <input style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
+                    type="text" class="form-control" name="location" placeholder="" required>
                 </div>
               </div>
 
               <div class="col-md-6 mb-3">
-                <label for="sede">Sede del equipo:</label>
+                <label for="campus">Sede del equipo:</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-building"></i></span>
                   </div>
-                  <select class="custom-select" name="campus_id">
-                    <option value="" selected disabled>Seleccione sede...</option>
+                  <select class="custom-select" name="campus" required>
+                    <option selected disabled>Seleccione sede...</option>
                     @foreach ($campus as $campu)
-                    <option value="{{ $campu->id }}" {{ $campu->id == $machine->campus_id ? 'selected' : '' }}>
-                      {{ $campu->campu_name }}</option>
+                    <option value="{{ $campu->id }}">{{ $campu->campu_name }}</option>
                     @endforeach
                   </select>
                 </div>
@@ -238,13 +208,12 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">Observacion:</span>
               </div>
-              <textarea class="form-control" maxlength="200" id="" name="comment"
-                value="{{ $machine->comment }}"></textarea>
+              <textarea class="form-control" maxlength="200" id="" name="comment" aria-label="With textarea"></textarea>
             </div>
 
             <div class="modal-footer">
               <button type="reset" class="btn btn-secondary">Borrar todo</button>
-              <button type="submit" class="btn btn-success">Actualizar</button>
+              <button type="submit" class="btn btn-primary">Guardar</button>
             </div>
           </form>
         </div>

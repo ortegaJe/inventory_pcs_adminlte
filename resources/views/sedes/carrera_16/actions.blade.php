@@ -1,7 +1,7 @@
-<form action="{{ route('machines.destroy', $id) }}" method="POST">
+<form action="{{ route('carrera_16.destroy', $id) }}" method="POST">
     <a href="{{ route('machines.show', $id) }}"><button type="button" class="btn bg-gradient-secondary btn-sm"><i
                 class="fas fa-eye"></i></button></a>
-    <a href="{{ route('machines.edit', $id) }}" target="_blank"><button type="button"
+    <a href="{{ route('carrera_16.edit', $id) }}" target="_blank"><button type="button"
             class="btn bg-gradient-success btn-sm"><i class="fas fa-edit"></i></button></a>
     @csrf
     @method('DELETE')

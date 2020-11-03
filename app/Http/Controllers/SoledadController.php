@@ -2,27 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Campu;
-use App\Http\Requests\MachineFormRequest;
-use Illuminate\Http\Request;
-use App\Machine;
-use App\Ram;
-use App\Type;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use App\Helpers\UserSystemInfoHelper;
+use App\Machine;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
-class MachineController extends Controller
+class SoledadController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('verified');
-    }
-
-
-
     /**
      * Display a listing of the resource.
      *
@@ -31,7 +18,7 @@ class MachineController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $machines = DB::table('machines')
+            $sol_machines = DB::table('machines')
                 ->join('types', 'types.id', '=', 'machines.type_id')
                 ->join('campus', 'campus.id', '=', 'machines.campus_id')
                 ->select(
@@ -48,114 +35,88 @@ class MachineController extends Controller
                     'location',
                     'comment',
                     'campus.campu_name'
-                );
+                )->where('label', '=', 'SOL');
 
-            return DataTables::of($machines)
-                ->addColumn('action', 'machines.actions')
+            return DataTables::of($sol_machines)
+                ->addColumn('action', 'sedes.soledad.actions')
                 ->rawColumns(['action'])
                 ->make(true);
         }
 
-        return view('machines.index');
+        return view('sedes.soledad.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Request $request)
+    public function create()
     {
+        $sol_machines = DB::select('SELECT `id`,`serial`, `lote`, `type_id`, `manufacturer`, 
+                                       `model`, `ram_slot_00_id`, `ram_slot_01_id`, 
+                                       `hard_drive_id`, `cpu`, `ip_range`, `mac_address`,
+                                       `anydesk`, `campus_id`, `location`, `image`, 
+                                       `comment`, `created_at`, `updated_at` 
+                                        FROM 
+                                       `machines` WHERE campus_id=5', [1]);
+
         $types = DB::select('SELECT id,name FROM types', [1]);
         $rams = DB::select('SELECT id,ram FROM rams', [1]);
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
         $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
-        $roles = DB::select('SELECT id FROM roles', [1]);
 
         $getip = UserSystemInfoHelper::get_ip();
         $findmacaddress = exec('getmac');
         $getmacaddress = strtok($findmacaddress, ' ');
         $getos = UserSystemInfoHelper::get_os();
 
-
-        return view('machines.create', [
-            'getmacaddress' => $getmacaddress,
-            'getos' => $getos,
-            'getip' => $getip,
+        return view('sedes.calle_30.create', [
+            'sol_machines' => $sol_machines,
             'types' => $types,
             'campus' => $campus,
             'rams' => $rams,
             'hdds' => $hdds,
-            'roles' => $roles
+            'getmacaddress' => $getmacaddress,
+            'getos' => $getos,
+            'getip' => $getip,
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $getip = UserSystemInfoHelper::get_ip();
         $findmacaddress = exec('getmac');
         $getmacaddress = strtok($findmacaddress, ' ');
-        $getos = UserSystemInfoHelper::get_os();
-        $roles = Auth::user()->rol_id;
 
-        $machines = new Machine();
+        $sol_machines = new Machine();
 
-        //        [db]           [name] (db campos en la base de datos - name campus en el blade create)
-        $machines->type_id = request('type');
-        $machines->manufacturer = request('manufact');
-        $machines->model = request('model');
-        $machines->serial = request('serial');
-        $machines->ram_slot_00_id = request('ramslot00');
-        $machines->ram_slot_01_id = request('ramslot01');
-        $machines->hard_drive_id = request('hard-drive');
-        $machines->cpu = request('cpu');
-        $machines->ip_range = request('ip');
-        $machines->mac_address = request('mac');
-        $machines->anydesk = request('anydesk');
-        $machines->os = $getos;
-        $machines->created_by = Auth::user()->id;
-        $machines->rol_id = $roles;
-        $machines->campus_id = request('campus');
-        $machines->location = request('location');
-        $machines->comment = request('comment');
+        //               [db]           [name] (db campos en la base de datos - name campus en el blade create)
+        $sol_machines->type_id = request('type');
+        $sol_machines->manufacturer = request('manufact');
+        $sol_machines->model = request('model');
+        $sol_machines->serial = request('serial');
+        $sol_machines->ram_slot_00_id = request('ramslot00');
+        $sol_machines->ram_slot_01_id = request('ramslot01');
+        $sol_machines->hard_drive_id = request('hard-drive');
+        $sol_machines->cpu = request('cpu');
+        $sol_machines->ip_range = request('ip');
+        $sol_machines->mac_address = request('mac');
+        $sol_machines->anydesk = request('anydesk');
+        $sol_machines->campus_id = request('campus');
+        $sol_machines->location = request('location');
+        $sol_machines->comment = request('comment');
 
-        $machines->save();
+        $sol_machines->save();
 
-        return redirect('/machines');
+        return redirect('/sedes/soledad');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        return view('machines.show', ['machine' => Machine::findOrFail($id)]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($machines)
     {
         $types = DB::select('SELECT id,name FROM types', [1]);
         $rams = DB::select('SELECT id,ram FROM rams', [1]);
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
         $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
+
         $getos = UserSystemInfoHelper::get_os();
 
-        return view('machines.edit', [
+        return view('sedes.soledad.edit', [
             'machine' => Machine::findOrFail($machines),
             'getos' => $getos,
             'types' => $types,
@@ -165,14 +126,7 @@ class MachineController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(MachineFormRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $getos = UserSystemInfoHelper::get_os();
 
@@ -197,21 +151,15 @@ class MachineController extends Controller
 
         $machines->update();
 
-        return redirect('/machines');
+        return redirect('/sedes/soledad');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $machines = Machine::findOrFail($id);
 
         $machines->delete();
 
-        return redirect('/machines');
+        return redirect('/sedes/soledad');
     }
 }

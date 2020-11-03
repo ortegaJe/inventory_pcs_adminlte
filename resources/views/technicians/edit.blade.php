@@ -107,7 +107,6 @@
                                         <span class="input-group-text"><i class="fas fa-users-cog"></i></span>
                                     </div>
                                     <select class="custom-select" name="rol">
-                                        <option selected disabled>Seleccionar un rol...</option>
                                         @foreach ($roles as $role)
                                         @if($role->name == str_replace(array('["','"]'), '', $user->haveRol()))
                                         <option value="{{ $role->id }}" selected>{{ $role->name }}</option>
@@ -128,11 +127,10 @@
                                         <span class="input-group-text"><i class="fas fa-building"></i></span>
                                     </div>
                                     <select class="custom-select" name="campus">
-                                        <option selected disabled>Seleccione la sede...</option>
                                         @foreach ($campus as $campu)
                                         <option value="{{ $campu->id }}"
                                             {{ $campu->id == $user->campus_id ? 'selected' : '' }}>
-                                            {{ $campu->name }}</option>
+                                            {{ $campu->campu_name }}</option>
                                         @endforeach
                                     </select>
                                 </div>

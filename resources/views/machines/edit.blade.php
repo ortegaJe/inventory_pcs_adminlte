@@ -126,16 +126,10 @@
                     <span class="input-group-text"><i class="fas fa-hdd"></i></span>
                   </div>
                   <select class="custom-select" name="hard-drive">
-                    <option>{{ $machine->hard_drive }}</option>
-                    <option>70GB</option>
-                    <option>100GB</option>
-                    <option>150GB</option>
-                    <option>250GB</option>
-                    <option>300GB</option>
-                    <option>500GB</option>
-                    <option>800GB</option>
-                    <option>1TB</option>
-                    <option>2TB</option>
+                    @foreach ($hdds as $hdd)
+                    <option value="{{ $hdd->id }}" {{ $hdd->id == $machine->hard_drive_id ? 'selected' : '' }}>
+                      {{ $hdd->size }} | {{ $hdd->type }}</option>
+                    @endforeach
                   </select>
                 </div>
               </div>

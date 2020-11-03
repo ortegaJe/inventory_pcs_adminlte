@@ -7,9 +7,11 @@
 -- Versión del servidor: 5.7.24
 -- Versión de PHP: 7.2.19
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE
+= "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
-SET time_zone = "+00:00";
+SET time_zone
+= "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -27,23 +29,40 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `data_machines`
 --
 
-CREATE TABLE `data_machines` (
-  `id` bigint(20) NOT NULL,
-  `lote` int(4) DEFAULT NULL,
-  `type_id` varchar(255) DEFAULT NULL,
-  `manufacturer` varchar(255) DEFAULT NULL,
-  `model` varchar(255) DEFAULT NULL,
-  `serial` varchar(255) DEFAULT NULL,
-  `ram_slot_00_id` varchar(255) DEFAULT NULL,
-  `ram_slot_01_id` varchar(255) DEFAULT NULL,
-  `hard_drive` varchar(255) DEFAULT NULL,
-  `cpu` varchar(255) DEFAULT NULL,
-  `ip_range` varchar(15) DEFAULT NULL,
-  `mac_address` varchar(17) DEFAULT NULL,
-  `anydesk` varchar(255) DEFAULT NULL,
-  `campus_id` varchar(255) DEFAULT NULL,
-  `location` varchar(255) DEFAULT NULL,
-  `comment` varchar(256) DEFAULT NULL,
+CREATE TABLE `data_machines`
+(
+  `id` bigint
+(20) NOT NULL,
+  `lote` int
+(4) DEFAULT NULL,
+  `type_id` varchar
+(255) DEFAULT NULL,
+  `manufacturer` varchar
+(255) DEFAULT NULL,
+  `model` varchar
+(255) DEFAULT NULL,
+  `serial` varchar
+(255) DEFAULT NULL,
+  `ram_slot_00_id` varchar
+(255) DEFAULT NULL,
+  `ram_slot_01_id` varchar
+(255) DEFAULT NULL,
+  `hard_drive` varchar
+(255) DEFAULT NULL,
+  `cpu` varchar
+(255) DEFAULT NULL,
+  `ip_range` varchar
+(15) DEFAULT NULL,
+  `mac_address` varchar
+(17) DEFAULT NULL,
+  `anydesk` varchar
+(255) DEFAULT NULL,
+  `campus_id` varchar
+(255) DEFAULT NULL,
+  `location` varchar
+(255) DEFAULT NULL,
+  `comment` varchar
+(256) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -54,25 +73,45 @@ CREATE TABLE `data_machines` (
 -- Estructura de tabla para la tabla `table_campus_v1a`
 --
 
-CREATE TABLE `table_campus_v1a` (
-  `id` int(4) NOT NULL,
-  `campus_v1a` varchar(56) NOT NULL,
-  `identifier_campus` varchar(4) NOT NULL,
-  `tec_id` int(11) NOT NULL
+CREATE TABLE `table_campus_v1a`
+(
+  `id` int
+(4) NOT NULL,
+  `campus_v1a` varchar
+(56) NOT NULL,
+  `identifier_campus` varchar
+(4) NOT NULL,
+  `tec_id` int
+(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `table_campus_v1a`
 --
 
-INSERT INTO `table_campus_v1a` (`id`, `campus_v1a`, `identifier_campus`, `tec_id`) VALUES
-(1, 'VIVA 1A IPS SURA 85', 'S85', 4),
-(2, 'VIVA 1A IPS COUNTRY', 'CTY', 4),
+ALTER TABLE campus ADD label VARCHAR(4)
+AFTER
+campu_name
+
+UPDATE campus SET label='S85' WHERE id=8
+UPDATE campus SET label='SOL' WHERE id=5;
+UPDATE campus SET label='C30' WHERE id=2;
+UPDATE campus SET label='C16' WHERE id=4;
+UPDATE campus SET label='SSJ' WHERE id=6;
+UPDATE campus SET label='MAC' WHERE id=1;
+UPDATE campus SET label='SOL' WHERE id=5
+,
+
+
+INSERT INTO `campus` (`
+label`)
+VALUES
+  ('S85')
+WHERE id=8
 (3, 'VIVA 1A IPS SOLEDAD', 'SOL', 3),
 (4, 'VIVA 1A IPS CALLE 30', 'C30', 3),
 (5, 'VIVA 1A IPS MACARENA', 'MAC', 1),
 (6, 'VIVA 1A IPS CARRERA 16', 'C16', 1),
-(7, 'VIVA 1A CASA MATRIZ', 'MTZ', 4),
 (8, 'VIVA 1A IPS SURA SAN JOSE', 'SSJ', 1);
 
 -- --------------------------------------------------------
@@ -81,30 +120,56 @@ INSERT INTO `table_campus_v1a` (`id`, `campus_v1a`, `identifier_campus`, `tec_id
 -- Estructura de tabla para la tabla `table_machines`
 --
 
-CREATE TABLE `table_machines` (
-  `id` int(100) NOT NULL,
-  `serial` varchar(255) NOT NULL,
-  `lote` int(4) DEFAULT NULL,
-  `type_id` bigint(20) NOT NULL,
-  `manufacturer` varchar(255) NOT NULL,
-  `model` varchar(255) NOT NULL,
-  `ram_slot_00` varchar(255) NOT NULL,
-  `ram_slot_01` varchar(255) NOT NULL,
-  `hard_drive` varchar(255) NOT NULL,
-  `cpu` varchar(255) NOT NULL,
-  `ip_range` varchar(15) NOT NULL,
-  `mac_address` varchar(17) NOT NULL,
-  `anydesk` varchar(255) DEFAULT NULL,
-  `campus_id` int(4) NOT NULL,
-  `location` varchar(255) NOT NULL,
-  `comment` varchar(256) DEFAULT NULL
+CREATE TABLE `table_machines`
+(
+  `id` int
+(100) NOT NULL,
+  `serial` varchar
+(255) NOT NULL,
+  `lote` int
+(4) DEFAULT NULL,
+  `type_id` bigint
+(20) NOT NULL,
+  `manufacturer` varchar
+(255) NOT NULL,
+  `model` varchar
+(255) NOT NULL,
+  `ram_slot_00` varchar
+(255) NOT NULL,
+  `ram_slot_01` varchar
+(255) NOT NULL,
+  `hard_drive` varchar
+(255) NOT NULL,
+  `cpu` varchar
+(255) NOT NULL,
+  `ip_range` varchar
+(15) NOT NULL,
+  `mac_address` varchar
+(17) NOT NULL,
+  `anydesk` varchar
+(255) DEFAULT NULL,
+  `campus_id` int
+(4) NOT NULL,
+  `location` varchar
+(255) NOT NULL,
+  `comment` varchar
+(256) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `table_machines`
 --
 
-INSERT INTO `table_machines` (`id`, `serial`, `lote`, `type_id`, `manufacturer`, `model`, `ram_slot_00`, `ram_slot_01`, `hard_drive`, `cpu`, `ip_range`, `mac_address`, `anydesk`, `campus_id`, `location`, `comment`) VALUES
+INSERT INTO `table_machines` (`
+id`,
+`serial`,
+`lote`,
+`type_id`,
+`manufacturer`,
+`model`,
+`ram_slot_00`,
+`ram_slot_01
+`, `hard_drive`, `cpu`, `ip_range`, `mac_address`, `anydesk`, `campus_id`, `location`, `comment`) VALUES
 (1, '', 9999, 4, '', '', '', '', '', '', ' 192.168.71.26 ', '-', NULL, 1, '', NULL),
 (2, '', 9999, 4, '', '', '', '', '', '', ' 192.168.71.27 ', '-', NULL, 1, '', NULL),
 (3, '', 9999, 4, '', '', '', '', '', '', ' 192.168.71.28 ', '-', NULL, 1, '', NULL),
@@ -338,16 +403,26 @@ INSERT INTO `table_machines` (`id`, `serial`, `lote`, `type_id`, `manufacturer`,
 -- Estructura de tabla para la tabla `table_user_tec`
 --
 
-CREATE TABLE `table_user_tec` (
-  `id_tec` int(4) NOT NULL,
-  `nickname_tec` varchar(20) NOT NULL,
-  `name_tec` varchar(256) NOT NULL,
-  `last_name_tec` varchar(256) NOT NULL,
-  `campus_tec` varchar(256) NOT NULL,
-  `position_job` varchar(256) NOT NULL,
-  `email_tec` varchar(256) NOT NULL,
-  `password_tec` varchar(256) NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '0',
+CREATE TABLE `table_user_tec`
+(
+  `id_tec` int
+(4) NOT NULL,
+  `nickname_tec` varchar
+(20) NOT NULL,
+  `name_tec` varchar
+(256) NOT NULL,
+  `last_name_tec` varchar
+(256) NOT NULL,
+  `campus_tec` varchar
+(256) NOT NULL,
+  `position_job` varchar
+(256) NOT NULL,
+  `email_tec` varchar
+(256) NOT NULL,
+  `password_tec` varchar
+(256) NOT NULL,
+  `status` tinyint
+(1) NOT NULL DEFAULT '0',
   `time_login` datetime NOT NULL,
   `time_logout` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -356,7 +431,11 @@ CREATE TABLE `table_user_tec` (
 -- Volcado de datos para la tabla `table_user_tec`
 --
 
-INSERT INTO `table_user_tec` (`id_tec`, `nickname_tec`, `name_tec`, `last_name_tec`, `campus_tec`, `position_job`, `email_tec`, `password_tec`, `status`, `time_login`, `time_logout`) VALUES
+INSERT INTO `table_user_tec` (`
+id_tec`,
+`nickname_tec`,
+`name_tec
+`, `last_name_tec`, `campus_tec`, `position_job`, `email_tec`, `password_tec`, `status`, `time_login`, `time_logout`) VALUES
 (1, 'jortega', 'Jefferson Javier', 'Ortega Pacheco', 'VIVA 1A IPS MACARENA', 'Support IT', 'jortega@viva1a.com.co', '.jortega', 0, '2020-10-08 15:40:40', '2020-10-08 16:10:42'),
 (2, 'jmendoza', 'Jose', 'Mendoza', 'VIVA 1A CASA MATRIZ', 'Support IT', 'jmendoza@viva1a.com.co', '.jmendoza', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (3, 'fviloria', 'Francisco', 'Viloria', 'VIVA 1A IPS CALLE 30', 'Support IT', 'fviloria@viva1a.com.co', '.fviloria', 0, '2020-09-11 16:40:19', '2020-09-11 17:10:44'),
@@ -370,26 +449,31 @@ INSERT INTO `table_user_tec` (`id_tec`, `nickname_tec`, `name_tec`, `last_name_t
 -- Indices de la tabla `data_machines`
 --
 ALTER TABLE `data_machines`
-  ADD PRIMARY KEY (`id`);
+ADD PRIMARY KEY
+(`id`);
 
 --
 -- Indices de la tabla `table_campus_v1a`
 --
 ALTER TABLE `table_campus_v1a`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `tec_id` (`tec_id`);
+ADD PRIMARY KEY
+(`id`),
+ADD KEY `tec_id`
+(`tec_id`);
 
 --
 -- Indices de la tabla `table_machines`
 --
 ALTER TABLE `table_machines`
-  ADD PRIMARY KEY (`id`);
+ADD PRIMARY KEY
+(`id`);
 
 --
 -- Indices de la tabla `table_user_tec`
 --
 ALTER TABLE `table_user_tec`
-  ADD PRIMARY KEY (`id_tec`);
+ADD PRIMARY KEY
+(`id_tec`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -399,25 +483,29 @@ ALTER TABLE `table_user_tec`
 -- AUTO_INCREMENT de la tabla `data_machines`
 --
 ALTER TABLE `data_machines`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint
+(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `table_campus_v1a`
 --
 ALTER TABLE `table_campus_v1a`
-  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int
+(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `table_machines`
 --
 ALTER TABLE `table_machines`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=364;
+  MODIFY `id` int
+(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=364;
 
 --
 -- AUTO_INCREMENT de la tabla `table_user_tec`
 --
 ALTER TABLE `table_user_tec`
-  MODIFY `id_tec` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_tec` int
+(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Restricciones para tablas volcadas
@@ -427,7 +515,11 @@ ALTER TABLE `table_user_tec`
 -- Filtros para la tabla `table_campus_v1a`
 --
 ALTER TABLE `table_campus_v1a`
-  ADD CONSTRAINT `table_campus_v1a_ibfk_1` FOREIGN KEY (`tec_id`) REFERENCES `table_user_tec` (`id_tec`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ADD CONSTRAINT `table_campus_v1a_ibfk_1` FOREIGN KEY
+(`tec_id`) REFERENCES `table_user_tec`
+(`id_tec`) ON
+DELETE NO ACTION ON
+UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

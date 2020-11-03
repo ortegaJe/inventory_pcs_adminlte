@@ -10,9 +10,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
-class CampusController extends Controller
+class MacarenaController extends Controller
 {
-        public function __construct()
+    public function __construct()
     {
         $this->middleware('auth');
         $this->middleware('verified');
@@ -20,22 +20,35 @@ class CampusController extends Controller
 
     public function index(Request $request)
     {
-            if ($request->ajax()) {
+        if ($request->ajax()) {
             $mac_machines = DB::table('machines')
-            ->join('types', 'types.id', '=', 'machines.type_id')
-            ->join('campus', 'campus.id', '=', 'machines.campus_id')
-            ->select('machines.id','machines.ip_range', 'machines.mac_address',
-                     'machines.anydesk','types.name', 'campus.campu_name')->where('campus_id', '=', [1]);
+                ->join('types', 'types.id', '=', 'machines.type_id')
+                ->join('campus', 'campus.id', '=', 'machines.campus_id')
+                ->select(
+                    'machines.id',
+                    'types.name',
+                    'serial',
+                    'manufacturer',
+                    'model',
+                    'cpu',
+                    'machines.ip_range',
+                    'machines.mac_address',
+                    'machines.anydesk',
+                    'os',
+                    'location',
+                    'comment',
+                    'campus.campu_name'
+                )->where('label', '=', 'MAC');
 
             return DataTables::of($mac_machines)
-            ->addColumn('action', 'sedes.macarena.actions')
-            ->rawColumns(['action'])
-            ->make(true);
+                ->addColumn('action', 'sedes.macarena.actions')
+                ->rawColumns(['action'])
+                ->make(true);
         }
 
         return view('sedes.macarena.index');
 
-       /* $mac_machines = DB::select('SELECT `id`,`serial`, `lote`, `type_id`, `manufacturer`, 
+        /* $mac_machines = DB::select('SELECT `id`,`serial`, `lote`, `type_id`, `manufacturer`, 
                                        `model`, `ram_slot_00_id`, `ram_slot_01_id`, 
                                        `hard_drive`, `cpu`, `ip_range`, `mac_address`,
                                        `anydesk`, `campus_id`, `location`, `image`, 
@@ -58,11 +71,11 @@ class CampusController extends Controller
         ]);*/
     }
 
-        public function create()
+    public function create()
     {
         $mac_machines = DB::select('SELECT `id`,`serial`, `lote`, `type_id`, `manufacturer`, 
                                        `model`, `ram_slot_00_id`, `ram_slot_01_id`, 
-                                       `hard_drive`, `cpu`, `ip_range`, `mac_address`,
+                                       `hard_drive_id`, `cpu`, `ip_range`, `mac_address`,
                                        `anydesk`, `campus_id`, `location`, `image`, 
                                        `comment`, `created_at`, `updated_at` 
                                         FROM 
@@ -82,7 +95,7 @@ class CampusController extends Controller
             'mac_machines' => $mac_machines,
             'types' => $types,
             'campus' => $campus,
-            'rams' => $rams,            
+            'rams' => $rams,
             'hdds' => $hdds,
             'getmacaddress' => $getmacaddress,
             'getos' => $getos,
@@ -90,7 +103,7 @@ class CampusController extends Controller
         ]);
     }
 
-        public function store(Request $request)
+    public function store(Request $request)
     {
         $getip = UserSystemInfoHelper::get_ip();
         $findmacaddress = exec('getmac');
@@ -105,7 +118,7 @@ class CampusController extends Controller
         $mac_machines->serial = request('serial');
         $mac_machines->ram_slot_00_id = request('ramslot00');
         $mac_machines->ram_slot_01_id = request('ramslot01');
-        $mac_machines->hard_drive = request('hard-drive');
+        $mac_machines->hard_drive_id = request('hard-drive');
         $mac_machines->cpu = request('cpu');
         $mac_machines->ip_range = request('ip');
         $mac_machines->mac_address = request('mac');
@@ -119,7 +132,7 @@ class CampusController extends Controller
         return redirect('/sedes/macarena');
     }
 
-        public function edit($machines)
+    public function edit($machines)
     {
         $types = DB::select('SELECT id,name FROM types', [1]);
         $rams = DB::select('SELECT id,ram FROM rams', [1]);
@@ -137,7 +150,7 @@ class CampusController extends Controller
             'hdds' => $hdds
         ]);
     }
-    
+
     public function update(Request $request, $id)
     {
         $getos = UserSystemInfoHelper::get_os();
@@ -151,7 +164,7 @@ class CampusController extends Controller
         $machines->serial = $request->get('serial');
         $machines->ram_slot_00_id = $request->get('ramslot00');
         $machines->ram_slot_01_id = $request->get('ramslot01');
-        $machines->hard_drive = $request->get('hard-drive');
+        $machines->hard_drive_id = $request->get('hard-drive');
         $machines->cpu = $request->get('cpu');
         $machines->ip_range = $request->get('ip');
         $machines->mac_address = $request->get('mac');
@@ -165,7 +178,7 @@ class CampusController extends Controller
 
         return redirect('/sedes/macarena');
     }
-    
+
     public function destroy($id)
     {
         $machines = Machine::findOrFail($id);

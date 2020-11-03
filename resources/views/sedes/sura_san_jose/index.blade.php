@@ -1,26 +1,21 @@
 @extends('layouts.app')
 
-@section('title', 'Sede Macarena')
+@section('title', 'Sede Sura San Jose')
 
 @section('content')
 
 <section class="content">
 
   <div class="container-fluid">
-    <!--<h2>Lista de equipos registrados
-      <a href="{{'machines/create'}}">
-        <button type="button" class="btn bg-info float-right btn-sm">
-          <i class="fa fa-plus"></i> Agregar equipo</button></a>-->
-    </h2>
     <div class="row">
       <div class="col-12">
         <div class="card card-primary card-outline">
           <div class="card-header border">
-            <?php $mac_campu = DB::table('campus')->get();?>
+            <?php $ssj_campu = DB::table('campus')->get();?>
             <h3 class="card-title" style="font-weight: 500; font-size:28px">Lista de equipos |
-              {{$mac_campu[0]->campu_name}}
+              {{$ssj_campu[4]->campu_name}}
             </h3>
-            <a href="{{'macarena/create'}}">
+            <a href="{{'carrera16/create'}}">
               <button type="button" class="btn bg-info float-right btn-sm">
                 <i class="fa fa-plus"></i> Agregar equipo</button>
             </a>
@@ -85,7 +80,7 @@
         //responsive: true,
         autoWidth: true,
         lengthMenu: [[5, 10, 25, 50, 100], [5, 10, 25, 50, 100]],
-        ajax: "{{ route('macarena.index')}}",
+        ajax: "{{ route('sura_san_jose.index')}}",
         columns: [
           { data: 'id', name: 'machines.id', visible: false },
           { data: 'name', name: 'types.name', orderable: true, searchable: true },

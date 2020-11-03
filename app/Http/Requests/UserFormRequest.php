@@ -33,7 +33,7 @@ class UserFormRequest extends FormRequest
             //'campus' => 'required',
             //'work-function' => 'required',
             'password' => 'required|min:8|confirmed',
-            'rol' => 'required'
+            'rol_id' => 'required'
         ];
     }
 }

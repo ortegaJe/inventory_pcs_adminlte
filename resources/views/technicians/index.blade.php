@@ -24,7 +24,7 @@
       @foreach ($users as $user)
       <tr>
         <td>{{ $user->cc }}</td>
-        <td><img class="img-circle elevation-2 img-size-64" src=" {{ asset('upload/'.$user->image) }}"
+        <td><img class="img-circle img-fluid elevation-2 img-size-64" src=" {{ asset('upload/'.$user->image) }}"
             alt="{{ $user->image }}">
           <div class="float-right">{{ $user->name }}</div>
         </td>
@@ -33,8 +33,8 @@
         <!--<td>{{ $user->phone }}</td>-->
         <td>{{ $user->work_function }}</td>
         <td><span class="badge badge-success">
-            @foreach( $user->roles as $role)*
-            {{ $role->name }} @endforeach
+            @foreach( $user->roles as $role)<div><i class="fas fa-building"></i>
+              {{ $role->name }}</div><br> @endforeach
           </span></td>
         <td>
           @foreach ($campus as $campu)

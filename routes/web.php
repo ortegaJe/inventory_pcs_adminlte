@@ -18,12 +18,16 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
+
 Route::resource('machines', 'MachineController');
 Route::resource('technicians', 'UserController');
 Route::resource('roles', 'RoleController');
 Route::resource('campus', 'CampuController'); // colocar un solo controlador para las sedes
-Route::resource('/sedes/macarena', 'CampusController');
-Route::resource('/sedes/calle30', 'CampusController');
+Route::resource('/sedes/macarena', 'MacarenaController');
+Route::resource('/sedes/carrera_16', 'CaDieciseisController');
+Route::resource('/sedes/sura_san_jose', 'SuraSanJoseController');
+Route::resource('/sedes/calle_30', 'CaTreintaController');
+Route::resource('/sedes/soledad', 'SoledadController');
 Route::resource('parts', 'PartController');
 Route::resource('ram', 'RamController');
 Route::resource('hdd', 'HddController');

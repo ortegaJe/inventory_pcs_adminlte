@@ -38,7 +38,7 @@ CREATE TABLE `campus` (
 -- Volcado de datos para la tabla `campus`
 --
 
-INSERT INTO `campus` (`id`, `name`, `created_at`, `updated_at`) VALUES
+INSERT INTO `campus` (`id`, `campu_name`, `created_at`, `updated_at`) VALUES
 (1, 'VIVA 1A IPS MACARENA', '2020-10-09 17:30:50', '2020-10-09 17:30:50'),
 (2, 'VIVA 1A IPS CALLE 30', NULL, NULL),
 (4, 'VIVA 1A IPS CARRERA 16', '2020-10-03 16:05:49', '2020-10-03 16:05:49'),
@@ -79,7 +79,7 @@ CREATE TABLE `hdds` (
 -- Volcado de datos para la tabla `hdds`
 --
 
-INSERT INTO `hdds` (`id`, `size`, `type`, `created_at`, `updated_at`) VALUES
+INSERT INTO `hdds` (`id`,`size`, `type`, `created_at`, `updated_at`) VALUES
 (29, '70 GB', 'Escritorio', NULL, NULL),
 (30, '70 GB', 'Portatil', NULL, NULL),
 (31, '100 GB', 'Escritorio', NULL, NULL),
@@ -407,10 +407,10 @@ CREATE TABLE `users` (
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id`, `cc`, `name`, `last_name`, `nick_name`, `password`, `phone`, `campus_id`, `work_function`, `email`, `email_verified_at`, `image`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 1143434718, 'JEFFERSON JAVIER', 'ORTEGA PACHECO', 'JORTEGA', '$2y$10$MoXvdKIgd3/nHnGbOqYQueW9R3e8An8T7CaB.vPr6uhNRoaBIR91y', 3002777694, 1, 'DATABASE ADMINISTRATOR', 'admin@inventor.co', NULL, 'boss.svg', NULL, '2020-10-03 10:38:04', '2020-10-03 10:38:04'),
-(2, 1143434720, 'DUMMY', 'USER', 'DUMMYUSER', '$2y$10$HczhCG7SPQ7xVeewsdGajuIAsjiRiiHm8CbNTNnbH1G9xJyXwoIpy', 3002777694, 4, 'Network Administrator', 'dummyuser@inventor.co', NULL, 'avatar5.png', NULL, '2020-10-03 16:27:31', '2020-10-04 09:15:33'),
-(3, 1143434723, 'POLO', 'MONTAÑEZ', 'PMONTAÑEZ', '$2y$10$hYCNNgdf/OMF6SGbyPsWFewvrJxxEC1miD2wgtkXp1h0pqH1Xdq8.', 3002777694, 5, 'Tech Support Enginner', 'admin@inventor.co', NULL, 'avatar04.png', NULL, '2020-10-03 16:29:29', '2020-10-06 01:48:35');
+INSERT INTO `users` (`id`, `cc`, `name`, `last_name`, `nick_name`, `password`, `phone`, `rol_id`,`campus_id`, `work_function`, `email`, `email_verified_at`, `image`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 1143434718, 'JEFFERSON JAVIER', 'ORTEGA PACHECO', 'JORTEGA', '$2y$10$MoXvdKIgd3/nHnGbOqYQueW9R3e8An8T7CaB.vPr6uhNRoaBIR91y', 3002777694, 1, 1, 'DATABASE ADMINISTRATOR', 'admin@inventor.co', NULL, 'boss.svg', NULL, '2020-10-03 10:38:04', '2020-10-03 10:38:04'),
+(2, 1143434720, 'DUMMY', 'USER', 'DUMMYUSER', '$2y$10$HczhCG7SPQ7xVeewsdGajuIAsjiRiiHm8CbNTNnbH1G9xJyXwoIpy', 3002777694, 2, 4, 'Network Administrator', 'dummyuser@inventor.co', NULL, 'avatar5.png', NULL, '2020-10-03 16:27:31', '2020-10-04 09:15:33'),
+(3, 1143434723, 'POLO', 'MONTAÑEZ', 'PMONTAÑEZ', '$2y$10$hYCNNgdf/OMF6SGbyPsWFewvrJxxEC1miD2wgtkXp1h0pqH1Xdq8.', 3002777694, 3, 5, 'Tech Support Enginner', 'admin@inventor.co', NULL, 'avatar04.png', NULL, '2020-10-03 16:29:29', '2020-10-06 01:48:35');
 
 --
 -- Índices para tablas volcadas

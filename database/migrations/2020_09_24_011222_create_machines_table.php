@@ -78,6 +78,11 @@ class CreateMachinesTable extends Migration
             $table->string('name');
             $table->string('label')->nullable();
             $table->timestamps();
+
+            $table->foreign('rol_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
         });
 
         Schema::create('role_user', function (Blueprint $table) {
@@ -108,12 +113,14 @@ class CreateMachinesTable extends Migration
             $table->string('model', 56);
             $table->unsignedBigInteger('ram_slot_00_id')->index();
             $table->unsignedBigInteger('ram_slot_01_id')->index();
-            $table->string('hard_drive_id')->index;
+            $table->unsignedBigInteger('hard_drive_id')->index;
             $table->string('cpu');
             $table->ipAddress('ip_range', 15);
             $table->macAddress('mac_address');
             $table->string('anydesk')->nullable();
             $table->string('os')->nullable();
+            $table->unsignedBigInteger('created_by')->index();
+            $table->unsignedBigInteger('rol_id')->index();
             $table->unsignedBigInteger('campus_id')->index();
             $table->String('location');
             $table->string('image')->nullable();
@@ -121,6 +128,16 @@ class CreateMachinesTable extends Migration
             $table->timestamps();
             $table->engine = 'InnoDB';
             $table->charset = 'utf8mb4';
+
+            $table->foreign('rol_id')
+                ->references('id')
+                ->on('roles')
+                ->onDelete('cascade');
+
+            $table->foreign('created_by')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
 
             $table->foreign('type_id')
                 ->references('id')

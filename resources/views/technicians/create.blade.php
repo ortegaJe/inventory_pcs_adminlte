@@ -109,48 +109,7 @@
                 </select>
               </div>
             </div>
-            <div class="col-md-6 mb-3">
-              <label for="phone">Role 2:</label>
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fas fa-users-cog"></i></span>
-                </div>
-                <select class="custom-select" name="rol" required>
-                  <option selected disabled>Seleccionar un rol...</option>
-                  @foreach($roles as $role)
-                  <option value="{{ $role->id }}">{{ $role->name }}</option>
-                  @endforeach
-                </select>
-              </div>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label for="phone">Role 3:</label>
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fas fa-users-cog"></i></span>
-                </div>
-                <select class="custom-select" name="rol" required>
-                  <option selected disabled>Seleccionar un rol...</option>
-                  @foreach($roles as $role)
-                  <option value="{{ $role->id }}">{{ $role->name }}</option>
-                  @endforeach
-                </select>
-              </div>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label for="phone">Role 4:</label>
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fas fa-users-cog"></i></span>
-                </div>
-                <select class="custom-select" name="rol" required>
-                  <option selected disabled>Seleccionar un rol...</option>
-                  @foreach($roles as $role)
-                  <option value="{{ $role->id }}">{{ $role->name }}</option>
-                  @endforeach
-                </select>
-              </div>
-            </div>
+
           </div>
 
           <div class="form-row">

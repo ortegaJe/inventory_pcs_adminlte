@@ -46,18 +46,6 @@
           </li>
         </ul>
 
-        <!-- SEARCH FORM -->
-        <form class="form-inline ml-3">
-          <div class="input-group input-group-sm">
-            <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-            <div class="input-group-append">
-              <button class="btn btn-navbar" type="submit">
-                <i class="fas fa-search"></i>
-              </button>
-            </div>
-          </div>
-        </form>
-
         <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto">
           <!-- Messages Dropdown Menu -->
@@ -296,29 +284,66 @@
                       <p>Mis sedes<i class="fas fa-angle-left right"></i></p>
                     </a>
                     <ul class="nav nav-treeview">
+                      @can('TÉCNICO CARRERA 16')
+                      <li class="nav-item">
+                        <a href="{{ url('sedes/carrera_16') }}"
+                          class="{{ Request::path() === 'sedes/carrera_16' ? 'nav-link active' : 'nav-link' }}">
+                          <i class="fas fa-building nav-icon"></i>
+                          <?php $c16_campu = DB::table('campus')->get();?>
+                          <p class="text-lowercase">{{$c16_campu[2]->campu_name}}</p>
+                          <?php $machines_count = DB::table('machines')->where('campus_id', '=', [4])->count(); ?>
+                          <span class="right badge badge-primary">{{ $machines_count ?? '0' }}</span> </p>
+                        </a>
+                      </li>
+                      @endcan
+                      @can('TECNICO CALLE 30')
+                      <li class="nav-item">
+                        <a href="{{ url('sedes/calle_30') }}"
+                          class="{{ Request::path() === 'sedes/calle_30' ? 'nav-link active' : 'nav-link' }}">
+                          <i class="fas fa-building nav-icon"></i>
+                          <?php $ssj_campu = DB::table('campus')->get();?>
+                          <p class="text-lowercase">{{$ssj_campu[1]->campu_name}}</p>
+                          <?php $machines_count = DB::table('machines')->where('campus_id', '=', [2])->count(); ?>
+                          <span class="right badge badge-primary">{{ $machines_count ?? '0' }}</span> </p>
+                        </a>
+                      </li>
+                      @endcan
                       @can('TECNICO MACARENA')
                       <li class="nav-item">
                         <a href="{{ url('sedes/macarena') }}"
                           class="{{ Request::path() === 'sedes/macarena' ? 'nav-link active' : 'nav-link' }}">
                           <i class="fas fa-building nav-icon"></i>
-                          <p>Macarena</p>
+                          <?php $mac_campu = DB::table('campus')->get();?>
+                          <p class="text-lowercase">{{$mac_campu[0]->campu_name}}</p>
                           <?php $machines_count = DB::table('machines')->where('campus_id', '=', [1])->count(); ?>
                           <span class="right badge badge-primary">{{ $machines_count ?? '0' }}</span> </p>
                         </a>
                       </li>
                       @endcan
+                      @can('TECNICO SOLEDAD')
                       <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{ url('sedes/soledad') }}"
+                          class="{{ Request::path() === 'sedes/soledad' ? 'nav-link active' : 'nav-link' }}">
                           <i class="fas fa-building nav-icon"></i>
-                          <p>Sura San Jose</p>
+                          <?php $ssj_campu = DB::table('campus')->get();?>
+                          <p class="text-lowercase">{{$ssj_campu[3]->campu_name}}</p>
+                          <?php $machines_count = DB::table('machines')->where('campus_id', '=', [5])->count(); ?>
+                          <span class="right badge badge-primary">{{ $machines_count ?? '0' }}</span> </p>
                         </a>
                       </li>
+                      @endcan
+                      @can('TECNICO SURA SAN JOSE')
                       <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{ url('sedes/sura_san_jose') }}"
+                          class="{{ Request::path() === 'sedes/sura_san_jose' ? 'nav-link active' : 'nav-link' }}">
                           <i class="fas fa-building nav-icon"></i>
-                          <p>Carrera 16</p>
+                          <?php $ssj_campu = DB::table('campus')->get();?>
+                          <p class="text-lowercase">{{$ssj_campu[4]->campu_name}}</p>
+                          <?php $machines_count = DB::table('machines')->where('campus_id', '=', [6])->count(); ?>
+                          <span class="right badge badge-primary">{{ $machines_count ?? '0' }}</span> </p>
                         </a>
                       </li>
+                      @endcan
                     </ul>
                   </li>
               </li>
@@ -332,71 +357,6 @@
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        <div class="content-header">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-12 col-sm-6 col-md-3">
-                <div class="info-box">
-                  <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
-
-                  <div class="info-box-content">
-                    <span class="info-box-text">CPU Traffic</span>
-                    <span class="info-box-number">
-                      10
-                      <small>%</small>
-                    </span>
-                  </div>
-                  <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-              </div>
-              <!-- /.col -->
-              <div class="col-12 col-sm-6 col-md-3">
-                <div class="info-box mb-3">
-                  <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-thumbs-up"></i></span>
-
-                  <div class="info-box-content">
-                    <span class="info-box-text">Likes</span>
-                    <span class="info-box-number">41,410</span>
-                  </div>
-                  <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-              </div>
-              <!-- /.col -->
-
-              <!-- fix for small devices only -->
-              <div class="clearfix hidden-md-up"></div>
-
-              <div class="col-12 col-sm-6 col-md-3">
-                <div class="info-box mb-3">
-                  <span class="info-box-icon bg-success elevation-1"><i class="fas fa-desktop"></i></span>
-
-                  <div class="info-box-content">
-                    <span class="info-box-text">Equipos</span>
-                    <span class="info-box-number">{{ $machines_count ?? '0' }}</span>
-                  </div>
-                  <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-              </div>
-              <!-- /.col -->
-              <div class="col-12 col-sm-6 col-md-3">
-                <div class="info-box mb-3">
-                  <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
-
-                  <div class="info-box-content">
-                    <span class="info-box-text">Usuarios</span>
-                    <span class="info-box-number">{{ $users_count ?? '0' }}</span>
-                  </div>
-                  <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-              </div>
-              <!-- /.col -->
-            </div>
-          </div>
-        </div>
         <!-- /.content-header -->
 
         <!-- Main content -->

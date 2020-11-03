@@ -18,10 +18,10 @@ use Illuminate\Support\Facades\Validator;
 class UserController extends Controller
 {
 
-            public function __construct()
-            {
-            $this->middleware('auth');
-            }
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     public function index()
     {
@@ -31,7 +31,14 @@ class UserController extends Controller
         $roles = Role::all();
         $campus = Campu::all();
 
-        return view('technicians.index', ['users' => $users, 'roles' => $roles, 'campus' => $campus]);
+        return view(
+            'technicians.index',
+            [
+                'users' => $users,
+                'roles' => $roles,
+                'campus' => $campus
+            ]
+        );
     }
 
     public function create()
@@ -51,7 +58,7 @@ class UserController extends Controller
         ]);*/
 
         $users = new User();
-        
+
         $users->cc = request('cc');
         $users->name = request('name');
         $users->last_name = request('last-name');
@@ -59,6 +66,7 @@ class UserController extends Controller
         $users->email = request('email');
         $users->phone = request('phone');
         $users->campus_id = request('campu-name');
+        $users->rol_id = request('rol');
         $users->work_function = request('work-function');
         $users->password = Hash::make(request('password'));
         if ($request->hasFile('avatar')) {
@@ -117,10 +125,9 @@ class UserController extends Controller
         $role = $users->roles;
         if (count($role) > 0) {
             $role_id = $role[0]->id;
-             User::find($id)->roles()->updateExistingPivot($role_id, ['role_id' => $request->get('rol')]);
-        } else 
-        {
-          $users->assignRole($request->get('rol'));
+            User::find($id)->roles()->updateExistingPivot($role_id, ['role_id' => $request->get('rol')]);
+        } else {
+            $users->assignRole($request->get('rol'));
         }
 
         $users->update();
@@ -132,11 +139,11 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $roles = Role::all();
-        
+
         $campus = DB::table('campus')
-         ->join('users', 'campus.id', '=', 'users.campus_id')
-         ->select('campus.id', 'campus.campu_name')
-         ->get();
+            ->join('users', 'campus.id', '=', 'users.campus_id')
+            ->select('campus.id', 'campus.campu_name')
+            ->get();
 
         return view('technicians.show', ['user' => $user, 'roles' => $roles, 'campus' => $campus]);
     }
