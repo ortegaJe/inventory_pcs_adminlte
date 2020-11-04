@@ -34,3 +34,11 @@ Route::resource('hdd', 'HddController');
 Route::resource('type', 'TypeController');
 
 //Route::get('/getusersysteminfo', 'UserSystemInfoController@getusersysteminfo');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
