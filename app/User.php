@@ -5,6 +5,9 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Session;
 
 class User extends Authenticatable
 {
@@ -52,18 +55,35 @@ class User extends Authenticatable
         return $this->roles->flatten()->pluck('name')->unique();
     }
 
-        public function campus()
-        {
+    public function campus()
+    {
         return $this->belongsToMany(Campu::class)->withTimestamps();
-        }
+    }
 
-        public function assignCampu($campu)
-        {
+    public function assignCampu($campu)
+    {
         $this->campus()->sync($campu, false);
-        }
+    }
 
-        public function haveCampu()
-        {
+    public function haveCampu()
+    {
         return $this->campus->flatten()->pluck('name')->unique();
-        }
+    }
+
+    public function adminlte_image()
+    {
+        $user_login_avatar = 'upload/' . Auth::user()->image;
+        return $user_login_avatar;
+    }
+
+    public function adminlte_desc()
+    {
+        //$rol = DB::table('users')
+        //  ->join('roles', 'roles.id', '=', 'users.rol_id')
+        //->select('roles.id', 'roles.rol_name')
+        //->get();
+
+        //$rol = Auth::user()->rol_name;
+        return Auth::user()->rol_id;
+    }
 }
