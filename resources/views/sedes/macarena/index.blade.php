@@ -1,17 +1,75 @@
-@extends('layouts.app')
+@extends('adminlte::page')
 
 @section('title', 'Sede Macarena')
 
 @section('content')
 
 <section class="content">
-
   <div class="container-fluid">
-    <!--<h2>Lista de equipos registrados
-      <a href="{{'machines/create'}}">
-        <button type="button" class="btn bg-info float-right btn-sm">
-          <i class="fa fa-plus"></i> Agregar equipo</button></a>-->
-    </h2>
+    <div class="content-header">
+      <div class="row">
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="info-box">
+            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">CPU Traffic</span>
+              <span class="info-box-number">
+                10
+                <small>%</small>
+              </span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="info-box mb-3">
+            <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-thumbs-up"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Likes</span>
+              <span class="info-box-number">41,410</span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+
+        <!-- fix for small devices only -->
+        <div class="clearfix hidden-md-up"></div>
+
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="info-box mb-3">
+            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-desktop"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Equipos</span>
+              <?php $machines_count = DB::table('machines')->where('campus_id', '=', [1])->count(); ?>
+              <span class="info-box-number">{{ $machines_count ?? '0' }}</span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="info-box mb-3">
+            <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Usuarios</span>
+              <span class="info-box-number">{{ $users_count ?? '0' }}</span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+      </div>
+    </div>
     <div class="row">
       <div class="col-12">
         <div class="card card-primary card-outline">
@@ -76,7 +134,7 @@
     </div>
   </div>
 
-  @push('scripts')
+  @section('js')
   <script>
     $(function (){
       var table = $('#data-table').DataTable({
@@ -105,6 +163,6 @@
     });
   </script>
 
-  @endpush
+  @stop
 
   @endsection

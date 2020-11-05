@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('adminlte::page')
 
 @section('content')
 
@@ -22,7 +22,7 @@
           <tr>
             <th hidden scope="row">{{ $role->id }}</th>
             <th>
-              <h4>{{ $role->name }}
+              <h4>{{ $role->rol_name }}
             </th>
             </h4>
             <th>

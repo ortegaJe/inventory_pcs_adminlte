@@ -36,6 +36,84 @@
         labore possimus?</p>
     </div>
   </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">
+        <h1>Welcome to Inventory</h1>
+      </div>
+    </div>
+    <div class="card-body">
+      <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum laboriosam reprehenderit quo voluptate. Saepe
+        magnam tenetur ipsum architecto rem laboriosam totam voluptates eius, quam quo quae laudantium recusandae
+        labore possimus?</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">
+        <h1>Welcome to Inventory</h1>
+      </div>
+    </div>
+    <div class="card-body">
+      <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum laboriosam reprehenderit quo voluptate. Saepe
+        magnam tenetur ipsum architecto rem laboriosam totam voluptates eius, quam quo quae laudantium recusandae
+        labore possimus?</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">
+        <h1>Welcome to Inventory</h1>
+      </div>
+    </div>
+    <div class="card-body">
+      <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum laboriosam reprehenderit quo voluptate. Saepe
+        magnam tenetur ipsum architecto rem laboriosam totam voluptates eius, quam quo quae laudantium recusandae
+        labore possimus?</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">
+        <h1>Welcome to Inventory</h1>
+      </div>
+    </div>
+    <div class="card-body">
+      <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum laboriosam reprehenderit quo voluptate. Saepe
+        magnam tenetur ipsum architecto rem laboriosam totam voluptates eius, quam quo quae laudantium recusandae
+        labore possimus?</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">
+        <h1>Welcome to Inventory</h1>
+      </div>
+    </div>
+    <div class="card-body">
+      <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum laboriosam reprehenderit quo voluptate. Saepe
+        magnam tenetur ipsum architecto rem laboriosam totam voluptates eius, quam quo quae laudantium recusandae
+        labore possimus?</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">
+        <h1>Welcome to Inventory</h1>
+      </div>
+    </div>
+    <div class="card-body">
+      <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum laboriosam reprehenderit quo voluptate. Saepe
+        magnam tenetur ipsum architecto rem laboriosam totam voluptates eius, quam quo quae laudantium recusandae
+        labore possimus?</p>
+    </div>
+  </div>
 </div>
 @stop
 

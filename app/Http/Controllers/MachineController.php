@@ -11,6 +11,7 @@ use App\Type;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\UserSystemInfoHelper;
+use App\User;
 use Yajra\DataTables\Facades\DataTables;
 
 class MachineController extends Controller
@@ -153,11 +154,11 @@ class MachineController extends Controller
         $rams = DB::select('SELECT id,ram FROM rams', [1]);
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
         $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
-        $getos = UserSystemInfoHelper::get_os();
+        //$getos = UserSystemInfoHelper::get_os();
 
         return view('machines.edit', [
             'machine' => Machine::findOrFail($machines),
-            'getos' => $getos,
+            //'getos' => $getos,
             'types' => $types,
             'campus' => $campus,
             'rams' => $rams,
@@ -174,7 +175,7 @@ class MachineController extends Controller
      */
     public function update(MachineFormRequest $request, $id)
     {
-        $getos = UserSystemInfoHelper::get_os();
+        //$getos = UserSystemInfoHelper::get_os();
 
         $machines = Machine::findOrFail($id);
 
@@ -190,7 +191,7 @@ class MachineController extends Controller
         $machines->ip_range = $request->get('ip');
         $machines->mac_address = $request->get('mac');
         $machines->anydesk = $request->get('anydesk');
-        $machines->os = $getos;
+        $machines->os = $request->get('os');
         $machines->campus_id = $request->get('campus_id');
         $machines->location = $request->get('location');
         $machines->comment = $request->get('comment');

@@ -55,7 +55,7 @@ class User extends Authenticatable
         return $this->roles->flatten()->pluck('name')->unique();
     }
 
-    public function campus()
+    /*public function campus()
     {
         return $this->belongsToMany(Campu::class)->withTimestamps();
     }
@@ -68,7 +68,7 @@ class User extends Authenticatable
     public function haveCampu()
     {
         return $this->campus->flatten()->pluck('name')->unique();
-    }
+    }*/
 
     public function adminlte_image()
     {
@@ -85,5 +85,10 @@ class User extends Authenticatable
 
         //$rol = Auth::user()->rol_name;
         return Auth::user()->rol_id;
+    }
+
+        public function adminlte_profile_url()
+    {
+        return 'profile/username';
     }
 }

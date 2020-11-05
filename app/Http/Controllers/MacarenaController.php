@@ -122,6 +122,7 @@ class MacarenaController extends Controller
         $mac_machines->cpu = request('cpu');
         $mac_machines->ip_range = request('ip');
         $mac_machines->mac_address = request('mac');
+        $mac_machines->os = request('os');
         $mac_machines->anydesk = request('anydesk');
         $mac_machines->campus_id = request('campus');
         $mac_machines->location = request('location');

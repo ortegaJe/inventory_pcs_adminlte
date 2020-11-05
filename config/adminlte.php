@@ -45,11 +45,11 @@ return [
     |
     */
 
-    'logo' => '<b>I</b>nventory',
+    'logo' => '<b>Inventory</b>',
     'logo_img' => 'vendor/adminlte/dist/img/server-storage.svg',
     'logo_img_class' => 'brand-image elevation-3',
     'logo_img_xl' => null,
-    'logo_img_xl_class' => 'brand-image-xs',
+    'logo_img_xl_class' => 'brand-image-xl',
     'logo_img_alt' => 'server-storage.svg',
 
     /*
@@ -85,9 +85,9 @@ return [
 
     'layout_topnav' => null,
     'layout_boxed' => null,
-    'layout_fixed_sidebar' => null,
-    'layout_fixed_navbar' => null,
-    'layout_fixed_footer' => null,
+    'layout_fixed_sidebar' => true,
+    'layout_fixed_navbar' => true,
+    'layout_fixed_footer' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -101,12 +101,12 @@ return [
     |
     */
 
-    'classes_auth_card' => 'card-outline card-primary',
-    'classes_auth_header' => '',
+    'classes_auth_card' => 'card-outline card-success',
+    'classes_auth_header' => 'd-none',
     'classes_auth_body' => '',
-    'classes_auth_footer' => '',
+    'classes_auth_footer' => 'd-none',
     'classes_auth_icon' => '',
-    'classes_auth_btn' => 'btn-flat btn-primary',
+    'classes_auth_btn' => 'btn btn-success',
 
     /*
     |--------------------------------------------------------------------------
@@ -121,14 +121,14 @@ return [
     */
 
     'classes_body' => '',
-    'classes_brand' => '',
+    'classes_brand' => 'bg-success',
     'classes_brand_text' => '',
     'classes_content_wrapper' => '',
     'classes_content_header' => '',
     'classes_content' => '',
     'classes_sidebar' => 'sidebar-dark-primary elevation-4',
     'classes_sidebar_nav' => '',
-    'classes_topnav' => 'navbar-white navbar-light',
+    'classes_topnav' => 'navbar-success navbar-dark',
     'classes_topnav_nav' => 'navbar-expand',
     'classes_topnav_container' => 'container',
 
@@ -233,22 +233,100 @@ return [
     'menu' => [
         [
             'text' => 'search',
-            'search' => true,
+            'search' => false,
             'topnav' => true,
         ],
         [
-            'text' => 'blog',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
+            'text' => 'Dashboard',
+
+            'icon' => 'fas fa-fw fa-tachometer-alt',
+            'submenu' => [
+                [
+                 'text' => 'Equipos',
+                 'url'  => 'machines',
+                 'icon' => 'fas fa-fw fa-desktop',
+                 'can'  =>  1,
+                ],
+                [
+                 'text' => 'Usuarios',
+                 'url'  => 'technicians',
+                 'icon' => 'fas fa-fw fa-user',
+                 'can'  =>  1,
+                ],
+                [
+                 'text' => 'Sedes',
+                 'url'  => 'campus',
+                 'icon' => 'fas fa-fw fa-building',
+                 'can'  =>  1,
+                ],
+                [
+                 'text' => 'Roles',
+                 'url'  => 'roles',
+                 'icon' => 'fas fa-fw fa-users-cog',
+                 'can'  =>  1,
+                ],
+          ],
         ],
+                ['header' => 'Asignaciones'],
         [
-            'text'        => 'pages',
-            'url'         => 'admin/pages',
-            'icon'        => 'far fa-fw fa-file',
-            'label'       => 4,
-            'label_color' => 'success',
+            'text'        => 'Mis sedes',
+            'icon'        => 'far fa-fw fa-building',
+            'icon_color' => 'success',
+            'submenu' => [
+                [
+                 'text' => 'Carrera 16',
+                 'url'  => '/sedes/carrera_16',
+                 'icon' => 'fas fa-fw fa-building',
+                'icon_color' => 'success',
+                 'can'  =>  1,
+                ],
+                [
+                 'text' => 'Calle 30',
+                 'url'  => '/sedes/calle_30',
+                 'icon' => 'fas fa-fw fa-building',
+                 'icon_color' => 'success',
+                 'can'  =>  1,
+                ],
+                [
+                 'text' => 'Macarena',
+                 'url'  => '/sedes/macarena',
+                 'icon' => 'fas fa-fw fa-building',
+                 'icon_color' => 'success',
+                 'can'  =>  1,
+                ],
+                [
+                 'text' => 'Soledad',
+                 'url'  => '/sedes/soledad',
+                 'icon' => 'fas fa-fw fa-building',
+                 'icon_color' => 'success',
+                 'can'  =>  1,
+                ],
+                [
+                 'text' => 'Sura San Jose',
+                 'url'  => '/sedes/sura_san_jose',
+                 'icon' => 'fas fa-fw fa-building',
+                 'icon_color' => 'success',
+                 'can'  =>  1,
+                ],
+                [
+                ],
+          ],
         ],
-        ['header' => 'account_settings'],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Menu Filters
+    |--------------------------------------------------------------------------
+    |
+    | Here we can modify the menu filters of the admin panel.
+    |
+    | For more detailed instructions you can look here:
+    | https://github.com/jeroennoten/Laravel-AdminLTE/#83-custom-menu-filters
+    |
+    */
+
+            /*['header' => 'account_settings'],
         [
             'text' => 'profile',
             'url'  => 'admin/settings',
@@ -312,20 +390,7 @@ return [
             'text'       => 'information',
             'icon_color' => 'cyan',
             'url'        => '#',
-        ],
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Menu Filters
-    |--------------------------------------------------------------------------
-    |
-    | Here we can modify the menu filters of the admin panel.
-    |
-    | For more detailed instructions you can look here:
-    | https://github.com/jeroennoten/Laravel-AdminLTE/#83-custom-menu-filters
-    |
-    */
+        ],/*
 
     'filters' => [
         JeroenNoten\LaravelAdminLte\Menu\Filters\GateFilter::class,
@@ -351,7 +416,7 @@ return [
 
     'plugins' => [
         'Datatables' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
@@ -396,7 +461,7 @@ return [
             ],
         ],
         'Sweetalert2' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',

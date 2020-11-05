@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('adminlte::page')
 
 @section('title', 'Lista de equipos')
 
@@ -135,7 +135,7 @@
   </div>
   </div>
 
-  @push('scripts')
+  @section('js')
   <script>
     $(function (){
       var table = $('#data-table').DataTable({
@@ -164,6 +164,6 @@
       });
     });
   </script>
-  @endpush
+  @stop
 
   @endsection

@@ -21,6 +21,7 @@ Route::get('/', 'HomeController@index')->name('home');
 
 Route::resource('machines', 'MachineController');
 Route::resource('technicians', 'UserController');
+Route::resource('/profile/username', 'ProfileController');
 Route::resource('roles', 'RoleController');
 Route::resource('campus', 'CampuController'); // colocar un solo controlador para las sedes
 Route::resource('/sedes/macarena', 'MacarenaController');
