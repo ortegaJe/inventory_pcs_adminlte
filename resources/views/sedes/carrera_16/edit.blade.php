@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('adminlte::page')
 
 @section('title', 'Actualizar equipo')
 
@@ -13,7 +13,7 @@
           </h3>
         </div>
         <div class="card-body">
-          <form action="{{ route('macarena.update', $machine->id ) }}" method="POST">
+          <form action="{{ route('carrera_16.update', $machine->id ) }}" method="POST">
             @method('PATCH')
             @csrf
 
@@ -176,8 +176,8 @@
                 <label for="anydesk">Anydesk:</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
-                    <span class="input-group-text"><img src="{{ asset('png/anydesk.png') }}" width="20px"
-                        alt="" /></span>
+                    <span class="input-group-text"><img src="https://anydesk.com/_static/img/favicon/anydesk_icon.png"
+                        width="20px" alt="" /></span>
                   </div>
                   <input type="text" class="form-control" name="anydesk" value="{{ $machine->anydesk }}"
                     placeholder="000 000 000">
@@ -194,7 +194,7 @@
                         src="https://www.flaticon.com/svg/static/icons/svg/732/732225.svg" width="20px" alt=""></span>
                   </div>
                   <input style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
-                    type="text" class="form-control" name="os" value="{{ $getos }}" disabled>
+                    type="text" class="form-control" name="os" value="{{ $machine->os }}">
                 </div>
               </div>
             </div>
@@ -204,7 +204,7 @@
                 <label for="location">Ubicación:</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
-                    <span class="input-group-text"><img src="img/svg/aim.svg" width="20px" alt="" /></span>
+                    <span class="input-group-text"><img src="{{asset('svg/aim.svg')}}" width="20px" alt="" /></span>
                   </div>
                   <input name="location" value="{{ $machine->location }}" style="text-transform:uppercase;"
                     onkeyup="javascript:this.value=this.value.toUpperCase();" type="text" class="form-control"

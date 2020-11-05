@@ -73,7 +73,7 @@ class MachineController extends Controller
         $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
         $roles = DB::select('SELECT id FROM roles', [1]);
 
-        $getip = UserSystemInfoHelper::get_ip();
+        //$getip = UserSystemInfoHelper::get_ip();
         $findmacaddress = exec('getmac');
         $getmacaddress = strtok($findmacaddress, ' ');
         $getos = UserSystemInfoHelper::get_os();
@@ -82,7 +82,7 @@ class MachineController extends Controller
         return view('machines.create', [
             'getmacaddress' => $getmacaddress,
             'getos' => $getos,
-            'getip' => $getip,
+            //'getip' => $getip,
             'types' => $types,
             'campus' => $campus,
             'rams' => $rams,
@@ -99,10 +99,10 @@ class MachineController extends Controller
      */
     public function store(Request $request)
     {
-        $getip = UserSystemInfoHelper::get_ip();
-        $findmacaddress = exec('getmac');
-        $getmacaddress = strtok($findmacaddress, ' ');
-        $getos = UserSystemInfoHelper::get_os();
+        //$getip = UserSystemInfoHelper::get_ip();
+        //$findmacaddress = exec('getmac');
+        //$getmacaddress = strtok($findmacaddress, ' ');
+        //$getos = UserSystemInfoHelper::get_os();
         $roles = Auth::user()->rol_id;
 
         $machines = new Machine();
@@ -119,7 +119,7 @@ class MachineController extends Controller
         $machines->ip_range = request('ip');
         $machines->mac_address = request('mac');
         $machines->anydesk = request('anydesk');
-        $machines->os = $getos;
+        $machines->os = request('os');
         $machines->created_by = Auth::user()->id;
         $machines->rol_id = $roles;
         $machines->campus_id = request('campus');

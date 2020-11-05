@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('adminlte::page')
 
 @section('title', 'Actualizar equipo')
 
@@ -149,7 +149,7 @@
 
             <div class="form-row">
               <div class="col-sm-4 mb-3">
-                <label for="ip">Dirección Ip:</label>
+                <label for="ip">Dirección IP:</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-ethernet"></i></span>
@@ -160,7 +160,7 @@
               </div>
 
               <div class="col-sm-4 mb-3">
-                <label for="mac">Dirección Mac:</label>
+                <label for="mac">Dirección MAC:</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-barcode"></i></span>
@@ -175,8 +175,8 @@
                 <label for="anydesk">Anydesk:</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
-                    <span class="input-group-text"><img src="{{ asset('png/anydesk.png') }}" width="20px"
-                        alt="" /></span>
+                    <span class="input-group-text"><img src="https://anydesk.com/_static/img/favicon/anydesk_icon.png"
+                        width="20px" alt="" /></span>
                   </div>
                   <input type="text" class="form-control" name="anydesk" value="{{ $machine->anydesk }}"
                     placeholder="000 000 000">
@@ -189,11 +189,10 @@
                 <label for="os">OS:</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
-                    <span class="input-group-text"><img
-                        src="https://www.flaticon.com/svg/static/icons/svg/732/732225.svg" width="20px" alt=""></span>
+                    <span class="input-group-text"><img src="{{asset('svg/os.svg')}}" width="20px" alt=""></span>
                   </div>
                   <input style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
-                    type="text" class="form-control" name="os" value="{{ $getos }}" disabled>
+                    type="text" class="form-control" name="os" value="{{ $machine->os }}">
                 </div>
               </div>
             </div>
@@ -203,7 +202,7 @@
                 <label for="location">Ubicación:</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
-                    <span class="input-group-text"><img src="img/svg/aim.svg" width="20px" alt="" /></span>
+                    <span class="input-group-text"><img src="{{asset('svg/aim.svg')}}" width="20px" alt="" /></span>
                   </div>
                   <input name="location" value="{{ $machine->location }}" style="text-transform:uppercase;"
                     onkeyup="javascript:this.value=this.value.toUpperCase();" type="text" class="form-control"

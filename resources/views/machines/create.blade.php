@@ -2,8 +2,6 @@
 
 @section('title', 'Registro de equipo')
 
-@section('plugins.Sweetalert2', true)
-
 @section('content')
 
 <div class="content-fluid">
@@ -16,6 +14,7 @@
         <div class="card-body">
           <form action="/machines" method="POST">
             @csrf
+
             <div class="form-row">
               <div class="col-md-6 mb-8">
                 <label for="type">Tipo de equipo:</label>
@@ -39,7 +38,7 @@
                     <span class="input-group-text"><i class="fas fa-wrench"></i></span>
                   </div>
                   <input style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
-                    type="text" class="form-control" id="name-input" name="manufact" placeholder="HP">
+                    type="text" class="form-control" id="name-input" name="manufact" placeholder="LENOVO">
                 </div>
               </div>
             </div>
@@ -128,7 +127,7 @@
 
             <div class="form-row">
               <div class="col-sm-4 mb-3">
-                <label for="ip">Dirección Ip:</label>
+                <label for="ip">Dirección IP:</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-ethernet"></i></span>
@@ -153,7 +152,8 @@
                 <label for="anydesk">Anydesk:</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
-                    <span class="input-group-text"><img src="" width="20px" alt="" /></span>
+                    <span class="input-group-text"><img src="https://anydesk.com/_static/img/favicon/anydesk_icon.png"
+                        width="20px" alt="" /></span>
                   </div>
                   <input type="text" class="form-control" name="anydesk" placeholder="000 000 000">
                 </div>
@@ -165,8 +165,7 @@
                 <label for="os">OS:</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
-                    <span class="input-group-text"><img
-                        src="https://www.flaticon.com/svg/static/icons/svg/732/732225.svg" width="20px" alt=""></span>
+                    <span class="input-group-text"><img src="{{asset('svg/os.svg')}}" width="20px" alt=""></span>
                   </div>
                   <input style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
                     type="text" class="form-control" name="os" value="{{ $getos }}">
@@ -224,18 +223,5 @@
     </div>
   </div>
 </div>
-</div>
-
-@section('js')
-<script>
-  Swal.fire(
-  'Good job!',
-  'You clicked the button!',
-  'success'
-  )
-</script>
-@stop
-
-
 
 @endsection

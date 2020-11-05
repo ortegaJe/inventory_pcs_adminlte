@@ -1,10 +1,83 @@
-@extends('layouts.app')
+@extends('adminlte::page')
 
 @section('title', 'Sede Carrera 16')
 
 @section('content')
 
-<section class="content">
+<section class="content-fluid">
+
+  <div class="content-header">
+    <div class="row">
+      <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box">
+          <span class="info-box-icon bg-danger elevation-1"><img src="{{asset('/svg/raspberry-pi.svg')}}"
+              alt="atril.svg" width="50"></span>
+          <div class="info-box-content">
+            <span class="info-box-text">TV RASBPERRY PI</span>
+            <?php $berry_count = DB::table('machines')
+            ->select('type_id', 'campus_id')
+            ->where('type_id', '=', [4])
+            ->where('campus_id', '=', [4])
+            ->count(); ?>
+            <span class="info-box-number">
+              {{ $berry_count ?? '0' }}
+            </span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <!-- /.col -->
+      <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+          <span class="info-box-icon bg-info elevation-1"><img src="{{asset('/svg/atril.svg')}}" alt="atril.svg"
+              width="50"></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">ATRIL</span>
+            <?php $atril_count = DB::table('machines')->where('type_id', '=', [2])->count(); ?>
+            <span class="info-box-number">{{ $atril_count ?? '0' }}</span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <!-- /.col -->
+
+      <!-- fix for small devices only -->
+      <div class="clearfix hidden-md-up"></div>
+
+      <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+          <span class="info-box-icon bg-success elevation-1"><i class="fas fa-desktop"></i></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">PC</span>
+            <?php $pc_count = DB::table('machines')->where('type_id', '=', [1])->count(); ?>
+            <span class="info-box-number">{{ $pc_count ?? '0' }}</span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <!-- /.col -->
+      <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+          <span class="info-box-icon bg-warning elevation-1"><img src="{{asset('/svg/laptop-solid.svg')}}"
+              alt="atril.svg" width="42"></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">LAPTOP</span>
+            <?php $laptop_count = DB::table('machines')->where('type_id', '=', [3])->count(); ?>
+            <span class="info-box-number">{{ $laptop_count ?? '0' }}</span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <!-- /.col -->
+    </div>
+  </div>
 
   <div class="container-fluid">
     <div class="row">
@@ -71,7 +144,7 @@
     </div>
   </div>
 
-  @push('scripts')
+  @section('js')
   <script>
     $(function (){
       var table = $('#data-table').DataTable({
@@ -79,10 +152,10 @@
         serverSide: true,
         //responsive: true,
         autoWidth: true,
-        lengthMenu: [[5, 10, 25, 50, 100], [5, 10, 25, 50, 100]],
+        lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
         ajax: "{{ route('carrera_16.index')}}",
         columns: [
-{ data: 'id', name: 'machines.id', visible: false },
+          { data: 'id', name: 'machines.id', visible: false },
           { data: 'name', name: 'types.name', orderable: true, searchable: true },
           { data: 'serial', name: 'serial', visible: false, orderable: true, searchable: true},
           { data: 'manufacturer', name: 'manufacturer', orderable: true, searchable: true},
@@ -100,6 +173,6 @@
     });
   </script>
 
-  @endpush
+  @stop
 
   @endsection

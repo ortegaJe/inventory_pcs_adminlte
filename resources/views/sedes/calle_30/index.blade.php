@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('adminlte::page')
 
 @section('title', 'Sede Calle 30')
 
@@ -40,8 +40,8 @@
                     <th scope="col">CPU</th>
                     <th scope="col">IP</th>
                     <th scope="col">MAC</th>
-                    <th scope="col"><img src="{{ asset('png/anydesk.png') }}" width="32px" height="32px"
-                        alt="{{ asset('png/anydesk.png') }}">
+                    <th scope="col"><img src="https://anydesk.com/_static/img/favicon/anydesk_icon.png" width="32px"
+                        height="32px" alt="{{ asset('png/anydesk.png') }}">
                     </th>
                     <th scope="col"><span class="img-fluid"><img
                           src="https://www.flaticon.com/svg/static/icons/svg/732/732225.svg" width="32px" height="32px"
@@ -71,7 +71,7 @@
     </div>
   </div>
 
-  @push('scripts')
+  @section('js')
   <script>
     $(function (){
       var table = $('#data-table').DataTable({
@@ -79,7 +79,7 @@
         serverSide: true,
         //responsive: true,
         autoWidth: true,
-        lengthMenu: [[5, 10, 25, 50, 100], [5, 10, 25, 50, 100]],
+        lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
         ajax: "{{ route('calle_30.index')}}",
         columns: [
           { data: 'id', name: 'machines.id', visible: false },
@@ -101,6 +101,6 @@
     });
   </script>
 
-  @endpush
+  @stop
 
   @endsection

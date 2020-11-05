@@ -80,9 +80,9 @@ class CaDieciseisController extends Controller
 
     public function store(Request $request)
     {
-        $getip = UserSystemInfoHelper::get_ip();
-        $findmacaddress = exec('getmac');
-        $getmacaddress = strtok($findmacaddress, ' ');
+        //$getip = UserSystemInfoHelper::get_ip();
+        //$findmacaddress = exec('getmac');
+        //$getmacaddress = strtok($findmacaddress, ' ');
 
         $c16_machines = new Machine();
 
@@ -96,7 +96,7 @@ class CaDieciseisController extends Controller
         $c16_machines->hard_drive_id = request('hard-drive');
         $c16_machines->cpu = request('cpu');
         $c16_machines->ip_range = request('ip');
-        $c16_machines->mac_address = request('mac');
+        $c16_machines->mac_address = $request->get('mac');
         $c16_machines->anydesk = request('anydesk');
         $c16_machines->campus_id = request('campus');
         $c16_machines->location = request('location');
@@ -114,11 +114,11 @@ class CaDieciseisController extends Controller
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
         $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
 
-        $getos = UserSystemInfoHelper::get_os();
+        //$getos = UserSystemInfoHelper::get_os();
 
         return view('sedes.carrera_16.edit', [
             'machine' => Machine::findOrFail($machines),
-            'getos' => $getos,
+            //'getos' => $getos,
             'types' => $types,
             'campus' => $campus,
             'rams' => $rams,
@@ -128,7 +128,7 @@ class CaDieciseisController extends Controller
 
     public function update(Request $request, $id)
     {
-        $getos = UserSystemInfoHelper::get_os();
+        //$getos = UserSystemInfoHelper::get_os();
 
         $machines = Machine::findOrFail($id);
 
@@ -144,7 +144,7 @@ class CaDieciseisController extends Controller
         $machines->ip_range = $request->get('ip');
         $machines->mac_address = $request->get('mac');
         $machines->anydesk = $request->get('anydesk');
-        $machines->os = $getos;
+        $machines->os = $request->get('os');
         $machines->campus_id = $request->get('campus_id');
         $machines->location = $request->get('location');
         $machines->comment = $request->get('comment');

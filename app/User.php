@@ -78,16 +78,16 @@ class User extends Authenticatable
 
     public function adminlte_desc()
     {
-        //$rol = DB::table('users')
-        //  ->join('roles', 'roles.id', '=', 'users.rol_id')
-        //->select('roles.id', 'roles.rol_name')
-        //->get();
+        /*$rol = DB::table('users')
+            ->join('roles', 'roles.id', '=', 'users.rol_id')
+            ->select('roles.id', 'roles.rol_name')
+            ->get();
 
-        //$rol = Auth::user()->rol_name;
-        return Auth::user()->rol_id;
+        $getrol = Auth::user()->$rol;*/
+        return Auth::user()->work_function;
     }
 
-        public function adminlte_profile_url()
+    public function adminlte_profile_url()
     {
         return 'profile/username';
     }
