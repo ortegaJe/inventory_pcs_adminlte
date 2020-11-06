@@ -1,10 +1,98 @@
-@extends('layouts.app')
+@extends('adminlte::page')
 
 @section('title', 'Sede Sura San Jose')
 
 @section('content')
 
-<section class="content">
+<section class="content-fluid">
+
+  <div class="content-header">
+    <div class="row">
+      <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box">
+          <span class="info-box-icon bg-danger elevation-1"><img src="{{asset('/svg/noun_raspberry.svg')}}"
+              alt="noun_raspberry.svg" width="50"></span>
+          <div class="info-box-content">
+            <span class="info-box-text">TV RASPERRY PI</span>
+            <span class="info-box-number">
+              <?php $berry_count = DB::table('machines')
+                                       ->select('type_id', 'campus_id')
+                                       ->where('type_id', '=', [4])
+                                       ->where('campus_id', '=', [6])
+                                       ->count(); ?>
+              <span class="info-box-number">
+                {{ $berry_count ?? '0' }}
+              </span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+
+      <!-- /.col -->
+      <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+          <span class="info-box-icon bg-info elevation-1"><img src="{{asset('/svg/atril.svg')}}" alt="atril.svg"
+              width="50"></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">ATRIL</span>
+            <span class="info-box-number">
+              <?php $atril_count = DB::table('machines')
+                                       ->select('type_id', 'campus_id')
+                                       ->where('type_id', '=', [2])
+                                       ->where('campus_id', '=', [6])
+                                       ->count(); ?>
+              <span class="info-box-number">{{ $atril_count ?? '0' }}</span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <!-- /.col -->
+
+      <!-- fix for small devices only -->
+      <div class="clearfix hidden-md-up"></div>
+
+      <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+          <span class="info-box-icon bg-success elevation-1"><i class="fas fa-desktop"></i></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">PC</span>
+            <?php $pc_count = DB::table('machines')
+                                     ->select('type_id', 'campus_id')
+                                     ->where('type_id', '=', [1])
+                                     ->where('campus_id', '=', [6])
+                                     ->count(); ?>
+            <span class="info-box-number">{{ $pc_count ?? '0' }}</span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <!-- /.col -->
+      <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+          <span class="info-box-icon bg-warning elevation-1"><img src="{{asset('/svg/laptop-solid.svg')}}"
+              alt="atril.svg" width="42"></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">LAPTOP</span>
+            <?php $laptop_count = DB::table('machines')
+                                  ->select('type_id', 'campus_id')
+                                  ->where('type_id', '=', [3])
+                                  ->where('campus_id', '=', [6])
+                                  ->count(); ?>
+            <span class="info-box-number">{{ $laptop_count ?? '0' }}</span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <!-- /.col -->
+    </div>
+  </div>
 
   <div class="container-fluid">
     <div class="row">
@@ -15,7 +103,7 @@
             <h3 class="card-title" style="font-weight: 500; font-size:28px">Lista de equipos |
               {{$ssj_campu[4]->campu_name}}
             </h3>
-            <a href="{{'carrera16/create'}}">
+            <a href="{{'sura_san_jose/create'}}">
               <button type="button" class="btn bg-info float-right btn-sm">
                 <i class="fa fa-plus"></i> Agregar equipo</button>
             </a>
@@ -40,8 +128,8 @@
                     <th scope="col">CPU</th>
                     <th scope="col">IP</th>
                     <th scope="col">MAC</th>
-                    <th scope="col"><img src="{{ asset('png/anydesk.png') }}" width="32px" height="32px"
-                        alt="{{ asset('png/anydesk.png') }}">
+                    <th scope="col"><img src="https://anydesk.com/_static/img/favicon/anydesk_icon.png" width="32px"
+                        height="32px" alt="anydesk_icon.png">
                     </th>
                     <th scope="col"><span class="img-fluid"><img
                           src="https://www.flaticon.com/svg/static/icons/svg/732/732225.svg" width="32px" height="32px"
@@ -71,7 +159,7 @@
     </div>
   </div>
 
-  @push('scripts')
+  @section('js')
   <script>
     $(function (){
       var table = $('#data-table').DataTable({
@@ -79,7 +167,7 @@
         serverSide: true,
         //responsive: true,
         autoWidth: true,
-        lengthMenu: [[5, 10, 25, 50, 100], [5, 10, 25, 50, 100]],
+        lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
         ajax: "{{ route('sura_san_jose.index')}}",
         columns: [
           { data: 'id', name: 'machines.id', visible: false },
@@ -100,6 +188,6 @@
     });
   </script>
 
-  @endpush
+  @stop
 
   @endsection

@@ -48,7 +48,7 @@ class MachineController extends Controller
                     'os',
                     'location',
                     'comment',
-                    'campus.campu_name',
+                    'campus.campu_name'
                 );
 
             return DataTables::of($machines)

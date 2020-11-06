@@ -101,12 +101,12 @@ return [
     |
     */
 
-'classes_auth_card' => '',
-'classes_auth_header' => 'bg-gradient-success',
-'classes_auth_body' => '',
-'classes_auth_footer' => 'd-none',
-'classes_auth_icon' => 'fa-lg text-success',
-'classes_auth_btn' => 'btn btn-success',
+    'classes_auth_card' => '',
+    'classes_auth_header' => 'bg-gradient-success',
+    'classes_auth_body' => '',
+    'classes_auth_footer' => 'd-none',
+    'classes_auth_icon' => 'fa-lg text-success',
+    'classes_auth_btn' => 'btn btn-success',
 
     /*
     |--------------------------------------------------------------------------
@@ -325,7 +325,7 @@ return [
     |
     */
 
-            'filters' => [
+    'filters' => [
         JeroenNoten\LaravelAdminLte\Menu\Filters\GateFilter::class,
         JeroenNoten\LaravelAdminLte\Menu\Filters\HrefFilter::class,
         JeroenNoten\LaravelAdminLte\Menu\Filters\SearchFilter::class,

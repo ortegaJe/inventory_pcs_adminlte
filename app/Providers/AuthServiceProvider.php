@@ -35,9 +35,9 @@ class AuthServiceProvider extends ServiceProvider
             return $user->haveRol()->contains($role);
         });
 
-        Gate::define('admin', function (User $user, Role $role) {
+        /*Gate::define('admin', function (User $user, Role $role) {
             return $user->rol_id == $role->id;
-        });
+        });*/
 
         /*$events->listen(BuildingMenu::class, function (BuildingMenu $event) {
                 $event->menu->add('MAIN NAVIGATION');

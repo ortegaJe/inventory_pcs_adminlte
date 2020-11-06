@@ -136,14 +136,14 @@
               </div>
 
               <div class="col-sm-4 mb-3">
-                <label for="mac">Dirección Mac:</label>
+                <label for="mac">Dirección MAC:</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-barcode"></i></span>
                   </div>
                   <input style="text-transform:uppercase;" maxlength="17"
                     onkeyup="javascript:this.value=this.value.toUpperCase();" type="text" class="form-control"
-                    name="mac" value="">
+                    name="mac" value="{{ $getmacaddress }}">
                 </div>
               </div>
 
@@ -151,7 +151,8 @@
                 <label for="anydesk">Anydesk:</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
-                    <span class="input-group-text"><img src="" width="20px" alt="" /></span>
+                    <span class="input-group-text"><img src="https://anydesk.com/_static/img/favicon/anydesk_icon.png"
+                        width="20px" alt="" /></span>
                   </div>
                   <input type="text" class="form-control" name="anydesk" placeholder="000 000 000">
                 </div>
@@ -210,7 +211,6 @@
               </div>
               <textarea class="form-control" maxlength="200" id="" name="comment" aria-label="With textarea"></textarea>
             </div>
-
             <div class="modal-footer">
               <button type="reset" class="btn btn-secondary">Borrar todo</button>
               <button type="submit" class="btn btn-primary">Guardar</button>

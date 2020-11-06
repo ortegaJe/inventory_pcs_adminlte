@@ -4,7 +4,95 @@
 
 @section('content')
 
-<section class="content">
+<section class="content-fluid">
+
+  <div class="content-header">
+    <div class="row">
+      <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box">
+          <span class="info-box-icon bg-danger elevation-1"><img src="{{asset('/svg/noun_raspberry.svg')}}"
+              alt="noun_raspberry.svg" width="50"></span>
+          <div class="info-box-content">
+            <span class="info-box-text">TV RASPERRY PI</span>
+            <span class="info-box-number">
+              <?php $berry_count = DB::table('machines')
+                                 ->select('type_id', 'campus_id')
+                                 ->where('type_id', '=', [4])
+                                 ->where('campus_id', '=', [2])
+                                 ->count(); ?>
+              <span class="info-box-number">
+                {{ $berry_count ?? '0' }}
+              </span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+
+      <!-- /.col -->
+      <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+          <span class="info-box-icon bg-info elevation-1"><img src="{{asset('/svg/atril.svg')}}" alt="atril.svg"
+              width="50"></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">ATRIL</span>
+            <span class="info-box-number">
+              <?php $atril_count = DB::table('machines')
+                                 ->select('type_id', 'campus_id')
+                                 ->where('type_id', '=', [2])
+                                 ->where('campus_id', '=', [2])
+                                 ->count(); ?>
+              <span class="info-box-number">{{ $atril_count ?? '0' }}</span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <!-- /.col -->
+
+      <!-- fix for small devices only -->
+      <div class="clearfix hidden-md-up"></div>
+
+      <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+          <span class="info-box-icon bg-success elevation-1"><i class="fas fa-desktop"></i></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">PC</span>
+            <?php $pc_count = DB::table('machines')
+                               ->select('type_id', 'campus_id')
+                               ->where('type_id', '=', [1])
+                               ->where('campus_id', '=', [2])
+                               ->count(); ?>
+            <span class="info-box-number">{{ $pc_count ?? '0' }}</span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <!-- /.col -->
+      <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+          <span class="info-box-icon bg-warning elevation-1"><img src="{{asset('/svg/laptop-solid.svg')}}"
+              alt="atril.svg" width="42"></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">LAPTOP</span>
+            <?php $laptop_count = DB::table('machines')
+                            ->select('type_id', 'campus_id')
+                            ->where('type_id', '=', [3])
+                            ->where('campus_id', '=', [2])
+                            ->count(); ?>
+            <span class="info-box-number">{{ $laptop_count ?? '0' }}</span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <!-- /.col -->
+    </div>
+  </div>
 
   <div class="container-fluid">
     <div class="row">
@@ -15,7 +103,7 @@
             <h3 class="card-title" style="font-weight: 500; font-size:28px">Lista de equipos |
               {{$c30_campu[1]->campu_name}}
             </h3>
-            <a href="{{'soledad/create'}}">
+            <a href="{{ 'calle_30/create' }}">
               <button type="button" class="btn bg-info float-right btn-sm">
                 <i class="fa fa-plus"></i> Agregar equipo</button>
             </a>
