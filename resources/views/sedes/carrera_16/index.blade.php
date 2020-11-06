@@ -10,23 +10,25 @@
     <div class="row">
       <div class="col-12 col-sm-6 col-md-3">
         <div class="info-box">
-          <span class="info-box-icon bg-danger elevation-1"><img src="{{asset('/svg/raspberry-pi.svg')}}"
-              alt="atril.svg" width="50"></span>
+          <span class="info-box-icon bg-danger elevation-1"><img src="{{asset('/svg/noun_raspberry.svg')}}"
+              alt="noun_raspberry.svg" width="50"></span>
           <div class="info-box-content">
-            <span class="info-box-text">TV RASBPERRY PI</span>
-            <?php $berry_count = DB::table('machines')
-            ->select('type_id', 'campus_id')
-            ->where('type_id', '=', [4])
-            ->where('campus_id', '=', [4])
-            ->count(); ?>
+            <span class="info-box-text">TV RASPERRY PI</span>
             <span class="info-box-number">
-              {{ $berry_count ?? '0' }}
-            </span>
+              <?php $berry_count = DB::table('machines')
+                                 ->select('type_id', 'campus_id')
+                                 ->where('type_id', '=', [4])
+                                 ->where('campus_id', '=', [4])
+                                 ->count(); ?>
+              <span class="info-box-number">
+                {{ $berry_count ?? '0' }}
+              </span>
           </div>
           <!-- /.info-box-content -->
         </div>
         <!-- /.info-box -->
       </div>
+
       <!-- /.col -->
       <div class="col-12 col-sm-6 col-md-3">
         <div class="info-box mb-3">
@@ -35,8 +37,13 @@
 
           <div class="info-box-content">
             <span class="info-box-text">ATRIL</span>
-            <?php $atril_count = DB::table('machines')->where('type_id', '=', [2])->count(); ?>
-            <span class="info-box-number">{{ $atril_count ?? '0' }}</span>
+            <span class="info-box-number">
+              <?php $atril_count = DB::table('machines')
+                                 ->select('type_id', 'campus_id')
+                                 ->where('type_id', '=', [2])
+                                 ->where('campus_id', '=', [4])
+                                 ->count(); ?>
+              <span class="info-box-number">{{ $atril_count ?? '0' }}</span>
           </div>
           <!-- /.info-box-content -->
         </div>
@@ -53,7 +60,11 @@
 
           <div class="info-box-content">
             <span class="info-box-text">PC</span>
-            <?php $pc_count = DB::table('machines')->where('type_id', '=', [1])->count(); ?>
+            <?php $pc_count = DB::table('machines')
+                               ->select('type_id', 'campus_id')
+                               ->where('type_id', '=', [1])
+                               ->where('campus_id', '=', [4])
+                               ->count(); ?>
             <span class="info-box-number">{{ $pc_count ?? '0' }}</span>
           </div>
           <!-- /.info-box-content -->
@@ -68,7 +79,11 @@
 
           <div class="info-box-content">
             <span class="info-box-text">LAPTOP</span>
-            <?php $laptop_count = DB::table('machines')->where('type_id', '=', [3])->count(); ?>
+            <?php $laptop_count = DB::table('machines')
+                            ->select('type_id', 'campus_id')
+                            ->where('type_id', '=', [3])
+                            ->where('campus_id', '=', [4])
+                            ->count(); ?>
             <span class="info-box-number">{{ $laptop_count ?? '0' }}</span>
           </div>
           <!-- /.info-box-content -->
@@ -113,8 +128,8 @@
                     <th scope="col">CPU</th>
                     <th scope="col">IP</th>
                     <th scope="col">MAC</th>
-                    <th scope="col"><img src="{{ asset('png/anydesk.png') }}" width="32px" height="32px"
-                        alt="{{ asset('png/anydesk.png') }}">
+                    <th scope="col"><img src="https://anydesk.com/_static/img/favicon/anydesk_icon.png" width="32px"
+                        height="32px" alt="{{ asset('png/anydesk.png') }}">
                     </th>
                     <th scope="col"><span class="img-fluid"><img
                           src="https://www.flaticon.com/svg/static/icons/svg/732/732225.svg" width="32px" height="32px"

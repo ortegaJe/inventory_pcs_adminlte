@@ -10,7 +10,7 @@
     <div class="row">
       <div class="col-12 col-sm-6 col-md-3">
         <div class="info-box">
-          <span class="info-box-icon bg-danger elevation-1"><img src="{{asset('/svg/raspberry-pi.svg')}}"
+          <span class="info-box-icon bg-danger elevation-1"><img src="{{asset('/svg/noun_raspberry.svg')}}"
               alt="atril.svg" width="50"></span>
           <div class="info-box-content">
             <span class="info-box-text">TV RASPERRY PI</span>

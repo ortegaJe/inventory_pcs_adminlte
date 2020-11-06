@@ -137,14 +137,14 @@
               </div>
 
               <div class="col-sm-4 mb-3">
-                <label for="mac">Dirección Mac:</label>
+                <label for="mac">Dirección MAC:</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-barcode"></i></span>
                   </div>
                   <input style="text-transform:uppercase;" maxlength="17"
                     onkeyup="javascript:this.value=this.value.toUpperCase();" type="text" class="form-control"
-                    name="mac" value="">
+                    name="mac" value="{{ $getmacaddress }}">
                 </div>
               </div>
 

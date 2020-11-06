@@ -101,12 +101,12 @@ return [
     |
     */
 
-    'classes_auth_card' => 'card-outline card-success',
-    'classes_auth_header' => 'd-none',
-    'classes_auth_body' => '',
-    'classes_auth_footer' => 'd-none',
-    'classes_auth_icon' => '',
-    'classes_auth_btn' => 'btn btn-success',
+'classes_auth_card' => '',
+'classes_auth_header' => 'bg-gradient-success',
+'classes_auth_body' => '',
+'classes_auth_footer' => 'd-none',
+'classes_auth_icon' => 'fa-lg text-success',
+'classes_auth_btn' => 'btn btn-success',
 
     /*
     |--------------------------------------------------------------------------
@@ -278,14 +278,14 @@ return [
                     'url'  => '/sedes/carrera_16',
                     'icon' => 'fas fa-fw fa-building',
                     'icon_color' => 'success',
-                    'can'  =>  1,
+                    'can'  =>  3,
                 ],
                 [
                     'text' => 'Calle 30',
                     'url'  => '/sedes/calle_30',
                     'icon' => 'fas fa-fw fa-building',
                     'icon_color' => 'success',
-                    'can'  =>  1,
+                    'can'  =>  6,
                 ],
                 [
                     'text' => 'Macarena',
@@ -324,6 +324,16 @@ return [
     | https://github.com/jeroennoten/Laravel-AdminLTE/#83-custom-menu-filters
     |
     */
+
+            'filters' => [
+        JeroenNoten\LaravelAdminLte\Menu\Filters\GateFilter::class,
+        JeroenNoten\LaravelAdminLte\Menu\Filters\HrefFilter::class,
+        JeroenNoten\LaravelAdminLte\Menu\Filters\SearchFilter::class,
+        JeroenNoten\LaravelAdminLte\Menu\Filters\ActiveFilter::class,
+        JeroenNoten\LaravelAdminLte\Menu\Filters\ClassesFilter::class,
+        JeroenNoten\LaravelAdminLte\Menu\Filters\LangFilter::class,
+        JeroenNoten\LaravelAdminLte\Menu\Filters\DataFilter::class,
+    ],
 
     /*['header' => 'account_settings'],
         [
@@ -390,16 +400,6 @@ return [
             'icon_color' => 'cyan',
             'url'        => '#',
         ],/*
-
-    'filters' => [
-        JeroenNoten\LaravelAdminLte\Menu\Filters\GateFilter::class,
-        JeroenNoten\LaravelAdminLte\Menu\Filters\HrefFilter::class,
-        JeroenNoten\LaravelAdminLte\Menu\Filters\SearchFilter::class,
-        JeroenNoten\LaravelAdminLte\Menu\Filters\ActiveFilter::class,
-        JeroenNoten\LaravelAdminLte\Menu\Filters\ClassesFilter::class,
-        JeroenNoten\LaravelAdminLte\Menu\Filters\LangFilter::class,
-        JeroenNoten\LaravelAdminLte\Menu\Filters\DataFilter::class,
-    ],
 
     /*
     |--------------------------------------------------------------------------
