@@ -170,7 +170,7 @@ class MacarenaController extends Controller
         $machines->ip_range = $request->get('ip');
         $machines->mac_address = $request->get('mac');
         $machines->anydesk = $request->get('anydesk');
-        $machines->os = $getos;
+        $machines->os = $request->get('os');
         $machines->campus_id = $request->get('campus_id');
         $machines->location = $request->get('location');
         $machines->comment = $request->get('comment');
