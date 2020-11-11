@@ -29,17 +29,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(Dispatcher $events)
     {
-
-        $events->listen(BuildingMenu::class, function (BuildingMenu $event) {
-            $event->menu->add('MAIN NAVIGATION');
-            $event->menu->add([
-                'text'        => 'Users',
-                'url'         => 'technicians',
-                'icon'        => 'users',
-                'label'       => User::count(),
-                //'can'         => DB::table('machines')->select('rol_id')->where('rol_id', '=', [1])->get(),
-                'label_color' => 'success',
-            ]);
-        });
+        //
     }
 }

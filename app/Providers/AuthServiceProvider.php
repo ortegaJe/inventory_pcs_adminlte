@@ -35,6 +35,13 @@ class AuthServiceProvider extends ServiceProvider
             return $user->haveRol()->contains($role);
         });
 
+    /*select `role_user`.`user_id` 
+    as `pivot_user_id`, `role_user`.`role_id` 
+    as `pivot_role_id`, `role_user`.`created_at` 
+    as `pivot_created_at`, `role_user`.`updated_at` 
+    as `pivot_updated_at` 
+    from `roles` inner join `role_user` on `roles`.`id` = `role_user`.`role_id` where `role_user`.`user_id` = 1*/
+
         /*Gate::define('admin', function (User $user, Role $role) {
             return $user->rol_id == $role->id;
         });*/

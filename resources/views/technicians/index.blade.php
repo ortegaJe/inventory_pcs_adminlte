@@ -5,7 +5,9 @@
 @section('content')
 <div class="container-fluid">
   <h2 style="font-weight: 700">Listado de Usuarios</h2>
+  @can('admin')
   @include('technicians.create')
+  @endcan
   <table id="datatable-technicians" class="table table-responsive table-hover table-bordered text-center">
     <thead class="thead-dark">
       <tr>
