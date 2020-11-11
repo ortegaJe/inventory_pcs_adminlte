@@ -4,22 +4,39 @@ namespace App\Http\Controllers;
 
 use App\Campu;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\Facades\DataTables;
 
 class CampuController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('verified');
     }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $campus = Campu::all();
-        return view('campus.index', ['campus' => $campus]);
+        if ($request->ajax()) {
+            $campus = DB::table('campus')
+                ->select(
+                    'id',
+                    'campu_name',
+                    'label',
+                    'created_at'
+                );
+
+            return DataTables::of($campus)
+                ->addColumn('action', 'campus.actions')
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+
+        return view('campus.index');
     }
 
     /**
@@ -43,7 +60,7 @@ class CampuController extends Controller
     {
         $campus = new Campu();
 
-        $campus->name = request('campu-name');
+        $campus->campu_name = request('campu-name');
 
         $campus->save();
 

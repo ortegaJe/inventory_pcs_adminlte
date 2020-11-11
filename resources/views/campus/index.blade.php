@@ -1,44 +1,90 @@
 @extends('adminlte::page')
 
+@section('title', 'Lista de equipos')
+
 @section('content')
 
-<div class="container-fluid text-monospace">
-    <div class="row">
-        <div class="col-md-6 mx-auto">
-            <h2 style="font-weight: 700">Listado de Sedes</h2>
-            @include('campus.modal')
-            <table class="table table-hover table-bordered text-center">
-                <thead class="thead-dark">
-                    <tr>
-                        <th hidden scope="col">ID</th>
-                        <th scope="col">
-                            <i class="fas fa-building"></i>
-                        </th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($campus as $campu)
-                    <tr>
-                        <th hidden scope="row">{{ $campu->id }}</th>
-                        <th>
-                            <h4>{{ $campu->campu_name }}
-                        </th>
-                        </h4>
-                        <th>
-                            <form action="{{ route('campus.destroy', $campu->id) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn bg-gradient-danger btn-sm"><i
-                                        class="fas fa-trash-alt"></i></button>
-                            </form>
-                        </th>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+<section class="content-fluid">
+
+    <div class="content-header">
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-primary card-outline">
+                    <div class="card-header border">
+                        <h3 class="card-title" style="font-weight: 500; font-size:28px">Registros de Sedes
+                        </h3>
+                        @include('campus.modal')
+                        <div class="card-tools">
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body p-0" style="display: block;">
+                        <div class="table-responsive p-2">
+                            <table class="table table-sm table-bordered table-hover text-center" id="data-table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col"><i class="fa fa-building"></i></th>
+                                        <th scope="col">LABEL</th>
+                                        <th scope="col">CREATED_AT</th>
+                                        <th scope="col">ACTIONS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer clearfix">
+
+                    </div>
+                    <!-- /.card-footer -->
+                </div>
+            </div>
         </div>
     </div>
-</div>
+</section>
+
+@section('js')
+<script>
+    $(function (){
+      var table = $('#data-table').DataTable({
+        processing: true,
+        serverSide: true,
+        //responsive: true,
+        autoWidth: true,
+        lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
+        ajax: "{{ route('campus.index')}}",
+        columns: [
+          { data: 'id', 
+            name: 'campus.id', 
+            visible: false 
+          },
+          { data: 'campu_name',
+            name: 'campus.campu_name',
+            orderable: true, searchable: true 
+          },
+          { data: 'label',
+            name: 'campus.label',
+            orderable: true, searchable: true
+          },
+          { data: 'created_at',
+            name: 'campus.created_at',
+            orderable: true, searchable: true
+          },
+          { data: 'action',
+           orderable: false, searchable: false
+          },
+        ]
+      });
+    });
+</script>
+@stop
 
 @endsection
