@@ -19,20 +19,20 @@ Auth::routes(['verify' => true]);
 
 Route::get('/', 'HomeController@index')->name('home');
 
-Route::resource('machines', 'MachineController');
-Route::resource('technicians', 'UserController');
+Route::resource('machines', 'MachineController')->middleware('admin');
+Route::resource('technicians', 'UserController')->middleware('admin');
 Route::resource('/profile/username', 'ProfileController');
-Route::resource('roles', 'RoleController');
-Route::resource('campus', 'CampuController'); // colocar un solo controlador para las sedes
+Route::resource('roles', 'RoleController')->middleware('admin');
+Route::resource('campus', 'CampuController')->middleware('admin'); // colocar un solo controlador para las sedes
 Route::resource('/sedes/macarena', 'MacarenaController');
 Route::resource('/sedes/carrera_16', 'CaDieciseisController');
 Route::resource('/sedes/sura_san_jose', 'SuraSanJoseController');
-Route::resource('/sedes/calle_30', 'CaTreintaController');
+Route::resource('/sedes/calle_30', 'CaTreintaController'); //->middleware('ctreinta')
 Route::resource('/sedes/soledad', 'SoledadController');
-Route::resource('parts', 'PartController');
-Route::resource('ram', 'RamController');
-Route::resource('hdd', 'HddController');
-Route::resource('type', 'TypeController');
+Route::resource('parts', 'PartController')->middleware('admin');
+Route::resource('ram', 'RamController')->middleware('admin');
+Route::resource('hdd', 'HddController')->middleware('admin');
+Route::resource('type', 'TypeController')->middleware('admin');
 
 //Route::get('/getusersysteminfo', 'UserSystemInfoController@getusersysteminfo');
 

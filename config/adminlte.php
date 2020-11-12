@@ -245,8 +245,7 @@ return [
                     'text' => 'Equipos',
                     'url'  => 'machines',
                     'icon' => 'fas fa-fw fa-desktop',
-                    'can'  =>  'admin',
-                ],
+                    'can'  =>  'admin',                ],
                 [
                     'text' => 'Usuarios',
                     'url'  => 'technicians',
@@ -285,7 +284,7 @@ return [
                     'url'  => '/sedes/calle_30',
                     'icon' => 'fas fa-fw fa-building',
                     'icon_color' => 'success',
-                    'can'  =>  ['c30', 'admin'],
+                    'can'  =>  ['ctreinta', 'admin'],
                 ],
                 [
                     'text' => 'Macarena',
@@ -299,7 +298,7 @@ return [
                     'url'  => '/sedes/soledad',
                     'icon' => 'fas fa-fw fa-building',
                     'icon_color' => 'success',
-                    'can'  =>  ['c30', 'admin'],
+                    'can'  =>  ['ctreinta', 'admin'],
                 ],
                 [
                     'text' => 'Sura San Jose',
