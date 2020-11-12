@@ -238,14 +238,15 @@ return [
         ],
         [
             'text' => 'Dashboard',
-
             'icon' => 'fas fa-fw fa-tachometer-alt',
+            'can'  =>  'admin',
             'submenu' => [
                 [
                     'text' => 'Equipos',
                     'url'  => 'machines',
                     'icon' => 'fas fa-fw fa-desktop',
-                    'can'  =>  'admin',                ],
+                    'can'  =>  'admin',
+                ],
                 [
                     'text' => 'Usuarios',
                     'url'  => 'technicians',
@@ -449,12 +450,17 @@ return [
             ],
         ],
         'Chartjs' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
                     'asset' => false,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => 'https://cdn.jsdelivr.net/npm/chart.js@2.8.0',
                 ],
             ],
         ],

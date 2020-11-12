@@ -21,7 +21,7 @@ class MachineController extends Controller
         $this->middleware('admin');
         $this->middleware('verified');
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -56,6 +56,11 @@ class MachineController extends Controller
         }
 
         return view('machines.index');
+    }
+
+    public function charts(Request $request)
+    {
+        return 'hello';
     }
 
     /**

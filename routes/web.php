@@ -20,6 +20,7 @@ Auth::routes(['verify' => true]);
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::resource('machines', 'MachineController')->middleware('admin');
+//Route::resource('machines/charts', 'MachineController@charts')->middleware('admin');
 Route::resource('technicians', 'UserController')->middleware('admin');
 Route::resource('/profile/username', 'ProfileController');
 Route::resource('roles', 'RoleController')->middleware('admin');

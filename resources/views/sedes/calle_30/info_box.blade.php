@@ -3,15 +3,15 @@
         <!-- small box -->
         <div class="small-box bg-info">
             <div class="inner">
-                <?php $atril_count = DB::table('machines')
+                <?php $c30_atril_count = DB::table('machines')
                                   ->select('type_id', 'campus_id')
                                   ->where('type_id', '=', [2]) //id en la tabla types
-                                  ->where('campus_id', '=', [1]) //id en la tabla campus
+                                  ->where('campus_id', '=', [2]) //id en la tabla campus
                                   ->count(); ?>
-                <h3>{{ $atril_count ?? '0' }}</h3>
+                <h3>{{ $c30_atril_count ?? '0' }}</h3>
 
-                <?php $mac_campu = DB::table('types')->get();?>
-                <p><b>{{$mac_campu[1]->name}}</b> Registrados</p>
+                <?php $c30_campu = DB::table('types')->get();?>
+                <p><b>{{$c30_campu[1]->name}}</b> Registrados</p>
                 <!--posición en la tabla types apartir de 0-->
             </div>
             <div class="icon">
@@ -28,7 +28,7 @@
                 <?php $pc_count = DB::table('machines')
                                   ->select('type_id', 'campus_id')
                                   ->where('type_id', '=', [1])
-                                  ->where('campus_id', '=', [1])
+                                  ->where('campus_id', '=', [2])
                                   ->count(); ?>
                 <h3>{{ $pc_count ?? '0' }}</h3>
 
@@ -49,7 +49,7 @@
                 <?php $laptop_count = DB::table('machines')
                                   ->select('type_id', 'campus_id')
                                   ->where('type_id', '=', [3])
-                                  ->where('campus_id', '=', [1])
+                                  ->where('campus_id', '=', [2])
                                   ->count(); ?>
                 <h3>{{ $laptop_count ?? '0' }}</h3>
 
@@ -70,7 +70,7 @@
                 <?php $berry_count = DB::table('machines')
                                       ->select('type_id', 'campus_id')
                                       ->where('type_id', '=', [4])
-                                      ->where('campus_id', '=', [1])
+                                      ->where('campus_id', '=', [2])
                                       ->count(); ?>
                 <h3>{{ $berry_count ?? '0' }}</h3>
 

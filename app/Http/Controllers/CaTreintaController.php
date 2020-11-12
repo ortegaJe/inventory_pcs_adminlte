@@ -104,6 +104,7 @@ class CaTreintaController extends Controller
         $c30_machines->ip_range = request('ip');
         $c30_machines->mac_address = request('mac');
         $c30_machines->anydesk = request('anydesk');
+        $c30_machines->os = request('os');
         $c30_machines->campus_id = request('campus');
         $c30_machines->location = request('location');
         $c30_machines->comment = request('comment');
@@ -150,7 +151,7 @@ class CaTreintaController extends Controller
         $machines->ip_range = $request->get('ip');
         $machines->mac_address = $request->get('mac');
         $machines->anydesk = $request->get('anydesk');
-        $machines->os = $getos;
+        $machines->os = $request->get('os');
         $machines->campus_id = $request->get('campus_id');
         $machines->location = $request->get('location');
         $machines->comment = $request->get('comment');
