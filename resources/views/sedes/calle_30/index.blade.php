@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Sede Calle 30')
+@section('title', 'Calle 30')
 
 @section('content')
 
@@ -17,7 +17,7 @@
               {{$c30_campu[1]->campu_name}}
             </h3>
             <a href="{{'calle_30/create'}}">
-              <button type="button" class="btn bg-info float-right btn-sm">
+              <button type="button" class="btn bg-primary float-right btn-sm">
                 <i class="fa fa-plus"></i> Agregar equipo</button>
             </a>
 

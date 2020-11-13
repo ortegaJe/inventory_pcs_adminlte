@@ -15,7 +15,7 @@
             <h3 class="card-title" style="font-weight: 500; font-size:28px">Lista de equipos registrados
             </h3>
             <a href="{{'machines/create'}}">
-              <button type="button" class="btn bg-info float-left btn-sm ml-2">
+              <button type="button" class="btn bg-primary float-left btn-sm ml-2">
                 <i class="fa fa-plus"></i> Agregar equipo</button>
             </a>
 

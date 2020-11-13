@@ -66,7 +66,7 @@ class SoledadController extends Controller
         $getmacaddress = strtok($findmacaddress, ' ');
         $getos = UserSystemInfoHelper::get_os();
 
-        return view('sedes.calle_30.create', [
+        return view('sedes.soledad.create', [
             'sol_machines' => $sol_machines,
             'types' => $types,
             'campus' => $campus,
