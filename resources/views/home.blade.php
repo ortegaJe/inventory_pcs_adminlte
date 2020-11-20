@@ -14,8 +14,13 @@
           {{ session('status') }}
         </div>
         @endif
-
-        {{ __('You are logged in!') }}
+        <div class="alert alert-success alert-dismissible">
+          <h4><i class="icon fas fa-check"></i> {{ __(' Hello you are logged in!') }}</h4>
+          <h6>
+            {{ Auth::user()->name }} {{ Auth::user()->last_name }}
+            <br />
+          </h6>
+        </div>
       </div>
     </div>
   </div>
@@ -24,23 +29,12 @@
 
 @section('content')
 <div class="container">
-  <div class="card">
-    <div class="card-header">
-      <div class="card-title">
-        <h1>Welcome to Inventory</h1>
-      </div>
-    </div>
-    <div class="card-body">
-      <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum laboriosam reprehenderit quo voluptate. Saepe
-        magnam tenetur ipsum architecto rem laboriosam totam voluptates eius, quam quo quae laudantium recusandae
-        labore possimus?</p>
-    </div>
-  </div>
 </div>
 @stop
 
-@section('css')
-@stop
-
-@section('js')
-@endsection
+@push('js')
+<script>
+  $('.alert').slideDown();
+    setTimeout(function(){ $('.alert').slideUp(); }, 10000);
+</script>
+@endpush

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\UserSystemInfoHelper;
 use App\Machine;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -18,23 +19,24 @@ class SoledadController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $sol_machines = DB::table('machines')
-                ->join('types', 'types.id', '=', 'machines.type_id')
-                ->join('campus', 'campus.id', '=', 'machines.campus_id')
+            $sol_machines = DB::table('machines AS m')
+                ->join('types AS t', 't.id', '=', 'm.type_id')
+                ->join('campus AS c', 'c.id', '=', 'm.campus_id')
                 ->select(
-                    'machines.id',
-                    'types.name',
-                    'serial',
-                    'manufacturer',
-                    'model',
-                    'cpu',
-                    'machines.ip_range',
-                    'machines.mac_address',
-                    'machines.anydesk',
-                    'os',
-                    'location',
-                    'comment',
-                    'campus.campu_name'
+                    'm.id',
+                    't.name',
+                    'm.serial',
+                    'm.manufacturer',
+                    'm.model',
+                    'm.cpu',
+                    'm.ip_range',
+                    'm.mac_address',
+                    'm.anydesk',
+                    'm.os',
+                    'm.location',
+                    'm.comment',
+                    'm.created_at',
+                    'c.campu_name'
                 )->where('label', '=', 'SOL');
 
             return DataTables::of($sol_machines)
@@ -61,7 +63,7 @@ class SoledadController extends Controller
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
         $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
 
-        $getip = UserSystemInfoHelper::get_ip();
+        //$getip = UserSystemInfoHelper::get_ip();
         $findmacaddress = exec('getmac');
         $getmacaddress = strtok($findmacaddress, ' ');
         $getos = UserSystemInfoHelper::get_os();
@@ -74,15 +76,17 @@ class SoledadController extends Controller
             'hdds' => $hdds,
             'getmacaddress' => $getmacaddress,
             'getos' => $getos,
-            'getip' => $getip,
+            //'getip' => $getip,
         ]);
     }
 
     public function store(Request $request)
     {
-        $getip = UserSystemInfoHelper::get_ip();
-        $findmacaddress = exec('getmac');
-        $getmacaddress = strtok($findmacaddress, ' ');
+        //$getip = UserSystemInfoHelper::get_ip();
+        //$findmacaddress = exec('getmac');
+        //$getmacaddress = strtok($findmacaddress, ' ');
+
+        $roles = Auth::user()->rol_id;
 
         $sol_machines = new Machine();
 
@@ -98,6 +102,9 @@ class SoledadController extends Controller
         $sol_machines->ip_range = request('ip');
         $sol_machines->mac_address = request('mac');
         $sol_machines->anydesk = request('anydesk');
+        $sol_machines->os = request('os');
+        $sol_machines->created_by = Auth::user()->id;
+        $sol_machines->rol_id = $roles;
         $sol_machines->campus_id = request('campus');
         $sol_machines->location = request('location');
         $sol_machines->comment = request('comment');
@@ -114,11 +121,11 @@ class SoledadController extends Controller
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
         $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
 
-        $getos = UserSystemInfoHelper::get_os();
+        //$getos = UserSystemInfoHelper::get_os();
 
         return view('sedes.soledad.edit', [
             'machine' => Machine::findOrFail($machines),
-            'getos' => $getos,
+            //'getos' => $getos,
             'types' => $types,
             'campus' => $campus,
             'rams' => $rams,
@@ -144,7 +151,7 @@ class SoledadController extends Controller
         $machines->ip_range = $request->get('ip');
         $machines->mac_address = $request->get('mac');
         $machines->anydesk = $request->get('anydesk');
-        $machines->os = $getos;
+        $machines->os = $request->get('os');
         $machines->campus_id = $request->get('campus_id');
         $machines->location = $request->get('location');
         $machines->comment = $request->get('comment');

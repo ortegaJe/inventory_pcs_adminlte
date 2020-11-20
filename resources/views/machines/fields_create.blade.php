@@ -21,7 +21,8 @@
                 <span class="input-group-text"><i class="fas fa-wrench"></i></span>
             </div>
             <input style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
-                type="text" class="form-control" id="name-input" name="manufact" placeholder="LENOVO">
+                type="text" class="form-control" id="name-input" name="manufact" value="{{ old('manufact') }}"
+                placeholder="LENOVO">
         </div>
     </div>
 </div>

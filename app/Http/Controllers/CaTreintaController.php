@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\UserSystemInfoHelper;
 use App\Machine;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -24,23 +25,24 @@ class CaTreintaController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $c30_machines = DB::table('machines')
-                ->join('types', 'types.id', '=', 'machines.type_id')
-                ->join('campus', 'campus.id', '=', 'machines.campus_id')
+            $c30_machines = DB::table('machines AS m')
+                ->join('types AS t', 't.id', '=', 'm.type_id')
+                ->join('campus AS c', 'c.id', '=', 'm.campus_id')
                 ->select(
-                    'machines.id',
-                    'types.name',
-                    'serial',
-                    'manufacturer',
-                    'model',
-                    'cpu',
-                    'machines.ip_range',
-                    'machines.mac_address',
-                    'machines.anydesk',
-                    'os',
-                    'location',
-                    'comment',
-                    'campus.campu_name'
+                    'm.id',
+                    't.name',
+                    'm.serial',
+                    'm.manufacturer',
+                    'm.model',
+                    'm.cpu',
+                    'm.ip_range',
+                    'm.mac_address',
+                    'm.anydesk',
+                    'm.os',
+                    'm.location',
+                    'm.comment',
+                    'm.created_at',
+                    'c.campu_name'
                 )->where('label', '=', 'C30');
 
             return DataTables::of($c30_machines)
@@ -67,7 +69,7 @@ class CaTreintaController extends Controller
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
         $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
 
-        $getip = UserSystemInfoHelper::get_ip();
+        //$getip = UserSystemInfoHelper::get_ip();
         $findmacaddress = exec('getmac');
         $getmacaddress = strtok($findmacaddress, ' ');
         $getos = UserSystemInfoHelper::get_os();
@@ -80,15 +82,17 @@ class CaTreintaController extends Controller
             'hdds' => $hdds,
             'getmacaddress' => $getmacaddress,
             'getos' => $getos,
-            'getip' => $getip,
+            //'getip' => $getip,
         ]);
     }
 
     public function store(Request $request)
     {
-        $getip = UserSystemInfoHelper::get_ip();
-        $findmacaddress = exec('getmac');
-        $getmacaddress = strtok($findmacaddress, ' ');
+        //$getip = UserSystemInfoHelper::get_ip();
+        //$findmacaddress = exec('getmac');
+        //$getmacaddress = strtok($findmacaddress, ' ');
+
+        $roles = Auth::user()->rol_id;
 
         $c30_machines = new Machine();
 
@@ -105,6 +109,8 @@ class CaTreintaController extends Controller
         $c30_machines->mac_address = request('mac');
         $c30_machines->anydesk = request('anydesk');
         $c30_machines->os = request('os');
+        $c30_machines->created_by = Auth::user()->id;
+        $c30_machines->rol_id = $roles;
         $c30_machines->campus_id = request('campus');
         $c30_machines->location = request('location');
         $c30_machines->comment = request('comment');
@@ -121,11 +127,11 @@ class CaTreintaController extends Controller
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
         $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
 
-        $getos = UserSystemInfoHelper::get_os();
+        //$getos = UserSystemInfoHelper::get_os();
 
         return view('sedes.calle_30.edit', [
             'machine' => Machine::findOrFail($machines),
-            'getos' => $getos,
+            //'getos' => $getos,
             'types' => $types,
             'campus' => $campus,
             'rams' => $rams,
@@ -135,7 +141,7 @@ class CaTreintaController extends Controller
 
     public function update(Request $request, $id)
     {
-        $getos = UserSystemInfoHelper::get_os();
+        //$getos = UserSystemInfoHelper::get_os();
 
         $machines = Machine::findOrFail($id);
 

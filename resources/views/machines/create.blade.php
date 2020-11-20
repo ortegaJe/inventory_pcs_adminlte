@@ -14,6 +14,17 @@
         <div class="card-body">
           <form action="/machines" method="POST">
             @csrf
+            @if ($errors->any())
+            <div class="alert alert-danger alert-dismissible">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+              <h5><i class="icon fas fa-ban"></i> Upsss!</h5>
+              <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+              </ul>
+            </div>
+            @endif
             @include('machines.fields_create')
             <div class="modal-footer">
               <button type="reset" class="btn btn-secondary">Borrar todo</button>
@@ -27,3 +38,10 @@
 </div>
 
 @endsection
+
+@push('js')
+<script>
+  $('.alert').slideDown();
+    setTimeout(function(){ $('.alert').slideUp(); }, 10000);
+</script>
+@endpush

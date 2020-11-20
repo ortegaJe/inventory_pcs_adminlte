@@ -25,6 +25,7 @@
               </ul>
             </div>
             @endif
+
             @include('machines.fields_update')
             <div class="modal-footer">
               <button type="reset" class="btn btn-secondary">Borrar todo</button>

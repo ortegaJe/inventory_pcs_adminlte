@@ -1,24 +1,7 @@
 <table class="table table-sm table-bordered table-hover text-center" id="data-table" role="grid">
   <thead class="thead-light">
     <tr>
-      <th scope="col">ID</th>
-      <th scope="col">TYPE</th>
-      <th scope="col">SERIAL</th>
-      <th scope="col">MANUFACTURER</th>
-      <th scope="col">MODEL</th>
-      <th scope="col">CPU</th>
-      <th scope="col">IP</th>
-      <th scope="col">MAC</th>
-      <th scope="col"><span class="img-fluid"><img src="https://anydesk.com/_static/img/favicon/anydesk_icon.png"
-            width="32px" height="32px" alt="{{ asset('png/anydesk.png') }}"></span>
-      </th>
-      <th scope="col"><span class="img-fluid"><img src="https://www.flaticon.com/svg/static/icons/svg/732/732225.svg"
-            width="32px" height="32px" alt="os_windows.svg"></span>
-      </th>
-      <th scope="col">CAMPUS</th>
-      <th scope="col">LOCATION</th>
-      <th scope="col">COMMENT</th>
-      <th scope="col">ACTIONS</th>
+      @include('machines.header_list_table')
     </tr>
   </thead>
   <tbody>
@@ -38,56 +21,60 @@
         ajax: "{{ route('machines.index')}}",
         columns: [
           { data: 'id',
-            name: 'machines.id',
+            name: 'm.id',
             visible: false 
           },
           { data: 'name',
-            name: 'types.name',
+            name: 't.name',
             orderable: true, searchable: true 
           },
           { data: 'serial',
-            name: 'serial',
+            name: 'm.serial',
             visible: false, orderable: true, searchable: true
           },
           { data: 'manufacturer',
-            name: 'manufacturer',
+            name: 'm.manufacturer',
             orderable: true, searchable: true
           },
           { data: 'model',
-            name: 'model',
+            name: 'm.model',
             orderable: true, searchable: true
           },
           { data: 'cpu',
-            name: 'cpu',
+            name: 'm.cpu',
             visible: false, orderable: true, searchable: true
           },
           { data: 'ip_range',
-            name: 'machines.ip_range',
+            name: 'm.ip_range',
             orderable: true, searchable: true 
           },
           { data: 'mac_address',
-            name: 'machines.mac_address',
+            name: 'm.mac_address',
             orderable: true, searchable: true
           },
           { data: 'anydesk',
-            name: 'machines.anydesk',
+            name: 'm.anydesk',
             orderable: true, searchable: true
           },
           { data: 'os',
-            name: 'os',
+            name: 'm.os',
             visible: true, orderable: true, searchable: true
           },
           { data: 'campu_name',
-            name: 'campus.campu_name',
+            name: 'c.campu_name',
             orderable: true, searchable: true
           },
           { data: 'location',
-            name: 'location',
+            name: 'm.location',
             visible: false, orderable: true, searchable: true
           },
           { data: 'comment',
-            name: 'comment',
+            name: 'm.comment',
             visible: false, orderable: true, searchable: true
+          },
+          { data: 'created_at',
+          name: 'm.created_at',
+          visible: true, orderable: true, searchable: true
           },
           { data: 'action',
            orderable: false, searchable: false

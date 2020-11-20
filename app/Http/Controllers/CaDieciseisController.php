@@ -5,11 +5,18 @@ namespace App\Http\Controllers;
 use App\Helpers\UserSystemInfoHelper;
 use App\Machine;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
 class CaDieciseisController extends Controller
 {
+
+        public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('verified');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -18,23 +25,24 @@ class CaDieciseisController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $c16_machines = DB::table('machines')
-                ->join('types', 'types.id', '=', 'machines.type_id')
-                ->join('campus', 'campus.id', '=', 'machines.campus_id')
+            $c16_machines = DB::table('machines AS m')
+                ->join('types AS t', 't.id', '=', 'm.type_id')
+                ->join('campus AS c', 'c.id', '=', 'm.campus_id')
                 ->select(
-                    'machines.id',
-                    'types.name',
-                    'serial',
-                    'manufacturer',
-                    'model',
-                    'cpu',
-                    'machines.ip_range',
-                    'machines.mac_address',
-                    'machines.anydesk',
-                    'os',
-                    'location',
-                    'comment',
-                    'campus.campu_name'
+                    'm.id',
+                    't.name',
+                    'm.serial',
+                    'm.manufacturer',
+                    'm.model',
+                    'm.cpu',
+                    'm.ip_range',
+                    'm.mac_address',
+                    'm.anydesk',
+                    'm.os',
+                    'm.location',
+                    'm.comment',
+                    'm.created_at',
+                    'c.campu_name'
                 )->where('label', '=', 'C16');
 
             return DataTables::of($c16_machines)
@@ -61,7 +69,7 @@ class CaDieciseisController extends Controller
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
         $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
 
-        $getip = UserSystemInfoHelper::get_ip();
+        //$getip = UserSystemInfoHelper::get_ip();
         $findmacaddress = exec('getmac');
         $getmacaddress = strtok($findmacaddress, ' ');
         $getos = UserSystemInfoHelper::get_os();
@@ -74,7 +82,7 @@ class CaDieciseisController extends Controller
             'hdds' => $hdds,
             'getmacaddress' => $getmacaddress,
             'getos' => $getos,
-            'getip' => $getip,
+            //'getip' => $getip,
         ]);
     }
 
@@ -83,6 +91,8 @@ class CaDieciseisController extends Controller
         //$getip = UserSystemInfoHelper::get_ip();
         //$findmacaddress = exec('getmac');
         //$getmacaddress = strtok($findmacaddress, ' ');
+
+        $roles = Auth::user()->rol_id;
 
         $c16_machines = new Machine();
 
@@ -96,8 +106,11 @@ class CaDieciseisController extends Controller
         $c16_machines->hard_drive_id = request('hard-drive');
         $c16_machines->cpu = request('cpu');
         $c16_machines->ip_range = request('ip');
-        $c16_machines->mac_address = $request->get('mac');
+        $c16_machines->mac_address = request('mac');
         $c16_machines->anydesk = request('anydesk');
+        $c16_machines->os = request('os');
+        $c16_machines->created_by = Auth::user()->id;
+        $c16_machines->rol_id = $roles;
         $c16_machines->campus_id = request('campus');
         $c16_machines->location = request('location');
         $c16_machines->comment = request('comment');

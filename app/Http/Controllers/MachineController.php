@@ -11,6 +11,7 @@ use App\Type;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\UserSystemInfoHelper;
+use App\Http\Requests\StoreFormRequest;
 use App\User;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -30,23 +31,24 @@ class MachineController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $machines = DB::table('machines')
-                ->join('types', 'types.id', '=', 'machines.type_id')
-                ->join('campus', 'campus.id', '=', 'machines.campus_id')
+            $machines = DB::table('machines AS m')
+                ->join('types AS t', 't.id', '=', 'm.type_id')
+                ->join('campus AS c', 'c.id', '=', 'm.campus_id')
                 ->select(
-                    'machines.id',
-                    'types.name',
-                    'serial',
-                    'manufacturer',
-                    'model',
-                    'cpu',
-                    'machines.ip_range',
-                    'machines.mac_address',
-                    'machines.anydesk',
-                    'os',
-                    'location',
-                    'comment',
-                    'campus.campu_name'
+                    'm.id',
+                    't.name',
+                    'm.serial',
+                    'm.manufacturer',
+                    'm.model',
+                    'm.cpu',
+                    'm.ip_range',
+                    'm.mac_address',
+                    'm.anydesk',
+                    'm.os',
+                    'm.location',
+                    'm.comment',
+                    'm.created_at',
+                    'c.campu_name'
                 );
 
             return DataTables::of($machines)
@@ -100,7 +102,7 @@ class MachineController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreFormRequest $request)
     {
         //$getip = UserSystemInfoHelper::get_ip();
         //$findmacaddress = exec('getmac');
@@ -111,27 +113,28 @@ class MachineController extends Controller
         $machines = new Machine();
 
         //        [db]           [name] (db campos en la base de datos - name campus en el blade create)
-        $machines->type_id = request('type');
+        $machines->type_id = $request['type'];
         $machines->manufacturer = request('manufact');
         $machines->model = request('model');
-        $machines->serial = request('serial');
-        $machines->ram_slot_00_id = request('ramslot00');
-        $machines->ram_slot_01_id = request('ramslot01');
-        $machines->hard_drive_id = request('hard-drive');
+        $machines->serial = $request['serial'];
+        $machines->ram_slot_00_id = $request['ramslot00'];
+        $machines->ram_slot_01_id = $request['ramslot01'];
+        $machines->hard_drive_id = $request['hard-drive'];
         $machines->cpu = request('cpu');
-        $machines->ip_range = request('ip');
-        $machines->mac_address = request('mac');
+        $machines->ip_range = $request['ip'];
+        $machines->mac_address = $request['mac'];
         $machines->anydesk = request('anydesk');
         $machines->os = request('os');
         $machines->created_by = Auth::user()->id;
         $machines->rol_id = $roles;
-        $machines->campus_id = request('campus');
-        $machines->location = request('location');
+        $machines->campus_id = $request['campus'];
+        $machines->location = $request['location'];
         $machines->comment = request('comment');
 
         $machines->save();
 
-        return redirect('/machines');
+        return redirect('/machines')->with('machine_created', 
+                                           'Nuevo equipo fué añadido al inventario');
     }
 
     /**
@@ -201,7 +204,9 @@ class MachineController extends Controller
 
         $machines->update();
 
-        return redirect('/machines');
+        return redirect('/machines')
+               ->with('machine_update',
+                      'Equipo fue actualizado en el inventario');
     }
 
     /**
@@ -216,6 +221,9 @@ class MachineController extends Controller
 
         $machines->delete();
 
-        return redirect('/machines');
+        return redirect('/machines')
+               ->with('machine_deleted',
+                      'Equipo eliminado del inventario');
+
     }
 }

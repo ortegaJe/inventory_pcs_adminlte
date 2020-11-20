@@ -22,12 +22,14 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('verified');
     }
 
     public function index()
     {
 
-        //$users = DB::table('table_machines')->where('id_machine', $name)->first();
+        //$users = DB::table('users')->select('users.*')->orderBy('id', 'DESC')->get(); consulta todos los registros de la tabla;
+        //$users = DB::table('users')->select('name', 'age' etc)->orderBy('id', 'DESC')->get(); selecciona solos los campos a consultar;
         $users = User::all();
         $roles = Role::all();
         $campus = Campu::all();
@@ -50,39 +52,72 @@ class UserController extends Controller
         return view('technicians.create', ['roles' => $roles, 'campus' => $campus]);
     }
 
-    public function store(UserFormRequest $request)
+    public function store(Request $request)
     {
-        /*$this->validate($request, [
-            'name' => 'required|max:120',
+        $rules = [
+            'cc' => 'required|min:10|unique:users,cc',
+            'name' => 'required|unique:users,name',
+            'last-name' => 'required',
+            'nick-name' => 'required',
             'email' => 'required|email',
-            'phone' => 'required|max:10|numeric'
-        ]);*/
+            'phone' => 'required',
+            'campu-name' => 'required',
+            'work-function' => 'required',
+            'password' => 'required|min:8|confirmed',
+            'rol' => 'required'
 
+        ];
+
+        $message = [
+            'cc.required' => 'Numero de identificacion es requerido.',
+            'cc.min' => 'Numero de identificacion deber tener al menos 8 caracteres.',
+            'cc.unique' => 'Ya existe este numero de identificacion ingresado, por favor ingrese otro diferente.',
+            'last-name.required' => 'Sus apellido es requerido.',
+            'lastname.required' => 'Su alias es requerido.',
+            'email.required' => 'Su correo electrónico es requerido.',
+            'email.email' => 'Correo electrónico invalido.',
+            'email.unique' => 'Ya existe un correo electrónico registrado con este correo electrónico.',
+            'password.required' => 'Por favor escriba una contraseña.',
+            'password.min' => 'Debe contener al menos 8 caracteres la contraseña.',
+            'cpassword.required' => 'Es necesario confirmar la contraseña',
+            'cpassword.min' => 'La confirmación de la contraseña debe tener al menos 8 caracteres.',
+            'cpassword.same' => 'Las contraseñas no coinciden.'
+        ];
+
+        $validator = Validator::make($request->all(), [
+
+        ]);
+
+        if($validator->fails()){
+            return back()
+            ->withInput()
+            ->with('user_with_errors', 'Diligenciar todos los campos requeridos')
+            ->withErrors($validator);
+        }else{
         $users = new User();
 
-        $users->cc = request('cc');
-        $users->name = request('name');
-        $users->last_name = request('last-name');
-        $users->nick_name = request('nick-name');
-        $users->email = request('email');
-        $users->phone = request('phone');
-        $users->campus_id = request('campu-name');
-        $users->role_id = request('rol');
-        $users->work_function = request('work-function');
-        $users->password = Hash::make(request('password'));
+        $users->cc = $request['cc'];
+        $users->name = $request['name'];
+        $users->last_name = $request['last-name'];
+        $users->nick_name = $request['nick-name'];
+        $users->email = $request['email'];
+        $users->phone = $request['phone'];
+        $users->campus_id = $request['campu-name'];
+        //$users->role_id = $request['rol'];
+        //$users->assignRole($request->get('rol'));
+        $users->work_function = $request['work-function'];
+        $users->password = Hash::make($request['password']);
         if ($request->hasFile('avatar')) {
             $file = $request->avatar;
             $file->move(public_path() . '/upload', $file->getClientOriginalName());
             $users->image = $file->getClientOriginalName();
         }
 
-        //dd($users);
         $users->save();
 
-        $users->assignRole($request->get('rol'));
+    }
+            return back()->with('user_created', 'Usuario fue agregado al inventario!');
 
-
-        return redirect('/technicians');
     }
 
     public function edit($id)

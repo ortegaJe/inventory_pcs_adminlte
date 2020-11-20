@@ -2,9 +2,6 @@
     data-target="#AddTechnicians">
     <i class="fa fa-plus"></i> Agregar técnico</button></a></div>
 
-{!! Form::open(['url' => 'technicians', 'enctype' => 'multipart/form-data']) !!}
-<!--composer require laravelcollective/html-->
-{{ Form::token() }}
 <div class="modal fade" id="AddTechnicians" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
@@ -17,8 +14,10 @@
         </button>
       </div>
       <div class="modal-body mx-auto">
-        @if ($errors->any())
-        <div class="alert alert-danger">
+        @if ($message = Session::get('user_with_errors'))
+        <div class="alert alert-danger alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+          <h5><i class="icon fas fa-ban"></i> Upsss!</h5>
           <ul>
             @foreach ($errors->all() as $error)
             <li>{{ $error }}</li>
@@ -26,7 +25,8 @@
           </ul>
         </div>
         @endif
-        <form>
+        <form action="technicians" method="POST" enctype="multipart/form-data">
+          @csrf
           <div class="form-row">
             <div class="col-md-4 mb-3">
               <label for="name">Indentificación:</label>
@@ -34,7 +34,8 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fas fa-id-card"></i></span>
                 </div>
-                <input type="text" class="form-control" name="cc" required>
+                <input type="text" class="form-control" name="cc" pattern="[0-9]+" maxlength="10"
+                  value="{{ old('cc') }}" required>
               </div>
             </div>
             <div class="col-md-4 mb-3">
@@ -44,7 +45,7 @@
                   <span class="input-group-text"><i class="fas fa-user"></i></span>
                 </div>
                 <input type="text" class="form-control" name="name" style="text-transform:uppercase;"
-                  onkeyup="javascript:this.value=this.value.toUpperCase();" required>
+                  onkeyup="javascript:this.value=this.value.toUpperCase();" value="{{ old('name') }}" required>
               </div>
             </div>
 
@@ -54,8 +55,8 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fas fa-user"></i></span>
                 </div>
-                <input type="text" class="form-control" name="last-name" style="text-transform:uppercase;"
-                  onkeyup="javascript:this.value=this.value.toUpperCase();">
+                <input type="text" class="form-control" name="last-name" value="{{ old('last-name') }}"
+                  style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
               </div>
             </div>
           </div>
@@ -67,8 +68,8 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
                 </div>
-                <input type="text" class="form-control" name="nick-name" style="text-transform:uppercase;"
-                  onkeyup="javascript:this.value=this.value.toUpperCase();" required>
+                <input type="text" class="form-control" name="nick-name" value="{{ old('nick-name') }}"
+                  style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
               </div>
             </div>
 
@@ -79,7 +80,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fas fa-at"></i></span>
                 </div>
-                <input type="email" class="form-control" name="email" required>
+                <input type="email" class="form-control" name="email" value="{{ old('email') }}" required>
               </div>
             </div>
             <div class="col-md-3 mb-3">
@@ -88,8 +89,8 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fas fa-mobile-alt"></i></span>
                 </div>
-                <input type="tel" class="form-control" id="phone" name="phone" placeholder="300-0000-000"
-                  pattern="[3-10]{3}-[0-10]{4}-[0-10]{3}" maxlength="10" required>
+                <input type="tel" class="form-control" id="phone" name="phone" value="{{ old('phone') }}"
+                  placeholder="300-0000-000" pattern="[3-10]{3}-[0-10]{4}-[0-10]{3}" maxlength="10" required>
               </div>
             </div>
           </div>
@@ -169,7 +170,7 @@
 
           <div class="form-group">
             <label for="exampleFormControlFile1">Subir foto:</label>
-            <input type="file" class="form-control-file" name="avatar">
+            <input type="file" class="form-control-file" name="avatar" value="{{ old('avatar') }}">
           </div>
 
           <div class="modal-footer">
@@ -184,4 +185,28 @@
     </div>
   </div>
 </div>
-{!! Form::close() !!}
+
+@push('js')
+<script>
+  $('.alert').slideDown();
+  setTimeout(function(){ $('.alert').slideUp(); }, 10000);
+</script>
+
+@if(Session::has('user_created'))
+<script>
+  Swal.fire(
+'Creado con Exito!',
+'{!! Session::get('user_created') !!}',
+'success'
+)
+</script>
+@endif
+
+<script>
+  $(document).ready(function(){
+    @if($message = Session::get('user_with_errors'))
+    $('#AddTechnicians').modal('show');
+    @endif
+  })
+</script>
+@endpush

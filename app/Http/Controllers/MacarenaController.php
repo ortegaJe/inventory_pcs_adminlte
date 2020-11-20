@@ -7,6 +7,7 @@ use App\Helpers\UserSystemInfoHelper;
 use App\Machine;
 use App\Type;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -21,24 +22,24 @@ class MacarenaController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $mac_machines = DB::table('machines')
-                ->join('types', 'types.id', '=', 'machines.type_id')
-                ->join('campus', 'campus.id', '=', 'machines.campus_id')
+            $mac_machines = DB::table('machines AS m')
+                ->join('types AS t', 't.id', '=', 'm.type_id')
+                ->join('campus AS c', 'c.id', '=', 'm.campus_id')
                 ->select(
-                    'machines.id',
-                    'types.name',
-                    'serial',
-                    'manufacturer',
-                    'model',
-                    'cpu',
-                    'machines.ip_range',
-                    'machines.mac_address',
-                    'machines.anydesk',
-                    'os',
-                    'location',
-                    'comment',
-                    'campus.campu_name'
-                )->where('label', '=', 'MAC');
+                    'm.id',
+                    't.name',
+                    'm.serial',
+                    'm.manufacturer',
+                    'm.model',
+                    'm.cpu',
+                    'm.ip_range',
+                    'm.mac_address',
+                    'm.anydesk',
+                    'm.os',
+                    'm.location',
+                    'm.comment',
+                    'm.created_at',
+                    'c.campu_name')->where('label', '=', 'MAC');
 
             return DataTables::of($mac_machines)
                 ->addColumn('action', 'sedes.macarena.actions')
@@ -86,7 +87,7 @@ class MacarenaController extends Controller
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
         $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
 
-        $getip = UserSystemInfoHelper::get_ip();
+        //$getip = UserSystemInfoHelper::get_ip();
         $findmacaddress = exec('getmac');
         $getmacaddress = strtok($findmacaddress, ' ');
         $getos = UserSystemInfoHelper::get_os();
@@ -99,15 +100,17 @@ class MacarenaController extends Controller
             'hdds' => $hdds,
             'getmacaddress' => $getmacaddress,
             'getos' => $getos,
-            'getip' => $getip,
+            //'getip' => $getip,
         ]);
     }
 
     public function store(Request $request)
     {
-        $getip = UserSystemInfoHelper::get_ip();
-        $findmacaddress = exec('getmac');
-        $getmacaddress = strtok($findmacaddress, ' ');
+        //$getip = UserSystemInfoHelper::get_ip();
+        //$findmacaddress = exec('getmac');
+        //$getmacaddress = strtok($findmacaddress, ' ');
+
+        $roles = Auth::user()->rol_id;
 
         $mac_machines = new Machine();
 
@@ -122,8 +125,10 @@ class MacarenaController extends Controller
         $mac_machines->cpu = request('cpu');
         $mac_machines->ip_range = request('ip');
         $mac_machines->mac_address = request('mac');
-        $mac_machines->os = request('os');
         $mac_machines->anydesk = request('anydesk');
+        $mac_machines->os = request('os');
+        $mac_machines->created_by = Auth::user()->id;
+        $mac_machines->rol_id = $roles;
         $mac_machines->campus_id = request('campus');
         $mac_machines->location = request('location');
         $mac_machines->comment = request('comment');
@@ -140,11 +145,11 @@ class MacarenaController extends Controller
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
         $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
 
-        $getos = UserSystemInfoHelper::get_os();
+        //$getos = UserSystemInfoHelper::get_os();
 
         return view('sedes.macarena.edit', [
             'machine' => Machine::findOrFail($machines),
-            'getos' => $getos,
+            //'getos' => $getos,
             'types' => $types,
             'campus' => $campus,
             'rams' => $rams,
@@ -154,7 +159,7 @@ class MacarenaController extends Controller
 
     public function update(Request $request, $id)
     {
-        $getos = UserSystemInfoHelper::get_os();
+        //$getos = UserSystemInfoHelper::get_os();
 
         $machines = Machine::findOrFail($id);
 

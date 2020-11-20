@@ -26,7 +26,8 @@
             <div class="inner">
                 <?php $global_pc_count = DB::table('machines')
                                          ->select('type_id')
-                                         ->where('type_id', '=', [1])                                  ->count(); ?>
+                                         ->where('type_id', '=', [1])                                  
+                                         ->count(); ?>
                 <h3>{{ $global_pc_count ?? '0' }}</h3>
 
                 <?php $mac_campu = DB::table('types')->get();?>

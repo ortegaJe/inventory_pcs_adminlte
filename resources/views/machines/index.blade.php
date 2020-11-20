@@ -18,7 +18,6 @@
               <button type="button" class="btn bg-primary float-left btn-sm ml-2">
                 <i class="fa fa-plus"></i> Agregar equipo</button>
             </a>
-
             <div class="card-tools">
               <button type="button" class="btn btn-tool" data-card-widget="collapse">
                 <i class="fas fa-minus"></i>
@@ -73,38 +72,34 @@
 
 @endsection
 
-@section('footer')
-<!-- footer -->
-<footer class="main-footer">
-  <strong>Inventor Machines Project
-    <div class="float-left d-none d-sm-inline-block" style="margin-right: 0.2em">
-      <a href="https://laravel.com/" target="_blank" rel="noopener noreferrer"><img
-          src="{{ asset('dist/img/svg/laravel.svg') }}" alt="larevel-icon" width="25px"></a>
-    </div>
-    <div class="float-left d-none d-sm-inline-block" style="margin-right: 0.2em">
-      <a href="https://github.com/ortegaJe/laravelnventor" target="_blank" rel="noopener noreferrer"><img
-          src="{{ asset('dist/img/svg/github-icon.svg') }}" alt="" width="25px"></a>
-    </div>
-
-    <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 1.2
-    </div>
-</footer>
-@endsection
+@include('machines.footer')
 
 @push('js')
-<!--<script>
-  $(document).ready(function(){
-    $.ajax({
-    url: {{ url('machines.charts')}},
-    method: 'POST',
-    data:{
-      id:1
-      _token:$('input[name="_token"]').val();
-    }
-  }).done(function(res){
-    alert(res);
-  });
-});
-</script>-->
+
+<script>
+  $('.alert').slideDown();
+    setTimeout(function(){ $('.alert').slideUp(); }, 10000);
+</script>
+
+@if(Session::has('machine_created'))
+<script>
+  Swal.fire(
+'Creado con Exito!',
+'{!! Session::get('machine_created') !!}',
+'success'
+)
+</script>
+@endif
+
+@if(Session::has('machine_deleted'))
+<script>
+  Swal.fire(
+'Eliminado con Exito!',
+'{!! Session::get('machine_deleted') !!}',
+'warning'
+
+)
+</script>
+@endif
+
 @endpush

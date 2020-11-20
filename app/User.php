@@ -22,7 +22,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'cc','name', 'last_name', 'nick_name', 'email',
+        'password', 'phone', 'campus_id', 'rol', 'position',
     ];
 
     /**
@@ -58,24 +59,9 @@ class User extends Authenticatable
         return $this->roles->flatten()->pluck('name')->unique();
     }
 
-    /*public function campus()
-    {
-        return $this->belongsToMany(Campu::class)->withTimestamps();
-    }
-
-    public function assignCampu($campu)
-    {
-        $this->campus()->sync($campu, false);
-    }
-
-    public function haveCampu()
-    {
-        return $this->campus->flatten()->pluck('name')->unique();
-    }*/
-
     public function adminlte_image()
     {
-        $user_login_avatar = 'upload/' . Auth::user()->image;
+        $user_login_avatar = '/upload/' . Auth::user()->image;
         return $user_login_avatar;
     }
 
