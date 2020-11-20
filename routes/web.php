@@ -30,6 +30,7 @@ Route::resource('/sedes/carrera_16', 'CaDieciseisController');
 Route::resource('/sedes/sura_san_jose', 'SuraSanJoseController');
 Route::resource('/sedes/calle_30', 'CaTreintaController'); //->middleware('ctreinta')
 Route::resource('/sedes/soledad', 'SoledadController');
+Route::resource('/sedes/kennedy', 'KennedyController');
 Route::resource('parts', 'PartController')->middleware('admin');
 Route::resource('ram', 'RamController')->middleware('admin');
 Route::resource('hdd', 'HddController')->middleware('admin');

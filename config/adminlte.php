@@ -288,6 +288,13 @@ return [
                     'can'  =>  ['ctreinta', 'admin'],
                 ],
                 [
+                    'text' => 'Kennedy',
+                    'url'  => '/sedes/kennedy',
+                    'icon' => 'fas fa-fw fa-building',
+                    'icon_color' => 'success',
+                    'can'  =>  'admin',
+                ],
+                [
                     'text' => 'Macarena',
                     'url'  => '/sedes/macarena',
                     'icon' => 'fas fa-fw fa-building',

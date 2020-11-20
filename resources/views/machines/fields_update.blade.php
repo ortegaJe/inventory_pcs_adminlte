@@ -199,10 +199,10 @@
     </div>
 </div>
 
-<div class="form-group">
+<!--<div class="form-group">
     <label for="exampleFormControlFile1">Subir imagen del equipo:</label>
     <input type="file" accept=".jpg, .png, .gif, .svg" class="form-control-file" name="icon" id="icon">
-</div>
+</div>-->
 
 <div class="input-group">
     <div class="input-group-prepend">
