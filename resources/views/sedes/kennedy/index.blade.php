@@ -17,7 +17,7 @@
           <div class="card-header border">
             <?php $mac_campu = DB::table('campus')->get();?>
             <h3 class="card-title" style="font-weight: 500; font-size:28px">Lista de equipos |
-              {{$mac_campu[6]->campu_name}}
+              {{$mac_campu[8]->campu_name}}
             </h3>
             <a href="{{'kennedy/create'}}">
               <button type="button" class="btn bg-indigo float-right btn-sm">

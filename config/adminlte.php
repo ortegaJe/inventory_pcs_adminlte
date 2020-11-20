@@ -292,7 +292,7 @@ return [
                     'url'  => '/sedes/kennedy',
                     'icon' => 'fas fa-fw fa-building',
                     'icon_color' => 'success',
-                    'can'  =>  'admin',
+                    'can'  =>  ['TEC_KENNEDY', 'admin'],
                 ],
                 [
                     'text' => 'Macarena',
