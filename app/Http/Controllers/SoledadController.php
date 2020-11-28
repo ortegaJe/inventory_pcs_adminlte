@@ -29,6 +29,7 @@ class SoledadController extends Controller
                     'm.manufacturer',
                     'm.model',
                     'm.cpu',
+                    'm.name_pc',
                     'm.ip_range',
                     'm.mac_address',
                     'm.anydesk',
@@ -37,7 +38,7 @@ class SoledadController extends Controller
                     'm.comment',
                     'm.created_at',
                     'c.campu_name'
-                )->where('label', '=', 'SOL');
+                )->where('label', '=', 'SOL')->whereNull('deleted_at');
 
             return DataTables::of($sol_machines)
                 ->addColumn('action', 'sedes.soledad.actions')
@@ -99,12 +100,14 @@ class SoledadController extends Controller
         $sol_machines->ram_slot_01_id = request('ramslot01');
         $sol_machines->hard_drive_id = request('hard-drive');
         $sol_machines->cpu = request('cpu');
+        $sol_machines->name_pc = request('name-pc');
         $sol_machines->ip_range = request('ip');
         $sol_machines->mac_address = request('mac');
         $sol_machines->anydesk = request('anydesk');
         $sol_machines->os = request('os');
         $sol_machines->created_by = Auth::user()->id;
         $sol_machines->rol_id = $roles;
+        $sol_machines->status = request('status');
         $sol_machines->campus_id = request('campus');
         $sol_machines->location = request('location');
         $sol_machines->comment = request('comment');
@@ -135,37 +138,45 @@ class SoledadController extends Controller
 
     public function update(Request $request, $id)
     {
-        $getos = UserSystemInfoHelper::get_os();
+        //$getos = UserSystemInfoHelper::get_os();
 
-        $machines = Machine::findOrFail($id);
+        $sol_machines = Machine::findOrFail($id);
 
         //        [db]                 [name] (db campos en la base de datos - name campus en el blade edit)
-        $machines->type_id = $request->get('type');
-        $machines->manufacturer = $request->get('manufact');
-        $machines->model = $request->get('model');
-        $machines->serial = $request->get('serial');
-        $machines->ram_slot_00_id = $request->get('ramslot00');
-        $machines->ram_slot_01_id = $request->get('ramslot01');
-        $machines->hard_drive_id = $request->get('hard-drive');
-        $machines->cpu = $request->get('cpu');
-        $machines->ip_range = $request->get('ip');
-        $machines->mac_address = $request->get('mac');
-        $machines->anydesk = $request->get('anydesk');
-        $machines->os = $request->get('os');
-        $machines->campus_id = $request->get('campus_id');
-        $machines->location = $request->get('location');
-        $machines->comment = $request->get('comment');
+        $sol_machines->type_id = $request->get('type');
+        $sol_machines->manufacturer = $request->get('manufact');
+        $sol_machines->model = $request->get('model');
+        $sol_machines->serial = $request->get('serial');
+        $sol_machines->ram_slot_00_id = $request->get('ramslot00');
+        $sol_machines->ram_slot_01_id = $request->get('ramslot01');
+        $sol_machines->hard_drive_id = $request->get('hard-drive');
+        $sol_machines->cpu = $request->get('cpu');
+        $sol_machines->name_pc = request('name-pc');
+        $sol_machines->ip_range = $request->get('ip');
+        $sol_machines->mac_address = $request->get('mac');
+        $sol_machines->anydesk = $request->get('anydesk');
+        $sol_machines->os = $request->get('os');
+        $sol_machines->campus_id = $request->get('campus_id');
+        $sol_machines->location = $request->get('location');
+        $sol_machines->comment = $request->get('comment');
 
-        $machines->update();
+        $sol_machines->update();
 
         return redirect('/sedes/soledad');
     }
 
     public function destroy($id)
     {
-        $machines = Machine::findOrFail($id);
+        $sol_machines = Machine::findOrFail($id);
 
-        $machines->delete();
+
+        if($sol_machines->delete()) { // If softdeleted
+
+        $ts = now()->toDateTimeString();
+        $data = array('deleted_at' => $ts, 'status' => 0);
+        DB::table('machines')->where('id', $id)->update($data);
+
+        }
 
         return redirect('/sedes/soledad');
     }

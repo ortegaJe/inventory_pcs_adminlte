@@ -7,7 +7,6 @@
 <section class="content-fluid">
 
   <div class="content-header">
-
     @include('/sedes/macarena.info_box')
   </div>
   <div class="container-fluid">
@@ -17,7 +16,7 @@
           <div class="card-header border">
             <?php $mac_campu = DB::table('campus')->get();?>
             <h3 class="card-title" style="font-weight: 500; font-size:28px">Lista de equipos |
-              {{$mac_campu[0]->campu_name}}
+              {{$name_mac_campu[0]->campu_name}}
             </h3>
             <a href="{{'macarena/create'}}">
               <button type="button" class="btn bg-danger float-right btn-sm">

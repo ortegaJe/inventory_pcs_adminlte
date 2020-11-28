@@ -32,6 +32,8 @@
 </div>
 @stop
 
+@include('machines.footer')
+
 @push('js')
 <script>
   $('.alert').slideDown();

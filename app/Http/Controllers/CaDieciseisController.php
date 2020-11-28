@@ -35,6 +35,7 @@ class CaDieciseisController extends Controller
                     'm.manufacturer',
                     'm.model',
                     'm.cpu',
+                    'm.name_pc',
                     'm.ip_range',
                     'm.mac_address',
                     'm.anydesk',
@@ -43,7 +44,7 @@ class CaDieciseisController extends Controller
                     'm.comment',
                     'm.created_at',
                     'c.campu_name'
-                )->where('label', '=', 'C16');
+                )->where('label', '=', 'C16')->whereNull('deleted_at');
 
             return DataTables::of($c16_machines)
                 ->addColumn('action', 'sedes.carrera_16.actions')
@@ -105,12 +106,14 @@ class CaDieciseisController extends Controller
         $c16_machines->ram_slot_01_id = request('ramslot01');
         $c16_machines->hard_drive_id = request('hard-drive');
         $c16_machines->cpu = request('cpu');
+        $c16_machines->name_pc = request('name-pc');
         $c16_machines->ip_range = request('ip');
         $c16_machines->mac_address = request('mac');
         $c16_machines->anydesk = request('anydesk');
         $c16_machines->os = request('os');
         $c16_machines->created_by = Auth::user()->id;
         $c16_machines->rol_id = $roles;
+        $c16_machines->status = request('status');
         $c16_machines->campus_id = request('campus');
         $c16_machines->location = request('location');
         $c16_machines->comment = request('comment');
@@ -171,7 +174,14 @@ class CaDieciseisController extends Controller
     {
         $machines = Machine::findOrFail($id);
 
-        $machines->delete();
+
+        if($machines->delete()) { // If softdeleted
+
+        $ts = now()->toDateTimeString();
+        $data = array('deleted_at' => $ts, 'status' => 0);
+        DB::table('machines')->where('id', $id)->update($data);
+
+        }
 
         return redirect('/sedes/carrera_16');
     }

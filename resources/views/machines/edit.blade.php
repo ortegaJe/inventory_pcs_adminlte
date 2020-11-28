@@ -15,7 +15,6 @@
           <form action="{{ route('machines.update', $machine->id ) }}" method="POST">
             @method('PATCH')
             @csrf
-
             @if ($errors->any())
             <div class="alert alert-danger">
               <ul>
@@ -25,18 +24,20 @@
               </ul>
             </div>
             @endif
-
             @include('machines.fields_update')
             <div class="modal-footer">
-              <button type="reset" class="btn btn-secondary">Borrar todo</button>
-              <button type="submit" class="btn btn-success">Actualizar</button>
-            </div>
+              <div class="modal-footer">
+                <a href="{{ route('machines.index') }}">
+                  <button type="button" class="btn btn-secondary">Atras</button>
+                </a>
+                <button type="reset" class="btn btn-secondary">Borrar todo</button>
+                <button type="submit" class="btn btn-success">Actualizar</button>
+              </div>
           </form>
         </div>
       </div>
     </div>
   </div>
-</div>
 </div>
 
 @endsection

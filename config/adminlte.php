@@ -265,13 +265,19 @@ return [
                     'icon' => 'fas fa-fw fa-users-cog',
                     'can'  =>  'admin',
                 ],
+                [
+                    'text' => 'Hardware',
+                    'url'  => 'parts',
+                    'icon' => 'fas fa-fw fa-toolbox',
+                    'can'  =>  'admin',
+                ],
             ],
         ],
         ['header' => 'Asignaciones'],
         [
             'text'        => 'Mis sedes',
-            'icon'        => 'far fa-fw fa-building',
-            'icon_color' => 'success',
+            'icon'        => 'fas fa-fw fa-building',
+            'icon_color' => 'default',
             'submenu' => [
                 [
                     'text' => 'Carrera 16',
@@ -288,18 +294,39 @@ return [
                     'can'  =>  ['ctreinta', 'admin'],
                 ],
                 [
+                    'text' => 'Cienaga',
+                    'url'  => '/santa_marta/sedes/cienaga',
+                    'icon' => 'fas fa-fw fa-building',
+                    'icon_color' => 'success',
+                    'can'  =>  ['TEC_CNG', 'TEC_MAR', 'TEC_C12', 'TEC_RIO', 'TEC_VDP', 'admin'],
+                ],
+                [
                     'text' => 'Kennedy',
                     'url'  => '/sedes/kennedy',
                     'icon' => 'fas fa-fw fa-building',
                     'icon_color' => 'success',
-                    'can'  =>  ['TEC_KENNEDY', 'admin'],
+                    'can'  =>  ['TEC_KNY', 'admin'],
                 ],
                 [
                     'text' => 'Macarena',
                     'url'  => '/sedes/macarena',
                     'icon' => 'fas fa-fw fa-building',
                     'icon_color' => 'success',
-                    'can'  =>  'admin',
+                    'can'  =>  ['admin', 'TEC_MAC'],
+                ],
+                [
+                    'text' => 'Marinelo',
+                    'url'  => '/santa_marta/sedes/marinelo',
+                    'icon' => 'fas fa-fw fa-building',
+                    'icon_color' => 'success',
+                    'can'  =>  ['TEC_CNG', 'TEC_MAR', 'TEC_C12', 'TEC_RIO', 'TEC_VDP', 'admin'],
+                ],
+                [
+                    'text' => 'Riohacha',
+                    'url'  => '/santa_marta/sedes/riohacha',
+                    'icon' => 'fas fa-fw fa-building',
+                    'icon_color' => 'success',
+                    'can'  =>  ['TEC_CNG', 'TEC_MAR', 'TEC_C12', 'TEC_RIO', 'TEC_VDP', 'admin'],
                 ],
                 [
                     'text' => 'Soledad',
@@ -477,7 +504,7 @@ return [
                 [
                     'type' => 'js',
                     'asset' => false,
-                    'location' => '//cdn.jsdelivr.net/npm/sweetalert2@8',
+                    'location' => '//cdn.jsdelivr.net/npm/sweetalert2@10',
                 ],
             ],
         ],

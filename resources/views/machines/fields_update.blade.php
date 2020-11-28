@@ -167,6 +167,18 @@
                 type="text" class="form-control" name="os" value="{{ $machine->os }}">
         </div>
     </div>
+    <div class="col-md-6 mb-3">
+        <label for="location">Nombre del equipo:</label>
+        <small style="color: crimson">( Ejemplo: V1A[ABREVIADO DE LA SEDE]-[UBICACION] )</small>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text bg-success"><i class="fas fa-keyboard"></i></span>
+            </div>
+            <input style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
+                type="text" class="form-control" name="name-pc" value="{{ $machine->name_pc }}"
+                placeholder="V1AMAC-CON12" maxlength="20">
+        </div>
+    </div>
 </div>
 
 <div class="form-row">
@@ -210,3 +222,11 @@
     </div>
     <textarea class="form-control" maxlength="200" id="" name="comment" value="{{ $machine->comment }}"></textarea>
 </div>
+
+<!--<div class="modal-footer">
+    <a href="{{ route('machines.index') }}"><button type="button" class="btn btn-secondary">Atras</button></a>
+    <button type="reset" class="btn btn-secondary">Borrar todo</button>
+    <button type="submit" class="btn btn-success">Actualizar</button>
+</div>-->
+
+@include('machines.footer')

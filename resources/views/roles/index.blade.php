@@ -22,7 +22,7 @@
           <tr>
             <th hidden scope="row">{{ $role->id }}</th>
             <th>
-              <h4>{{ $role->rol_name }}
+              <h4>{{ $role->name }}
             </th>
             </h4>
             <th>

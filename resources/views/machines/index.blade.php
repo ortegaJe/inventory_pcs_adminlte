@@ -42,7 +42,7 @@
     <!--charts-->
     <div class="row">
       <div class="col-md-6">
-        <div class="card card-danger">
+        <div class="card card-maroon">
           <div class="card-header border">
             <h3 class="card-title" style="font-weight: 500; font-size:28px">Informes
             </h3>

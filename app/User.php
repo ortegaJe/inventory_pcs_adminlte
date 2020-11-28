@@ -9,11 +9,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Session;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
     use Notifiable;
     use HasRoles;
+    use SoftDeletes;
 
 
     /**
@@ -23,7 +25,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'cc','name', 'last_name', 'nick_name', 'email',
-        'password', 'phone', 'campus_id', 'rol', 'position',
+        'password', 'phone', 'campus_id', 'rol', 'position','status',
     ];
 
     /**

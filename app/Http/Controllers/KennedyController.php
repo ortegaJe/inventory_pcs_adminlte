@@ -34,6 +34,7 @@ class KennedyController extends Controller
                     'm.manufacturer',
                     'm.model',
                     'm.cpu',
+                    'm.name_pc',
                     'm.ip_range',
                     'm.mac_address',
                     'm.anydesk',
@@ -42,7 +43,7 @@ class KennedyController extends Controller
                     'm.comment',
                     'm.created_at',
                     'c.campu_name'
-                )->where('label', '=', 'KNY');
+                )->where('label', '=', 'KNY')->whereNull('deleted_at');
 
             return DataTables::of($kny_machines)
                 ->addColumn('action', 'sedes.kennedy.actions')
@@ -67,6 +68,8 @@ class KennedyController extends Controller
         $rams = DB::select('SELECT id,ram FROM rams', [1]);
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
         $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
+        $kny_campus = DB::table('campus')->select('id','campu_name')->where('label', '=', 'KNY')->get();
+        $mac_campus = DB::table('campus')->select('id','campu_name')->where('label', '=', 'MAC')->get();
 
         //$getip = UserSystemInfoHelper::get_ip();
         $findmacaddress = exec('getmac');
@@ -77,6 +80,8 @@ class KennedyController extends Controller
             'kny_machines' => $kny_machines,
             'types' => $types,
             'campus' => $campus,
+            'mac_campus' => $mac_campus,
+            'kny_campus' => $kny_campus,
             'rams' => $rams,
             'hdds' => $hdds,
             'getmacaddress' => $getmacaddress,
@@ -104,12 +109,14 @@ class KennedyController extends Controller
         $kny_machines->ram_slot_01_id = request('ramslot01');
         $kny_machines->hard_drive_id = request('hard-drive');
         $kny_machines->cpu = request('cpu');
+        $kny_machines->name_pc = request('name-pc');
         $kny_machines->ip_range = request('ip');
         $kny_machines->mac_address = request('mac');
         $kny_machines->anydesk = request('anydesk');
         $kny_machines->os = request('os');
         $kny_machines->created_by = Auth::user()->id;
         $kny_machines->rol_id = $roles;
+        $kny_machines->status = request('status');
         $kny_machines->campus_id = request('campus');
         $kny_machines->location = request('location');
         $kny_machines->comment = request('comment');
@@ -142,26 +149,27 @@ class KennedyController extends Controller
     {
         //$getos = UserSystemInfoHelper::get_os();
 
-        $machines = Machine::findOrFail($id);
+        $kny_machines = Machine::findOrFail($id);
 
         //        [db]                 [name] (db campos en la base de datos - name campus en el blade edit)
-        $machines->type_id = $request->get('type');
-        $machines->manufacturer = $request->get('manufact');
-        $machines->model = $request->get('model');
-        $machines->serial = $request->get('serial');
-        $machines->ram_slot_00_id = $request->get('ramslot00');
-        $machines->ram_slot_01_id = $request->get('ramslot01');
-        $machines->hard_drive_id = $request->get('hard-drive');
-        $machines->cpu = $request->get('cpu');
-        $machines->ip_range = $request->get('ip');
-        $machines->mac_address = $request->get('mac');
-        $machines->anydesk = $request->get('anydesk');
-        $machines->os = $request->get('os');
-        $machines->campus_id = $request->get('campus_id');
-        $machines->location = $request->get('location');
-        $machines->comment = $request->get('comment');
+        $kny_machines->type_id = $request->get('type');
+        $kny_machines->manufacturer = $request->get('manufact');
+        $kny_machines->model = $request->get('model');
+        $kny_machines->serial = $request->get('serial');
+        $kny_machines->ram_slot_00_id = $request->get('ramslot00');
+        $kny_machines->ram_slot_01_id = $request->get('ramslot01');
+        $kny_machines->hard_drive_id = $request->get('hard-drive');
+        $kny_machines->cpu = $request->get('cpu');
+        $kny_machines->name_pc = request('name-pc');
+        $kny_machines->ip_range = $request->get('ip');
+        $kny_machines->mac_address = $request->get('mac');
+        $kny_machines->anydesk = $request->get('anydesk');
+        $kny_machines->os = $request->get('os');
+        $kny_machines->campus_id = $request->get('campus_id');
+        $kny_machines->location = $request->get('location');
+        $kny_machines->comment = $request->get('comment');
 
-        $machines->update();
+        $kny_machines->update();
 
         return redirect('/sedes/kennedy');
     }
@@ -170,7 +178,14 @@ class KennedyController extends Controller
     {
         $machines = Machine::findOrFail($id);
 
-        $machines->delete();
+
+        if($machines->delete()) { // If softdeleted
+
+        $ts = now()->toDateTimeString();
+        $data = array('deleted_at' => $ts, 'status' => 0);
+        DB::table('machines')->where('id', $id)->update($data);
+
+        }
 
         return redirect('/sedes/kennedy');
     }

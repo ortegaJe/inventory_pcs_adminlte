@@ -20,7 +20,7 @@
         lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
         ajax: "{{ route('calle_30.index')}}",
         columns: [
-{ data: 'id',
+          { data: 'id',
           name: 'm.id',
           visible: false
           },
@@ -43,6 +43,10 @@
           { data: 'cpu',
           name: 'm.cpu',
           visible: false, orderable: true, searchable: true
+          },
+          { data: 'name_pc',
+            name: 'm.name_pc',
+            orderable: true, searchable: true
           },
           { data: 'ip_range',
           name: 'm.ip_range',

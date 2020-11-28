@@ -66,6 +66,7 @@ class CreateMachinesTable extends Migration
             $table->string('email');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('campus_id')
@@ -107,16 +108,17 @@ class CreateMachinesTable extends Migration
         Schema::create('machines', function (Blueprint $table) {
             $table->id();
             //$table->unsignedBigInteger('tec_id')->index();
-            $table->string('serial', 56);
+            $table->string('serial');
             $table->smallInteger('lote')->nullable();
             $table->unsignedBigInteger('type_id')->index()->nullable();
-            $table->string('manufacturer', 25);
-            $table->string('model', 56);
+            $table->string('manufacturer')->nullable();
+            $table->string('model')->nullable();
             $table->unsignedBigInteger('ram_slot_00_id')->index()->nullable();
             $table->unsignedBigInteger('ram_slot_01_id')->index()->nullable();
             $table->unsignedBigInteger('hard_drive_id')->index()->nullable();
-            $table->string('cpu');
-            $table->ipAddress('ip_range', 15);
+            $table->string('cpu')->nullable();
+            $table->string('name_pc')->nullable();
+            $table->ipAddress('ip_range');
             $table->macAddress('mac_address');
             $table->string('anydesk')->nullable();
             $table->string('os')->nullable();
@@ -127,6 +129,7 @@ class CreateMachinesTable extends Migration
             $table->string('image')->nullable();
             $table->string('comment')->nullable();
             $table->timestamps();
+            $table->softDeletes();
             $table->engine = 'InnoDB';
             $table->charset = 'utf8mb4';
 

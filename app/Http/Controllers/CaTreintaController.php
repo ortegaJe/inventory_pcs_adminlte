@@ -35,6 +35,7 @@ class CaTreintaController extends Controller
                     'm.manufacturer',
                     'm.model',
                     'm.cpu',
+                    'm.name_pc',
                     'm.ip_range',
                     'm.mac_address',
                     'm.anydesk',
@@ -43,7 +44,7 @@ class CaTreintaController extends Controller
                     'm.comment',
                     'm.created_at',
                     'c.campu_name'
-                )->where('label', '=', 'C30');
+                )->where('label', '=', 'C30')->whereNull('deleted_at');
 
             return DataTables::of($c30_machines)
                 ->addColumn('action', 'sedes.calle_30.actions')
@@ -105,12 +106,14 @@ class CaTreintaController extends Controller
         $c30_machines->ram_slot_01_id = request('ramslot01');
         $c30_machines->hard_drive_id = request('hard-drive');
         $c30_machines->cpu = request('cpu');
+        $c30_machines->name_pc = request('name-pc');
         $c30_machines->ip_range = request('ip');
         $c30_machines->mac_address = request('mac');
         $c30_machines->anydesk = request('anydesk');
         $c30_machines->os = request('os');
         $c30_machines->created_by = Auth::user()->id;
         $c30_machines->rol_id = $roles;
+        $c30_machines->status = request('status');
         $c30_machines->campus_id = request('campus');
         $c30_machines->location = request('location');
         $c30_machines->comment = request('comment');
@@ -143,26 +146,27 @@ class CaTreintaController extends Controller
     {
         //$getos = UserSystemInfoHelper::get_os();
 
-        $machines = Machine::findOrFail($id);
+        $c30_machines = Machine::findOrFail($id);
 
         //        [db]                 [name] (db campos en la base de datos - name campus en el blade edit)
-        $machines->type_id = $request->get('type');
-        $machines->manufacturer = $request->get('manufact');
-        $machines->model = $request->get('model');
-        $machines->serial = $request->get('serial');
-        $machines->ram_slot_00_id = $request->get('ramslot00');
-        $machines->ram_slot_01_id = $request->get('ramslot01');
-        $machines->hard_drive_id = $request->get('hard-drive');
-        $machines->cpu = $request->get('cpu');
-        $machines->ip_range = $request->get('ip');
-        $machines->mac_address = $request->get('mac');
-        $machines->anydesk = $request->get('anydesk');
-        $machines->os = $request->get('os');
-        $machines->campus_id = $request->get('campus_id');
-        $machines->location = $request->get('location');
-        $machines->comment = $request->get('comment');
+        $c30_machines->type_id = $request->get('type');
+        $c30_machines->manufacturer = $request->get('manufact');
+        $c30_machines->model = $request->get('model');
+        $c30_machines->serial = $request->get('serial');
+        $c30_machines->ram_slot_00_id = $request->get('ramslot00');
+        $c30_machines->ram_slot_01_id = $request->get('ramslot01');
+        $c30_machines->hard_drive_id = $request->get('hard-drive');
+        $c30_machines->cpu = $request->get('cpu');
+        $c30_machines->name_pc = request('name-pc');
+        $c30_machines->ip_range = $request->get('ip');
+        $c30_machines->mac_address = $request->get('mac');
+        $c30_machines->anydesk = $request->get('anydesk');
+        $c30_machines->os = $request->get('os');
+        $c30_machines->campus_id = $request->get('campus_id');
+        $c30_machines->location = $request->get('location');
+        $c30_machines->comment = $request->get('comment');
 
-        $machines->update();
+        $c30_machines->update();
 
         return redirect('/sedes/calle_30');
     }
@@ -171,7 +175,13 @@ class CaTreintaController extends Controller
     {
         $machines = Machine::findOrFail($id);
 
-        $machines->delete();
+        if($machines->delete()) { // If softdeleted
+
+        $ts = now()->toDateTimeString();
+        $data = array('deleted_at' => $ts, 'status' => 0);
+        DB::table('machines')->where('id', $id)->update($data);
+
+        }
 
         return redirect('/sedes/calle_30');
     }

@@ -1,28 +1,36 @@
-<div style="padding-bottom: 6ch"><button type="button" class="btn bg-info float-right btn-sm" data-toggle="modal"
-    data-target="#AddTechnicians">
-    <i class="fa fa-plus"></i> Agregar técnico</button></a></div>
+<a class="btn btn-app float-right" data-toggle="modal" data-target="#AddTechnicians">
+  <?php $global_users_count = DB::table('users')->select('users*.')->where('status', '=', [1])->count();?>
+  <span class="badge bg-teal">
+    {{ $global_users_count ?? '0' }}
+  </span>
+  <i class="fas fa-users"></i>
+  Agregar técnico
+</a>
 
 <div class="modal fade" id="AddTechnicians" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
-      <div class="modal-header bg-gradient-primary">
-        <h5 class="modal-title" id="exampleModalLabel" style="font-weight: 600">Registrar nuevo Tecnico
+      <div class="modal-header bg-gradient-teal">
+        <h5 class="modal-title" id="exampleModalLabel" style="font-weight: 600">Registrar nuevo técnico
         </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body mx-auto">
-        @if ($message = Session::get('user_with_errors'))
-        <div class="alert alert-danger alert-dismissible">
+        @if (Session::has('message'))
+        <div class="alert alert-{{ Session::get('typealert') }} alert-dismissible fade show" style="d-none">
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
           <h5><i class="icon fas fa-ban"></i> Upsss!</h5>
+          {{ Session::get('message') }}
+          @if ($errors->any())
           <ul>
             @foreach ($errors->all() as $error)
             <li>{{ $error }}</li>
             @endforeach
           </ul>
+          @endif
         </div>
         @endif
         <form action="technicians" method="POST" enctype="multipart/form-data">
@@ -34,8 +42,8 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fas fa-id-card"></i></span>
                 </div>
-                <input type="text" class="form-control" name="cc" pattern="[0-9]+" maxlength="10"
-                  value="{{ old('cc') }}" required>
+                <input type="text" class="form-control" name="cc" pattern="[0-9]+" maxlength="10" minlength="8"
+                  value="{{ old('cc') }}">
               </div>
             </div>
             <div class="col-md-4 mb-3">
@@ -45,7 +53,7 @@
                   <span class="input-group-text"><i class="fas fa-user"></i></span>
                 </div>
                 <input type="text" class="form-control" name="name" style="text-transform:uppercase;"
-                  onkeyup="javascript:this.value=this.value.toUpperCase();" value="{{ old('name') }}" required>
+                  onkeyup="javascript:this.value=this.value.toUpperCase();" value="{{ old('name') }}">
               </div>
             </div>
 
@@ -69,7 +77,7 @@
                   <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
                 </div>
                 <input type="text" class="form-control" name="nick-name" value="{{ old('nick-name') }}"
-                  style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
+                  style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
               </div>
             </div>
 
@@ -80,7 +88,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fas fa-at"></i></span>
                 </div>
-                <input type="email" class="form-control" name="email" value="{{ old('email') }}" required>
+                <input type="email" class="form-control" name="email" value="{{ old('email') }}">
               </div>
             </div>
             <div class="col-md-3 mb-3">
@@ -90,7 +98,7 @@
                   <span class="input-group-text"><i class="fas fa-mobile-alt"></i></span>
                 </div>
                 <input type="tel" class="form-control" id="phone" name="phone" value="{{ old('phone') }}"
-                  placeholder="300-0000-000" pattern="[3-10]{3}-[0-10]{4}-[0-10]{3}" maxlength="10" required>
+                  placeholder="300-0000-000" pattern="[3-10]{3}-[0-10]{4}-[0-10]{3}" maxlength="10">
               </div>
             </div>
           </div>
@@ -102,7 +110,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fas fa-users-cog"></i></span>
                 </div>
-                <select class="custom-select" name="rol" required>
+                <select class="custom-select" name="rol">
                   <option selected disabled>Seleccionar un rol...</option>
                   @foreach($roles as $role)
                   <option value="{{ $role->id }}">{{ $role->name }}</option>
@@ -120,7 +128,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fas fa-building"></i></span>
                 </div>
-                <select class="custom-select" name="campu-name" required>
+                <select class="custom-select" name="campu-name">
                   <option selected disabled>Seleccione la sede...</option>
                   @foreach($campus as $campu)
                   <option value="{{ $campu->id }}">{{ $campu->campu_name }}</option>
@@ -135,7 +143,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fas fa-briefcase"></i></span>
                 </div>
-                <select class="custom-select" name="work-function" required>
+                <select class="custom-select" name="work-function">
                   <option selected disabled>Seleccione el cargo...</option>
                   <option>Support IT</option>
                   <option>Network Administrator</option>
@@ -153,7 +161,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fas fa-key"></i></span>
                 </div>
-                <input type="password" class="form-control" name="password" maxlength="8" required>
+                <input type="password" class="form-control" name="password" maxlength="8">
               </div>
             </div>
 
@@ -163,7 +171,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fas fa-key"></i></span>
                 </div>
-                <input type="password" class="form-control" name="password_confirmation" maxlength="8" required>
+                <input type="password" class="form-control" name="password_confirmation" maxlength="8">
               </div>
             </div>
           </div>
@@ -188,6 +196,21 @@
 
 @push('js')
 <script>
+  $(document).ready(function(){
+  $.ajax({
+    url: '/technicians/script',
+    method: 'POST',
+    data:{
+      id: 1,
+      _token:$('input[name="_token"]').val()
+    }
+  }).done(function(res){
+    //alert(res);
+  });
+})
+</script>
+
+<script>
   $('.alert').slideDown();
   setTimeout(function(){ $('.alert').slideUp(); }, 10000);
 </script>
@@ -204,7 +227,7 @@
 
 <script>
   $(document).ready(function(){
-    @if($message = Session::get('user_with_errors'))
+    @if($message = Session::get('message'))
     $('#AddTechnicians').modal('show');
     @endif
   })

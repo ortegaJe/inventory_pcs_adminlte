@@ -21,7 +21,7 @@ class UserController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('admin');
         $this->middleware('verified');
     }
 
@@ -30,9 +30,11 @@ class UserController extends Controller
 
         //$users = DB::table('users')->select('users.*')->orderBy('id', 'DESC')->get(); consulta todos los registros de la tabla;
         //$users = DB::table('users')->select('name', 'age' etc)->orderBy('id', 'DESC')->get(); selecciona solos los campos a consultar;
-        $users = User::all();
+        $users = User::select('users.*')->orderBy('id', 'ASC')->paginate(4, ['*'], 'users');
         $roles = Role::all();
         $campus = Campu::all();
+
+        //if(Auth::user()->role_id != 'admin'){ return redirect('/home'); }
 
         return view(
             'technicians.index',
@@ -42,6 +44,16 @@ class UserController extends Controller
                 'campus' => $campus
             ]
         );
+    }
+
+    public function script()
+    {
+        $users = DB::table('users')
+        ->select('users.*')
+        ->orderBy('id', 'DESC')
+        ->get();
+
+       return response(json_encode($users),200)->header('Content-type', 'text/plain');
     }
 
     public function create()
@@ -55,81 +67,80 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'cc' => 'required|min:10|unique:users,cc',
+            'cc' => 'required|max:10|min:8|unique:users,cc',
             'name' => 'required|unique:users,name',
             'last-name' => 'required',
             'nick-name' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users,email',
             'phone' => 'required',
             'campu-name' => 'required',
             'work-function' => 'required',
-            'password' => 'required|min:8|confirmed',
-            'rol' => 'required'
+            'password' => 'required|min:8|confirmed'
+            //'rol' => 'required'
 
         ];
 
         $message = [
             'cc.required' => 'Numero de identificacion es requerido.',
             'cc.min' => 'Numero de identificacion deber tener al menos 8 caracteres.',
-            'cc.unique' => 'Ya existe este numero de identificacion ingresado, por favor ingrese otro diferente.',
-            'last-name.required' => 'Sus apellido es requerido.',
-            'lastname.required' => 'Su alias es requerido.',
+            'cc.max' => 'Numero de identificacion deber tener maximo 10 caracteres.',
+            'cc.unique' => 'Ya existe este numero de identificacion registrado, por favor registre otro diferente.',
+            'name.required' => 'Nombre del usuario es requerido',
+            'name.unique' => 'Ya exite un usuario con este nombre, por favor registre otro diferente.',
+            'last-name.required' => 'Apellidos del usuario es requerido',
+            'nick-name.required' => 'Su nickname es requerido.',
             'email.required' => 'Su correo electrónico es requerido.',
             'email.email' => 'Correo electrónico invalido.',
-            'email.unique' => 'Ya existe un correo electrónico registrado con este correo electrónico.',
+            'email.unique' => 'Ya existe este correo electrónico registrado, por favor registre otro diferente.',
+            'phone.unique' => 'Numero de telefono es requerido',
+            'campu-name.required' => 'Debe escoger la sede del técnico',
+            'work-fuction.unique' => 'Debe escoger el cargo del usuario',
             'password.required' => 'Por favor escriba una contraseña.',
             'password.min' => 'Debe contener al menos 8 caracteres la contraseña.',
-            'cpassword.required' => 'Es necesario confirmar la contraseña',
-            'cpassword.min' => 'La confirmación de la contraseña debe tener al menos 8 caracteres.',
-            'cpassword.same' => 'Las contraseñas no coinciden.'
+            'password.confirmed' => 'Las contraseñas no coinciden.'
         ];
 
-        $validator = Validator::make($request->all(), [
-
-        ]);
-
-        if($validator->fails()){
-            return back()
-            ->withInput()
-            ->with('user_with_errors', 'Diligenciar todos los campos requeridos')
-            ->withErrors($validator);
-        }else{
+        $validator = Validator::make($request->all(), $rules, $message);
+        if($validator->fails()) :
+            return back()->withErrors($validator)->with(
+                'message',
+                'Se ha producido un error:')->with(
+                'typealert',
+                'danger');
+        else :
         $users = new User();
-
-        $users->cc = $request['cc'];
-        $users->name = $request['name'];
-        $users->last_name = $request['last-name'];
-        $users->nick_name = $request['nick-name'];
-        $users->email = $request['email'];
-        $users->phone = $request['phone'];
-        $users->campus_id = $request['campu-name'];
+        $users->cc = e($request->input('cc'));
+        $users->name = e($request->input('name'));
+        $users->last_name = e($request->input('last-name'));
+        $users->nick_name = e($request->input('nick-name'));
+        $users->email = e($request->input('email'));
+        $users->phone = e($request->input('phone'));
+        $users->campus_id = e($request->input('campu-name'));
         //$users->role_id = $request['rol'];
         //$users->assignRole($request->get('rol'));
-        $users->work_function = $request['work-function'];
-        $users->password = Hash::make($request['password']);
+        $users->work_function = e($request->input('work-function'));
+        $users->password = Hash::make($request('password'));
         if ($request->hasFile('avatar')) {
             $file = $request->avatar;
             $file->move(public_path() . '/upload', $file->getClientOriginalName());
             $users->image = $file->getClientOriginalName();
         }
 
-        $users->save();
-
-    }
-            return back()->with('user_created', 'Usuario fue agregado al inventario!');
-
+                if($users->save()):
+                return redirect('/technicians')->withErrors($validator)->with('user_created', 'Usuario fue agregado al inventario!');
+            endif;
+        endif;
     }
 
     public function edit($id)
     {
-
         $user = User::findOrFail($id);
         $roles = Role::all();
         $campus = Campu::all();
         return view('technicians.edit', ['user' => $user, 'roles' => $roles, 'campus' => $campus]);
     }
 
-    public function update(UserEditFormRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $this->validate(
             request(),
@@ -139,6 +150,8 @@ class UserController extends Controller
 
         $users = User::findOrFail($id);
 
+        $users->cc = $request->get('cc');
+        $users->email = $request->get('email');
         $users->name = $request->get('name');
         $users->last_name = $request->get('last-name');
         $users->nick_name = $request->get('nick-name');
@@ -166,9 +179,9 @@ class UserController extends Controller
             $users->assignRole($request->get('rol'));
         }
 
-        $users->update();
-
-        return redirect('/technicians');
+        $users->save();
+        return back()->with('user_update', 'Usuario fue actualizado en el inventario!');
+        
     }
 
     public function show($id)
@@ -188,8 +201,16 @@ class UserController extends Controller
     {
         $users = User::findOrFail($id);
 
-        $users->delete();
+        if($users->delete()) { // If softdeleted
 
-        return redirect('/technicians');
+        $ts = now()->toDateTimeString();
+        $data = array('deleted_at' => $ts, 'status' => 0);
+        DB::table('users')->where('id', $id)->update($data);
+
+        }
+
+                return redirect('/technicians')
+               ->with('user_deleted',
+                      'Usuario ha sido eliminado del inventario!');
     }
 }

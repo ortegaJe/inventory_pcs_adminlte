@@ -44,6 +44,10 @@
           name: 'm.cpu',
           visible: false, orderable: true, searchable: true
           },
+          { data: 'name_pc',
+          name: 'm.name_pc',
+          orderable: true, searchable: true
+          },
           { data: 'ip_range',
           name: 'm.ip_range',
           orderable: true, searchable: true

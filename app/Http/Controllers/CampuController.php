@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Campu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
 class CampuController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('admin');
         $this->middleware('verified');
     }
     /**
@@ -21,6 +22,7 @@ class CampuController extends Controller
      */
     public function index(Request $request)
     {
+        
         if ($request->ajax()) {
             $campus = DB::table('campus')
                 ->select(
@@ -58,13 +60,35 @@ class CampuController extends Controller
      */
     public function store(Request $request)
     {
+        $rules = [
+            'name' => 'required|unique:campus,campu_name',
+            'label' => 'required|max:4|unique:campus,label'
+        ];
+
+        $message =[
+            'name.required' => 'Nombre de la sede es requerido',
+            'name.unique' => 'Ya existe una sede con este nombre, por favor registra otro diferente',
+            'label.required' => 'Es requirida una abreviacíon para la sede a registrar',
+            'label.max' => 'Solo se puede abreviar el nombre de la sede con minimo 4 palabras',
+            'label.unique' => 'Ya existe una abreviacíon como este, por favor ingresa una diferente'
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $message);
+        if($validator->fails()) :
+            return back()->withErrors($validator)->with(
+                'message',
+                'Se ha producido un error:')->with(
+                'typealert',
+                'danger');
+        else :
         $campus = new Campu();
+        $campus->campu_name = e($request->input('name'));
+        $campus->label = e($request->input('label'));
 
-        $campus->campu_name = request('campu-name');
-
-        $campus->save();
-
-        return redirect('/campus');
+                if($campus->save()):
+                return redirect('/campus')->withErrors($validator)->with('campus_created', 'Sede fue agregada al inventario!');
+            endif;
+        endif;
     }
 
     /**
@@ -113,6 +137,8 @@ class CampuController extends Controller
 
         $campus->delete();
 
-        return redirect('/campus');
+        return redirect('/campus')
+               ->with('campus_deleted',
+                      'Equipo eliminado del inventario');
     }
 }

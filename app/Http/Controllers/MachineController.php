@@ -2,17 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Campu;
 use App\Http\Requests\MachineFormRequest;
 use Illuminate\Http\Request;
 use App\Machine;
-use App\Ram;
-use App\Type;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\UserSystemInfoHelper;
 use App\Http\Requests\StoreFormRequest;
-use App\User;
 use Yajra\DataTables\Facades\DataTables;
 
 class MachineController extends Controller
@@ -41,6 +37,7 @@ class MachineController extends Controller
                     'm.manufacturer',
                     'm.model',
                     'm.cpu',
+                    'm.name_pc',
                     'm.ip_range',
                     'm.mac_address',
                     'm.anydesk',
@@ -49,7 +46,7 @@ class MachineController extends Controller
                     'm.comment',
                     'm.created_at',
                     'c.campu_name'
-                );
+                )->whereNull('deleted_at');
 
             return DataTables::of($machines)
                 ->addColumn('action', 'machines.actions')
@@ -59,6 +56,10 @@ class MachineController extends Controller
 
         return view('machines.index');
     }
+
+    /*return Datatables::of(User::withTrashed())
+                ->withTrashed()
+                ->make(true);*/
 
     public function charts(Request $request)
     {
@@ -76,6 +77,7 @@ class MachineController extends Controller
         $rams = DB::select('SELECT id,ram FROM rams', [1]);
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
         $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
+        //$mac_campus = DB::table('campus')->select('id','campu_name')->where('label', '=', 'MAC')->get();
         $roles = DB::select('SELECT id FROM roles', [1]);
 
         //$getip = UserSystemInfoHelper::get_ip();
@@ -90,6 +92,7 @@ class MachineController extends Controller
             //'getip' => $getip,
             'types' => $types,
             'campus' => $campus,
+            //'mac_campus' => $mac_campus,
             'rams' => $rams,
             'hdds' => $hdds,
             'roles' => $roles
@@ -121,12 +124,14 @@ class MachineController extends Controller
         $machines->ram_slot_01_id = $request['ramslot01'];
         $machines->hard_drive_id = $request['hard-drive'];
         $machines->cpu = request('cpu');
+        $machines->name_pc = request('name-pc');
         $machines->ip_range = $request['ip'];
         $machines->mac_address = $request['mac'];
         $machines->anydesk = request('anydesk');
         $machines->os = request('os');
         $machines->created_by = Auth::user()->id;
         $machines->rol_id = $roles;
+        $machines->status = request('status');
         $machines->campus_id = $request['campus'];
         $machines->location = $request['location'];
         $machines->comment = request('comment');
@@ -194,6 +199,7 @@ class MachineController extends Controller
         $machines->ram_slot_01_id = $request->get('ramslot01');
         $machines->hard_drive_id = $request->get('hard-drive');
         $machines->cpu = $request->get('cpu');
+        $machines->name_pc = $request->get('name-pc');
         $machines->ip_range = $request->get('ip');
         $machines->mac_address = $request->get('mac');
         $machines->anydesk = $request->get('anydesk');
@@ -202,7 +208,7 @@ class MachineController extends Controller
         $machines->location = $request->get('location');
         $machines->comment = $request->get('comment');
 
-        $machines->update();
+        $machines->save();
 
         return redirect('/machines')
                ->with('machine_update',
@@ -217,9 +223,20 @@ class MachineController extends Controller
      */
     public function destroy($id)
     {
+        //$status = DB::select('UPDATE machines SET status=0 WHERE deleted_at!= NOW()');
+        //SELECT status,deleted_at FROM machines WHERE deleted_at != "" AND status=1
+        //SELECT id,status,deleted_at FROM machines WHERE deleted_at != ''  AND status=0
+        //SELECT id,status,deleted_at FROM machines WHERE deleted_at IS NULL  AND status=0
+        //UPDATE machines SET status=0 WHERE deleted_at!= NOW()
         $machines = Machine::findOrFail($id);
 
-        $machines->delete();
+        if($machines->delete()) { // If softdeleted
+
+        $ts = now()->toDateTimeString();
+        $data = array('deleted_at' => $ts, 'status' => 0);
+        DB::table('machines')->where('id', $id)->update($data);
+
+        }
 
         return redirect('/machines')
                ->with('machine_deleted',

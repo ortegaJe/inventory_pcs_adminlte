@@ -3,13 +3,13 @@
         <!-- small box -->
         <div class="small-box bg-info">
             <div class="inner">
-                <?php $c30_atril_count = DB::table('machines')
-                                  ->select('type_id', 'campus_id')
+                <?php $c16_atril_count = DB::table('machines')
+                                  ->select('type_id', 'campus_id', 'status')
+                                  ->where('status', '=', [1])
                                   ->where('type_id', '=', [2]) //id en la tabla types
                                   ->where('campus_id', '=', [4]) //id en la tabla campus
                                   ->count(); ?>
-                <h3>{{ $c30_atril_count ?? '0' }}</h3>
-
+                <h3>{{ $c16_atril_count ?? '0' }}</h3>
                 <?php $c16_campu = DB::table('types')->get();?>
                 <p><b>{{$c16_campu[1]->name}}</b> Registrados</p>
                 <!--posición en la tabla types apartir de 0-->
@@ -25,12 +25,13 @@
         <!-- small box -->
         <div class="small-box bg-success">
             <div class="inner">
-                <?php $pc_count = DB::table('machines')
-                                  ->select('type_id', 'campus_id')
+                <?php $c16_pc_count = DB::table('machines')
+                                  ->select('type_id', 'campus_id', 'status')
+                                  ->where('status', '=', [1])
                                   ->where('type_id', '=', [1])
                                   ->where('campus_id', '=', [4])
                                   ->count(); ?>
-                <h3>{{ $pc_count ?? '0' }}</h3>
+                <h3>{{ $c16_pc_count ?? '0' }}</h3>
 
                 <?php $c16_campu = DB::table('types')->get();?>
                 <p><b>{{$c16_campu[0]->name}}</b> Registrados</p>
@@ -44,14 +45,15 @@
     <!-- ./col -->
     <div class="col-lg-3 col-6">
         <!-- small box -->
-        <div class="small-box bg-warning">
+        <div class="small-box bg-purple">
             <div class="inner">
-                <?php $laptop_count = DB::table('machines')
-                                  ->select('type_id', 'campus_id')
-                                  ->where('type_id', '=', [3])
-                                  ->where('campus_id', '=', [4])
-                                  ->count(); ?>
-                <h3>{{ $laptop_count ?? '0' }}</h3>
+                <?php $c16_laptop_count = DB::table('machines')
+                                      ->select('type_id', 'campus_id', 'status')
+                                      ->where('status', '=', [1])
+                                      ->where('type_id', '=', [3])
+                                      ->where('campus_id', '=', [4])
+                                      ->count(); ?>
+                <h3>{{ $c16_laptop_count ?? '0' }}</h3>
 
                 <?php $c16_campu = DB::table('types')->get();?>
                 <p><b>{{$c16_campu[2]->name}}</b> Registrados</p>
@@ -67,12 +69,13 @@
         <!-- small box -->
         <div class="small-box bg-danger">
             <div class="inner">
-                <?php $berry_count = DB::table('machines')
-                                      ->select('type_id', 'campus_id')
-                                      ->where('type_id', '=', [4])
-                                      ->where('campus_id', '=', [4])
-                                      ->count(); ?>
-                <h3>{{ $berry_count ?? '0' }}</h3>
+                <?php $c16_berry_count = DB::table('machines')
+                                     ->select('type_id', 'campus_id', 'status')
+                                     ->where('status', '=', [1])
+                                     ->where('type_id', '=', [4])
+                                     ->where('campus_id', '=', [4])
+                                     ->count(); ?>
+                <h3>{{ $c16_berry_count ?? '0' }}</h3>
 
                 <?php $c16_campu = DB::table('types')->get();?>
                 <p><b>{{$c16_campu[3]->name}}</b> Registrados</p>

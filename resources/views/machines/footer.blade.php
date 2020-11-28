@@ -3,7 +3,7 @@
 <section>
     @yield('footer-page')
     <footer class="main-footer">
-        <strong>Inventor Machines Project
+        <strong>Inventory Machines Project
             <div class="float-left d-none d-sm-inline-block" style="margin-right: 0.2em">
                 <a href="https://laravel.com/" target="_blank" rel="noopener noreferrer"><img
                         src="{{ asset('dist/img/svg/laravel.svg') }}" alt="larevel-icon" width="25px"></a>

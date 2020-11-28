@@ -14,6 +14,8 @@
         </div>
     </div>
 
+    <input type="text" name="status" value="1" hidden>
+
     <div class="col-md-6 mb-3">
         <label for="manufacturer">Fabricante:</label>
         <div class="input-group">
@@ -155,6 +157,17 @@
                 type="text" class="form-control" name="os" value="{{ $getos }}">
         </div>
     </div>
+    <div class="col-md-6 mb-3">
+        <label for="location">Nombre del equipo:</label>
+        <small style="color: crimson">( Ejemplo: V1A[ABREVIADO DE LA SEDE]-[UBICACION] )</small>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text bg-primary"><i class="fas fa-keyboard"></i></span>
+            </div>
+            <input style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
+                type="text" class="form-control" name="name-pc" placeholder="V1AMAC-CON12" maxlength="19">
+        </div>
+    </div>
 </div>
 
 <div class="form-row">
@@ -168,7 +181,7 @@
                 type="text" class="form-control" name="location" placeholder="" required>
         </div>
     </div>
-
+    @can('admin')
     <div class="col-md-6 mb-3">
         <label for="campus">Sede del equipo:</label>
         <div class="input-group">
@@ -183,6 +196,67 @@
             </select>
         </div>
     </div>
+    @endcan
+    @can('TEC_MAC')
+    <div class="col-md-6 mb-3 d-none">
+        <label for="campus">Sede del equipo:</label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-building"></i></span>
+            </div>
+            <select class="custom-select" name="campus">
+                @foreach ($mac_campus as $mac_campu)
+                <option value="{{ $mac_campu->id }}" selected>{{ $mac_campu->campu_name }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+    @endcan
+    @can('TEC_KNY')
+    <div class="col-md-6 mb-3 d-none">
+        <label for="campus">Sede del equipo:</label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-building"></i></span>
+            </div>
+            <select class="custom-select" name="campus">
+                @foreach ($kny_campus as $kny_campu)
+                <option value="{{ $kny_campu->id }}" selected>{{ $kny_campu->campu_name }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+    @endcan
+    @can('TEC_CNG')
+    <div class="col-md-6 mb-3 d-none">
+        <label for="campus">Sede del equipo:</label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-building"></i></span>
+            </div>
+            <select class="custom-select" name="campus">
+                @foreach ($cng_campus as $cng_campu)
+                <option value="{{ $cng_campu->id }}" selected>{{ $cng_campu->campu_name }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+    @endcan
+    @can('TEC_MAR')
+    <div class="col-md-6 mb-3 d-none">
+        <label for="campus">Sede del equipo:</label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-building"></i></span>
+            </div>
+            <select class="custom-select" name="campus">
+                @foreach ($mar_campus as $mar_campu)
+                <option value="{{ $mar_campu->id }}" selected>{{ $mar_campu->campu_name }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+    @endcan
 </div>
 
 <!--<div class="form-group">
@@ -196,3 +270,16 @@
     </div>
     <textarea class="form-control" maxlength="200" id="" name="comment" aria-label="With textarea"></textarea>
 </div>
+
+<!--<div class="modal-footer">
+    @can('admin')<a href="{{ route('machines.index') }}">
+        <button type="button" class="btn btn-secondary">Atras</button></a>
+    @endcan
+    @can('TEC_CNG')<a href="{{ route('cienaga.index') }}">
+        <button type="button" class="btn btn-secondary">Atras</button></a>
+    @endcan
+    <button type="reset" class="btn btn-secondary">Borrar todo</button>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+</div>-->
+
+@include('machines.footer')

@@ -29,6 +29,7 @@ class SuraSanJoseController extends Controller
                     'm.manufacturer',
                     'm.model',
                     'm.cpu',
+                    'm.name_pc',
                     'm.ip_range',
                     'm.mac_address',
                     'm.anydesk',
@@ -37,7 +38,7 @@ class SuraSanJoseController extends Controller
                     'm.comment',
                     'm.created_at',
                     'c.campu_name'
-                )->where('label', '=', 'SSJ');
+                )->where('label', '=', 'SSJ')->whereNull('deleted_at');
 
             return DataTables::of($ssj_machines)
                 ->addColumn('action', 'sedes.sura_san_jose.actions')
@@ -99,12 +100,14 @@ class SuraSanJoseController extends Controller
         $ssj_machines->ram_slot_01_id = request('ramslot01');
         $ssj_machines->hard_drive_id = request('hard-drive');
         $ssj_machines->cpu = request('cpu');
+        $ssj_machines->name_pc = request('name-pc');
         $ssj_machines->ip_range = request('ip');
         $ssj_machines->mac_address = request('mac');
         $ssj_machines->anydesk = request('anydesk');
         $ssj_machines->os = request('os');
         $ssj_machines->created_by = Auth::user()->id;
         $ssj_machines->rol_id = $roles;
+        $ssj_machines->status = request('status');
         $ssj_machines->campus_id = request('campus');
         $ssj_machines->location = request('location');
         $ssj_machines->comment = request('comment');
@@ -137,35 +140,43 @@ class SuraSanJoseController extends Controller
     {
         //$getos = UserSystemInfoHelper::get_os();
 
-        $machines = Machine::findOrFail($id);
+        $ssj_machines = Machine::findOrFail($id);
 
         //        [db]                 [name] (db campos en la base de datos - name campus en el blade edit)
-        $machines->type_id = $request->get('type');
-        $machines->manufacturer = $request->get('manufact');
-        $machines->model = $request->get('model');
-        $machines->serial = $request->get('serial');
-        $machines->ram_slot_00_id = $request->get('ramslot00');
-        $machines->ram_slot_01_id = $request->get('ramslot01');
-        $machines->hard_drive_id = $request->get('hard-drive');
-        $machines->cpu = $request->get('cpu');
-        $machines->ip_range = $request->get('ip');
-        $machines->mac_address = $request->get('mac');
-        $machines->anydesk = $request->get('anydesk');
-        $machines->os = $request->get('os');
-        $machines->campus_id = $request->get('campus_id');
-        $machines->location = $request->get('location');
-        $machines->comment = $request->get('comment');
+        $ssj_machines->type_id = $request->get('type');
+        $ssj_machines->manufacturer = $request->get('manufact');
+        $ssj_machines->model = $request->get('model');
+        $ssj_machines->serial = $request->get('serial');
+        $ssj_machines->ram_slot_00_id = $request->get('ramslot00');
+        $ssj_machines->ram_slot_01_id = $request->get('ramslot01');
+        $ssj_machines->hard_drive_id = $request->get('hard-drive');
+        $ssj_machines->cpu = $request->get('cpu');
+        $ssj_machines->name_pc = request('name-pc');
+        $ssj_machines->ip_range = $request->get('ip');
+        $ssj_machines->mac_address = $request->get('mac');
+        $ssj_machines->anydesk = $request->get('anydesk');
+        $ssj_machines->os = $request->get('os');
+        $ssj_machines->campus_id = $request->get('campus_id');
+        $ssj_machines->location = $request->get('location');
+        $ssj_machines->comment = $request->get('comment');
 
-        $machines->update();
+        $ssj_machines->update();
 
         return redirect('/sedes/sura_san_jose');
     }
 
     public function destroy($id)
     {
-        $machines = Machine::findOrFail($id);
+        $ssj_machines = Machine::findOrFail($id);
 
-        $machines->delete();
+
+        if($ssj_machines->delete()) { // If softdeleted
+
+        $ts = now()->toDateTimeString();
+        $data = array('deleted_at' => $ts, 'status' => 0);
+        DB::table('machines')->where('id', $id)->update($data);
+
+        }
 
         return redirect('/sedes/sura_san_jose');
     }

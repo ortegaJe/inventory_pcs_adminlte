@@ -1,8 +1,8 @@
-@extends('layouts.app')
+@extends('adminlte::page')
+
+@section('title', 'Hardware')
 
 @section('content')
-
-@section('title', 'Partes-Todas')
 
 <div class="container-fluid">
   <div class="row">
@@ -44,7 +44,7 @@
                     <form action="" method="POST">
                       @csrf
                       @method('DELETE')
-                      <button type="submit" class="btn bg-gradient-danger btn-sm"><i
+                      <button type="submit" class="btn btn-danger btn-sm btn-sm"><i
                           class="fas fa-trash-alt"></i></button>
                     </form>
                   </th>
@@ -94,7 +94,7 @@
                     <form action="" method="POST">
                       @csrf
                       @method('DELETE')
-                      <button type="reset" class="btn bg-gradient-danger btn-sm"><i
+                      <button type="reset" class="btn btn-danger btn-sm btn-sm"><i
                           class="fas fa-trash-alt"></i></button>
                     </form>
                   </th>
@@ -152,7 +152,7 @@
                     <form action="" method="POST">
                       @csrf
                       @method('DELETE')
-                      <button type="submit" class="btn bg-gradient-danger btn-sm"><i
+                      <button type="submit" class="btn btn-danger btn-sm btn-sm"><i
                           class="fas fa-trash-alt"></i></button>
                     </form>
                   </th>
@@ -192,13 +192,9 @@
             <table class="table m-0">
               <thead>
                 <tr>
-                  <th scope="col">
-                    Size
-                  </th>
-                  <th>type</th>
-                  <th scope="col" class="text-center">
-                    Actions
-                  </th>
+                  <th scope="col">Size</th>
+                  <th scope="col">type</th>
+                  <th scope="col" class="text-center">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -206,15 +202,16 @@
                   @foreach ($hdds as $hdd)
                 <tr>
                   <th>
-                    {{ $hdd->size }}
+                    <h6>{{ $hdd->size }}</h6>
                   </th>
-                  <th>{{$hdd->type}}</th>
+                  <th>
+                    <h6>{{$hdd->type}}</h6>
+                  </th>
                   <th class="text-center">
                     <form action="" method="POST">
                       @csrf
                       @method('DELETE')
-                      <button type="submit" class="btn bg-gradient-danger btn-sm"><i
-                          class="fas fa-trash-alt"></i></button>
+                      <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
                     </form>
                   </th>
                 </tr>
@@ -239,3 +236,5 @@
 </div>
 
 @endsection
+
+@include('machines.footer')

@@ -20,17 +20,26 @@ Auth::routes(['verify' => true]);
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::resource('machines', 'MachineController')->middleware('admin');
-//Route::resource('machines/charts', 'MachineController@charts')->middleware('admin');
+Route::post('/technicians/script', 'UserController@script');
 Route::resource('technicians', 'UserController')->middleware('admin');
 Route::resource('/profile/username', 'ProfileController');
 Route::resource('roles', 'RoleController')->middleware('admin');
 Route::resource('campus', 'CampuController')->middleware('admin'); // colocar un solo controlador para las sedes
+
 Route::resource('/sedes/macarena', 'MacarenaController');
 Route::resource('/sedes/carrera_16', 'CaDieciseisController');
 Route::resource('/sedes/sura_san_jose', 'SuraSanJoseController');
 Route::resource('/sedes/calle_30', 'CaTreintaController'); //->middleware('ctreinta')
 Route::resource('/sedes/soledad', 'SoledadController');
 Route::resource('/sedes/kennedy', 'KennedyController');
+
+Route::prefix('/santa_marta')->group(function(){
+Route::resource('/sedes/cienaga', 'SantaMarta\Cienaga\CienagaController');
+Route::resource('/sedes/marinelo', 'SantaMarta\Marinelo\MarineloController');
+Route::resource('/sedes/riohacha', 'SantaMarta\Riohacha\RiohachaController');
+
+});
+
 Route::resource('parts', 'PartController')->middleware('admin');
 Route::resource('ram', 'RamController')->middleware('admin');
 Route::resource('hdd', 'HddController')->middleware('admin');
