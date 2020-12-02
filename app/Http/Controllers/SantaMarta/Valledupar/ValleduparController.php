@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\SantaMarta\Riohacha;
+namespace App\Http\Controllers\SantaMarta\Valledupar;
 
 use App\Helpers\UserSystemInfoHelper;
 use App\Http\Controllers\Controller;
 use App\Machine;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
-class RiohachaController extends Controller
+class ValleduparController extends Controller
 {
-        public function __construct()
+            public function __construct()
     {
         $this->middleware('auth');
         $this->middleware('verified');
@@ -28,7 +28,7 @@ class RiohachaController extends Controller
                          ->where('status', '=', [1])
                          ->where('deleted_at', '=', NULL)
                          ->where('type_id', '=', [2]) //id en la tabla types
-                         ->where('campus_id', '=', [15]) //id en la tabla campus
+                         ->where('campus_id', '=', [17]) //id en la tabla campus
                          ->count();
 
         $type_atril = DB::table('types')->get();//nombres de los tipos
@@ -38,7 +38,7 @@ class RiohachaController extends Controller
                      ->where('status', '=', [1])
                      ->where('deleted_at', '=', NULL)
                      ->where('type_id', '=', [1])
-                     ->where('campus_id', '=', [15])
+                     ->where('campus_id', '=', [17])
                      ->count();
 
         $type_pc = DB::table('types')->get();
@@ -48,7 +48,7 @@ class RiohachaController extends Controller
                                 ->where('status', '=', [1])
                                 ->where('deleted_at', '=', NULL)
                                 ->where('type_id', '=', [3])
-                                ->where('campus_id', '=', [15])
+                                ->where('campus_id', '=', [17])
                                 ->count();
 
         $type_laptop = DB::table('types')->get();
@@ -58,10 +58,11 @@ class RiohachaController extends Controller
                                 ->where('status', '=', [1])
                                 ->where('deleted_at', '=', NULL)
                                 ->where('type_id', '=', [4])
-                                ->where('campus_id', '=', [15])
+                                ->where('campus_id', '=', [17])
                                 ->count();
 
         $type_berry = DB::table('types')->get();
+        //end info_box//
 
         if ($request->ajax()) {
             $rio_machines = DB::table('machines AS m')
@@ -83,16 +84,16 @@ class RiohachaController extends Controller
                     'm.comment',
                     'm.created_at',
                     'c.campu_name')
-                ->where('label', '=', 'C12')
+                ->where('label', '=', 'VDP')
                 ->whereNull('deleted_at');
 
             return DataTables::of($rio_machines)
-                ->addColumn('action', 'sedes.riohacha.actions')
+                ->addColumn('action', 'sedes.valledupar.actions')
                 ->rawColumns(['action'])
                 ->make(true);
         }
 
-        return view('sedes.riohacha.index',
+        return view('sedes.valledupar.index',
         [
 
         'name_campu_table_index' => $name_campu_table_index,
@@ -116,14 +117,15 @@ class RiohachaController extends Controller
                                        `anydesk`, `campus_id`, `location`, `image`, 
                                        `comment`, `created_at`, `updated_at` 
                                         FROM 
-                                       `machines` WHERE campus_id=15', [1]);
+                                       `machines` WHERE campus_id=14', [1]);
 
         $types = DB::select('SELECT id,name FROM types', [1]);
         $rams = DB::select('SELECT id,ram FROM rams', [1]);
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
         $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
-        $name_campu_form_create = DB::table('campus')->get();
-        $mar_campus = DB::table('campus')->select('id','campu_name')->where('label', '=', 'MAR')->get();//guardar sede asignada de manera seleccionada
+
+        $name_campu_form_create = DB::table('campus')->select('campu_name')->get();
+        $mar_campus = DB::table('campus')->select('id','campu_name')->where('label', '=', 'MAR')->get();
         $cng_campus = DB::table('campus')->select('id','campu_name')->where('label', '=', 'CNG')->get();
         $rio_campus = DB::table('campus')->select('id','campu_name')->where('label', '=', 'RIO')->get();
         $c12_campus = DB::table('campus')->select('id','campu_name')->where('label', '=', 'C12')->get();
@@ -134,7 +136,7 @@ class RiohachaController extends Controller
         $getmacaddress = strtok($findmacaddress, ' ');
         $getos = UserSystemInfoHelper::get_os();
 
-        return view('sedes.riohacha.create', [
+        return view('sedes.valledupar.create', [
             'machines' => $machines,
             'name_campu_form_create' => $name_campu_form_create,
             'cng_campus' => $cng_campus,
@@ -184,7 +186,7 @@ class RiohachaController extends Controller
         //dd($machines);
         $machines->save();
 
-        return redirect('/santa_marta/sedes/riohacha');
+        return redirect('/santa_marta/sedes/valledupar');
     }
 
     public function edit($machines)
@@ -193,13 +195,13 @@ class RiohachaController extends Controller
         $rams = DB::select('SELECT id,ram FROM rams', [1]);
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
         $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
-        $rio_campus = DB::table('campus')->select('id','campu_name')->where('label', '=', 'RIO')->get();
+        $vdp_campus = DB::table('campus')->select('id','campu_name')->where('label', '=', 'VDP')->get();
 
         //$getos = UserSystemInfoHelper::get_os();
 
-        return view('sedes.riohacha.edit', [
+        return view('sedes.valledupar.edit', [
             'machine' => Machine::findOrFail($machines),
-            'rio_campus' => $rio_campus,
+            'vdp_campus' => $vdp_campus,
             //'getos' => $getos,
             'types' => $types,
             'campus' => $campus,
@@ -234,7 +236,7 @@ class RiohachaController extends Controller
 
         $machines->update();
 
-        return redirect('/santa_marta/sedes/riohacha');
+        return redirect('/santa_marta/sedes/valledupar');
     }
 
     public function destroy($id)
@@ -250,6 +252,6 @@ class RiohachaController extends Controller
 
         }
 
-        return redirect('/santa_marta/sedes/riohacha');
+        return redirect('/santa_marta/sedes/valledupar');
     }
 }

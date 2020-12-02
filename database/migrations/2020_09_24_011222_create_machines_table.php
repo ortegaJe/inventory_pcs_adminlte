@@ -68,6 +68,8 @@ class CreateMachinesTable extends Migration
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();
+            $table->timestamp('last_sign_in_at')->nullable();
+            $table->timestamp('current_sign_in_at')->nullable();
 
             $table->foreign('campus_id')
                 ->references('id')
@@ -136,7 +138,8 @@ class CreateMachinesTable extends Migration
             $table->foreign('role_id')
                 ->references('id')
                 ->on('roles')
-                ->onDelete('set null');
+                ->onDelete('set null')
+                ->onUpdate('cascade');
 
             $table->foreign('created_by')
                 ->references('id')

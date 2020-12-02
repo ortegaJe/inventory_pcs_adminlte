@@ -37,6 +37,8 @@ Route::prefix('/santa_marta')->group(function(){
 Route::resource('/sedes/cienaga', 'SantaMarta\Cienaga\CienagaController');
 Route::resource('/sedes/marinelo', 'SantaMarta\Marinelo\MarineloController');
 Route::resource('/sedes/riohacha', 'SantaMarta\Riohacha\RiohachaController');
+Route::resource('/sedes/carrera_12', 'SantaMarta\CarreraDoce\CarreraDoceController');
+Route::resource('/sedes/valledupar', 'SantaMarta\Valledupar\ValleduparController');
 
 });
 

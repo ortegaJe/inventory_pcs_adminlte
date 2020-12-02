@@ -1,6 +1,6 @@
-<a class="btn btn-app float-right" data-toggle="modal" data-target="#AddTechnicians">
+<a class="btn btn-app bg-teal float-right" data-toggle="modal" data-target="#AddTechnicians">
   <?php $global_users_count = DB::table('users')->select('users*.')->where('status', '=', [1])->count();?>
-  <span class="badge bg-teal">
+  <span class="badge bg-purple">
     {{ $global_users_count ?? '0' }}
   </span>
   <i class="fas fa-users"></i>
@@ -80,8 +80,6 @@
                   style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
               </div>
             </div>
-
-
             <div class="col-md-6 mb-3">
               <label for="email">Email:</label>
               <div class="input-group">
@@ -91,19 +89,19 @@
                 <input type="email" class="form-control" name="email" value="{{ old('email') }}">
               </div>
             </div>
+          </div>
+          <div class="form-row">
             <div class="col-md-3 mb-3">
               <label for="phone">Numero de contacto:</label>
               <div class="input-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fas fa-mobile-alt"></i></span>
                 </div>
-                <input type="tel" class="form-control" id="phone" name="phone" value="{{ old('phone') }}"
-                  placeholder="300-0000-000" pattern="[3-10]{3}-[0-10]{4}-[0-10]{3}" maxlength="10">
+                <input type="text" id="form1" class="form-control" name="phone" value="{{ old('phone') }}"
+                  placeholder="300-0000-000">
+                <input type="text" id="form2" class="form-control" hidden>
               </div>
             </div>
-          </div>
-
-          <div class="form-row">
             <div class="col-md-6 mb-3">
               <label for="phone">Role 1:</label>
               <div class="input-group">
@@ -118,7 +116,6 @@
                 </select>
               </div>
             </div>
-
           </div>
 
           <div class="form-row">
@@ -182,9 +179,20 @@
           </div>
 
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            <button type="reset" class="btn btn-secondary">Borrar todo</button>
-            <button type="submit" class="btn btn-primary">Registrar</button>
+            <div class="btn-group w-100" style="height: 40px">
+              <span class="btn btn-secondary w-50" data-dismiss="modal">
+                <i class="fas fa-times"></i>
+                <span>Cerrar</span>
+              </span>
+              <button type="submit" class="btn btn-primary col start w-100">
+                <i class="fas fa-save"></i>
+                <span>Guardar</span>
+              </button>
+              <button type="reset" class="btn btn-secondary col cancel w-50">
+                <i class="fas fa-eraser"></i>
+                <span>Borrar todo</span>
+              </button>
+            </div>
           </div>
         </form>
 
@@ -231,5 +239,22 @@
     $('#AddTechnicians').modal('show');
     @endif
   })
+</script>
+
+<script>
+  $("input[id='form1']").on("input", function () {
+$("input[id='form2']").val(destroyMask(this.value));
+this.value = createMask($("input[id='form2']").val());
+})
+
+function createMask(string) {
+console.log(string)
+return string.replace(/(\d{3})(\d{3})(\d{3})/, "$1-$2-$3");
+}
+
+function destroyMask(string) {
+console.log(string)
+return string.replace(/\D/g, '').substring(0, 10);
+}
 </script>
 @endpush

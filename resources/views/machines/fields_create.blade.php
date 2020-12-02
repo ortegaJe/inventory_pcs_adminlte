@@ -257,6 +257,51 @@
         </div>
     </div>
     @endcan
+    @can('TEC_RIO')
+    <div class="col-md-6 mb-3 d-none">
+        <label for="campus">Sede del equipo:</label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-building"></i></span>
+            </div>
+            <select class="custom-select" name="campus">
+                @foreach ($rio_campus as $rio_campu)
+                <option value="{{ $rio_campu->id }}" selected>{{ $rio_campu->campu_name }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+    @endcan
+    @can('TEC_C12')
+    <div class="col-md-6 mb-3 d-none">
+        <label for="campus">Sede del equipo:</label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-building"></i></span>
+            </div>
+            <select class="custom-select" name="campus">
+                @foreach ($c12_campus as $c12_campu)
+                <option value="{{ $c12_campu->id }}" selected>{{ $c12_campu->campu_name }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+    @endcan
+    @can('TEC_VDP')
+    <div class="col-md-6 mb-3 d-none">
+        <label for="campus">Sede del equipo:</label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-building"></i></span>
+            </div>
+            <select class="custom-select" name="campus">
+                @foreach ($vdp_campus as $vdp_campu)
+                <option value="{{ $vdp_campu->id }}" selected>{{ $vdp_campu->campu_name }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+    @endcan
 </div>
 
 <!--<div class="form-group">

@@ -119,7 +119,7 @@ class UserController extends Controller
         //$users->role_id = $request['rol'];
         //$users->assignRole($request->get('rol'));
         $users->work_function = e($request->input('work-function'));
-        $users->password = Hash::make($request('password'));
+        $users->password = Hash::make($request['password']);
         if ($request->hasFile('avatar')) {
             $file = $request->avatar;
             $file->move(public_path() . '/upload', $file->getClientOriginalName());

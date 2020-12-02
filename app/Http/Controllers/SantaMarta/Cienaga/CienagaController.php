@@ -70,6 +70,9 @@ class CienagaController extends Controller
         $name_cng_campu = DB::table('campus')->get();
         $cng_campus = DB::table('campus')->select('id','campu_name')->where('label', '=', 'CNG')->get();
         $mar_campus = DB::table('campus')->select('id','campu_name')->where('label', '=', 'MAR')->get();
+        $rio_campus = DB::table('campus')->select('id','campu_name')->where('label', '=', 'RIO')->get();
+        $c12_campus = DB::table('campus')->select('id','campu_name')->where('label', '=', 'C12')->get();
+        $vdp_campus = DB::table('campus')->select('id','campu_name')->where('label', '=', 'VDP')->get();
 
         //$getip = UserSystemInfoHelper::get_ip();
         $findmacaddress = exec('getmac');
@@ -81,6 +84,9 @@ class CienagaController extends Controller
             'name_cng_campu' => $name_cng_campu,
             'mar_campus' => $mar_campus,
             'cng_campus' => $cng_campus,
+            'rio_campus' => $rio_campus,
+            'c12_campus' => $c12_campus,
+            'vdp_campus' => $vdp_campus,
             'types' => $types,
             'campus' => $campus,
             'rams' => $rams,

@@ -10,11 +10,11 @@
       <div class="card card-primary">
         <div class="card-header">
           <h3 class="card-title" style="font-weight: 700; font-size:20px">Registrar Equipo en:
-            {{ $name_campu_form_create[12]->campu_name }}
+            {{ $name_campu_form_create[11]->campu_name }}
           </h3>
         </div>
         <div class="card-body">
-          <form action="/santa_marta/sedes/riohacha" method="POST">
+          <form action="/santa_marta/sedes/carrera_12" method="POST">
             @csrf
             @include('machines.fields_create')
             <div class="modal-footer">

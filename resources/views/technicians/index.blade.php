@@ -65,19 +65,23 @@
                   <h6>{{ $user->created_at->diffForHumans() }}</h6>
                 </td>
                 <td>
-                  <form class="d-inline deletedUser" action="{{ route('technicians.destroy', $user->id) }}"
-                    method="POST">
+                  <form class="deletedUser" action="{{ route('technicians.destroy', $user->id) }}" method="POST">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-danger btn-sm">
-                      <i class="fas fa-trash-alt"></i>
-                    </button>
+                    <div class="btn-group w-100">
+                      <button type="button" onclick="window.location='{{ route('technicians.show', $user->id) }}'"
+                        class="btn btn-secondary btn-sm col start" data-dismiss="modal">
+                        <i class="fas fa-eye"></i>
+                      </button>
+                      <button type="button" onclick="window.location='{{ route('technicians.edit', $user->id) }}'"
+                        class="btn btn-success btn-sm col start">
+                        <i class="fas fa-edit"></i>
+                      </button>
+                      <button type="submit" class="btn btn-danger btn-sm col start">
+                        <i class="fas fa-trash-alt"></i>
+                      </button>
+                    </div>
                   </form>
-                  <a href="{{ route('technicians.show', $user->id) }}"><button type="button"
-                      class="btn btn-secondary btn-sm d-inline"><i class="fas fa-eye"></i></button>
-                  </a>
-                  <a href="{{ route('technicians.edit', $user->id) }}"><button type="button"
-                      class="btn bg-gradient-success btn-sm"><i class="fas fa-edit"></i></button></a>
                 </td>
               </tr>
               @endforeach

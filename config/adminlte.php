@@ -280,6 +280,13 @@ return [
             'icon_color' => 'default',
             'submenu' => [
                 [
+                    'text' => 'Calle 30',
+                    'url'  => '/sedes/calle_30',
+                    'icon' => 'fas fa-fw fa-building',
+                    'icon_color' => 'success',
+                    'can'  =>  ['ctreinta', 'admin'],
+                ],
+                [
                     'text' => 'Carrera 16',
                     'url'  => '/sedes/carrera_16',
                     'icon' => 'fas fa-fw fa-building',
@@ -287,11 +294,11 @@ return [
                     'can'  =>  'admin',
                 ],
                 [
-                    'text' => 'Calle 30',
-                    'url'  => '/sedes/calle_30',
+                    'text' => 'Carrera 12',
+                    'url'  => '/santa_marta/sedes/carrera_12',
                     'icon' => 'fas fa-fw fa-building',
                     'icon_color' => 'success',
-                    'can'  =>  ['ctreinta', 'admin'],
+                    'can'  =>  ['TEC_CNG', 'TEC_MAR', 'TEC_C12', 'TEC_RIO', 'TEC_VDP', 'admin'],
                 ],
                 [
                     'text' => 'Cienaga',
@@ -342,7 +349,13 @@ return [
                     'icon_color' => 'success',
                     'can'  =>  'admin',
                 ],
-                [],
+                [
+                    'text' => 'Valledupar',
+                    'url'  => '/santa_marta/sedes/valledupar',
+                    'icon' => 'fas fa-fw fa-building',
+                    'icon_color' => 'success',
+                    'can'  =>  ['TEC_CNG', 'TEC_MAR', 'TEC_C12', 'TEC_RIO', 'TEC_VDP', 'admin'],
+                ],
             ],
         ],
     ],
@@ -469,17 +482,17 @@ return [
             ],
         ],
         'Select2' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
                     'asset' => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js',
+                    'location' => '//cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js',
                 ],
                 [
                     'type' => 'css',
                     'asset' => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css',
+                    'location' => '//cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css',
                 ],
             ],
         ],

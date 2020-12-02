@@ -2,21 +2,19 @@
 
 namespace App;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Session;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
     use Notifiable;
     use HasRoles;
     use SoftDeletes;
-
 
     /**
      * The attributes that are mass assignable.
@@ -37,6 +35,10 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    protected $dates = [
+'current_sign_in_at', 'last_sign_in_at'
+    ];
+
     /**
      * The attributes that should be cast to native types.
      *
@@ -45,6 +47,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function isOnline()
+    {
+        return Cache::has('user-is-online-' . $this->id);
+    }
+
+        public function isOffline()
+    {
+        return Cache::has('user-is-offline-' . $this->id);
+    }
 
     public function roles()
     {
@@ -65,6 +77,11 @@ class User extends Authenticatable
     {
         $user_login_avatar = '/upload/' . Auth::user()->image;
         return $user_login_avatar;
+    }
+
+    public function campu()
+    {
+        return $this->belongsTo('App\Models\Campu');
     }
 
     public function adminlte_desc()

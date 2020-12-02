@@ -12,7 +12,7 @@
           </h3>
         </div>
         <div class="card-body">
-          <form action="{{ route('riohacha.update', $machine->id ) }}" method="POST">
+          <form action="{{ route('valledupar.update', $machine->id ) }}" method="POST">
             @method('PATCH')
             @csrf
             @if ($errors->any())
