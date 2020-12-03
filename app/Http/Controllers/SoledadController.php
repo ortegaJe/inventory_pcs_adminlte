@@ -38,7 +38,7 @@ class SoledadController extends Controller
                     'm.comment',
                     'm.created_at',
                     'c.campu_name'
-                )->where('label', '=', 'SOL')->whereNull('deleted_at');
+                )->where('label', '=', 'SOL')->whereNull('status_deleted_at');
 
             return DataTables::of($sol_machines)
                 ->addColumn('action', 'sedes.soledad.actions')
@@ -170,12 +170,11 @@ class SoledadController extends Controller
         $sol_machines = Machine::findOrFail($id);
 
 
-        if($sol_machines->delete()) { // If softdeleted
+        if ($sol_machines->delete()) { // If softdeleted
 
-        $ts = now()->toDateTimeString();
-        $data = array('deleted_at' => $ts, 'status' => 0);
-        DB::table('machines')->where('id', $id)->update($data);
-
+            $ts = now()->toDateTimeString();
+            $data = array('deleted_at' => $ts, 'status' => 0);
+            DB::table('machines')->where('id', $id)->update($data);
         }
 
         return redirect('/sedes/soledad');

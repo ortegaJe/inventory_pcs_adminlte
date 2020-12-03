@@ -4,8 +4,8 @@
         <div class="small-box bg-info">
             <div class="inner">
                 <?php $c16_atril_count = DB::table('machines')
-                                  ->select('type_id', 'campus_id', 'status')
-                                  ->where('status', '=', [1])
+                                  ->select('type_id', 'campus_id', 'status_deleted_at')
+                                  ->where('status_deleted_at', '=', [1])
                                   ->where('type_id', '=', [2]) //id en la tabla types
                                   ->where('campus_id', '=', [4]) //id en la tabla campus
                                   ->count(); ?>
@@ -26,8 +26,8 @@
         <div class="small-box bg-success">
             <div class="inner">
                 <?php $c16_pc_count = DB::table('machines')
-                                  ->select('type_id', 'campus_id', 'status')
-                                  ->where('status', '=', [1])
+                                  ->select('type_id', 'campus_id', 'status_deleted_at')
+                                  ->where('status_deleted_at', '=', [1])
                                   ->where('type_id', '=', [1])
                                   ->where('campus_id', '=', [4])
                                   ->count(); ?>
@@ -48,8 +48,8 @@
         <div class="small-box bg-purple">
             <div class="inner">
                 <?php $c16_laptop_count = DB::table('machines')
-                                      ->select('type_id', 'campus_id', 'status')
-                                      ->where('status', '=', [1])
+                                      ->select('type_id', 'campus_id', 'status_deleted_at')
+                                      ->where('status_deleted_at', '=', [1])
                                       ->where('type_id', '=', [3])
                                       ->where('campus_id', '=', [4])
                                       ->count(); ?>
@@ -70,8 +70,8 @@
         <div class="small-box bg-danger">
             <div class="inner">
                 <?php $c16_berry_count = DB::table('machines')
-                                     ->select('type_id', 'campus_id', 'status')
-                                     ->where('status', '=', [1])
+                                     ->select('type_id', 'campus_id', 'status_deleted_at')
+                                     ->where('status_deleted_at', '=', [1])
                                      ->where('type_id', '=', [4])
                                      ->where('campus_id', '=', [4])
                                      ->count(); ?>

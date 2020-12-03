@@ -1,5 +1,5 @@
 <a class="btn btn-app bg-teal float-right" data-toggle="modal" data-target="#AddTechnicians">
-  <?php $global_users_count = DB::table('users')->select('users*.')->where('status', '=', [1])->count();?>
+  <?php $global_users_count = DB::table('users')->select('users*.')->where('status_deleted_at', '=', [1])->count();?>
   <span class="badge bg-purple">
     {{ $global_users_count ?? '0' }}
   </span>

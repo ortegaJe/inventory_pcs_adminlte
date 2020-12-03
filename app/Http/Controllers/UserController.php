@@ -49,11 +49,11 @@ class UserController extends Controller
     public function script()
     {
         $users = DB::table('users')
-        ->select('users.*')
-        ->orderBy('id', 'DESC')
-        ->get();
+            ->select('users.*')
+            ->orderBy('id', 'DESC')
+            ->get();
 
-       return response(json_encode($users),200)->header('Content-type', 'text/plain');
+        return response(json_encode($users), 200)->header('Content-type', 'text/plain');
     }
 
     public function create()
@@ -101,32 +101,34 @@ class UserController extends Controller
         ];
 
         $validator = Validator::make($request->all(), $rules, $message);
-        if($validator->fails()) :
+        if ($validator->fails()) :
             return back()->withErrors($validator)->with(
                 'message',
-                'Se ha producido un error:')->with(
+                'Se ha producido un error:'
+            )->with(
                 'typealert',
-                'danger');
+                'danger'
+            );
         else :
-        $users = new User();
-        $users->cc = e($request->input('cc'));
-        $users->name = e($request->input('name'));
-        $users->last_name = e($request->input('last-name'));
-        $users->nick_name = e($request->input('nick-name'));
-        $users->email = e($request->input('email'));
-        $users->phone = e($request->input('phone'));
-        $users->campus_id = e($request->input('campu-name'));
-        //$users->role_id = $request['rol'];
-        //$users->assignRole($request->get('rol'));
-        $users->work_function = e($request->input('work-function'));
-        $users->password = Hash::make($request['password']);
-        if ($request->hasFile('avatar')) {
-            $file = $request->avatar;
-            $file->move(public_path() . '/upload', $file->getClientOriginalName());
-            $users->image = $file->getClientOriginalName();
-        }
+            $users = new User();
+            $users->cc = e($request->input('cc'));
+            $users->name = e($request->input('name'));
+            $users->last_name = e($request->input('last-name'));
+            $users->nick_name = e($request->input('nick-name'));
+            $users->email = e($request->input('email'));
+            $users->phone = e($request->input('phone'));
+            $users->campus_id = e($request->input('campu-name'));
+            $users->role_id = $request['rol'];
+            $users->assignRole($request->get('rol'));
+            $users->work_function = e($request->input('work-function'));
+            $users->password = Hash::make($request['password']);
+            if ($request->hasFile('avatar')) {
+                $file = $request->avatar;
+                $file->move(public_path() . '/upload', $file->getClientOriginalName());
+                $users->image = $file->getClientOriginalName();
+            }
 
-                if($users->save()):
+            if ($users->save()) :
                 return redirect('/technicians')->withErrors($validator)->with('user_created', 'Usuario fue agregado al inventario!');
             endif;
         endif;
@@ -181,7 +183,6 @@ class UserController extends Controller
 
         $users->save();
         return back()->with('user_update', 'Usuario fue actualizado en el inventario!');
-        
     }
 
     public function show($id)
@@ -201,16 +202,17 @@ class UserController extends Controller
     {
         $users = User::findOrFail($id);
 
-        if($users->delete()) { // If softdeleted
+        if ($users->delete()) { // If softdeleted
 
-        $ts = now()->toDateTimeString();
-        $data = array('deleted_at' => $ts, 'status' => 0);
-        DB::table('users')->where('id', $id)->update($data);
-
+            $ts = now()->toDateTimeString();
+            $data = array('deleted_at' => $ts, 'status' => 0);
+            DB::table('users')->where('id', $id)->update($data);
         }
 
-                return redirect('/technicians')
-               ->with('user_deleted',
-                      'Usuario ha sido eliminado del inventario!');
+        return redirect('/technicians')
+            ->with(
+                'user_deleted',
+                'Usuario ha sido eliminado del inventario!'
+            );
     }
 }

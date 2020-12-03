@@ -21,7 +21,49 @@ class CienagaController extends Controller
 
     public function index(Request $request)
     {
-        $name_cng_campu = DB::select('SELECT id,campu_name FROM campus WHERE id=14', [1]);
+        $name_campu_table_index = DB::table('campus')->get();
+
+        //info_box//
+        $atril_count = DB::table('machines')
+            ->select('type_id', 'campus_id', 'status_deleted_at', 'deleted_at')
+            ->where('status_deleted_at', '=', [1])
+            ->where('deleted_at', '=', NULL)
+            ->where('type_id', '=', [2]) //id en la tabla types
+            ->where('campus_id', '=', [14]) //id en la tabla campus
+            ->count();
+
+        $type_atril = DB::table('types')->get(); //nombres de los tipos
+
+        $pc_count = DB::table('machines')
+            ->select('type_id', 'campus_id', 'status_deleted_at')
+            ->where('status_deleted_at', '=', [1])
+            ->where('deleted_at', '=', NULL)
+            ->where('type_id', '=', [1])
+            ->where('campus_id', '=', [14])
+            ->count();
+
+        $type_pc = DB::table('types')->get();
+
+        $laptop_count = DB::table('machines')
+            ->select('type_id', 'campus_id', 'status_deleted_at')
+            ->where('status_deleted_at', '=', [1])
+            ->where('deleted_at', '=', NULL)
+            ->where('type_id', '=', [3])
+            ->where('campus_id', '=', [14])
+            ->count();
+
+        $type_laptop = DB::table('types')->get();
+
+        $berry_count = DB::table('machines')
+            ->select('type_id', 'campus_id', 'status_deleted_at')
+            ->where('status_deleted_at', '=', [1])
+            ->where('deleted_at', '=', NULL)
+            ->where('type_id', '=', [4])
+            ->where('campus_id', '=', [14])
+            ->count();
+
+        $type_berry = DB::table('types')->get();
+        //end info_box//
 
         if ($request->ajax()) {
             $cng_machines = DB::table('machines AS m')
@@ -42,7 +84,8 @@ class CienagaController extends Controller
                     'm.location',
                     'm.comment',
                     'm.created_at',
-                    'c.campu_name')->where('label', '=', 'CNG')->whereNull('deleted_at');
+                    'c.campu_name'
+                )->where('label', '=', 'CNG')->whereNull('deleted_at');
 
             return DataTables::of($cng_machines)
                 ->addColumn('action', 'sedes.cienaga.actions')
@@ -50,7 +93,22 @@ class CienagaController extends Controller
                 ->make(true);
         }
 
-        return view('sedes.cienaga.index',['name_cng_campu' => $name_cng_campu]);
+        return view(
+            'sedes.cienaga.index',
+            [
+
+                'name_campu_table_index' => $name_campu_table_index,
+                'atril_count' => $atril_count,
+                'type_atril' => $type_atril,
+                'pc_count' => $pc_count,
+                'type_pc' => $type_pc,
+                'laptop_count' => $laptop_count,
+                'type_laptop' => $type_laptop,
+                'berry_count' => $berry_count,
+                'type_berry' => $type_berry
+
+            ]
+        );
     }
 
     public function create(Request $request)
@@ -68,11 +126,11 @@ class CienagaController extends Controller
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
         $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
         $name_cng_campu = DB::table('campus')->get();
-        $cng_campus = DB::table('campus')->select('id','campu_name')->where('label', '=', 'CNG')->get();
-        $mar_campus = DB::table('campus')->select('id','campu_name')->where('label', '=', 'MAR')->get();
-        $rio_campus = DB::table('campus')->select('id','campu_name')->where('label', '=', 'RIO')->get();
-        $c12_campus = DB::table('campus')->select('id','campu_name')->where('label', '=', 'C12')->get();
-        $vdp_campus = DB::table('campus')->select('id','campu_name')->where('label', '=', 'VDP')->get();
+        $cng_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'CNG')->get();
+        $mar_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'MAR')->get();
+        $rio_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'RIO')->get();
+        $c12_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'C12')->get();
+        $vdp_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'VDP')->get();
 
         //$getip = UserSystemInfoHelper::get_ip();
         $findmacaddress = exec('getmac');
@@ -122,7 +180,7 @@ class CienagaController extends Controller
         $cng_machines->os = request('os');
         $cng_machines->created_by = Auth::user()->id;
         $cng_machines->rol_id = $roles;
-        $cng_machines->status = request('status');
+        $cng_machines->status_deleted_at = request('status');
         $cng_machines->campus_id = request('campus');
         $cng_machines->location = request('location');
         $cng_machines->comment = request('comment');
@@ -138,7 +196,7 @@ class CienagaController extends Controller
         $rams = DB::select('SELECT id,ram FROM rams', [1]);
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
         $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
-        $cng_campus = DB::table('campus')->select('id','campu_name')->where('label', '=', 'CNG')->get();
+        $cng_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'CNG')->get();
 
         //$getos = UserSystemInfoHelper::get_os();
 
@@ -186,13 +244,12 @@ class CienagaController extends Controller
     {
         $machines = Machine::findOrFail($id);
 
-        
-        if($machines->delete()) { // If softdeleted
 
-        $ts = now()->toDateTimeString();
-        $data = array('deleted_at' => $ts, 'status' => 0);
-        DB::table('machines')->where('id', $id)->update($data);
+        if ($machines->delete()) { // If softdeleted
 
+            $ts = now()->toDateTimeString();
+            $data = array('deleted_at' => $ts, 'status_deleted_at' => 0);
+            DB::table('machines')->where('id', $id)->update($data);
         }
 
         return redirect('/santa_marta/sedes/cienaga');

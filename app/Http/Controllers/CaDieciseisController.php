@@ -12,7 +12,7 @@ use Yajra\DataTables\Facades\DataTables;
 class CaDieciseisController extends Controller
 {
 
-        public function __construct()
+    public function __construct()
     {
         $this->middleware('auth');
         $this->middleware('verified');
@@ -175,12 +175,11 @@ class CaDieciseisController extends Controller
         $machines = Machine::findOrFail($id);
 
 
-        if($machines->delete()) { // If softdeleted
+        if ($machines->delete()) { // If softdeleted
 
-        $ts = now()->toDateTimeString();
-        $data = array('deleted_at' => $ts, 'status' => 0);
-        DB::table('machines')->where('id', $id)->update($data);
-
+            $ts = now()->toDateTimeString();
+            $data = array('deleted_at' => $ts, 'status' => 0);
+            DB::table('machines')->where('id', $id)->update($data);
         }
 
         return redirect('/sedes/carrera_16');

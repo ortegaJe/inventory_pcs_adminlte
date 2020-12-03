@@ -38,7 +38,7 @@ class SuraSanJoseController extends Controller
                     'm.comment',
                     'm.created_at',
                     'c.campu_name'
-                )->where('label', '=', 'SSJ')->whereNull('deleted_at');
+                )->where('label', '=', 'SSJ')->whereNull('status_deleted_at');
 
             return DataTables::of($ssj_machines)
                 ->addColumn('action', 'sedes.sura_san_jose.actions')
@@ -170,12 +170,11 @@ class SuraSanJoseController extends Controller
         $ssj_machines = Machine::findOrFail($id);
 
 
-        if($ssj_machines->delete()) { // If softdeleted
+        if ($ssj_machines->delete()) { // If softdeleted
 
-        $ts = now()->toDateTimeString();
-        $data = array('deleted_at' => $ts, 'status' => 0);
-        DB::table('machines')->where('id', $id)->update($data);
-
+            $ts = now()->toDateTimeString();
+            $data = array('deleted_at' => $ts, 'status' => 0);
+            DB::table('machines')->where('id', $id)->update($data);
         }
 
         return redirect('/sedes/sura_san_jose');

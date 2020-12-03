@@ -12,7 +12,7 @@ use Yajra\DataTables\Facades\DataTables;
 
 class ValleduparController extends Controller
 {
-            public function __construct()
+    public function __construct()
     {
         $this->middleware('auth');
         $this->middleware('verified');
@@ -24,42 +24,42 @@ class ValleduparController extends Controller
 
         //info_box//
         $atril_count = DB::table('machines')
-                         ->select('type_id', 'campus_id', 'status', 'deleted_at')
-                         ->where('status', '=', [1])
-                         ->where('deleted_at', '=', NULL)
-                         ->where('type_id', '=', [2]) //id en la tabla types
-                         ->where('campus_id', '=', [17]) //id en la tabla campus
-                         ->count();
+            ->select('type_id', 'campus_id', 'status_deleted_at', 'deleted_at')
+            ->where('status_deleted_at', '=', [1])
+            ->where('deleted_at', '=', NULL)
+            ->where('type_id', '=', [2]) //id en la tabla types
+            ->where('campus_id', '=', [17]) //id en la tabla campus
+            ->count();
 
-        $type_atril = DB::table('types')->get();//nombres de los tipos
+        $type_atril = DB::table('types')->get(); //nombres de los tipos
 
         $pc_count = DB::table('machines')
-                     ->select('type_id', 'campus_id', 'status')
-                     ->where('status', '=', [1])
-                     ->where('deleted_at', '=', NULL)
-                     ->where('type_id', '=', [1])
-                     ->where('campus_id', '=', [17])
-                     ->count();
+            ->select('type_id', 'campus_id', 'status_deleted_at')
+            ->where('status_deleted_at', '=', [1])
+            ->where('deleted_at', '=', NULL)
+            ->where('type_id', '=', [1])
+            ->where('campus_id', '=', [17])
+            ->count();
 
         $type_pc = DB::table('types')->get();
 
         $laptop_count = DB::table('machines')
-                                ->select('type_id', 'campus_id', 'status')
-                                ->where('status', '=', [1])
-                                ->where('deleted_at', '=', NULL)
-                                ->where('type_id', '=', [3])
-                                ->where('campus_id', '=', [17])
-                                ->count();
+            ->select('type_id', 'campus_id', 'status_deleted_at')
+            ->where('status_deleted_at', '=', [1])
+            ->where('deleted_at', '=', NULL)
+            ->where('type_id', '=', [3])
+            ->where('campus_id', '=', [17])
+            ->count();
 
         $type_laptop = DB::table('types')->get();
 
         $berry_count = DB::table('machines')
-                                ->select('type_id', 'campus_id', 'status')
-                                ->where('status', '=', [1])
-                                ->where('deleted_at', '=', NULL)
-                                ->where('type_id', '=', [4])
-                                ->where('campus_id', '=', [17])
-                                ->count();
+            ->select('type_id', 'campus_id', 'status_deleted_at')
+            ->where('status_deleted_at', '=', [1])
+            ->where('deleted_at', '=', NULL)
+            ->where('type_id', '=', [4])
+            ->where('campus_id', '=', [17])
+            ->count();
 
         $type_berry = DB::table('types')->get();
         //end info_box//
@@ -83,7 +83,8 @@ class ValleduparController extends Controller
                     'm.location',
                     'm.comment',
                     'm.created_at',
-                    'c.campu_name')
+                    'c.campu_name'
+                )
                 ->where('label', '=', 'VDP')
                 ->whereNull('deleted_at');
 
@@ -93,20 +94,22 @@ class ValleduparController extends Controller
                 ->make(true);
         }
 
-        return view('sedes.valledupar.index',
-        [
+        return view(
+            'sedes.valledupar.index',
+            [
 
-        'name_campu_table_index' => $name_campu_table_index,
-        'atril_count' => $atril_count, 
-        'type_atril' => $type_atril,
-        'pc_count' => $pc_count, 
-        'type_pc' => $type_pc,
-        'laptop_count' => $laptop_count, 
-        'type_laptop' => $type_laptop,
-        'berry_count' => $berry_count, 
-        'type_berry' => $type_berry
+                'name_campu_table_index' => $name_campu_table_index,
+                'atril_count' => $atril_count,
+                'type_atril' => $type_atril,
+                'pc_count' => $pc_count,
+                'type_pc' => $type_pc,
+                'laptop_count' => $laptop_count,
+                'type_laptop' => $type_laptop,
+                'berry_count' => $berry_count,
+                'type_berry' => $type_berry
 
-        ]);
+            ]
+        );
     }
 
     public function create(Request $request)
@@ -125,11 +128,11 @@ class ValleduparController extends Controller
         $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
 
         $name_campu_form_create = DB::table('campus')->select('campu_name')->get();
-        $mar_campus = DB::table('campus')->select('id','campu_name')->where('label', '=', 'MAR')->get();
-        $cng_campus = DB::table('campus')->select('id','campu_name')->where('label', '=', 'CNG')->get();
-        $rio_campus = DB::table('campus')->select('id','campu_name')->where('label', '=', 'RIO')->get();
-        $c12_campus = DB::table('campus')->select('id','campu_name')->where('label', '=', 'C12')->get();
-        $vdp_campus = DB::table('campus')->select('id','campu_name')->where('label', '=', 'VDP')->get();
+        $mar_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'MAR')->get();
+        $cng_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'CNG')->get();
+        $rio_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'RIO')->get();
+        $c12_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'C12')->get();
+        $vdp_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'VDP')->get();
 
         //$getip = UserSystemInfoHelper::get_ip();
         $findmacaddress = exec('getmac');
@@ -195,7 +198,7 @@ class ValleduparController extends Controller
         $rams = DB::select('SELECT id,ram FROM rams', [1]);
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
         $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
-        $vdp_campus = DB::table('campus')->select('id','campu_name')->where('label', '=', 'VDP')->get();
+        $vdp_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'VDP')->get();
 
         //$getos = UserSystemInfoHelper::get_os();
 
@@ -243,13 +246,12 @@ class ValleduparController extends Controller
     {
         $machines = Machine::findOrFail($id);
 
-        
-        if($machines->delete()) { // If softdeleted
 
-        $ts = now()->toDateTimeString();
-        $data = array('deleted_at' => $ts, 'status' => 0);
-        DB::table('machines')->where('id', $id)->update($data);
+        if ($machines->delete()) { // If softdeleted
 
+            $ts = now()->toDateTimeString();
+            $data = array('deleted_at' => $ts, 'status' => 0);
+            DB::table('machines')->where('id', $id)->update($data);
         }
 
         return redirect('/santa_marta/sedes/valledupar');

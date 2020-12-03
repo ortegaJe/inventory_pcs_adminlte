@@ -175,12 +175,11 @@ class CaTreintaController extends Controller
     {
         $machines = Machine::findOrFail($id);
 
-        if($machines->delete()) { // If softdeleted
+        if ($machines->delete()) { // If softdeleted
 
-        $ts = now()->toDateTimeString();
-        $data = array('deleted_at' => $ts, 'status' => 0);
-        DB::table('machines')->where('id', $id)->update($data);
-
+            $ts = now()->toDateTimeString();
+            $data = array('deleted_at' => $ts, 'status' => 0);
+            DB::table('machines')->where('id', $id)->update($data);
         }
 
         return redirect('/sedes/calle_30');

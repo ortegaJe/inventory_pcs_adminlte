@@ -138,8 +138,10 @@ class MachineController extends Controller
 
         $machines->save();
 
-        return redirect('/machines')->with('machine_created', 
-                                           'Nuevo equipo fué añadido al inventario');
+        return redirect('/machines')->with(
+            'machine_created',
+            'Nuevo equipo fué añadido al inventario'
+        );
     }
 
     /**
@@ -211,8 +213,10 @@ class MachineController extends Controller
         $machines->save();
 
         return redirect('/machines')
-               ->with('machine_update',
-                      'Equipo fue actualizado en el inventario');
+            ->with(
+                'machine_update',
+                'Equipo fue actualizado en el inventario'
+            );
     }
 
     /**
@@ -230,17 +234,17 @@ class MachineController extends Controller
         //UPDATE machines SET status=0 WHERE deleted_at!= NOW()
         $machines = Machine::findOrFail($id);
 
-        if($machines->delete()) { // If softdeleted
+        if ($machines->delete()) { // If softdeleted
 
-        $ts = now()->toDateTimeString();
-        $data = array('deleted_at' => $ts, 'status' => 0);
-        DB::table('machines')->where('id', $id)->update($data);
-
+            $ts = now()->toDateTimeString();
+            $data = array('deleted_at' => $ts, 'status' => 0);
+            DB::table('machines')->where('id', $id)->update($data);
         }
 
         return redirect('/machines')
-               ->with('machine_deleted',
-                      'Equipo eliminado del inventario');
-
+            ->with(
+                'machine_deleted',
+                'Equipo eliminado del inventario'
+            );
     }
 }

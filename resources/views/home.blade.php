@@ -15,7 +15,7 @@
         <div class="card-tools">
           <?php $global_users_count = DB::table('users')
                                         ->select('users*.')
-                                        ->where('status', '=', [1])
+                                        ->where('status_deleted_at', '=', [1])
                                         ->count();?>
           <span class="badge badge-success">Numeros de usuarios {{ $global_users_count }}</span>
 
