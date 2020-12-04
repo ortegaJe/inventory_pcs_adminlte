@@ -347,7 +347,7 @@ return [
                     'url'  => '/sedes/sura_san_jose',
                     'icon' => 'fas fa-fw fa-building',
                     'icon_color' => 'success',
-                    'can'  =>  'admin',
+                    'can'  =>  ['TEC_SSJ', 'admin'],
                 ],
                 [
                     'text' => 'Valledupar',

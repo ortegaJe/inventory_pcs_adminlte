@@ -219,7 +219,7 @@
       </div>
       <select class="custom-select" name="campus">
         @foreach ($c30_campus as $c30_campus)
-        <option value="{{ $mac_campu->id }}" selected>{{ $mac_campu->campu_name }}</option>
+        <option value="{{ $c30_campus->id }}" selected>{{ $c30_campus->campu_name }}</option>
         @endforeach
       </select>
     </div>
@@ -233,8 +233,8 @@
         <span class="input-group-text"><i class="fas fa-building"></i></span>
       </div>
       <select class="custom-select" name="campus">
-        @foreach ($ssj_campus as $ssj_campus)
-        <option value="{{ $mac_campu->id }}" selected>{{ $mac_campu->campu_name }}</option>
+        @foreach ($ssj_campus as $ssj_campu)
+        <option value="{{ $ssj_campu->id }}" selected>{{ $ssj_campu->campu_name }}</option>
         @endforeach
       </select>
     </div>
@@ -248,8 +248,8 @@
         <span class="input-group-text"><i class="fas fa-building"></i></span>
       </div>
       <select class="custom-select" name="campus">
-        @foreach ($c16_campus as $c16_campus)
-        <option value="{{ $mac_campu->id }}" selected>{{ $mac_campu->campu_name }}</option>
+        @foreach ($c16_campus as $c16_campu)
+        <option value="{{ $c16_campu->id }}" selected>{{ $c16_campu->campu_name }}</option>
         @endforeach
       </select>
     </div>
