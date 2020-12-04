@@ -128,6 +128,7 @@ class KennedyController extends Controller
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
         $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
         $kny_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'KNY')->get();
+        $name_campu_table_index = DB::table('campus')->get();
         //$getip = UserSystemInfoHelper::get_ip();
         $findmacaddress = exec('getmac');
         $getmacaddress = strtok($findmacaddress, ' ');
@@ -135,6 +136,7 @@ class KennedyController extends Controller
 
         return view('sedes.kennedy.create', [
             'kny_machines' => $kny_machines,
+            'name_campu_table_index' => $name_campu_table_index,
             'types' => $types,
             'campus' => $campus,
             'kny_campus' => $kny_campus,

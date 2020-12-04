@@ -9,7 +9,9 @@
     <div class="col-sm-8 mx-auto">
       <div class="card card-primary">
         <div class="card-header">
-          <h3 class="card-title" style="font-weight: 700; font-size:20px">Registrar Equipo</h3>
+          <h3 class="card-title" style="font-weight: 700; font-size:20px">Registrar Equipo en:
+            {{$name_campu_table_index[2]->campu_name}}
+          </h3>
         </div>
         <div class="card-body">
           <form action="/sedes/carrera_16" method="POST">

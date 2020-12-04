@@ -18,6 +18,50 @@ class SuraSanJoseController extends Controller
      */
     public function index(Request $request)
     {
+        $name_campu_table_index = DB::table('campus')->get();
+
+        //info_box//
+        $atril_count = DB::table('machines')
+            ->select('type_id', 'campus_id', 'status_deleted_at', 'deleted_at')
+            ->where('status_deleted_at', '=', [1])
+            ->where('deleted_at', '=', NULL)
+            ->where('type_id', '=', [2]) //id en la tabla types
+            ->where('campus_id', '=', [6]) //id en la tabla campus
+            ->count();
+
+        $type_atril = DB::table('types')->get(); //nombres de los tipos
+
+        $pc_count = DB::table('machines')
+            ->select('type_id', 'campus_id', 'status_deleted_at')
+            ->where('status_deleted_at', '=', [1])
+            ->where('deleted_at', '=', NULL)
+            ->where('type_id', '=', [1])
+            ->where('campus_id', '=', [6])
+            ->count();
+
+        $type_pc = DB::table('types')->get();
+
+        $laptop_count = DB::table('machines')
+            ->select('type_id', 'campus_id', 'status_deleted_at')
+            ->where('status_deleted_at', '=', [1])
+            ->where('deleted_at', '=', NULL)
+            ->where('type_id', '=', [3])
+            ->where('campus_id', '=', [6])
+            ->count();
+
+        $type_laptop = DB::table('types')->get();
+
+        $berry_count = DB::table('machines')
+            ->select('type_id', 'campus_id', 'status_deleted_at')
+            ->where('status_deleted_at', '=', [1])
+            ->where('deleted_at', '=', NULL)
+            ->where('type_id', '=', [4])
+            ->where('campus_id', '=', [6])
+            ->count();
+
+        $type_berry = DB::table('types')->get();
+        //end info_box//
+
         if ($request->ajax()) {
             $ssj_machines = DB::table('machines AS m')
                 ->join('types AS t', 't.id', '=', 'm.type_id')
@@ -38,7 +82,7 @@ class SuraSanJoseController extends Controller
                     'm.comment',
                     'm.created_at',
                     'c.campu_name'
-                )->where('label', '=', 'SSJ')->whereNull('status_deleted_at');
+                )->where('label', '=', 'SSJ')->whereNull('deleted_at');
 
             return DataTables::of($ssj_machines)
                 ->addColumn('action', 'sedes.sura_san_jose.actions')
@@ -46,7 +90,20 @@ class SuraSanJoseController extends Controller
                 ->make(true);
         }
 
-        return view('sedes.sura_san_jose.index');
+        return view(
+            'sedes.sura_san_jose.index',
+            [
+                'name_campu_table_index' => $name_campu_table_index,
+                'atril_count' => $atril_count,
+                'type_atril' => $type_atril,
+                'pc_count' => $pc_count,
+                'type_pc' => $type_pc,
+                'laptop_count' => $laptop_count,
+                'type_laptop' => $type_laptop,
+                'berry_count' => $berry_count,
+                'type_berry' => $type_berry
+            ]
+        );
     }
 
     public function create()
@@ -63,6 +120,8 @@ class SuraSanJoseController extends Controller
         $rams = DB::select('SELECT id,ram FROM rams', [1]);
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
         $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
+        $name_campu_table_index = DB::table('campus')->get();
+        $ssj_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'SSJ')->get();
 
         //$getip = UserSystemInfoHelper::get_ip();
         $findmacaddress = exec('getmac');
@@ -71,6 +130,8 @@ class SuraSanJoseController extends Controller
 
         return view('sedes.sura_san_jose.create', [
             'ssj_machines' => $ssj_machines,
+            'name_campu_table_index' => $name_campu_table_index,
+            'ssj_campus' => $ssj_campus,
             'types' => $types,
             'campus' => $campus,
             'rams' => $rams,
@@ -107,7 +168,7 @@ class SuraSanJoseController extends Controller
         $ssj_machines->os = request('os');
         $ssj_machines->created_by = Auth::user()->id;
         $ssj_machines->rol_id = $roles;
-        $ssj_machines->status = request('status');
+        $ssj_machines->status_deleted_at = request('status');
         $ssj_machines->campus_id = request('campus');
         $ssj_machines->location = request('location');
         $ssj_machines->comment = request('comment');
@@ -173,7 +234,7 @@ class SuraSanJoseController extends Controller
         if ($ssj_machines->delete()) { // If softdeleted
 
             $ts = now()->toDateTimeString();
-            $data = array('deleted_at' => $ts, 'status' => 0);
+            $data = array('deleted_at' => $ts, 'status_deleted_at' => 0);
             DB::table('machines')->where('id', $id)->update($data);
         }
 

@@ -1,9 +1,17 @@
 <form action="{{ route('macarena.destroy', $id) }}" method="POST">
-    <a href="{{ route('machines.show', $id) }}"><button type="button" class="btn btn-secondary btn-sm"><i
-                class="fas fa-eye"></i></button></a>
-    <a href="{{ route('macarena.edit', $id) }}" target="_blank"><button type="button" class="btn btn-success btn-sm"><i
-                class="fas fa-edit"></i></button></a>
     @csrf
     @method('DELETE')
-    <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
+    <div class="btn-group w-50">
+        <button type="button" onclick="window.location='{{ route('machines.show', $id) }}'"
+            class="btn btn-secondary btn-sm col start" data-dismiss="modal">
+            <i class="fas fa-eye"></i>
+        </button>
+        <button type="button" onclick="window.location='{{ route('macarena.edit', $id) }}'"
+            class="btn btn-success btn-sm col start">
+            <i class="fas fa-edit"></i>
+        </button>
+        <button type="submit" class="btn btn-danger btn-sm col start">
+            <i class="fas fa-trash-alt"></i>
+        </button>
+    </div>
 </form>

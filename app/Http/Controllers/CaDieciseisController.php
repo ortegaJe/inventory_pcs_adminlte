@@ -24,6 +24,51 @@ class CaDieciseisController extends Controller
      */
     public function index(Request $request)
     {
+
+        $name_campu_table_index = DB::table('campus')->get();
+
+        //info_box//
+        $atril_count = DB::table('machines')
+            ->select('type_id', 'campus_id', 'status_deleted_at', 'deleted_at')
+            ->where('status_deleted_at', '=', [1])
+            ->where('deleted_at', '=', NULL)
+            ->where('type_id', '=', [2]) //id en la tabla types
+            ->where('campus_id', '=', [4]) //id en la tabla campus
+            ->count();
+
+        $type_atril = DB::table('types')->get(); //nombres de los tipos
+
+        $pc_count = DB::table('machines')
+            ->select('type_id', 'campus_id', 'status_deleted_at')
+            ->where('status_deleted_at', '=', [1])
+            ->where('deleted_at', '=', NULL)
+            ->where('type_id', '=', [1])
+            ->where('campus_id', '=', [4])
+            ->count();
+
+        $type_pc = DB::table('types')->get();
+
+        $laptop_count = DB::table('machines')
+            ->select('type_id', 'campus_id', 'status_deleted_at')
+            ->where('status_deleted_at', '=', [1])
+            ->where('deleted_at', '=', NULL)
+            ->where('type_id', '=', [3])
+            ->where('campus_id', '=', [4])
+            ->count();
+
+        $type_laptop = DB::table('types')->get();
+
+        $berry_count = DB::table('machines')
+            ->select('type_id', 'campus_id', 'status_deleted_at')
+            ->where('status_deleted_at', '=', [1])
+            ->where('deleted_at', '=', NULL)
+            ->where('type_id', '=', [4])
+            ->where('campus_id', '=', [4])
+            ->count();
+
+        $type_berry = DB::table('types')->get();
+        //end info_box//
+
         if ($request->ajax()) {
             $c16_machines = DB::table('machines AS m')
                 ->join('types AS t', 't.id', '=', 'm.type_id')
@@ -52,7 +97,20 @@ class CaDieciseisController extends Controller
                 ->make(true);
         }
 
-        return view('sedes.carrera_16.index');
+        return view(
+            'sedes.carrera_16.index',
+            [
+                'name_campu_table_index' => $name_campu_table_index,
+                'atril_count' => $atril_count,
+                'type_atril' => $type_atril,
+                'pc_count' => $pc_count,
+                'type_pc' => $type_pc,
+                'laptop_count' => $laptop_count,
+                'type_laptop' => $type_laptop,
+                'berry_count' => $berry_count,
+                'type_berry' => $type_berry
+            ]
+        );
     }
 
     public function create()
@@ -69,6 +127,9 @@ class CaDieciseisController extends Controller
         $rams = DB::select('SELECT id,ram FROM rams', [1]);
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
         $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
+        $c16_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'C16')->get();
+        $name_campu_table_index = DB::table('campus')->get();
+
 
         //$getip = UserSystemInfoHelper::get_ip();
         $findmacaddress = exec('getmac');
@@ -77,6 +138,8 @@ class CaDieciseisController extends Controller
 
         return view('sedes.carrera_16.create', [
             'c16_machines' => $c16_machines,
+            'c16_campus' => $c16_campus,
+            'name_campu_table_index' => $name_campu_table_index,
             'types' => $types,
             'campus' => $campus,
             'rams' => $rams,
@@ -113,7 +176,7 @@ class CaDieciseisController extends Controller
         $c16_machines->os = request('os');
         $c16_machines->created_by = Auth::user()->id;
         $c16_machines->rol_id = $roles;
-        $c16_machines->status = request('status');
+        $c16_machines->status_deleted_at = request('status');
         $c16_machines->campus_id = request('campus');
         $c16_machines->location = request('location');
         $c16_machines->comment = request('comment');
@@ -178,7 +241,7 @@ class CaDieciseisController extends Controller
         if ($machines->delete()) { // If softdeleted
 
             $ts = now()->toDateTimeString();
-            $data = array('deleted_at' => $ts, 'status' => 0);
+            $data = array('deleted_at' => $ts, 'status_deleted_at' => 0);
             DB::table('machines')->where('id', $id)->update($data);
         }
 

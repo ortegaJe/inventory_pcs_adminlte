@@ -169,7 +169,7 @@
     </div>
     <div class="col-md-6 mb-3">
         <label for="location">Nombre del equipo:</label>
-        <small style="color: crimson">( Ejemplo: V1A[ABREVIADO DE LA SEDE]-[UBICACION] )</small>
+        <!--<small style="color: crimson">( Ejemplo: V1A[ABREVIADO DE LA SEDE]-[UBICACION] )</small>-->
         <div class="input-group">
             <div class="input-group-prepend">
                 <span class="input-group-text bg-success"><i class="fas fa-keyboard"></i></span>

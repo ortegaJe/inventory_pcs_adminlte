@@ -15,9 +15,8 @@
       <div class="col-12">
         <div class="card card-warning card-outline">
           <div class="card-header border">
-            <?php $ssj_campu = DB::table('campus')->get();?>
             <h3 class="card-title" style="font-weight: 500; font-size:28px">Lista de equipos |
-              {{$ssj_campu[4]->campu_name}}
+              {{$name_campu_table_index[4]->campu_name}}
             </h3>
             <a href="{{'sura_san_jose/create'}}">
               <button type="button" class="btn bg-warning float-right btn-sm">

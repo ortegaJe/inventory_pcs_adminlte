@@ -24,6 +24,50 @@ class CaTreintaController extends Controller
      */
     public function index(Request $request)
     {
+        $name_campu_table_index = DB::table('campus')->get();
+
+        //info_box//
+        $atril_count = DB::table('machines')
+            ->select('type_id', 'campus_id', 'status_deleted_at', 'deleted_at')
+            ->where('status_deleted_at', '=', [1])
+            ->where('deleted_at', '=', NULL)
+            ->where('type_id', '=', [2]) //id en la tabla types
+            ->where('campus_id', '=', [2]) //id en la tabla campus
+            ->count();
+
+        $type_atril = DB::table('types')->get(); //nombres de los tipos
+
+        $pc_count = DB::table('machines')
+            ->select('type_id', 'campus_id', 'status_deleted_at')
+            ->where('status_deleted_at', '=', [1])
+            ->where('deleted_at', '=', NULL)
+            ->where('type_id', '=', [1])
+            ->where('campus_id', '=', [2])
+            ->count();
+
+        $type_pc = DB::table('types')->get();
+
+        $laptop_count = DB::table('machines')
+            ->select('type_id', 'campus_id', 'status_deleted_at')
+            ->where('status_deleted_at', '=', [1])
+            ->where('deleted_at', '=', NULL)
+            ->where('type_id', '=', [3])
+            ->where('campus_id', '=', [2])
+            ->count();
+
+        $type_laptop = DB::table('types')->get();
+
+        $berry_count = DB::table('machines')
+            ->select('type_id', 'campus_id', 'status_deleted_at')
+            ->where('status_deleted_at', '=', [1])
+            ->where('deleted_at', '=', NULL)
+            ->where('type_id', '=', [4])
+            ->where('campus_id', '=', [2])
+            ->count();
+
+        $type_berry = DB::table('types')->get();
+        //end info_box//
+
         if ($request->ajax()) {
             $c30_machines = DB::table('machines AS m')
                 ->join('types AS t', 't.id', '=', 'm.type_id')
@@ -52,7 +96,20 @@ class CaTreintaController extends Controller
                 ->make(true);
         }
 
-        return view('sedes.calle_30.index');
+        return view(
+            'sedes.calle_30.index',
+            [
+                'name_campu_table_index' => $name_campu_table_index,
+                'atril_count' => $atril_count,
+                'type_atril' => $type_atril,
+                'pc_count' => $pc_count,
+                'type_pc' => $type_pc,
+                'laptop_count' => $laptop_count,
+                'type_laptop' => $type_laptop,
+                'berry_count' => $berry_count,
+                'type_berry' => $type_berry
+            ]
+        );
     }
 
     public function create()
@@ -69,6 +126,8 @@ class CaTreintaController extends Controller
         $rams = DB::select('SELECT id,ram FROM rams', [1]);
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
         $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
+        $c30_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'C30')->get();
+        $name_campu_table_index = DB::table('campus')->get();
 
         //$getip = UserSystemInfoHelper::get_ip();
         $findmacaddress = exec('getmac');
@@ -77,6 +136,8 @@ class CaTreintaController extends Controller
 
         return view('sedes.calle_30.create', [
             'c30_machines' => $c30_machines,
+            'c30_campus' => $c30_campus,
+            'name_campu_table_index' => $name_campu_table_index,
             'types' => $types,
             'campus' => $campus,
             'rams' => $rams,
@@ -113,7 +174,7 @@ class CaTreintaController extends Controller
         $c30_machines->os = request('os');
         $c30_machines->created_by = Auth::user()->id;
         $c30_machines->rol_id = $roles;
-        $c30_machines->status = request('status');
+        $c30_machines->status_deleted_at = request('status');
         $c30_machines->campus_id = request('campus');
         $c30_machines->location = request('location');
         $c30_machines->comment = request('comment');

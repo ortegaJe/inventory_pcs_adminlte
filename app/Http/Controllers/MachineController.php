@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\UserSystemInfoHelper;
 use App\Http\Requests\StoreFormRequest;
+use Carbon\Carbon;
 use Yajra\DataTables\Facades\DataTables;
 
 class MachineController extends Controller
@@ -26,6 +27,44 @@ class MachineController extends Controller
      */
     public function index(Request $request)
     {
+        //info_box//
+        $global_atril_count = DB::table('machines')
+            ->select('type_id', 'campus_id', 'status_deleted_at', 'deleted_at')
+            ->where('status_deleted_at', '=', [1])
+            ->where('type_id', '=', [2])
+            ->where('deleted_at', '=', NULL)
+            ->count();
+
+        $type_atril = DB::table('types')->get(); //nombres de los tipos
+
+        $global_pc_count = DB::table('machines')
+            ->select('type_id', 'campus_id', 'status_deleted_at')
+            ->where('status_deleted_at', '=', [1])
+            ->where('deleted_at', '=', NULL)
+            ->where('type_id', '=', [1])
+            ->count();
+
+        $type_pc = DB::table('types')->get();
+
+        $global_laptop_count = DB::table('machines')
+            ->select('type_id', 'campus_id', 'status_deleted_at')
+            ->where('status_deleted_at', '=', [1])
+            ->where('deleted_at', '=', NULL)
+            ->where('type_id', '=', [3])
+            ->count();
+
+        $type_laptop = DB::table('types')->get();
+
+        $global_berry_count = DB::table('machines')
+            ->select('type_id', 'campus_id', 'status_deleted_at')
+            ->where('status_deleted_at', '=', [1])
+            ->where('deleted_at', '=', NULL)
+            ->where('type_id', '=', [4])
+            ->count();
+
+        $type_berry = DB::table('types')->get();
+        //end info_box//
+
         if ($request->ajax()) {
             $machines = DB::table('machines AS m')
                 ->join('types AS t', 't.id', '=', 'm.type_id')
@@ -54,7 +93,19 @@ class MachineController extends Controller
                 ->make(true);
         }
 
-        return view('machines.index');
+        return view(
+            'machines.index',
+            [
+                'global_atril_count' => $global_atril_count,
+                'type_atril' => $type_atril,
+                'global_pc_count' => $global_pc_count,
+                'type_pc' => $type_pc,
+                'global_laptop_count' => $global_laptop_count,
+                'type_laptop' => $type_laptop,
+                'global_berry_count' => $global_berry_count,
+                'type_berry' => $type_berry
+            ]
+        );
     }
 
     /*return Datatables::of(User::withTrashed())
@@ -131,7 +182,7 @@ class MachineController extends Controller
         $machines->os = request('os');
         $machines->created_by = Auth::user()->id;
         $machines->rol_id = $roles;
-        $machines->status = request('status');
+        $machines->status_deleted_at = request('status');
         $machines->campus_id = $request['campus'];
         $machines->location = $request['location'];
         $machines->comment = request('comment');
@@ -237,7 +288,7 @@ class MachineController extends Controller
         if ($machines->delete()) { // If softdeleted
 
             $ts = now()->toDateTimeString();
-            $data = array('deleted_at' => $ts, 'status' => 0);
+            $data = array('deleted_at' => $ts, 'status_deleted_at' => 0);
             DB::table('machines')->where('id', $id)->update($data);
         }
 

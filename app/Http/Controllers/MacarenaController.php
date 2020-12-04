@@ -19,7 +19,49 @@ class MacarenaController extends Controller
 
     public function index(Request $request)
     {
-        $name_mac_campu = DB::select('SELECT id,campu_name FROM campus WHERE id=1', [1]);
+        $name_campu_table_index = DB::table('campus')->get();
+
+        //info_box//
+        $atril_count = DB::table('machines')
+            ->select('type_id', 'campus_id', 'status_deleted_at', 'deleted_at')
+            ->where('status_deleted_at', '=', [1])
+            ->where('deleted_at', '=', NULL)
+            ->where('type_id', '=', [2]) //id en la tabla types
+            ->where('campus_id', '=', [1]) //id en la tabla campus
+            ->count();
+
+        $type_atril = DB::table('types')->get(); //nombres de los tipos
+
+        $pc_count = DB::table('machines')
+            ->select('type_id', 'campus_id', 'status_deleted_at')
+            ->where('status_deleted_at', '=', [1])
+            ->where('deleted_at', '=', NULL)
+            ->where('type_id', '=', [1])
+            ->where('campus_id', '=', [1])
+            ->count();
+
+        $type_pc = DB::table('types')->get();
+
+        $laptop_count = DB::table('machines')
+            ->select('type_id', 'campus_id', 'status_deleted_at')
+            ->where('status_deleted_at', '=', [1])
+            ->where('deleted_at', '=', NULL)
+            ->where('type_id', '=', [3])
+            ->where('campus_id', '=', [1])
+            ->count();
+
+        $type_laptop = DB::table('types')->get();
+
+        $berry_count = DB::table('machines')
+            ->select('type_id', 'campus_id', 'status_deleted_at')
+            ->where('status_deleted_at', '=', [1])
+            ->where('deleted_at', '=', NULL)
+            ->where('type_id', '=', [4])
+            ->where('campus_id', '=', [1])
+            ->count();
+
+        $type_berry = DB::table('types')->get();
+        //end info_box//
 
         if ($request->ajax()) {
             $mac_machines = DB::table('machines AS m')
@@ -41,7 +83,7 @@ class MacarenaController extends Controller
                     'm.comment',
                     'm.created_at',
                     'c.campu_name'
-                )->where('label', '=', 'MAC')->whereNull('status_deleted_at');
+                )->where('label', '=', 'MAC')->whereNull('deleted_at');
 
             return DataTables::of($mac_machines)
                 ->addColumn('action', 'sedes.macarena.actions')
@@ -49,7 +91,20 @@ class MacarenaController extends Controller
                 ->make(true);
         }
 
-        return view('sedes.macarena.index', ['name_mac_campu' => $name_mac_campu]);
+        return view(
+            'sedes.macarena.index',
+            [
+                'name_campu_table_index' => $name_campu_table_index,
+                'atril_count' => $atril_count,
+                'type_atril' => $type_atril,
+                'pc_count' => $pc_count,
+                'type_pc' => $type_pc,
+                'laptop_count' => $laptop_count,
+                'type_laptop' => $type_laptop,
+                'berry_count' => $berry_count,
+                'type_berry' => $type_berry
+            ]
+        );
     }
 
     public function create()
@@ -66,7 +121,7 @@ class MacarenaController extends Controller
         $rams = DB::select('SELECT id,ram FROM rams', [1]);
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
         $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
-        $name_mac_campu = DB::table('campus')->get();
+        $name_campu_table_index = DB::table('campus')->get();
         $mac_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'MAC')->get();
 
         //$getip = UserSystemInfoHelper::get_ip();
@@ -76,7 +131,7 @@ class MacarenaController extends Controller
 
         return view('sedes.macarena.create', [
             'mac_machines' => $mac_machines,
-            'name_mac_campu' => $name_mac_campu,
+            'name_campu_table_index' => $name_campu_table_index,
             'mac_campus' => $mac_campus,
             'types' => $types,
             'campus' => $campus,
@@ -182,7 +237,7 @@ class MacarenaController extends Controller
         if ($mac_machines->delete()) { // If softdeleted
 
             $ts = now()->toDateTimeString();
-            $data = array('deleted_at' => $ts, 'status' => 0);
+            $data = array('deleted_at' => $ts, 'status_deleted_at' => 0);
             DB::table('machines')->where('id', $id)->update($data);
         }
 

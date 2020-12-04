@@ -12,9 +12,8 @@
       <div class="col-12">
         <div class="card card-info card-outline">
           <div class="card-header border">
-            <?php $c16_campu = DB::table('campus')->get();?>
             <h3 class="card-title" style="font-weight: 500; font-size:28px">Lista de equipos |
-              {{$c16_campu[2]->campu_name}}
+              {{$name_campu_table_index[2]->campu_name}}
             </h3>
             <a href="{{'carrera_16/create'}}">
               <button type="button" class="btn bg-info float-right btn-sm">
