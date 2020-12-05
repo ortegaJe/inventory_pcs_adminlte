@@ -20,7 +20,9 @@ Auth::routes(['verify' => true]);
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::resource('machines', 'MachineController')->middleware('admin');
+Route::get('/machines/excel', 'MachineController@excel')->middleware('admin');
 Route::post('/technicians/script', 'UserController@script');
+Route::get('/technicians/export', 'UserController@export')->middleware('admin');
 Route::resource('technicians', 'UserController')->middleware('admin');
 Route::resource('/profile/username', 'ProfileController');
 Route::resource('roles', 'RoleController')->middleware('admin');
@@ -33,13 +35,12 @@ Route::resource('/sedes/calle_30', 'CaTreintaController'); //->middleware('ctrei
 Route::resource('/sedes/soledad', 'SoledadController');
 Route::resource('/sedes/kennedy', 'KennedyController');
 
-Route::prefix('/santa_marta')->group(function(){
-Route::resource('/sedes/cienaga', 'SantaMarta\Cienaga\CienagaController');
-Route::resource('/sedes/marinelo', 'SantaMarta\Marinelo\MarineloController');
-Route::resource('/sedes/riohacha', 'SantaMarta\Riohacha\RiohachaController');
-Route::resource('/sedes/carrera_12', 'SantaMarta\CarreraDoce\CarreraDoceController');
-Route::resource('/sedes/valledupar', 'SantaMarta\Valledupar\ValleduparController');
-
+Route::prefix('/santa_marta')->group(function () {
+    Route::resource('/sedes/cienaga', 'SantaMarta\Cienaga\CienagaController');
+    Route::resource('/sedes/marinelo', 'SantaMarta\Marinelo\MarineloController');
+    Route::resource('/sedes/riohacha', 'SantaMarta\Riohacha\RiohachaController');
+    Route::resource('/sedes/carrera_12', 'SantaMarta\CarreraDoce\CarreraDoceController');
+    Route::resource('/sedes/valledupar', 'SantaMarta\Valledupar\ValleduparController');
 });
 
 Route::resource('parts', 'PartController')->middleware('admin');

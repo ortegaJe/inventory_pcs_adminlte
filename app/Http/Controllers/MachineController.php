@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\MachinesExport;
 use App\Http\Requests\MachineFormRequest;
 use Illuminate\Http\Request;
 use App\Machine;
@@ -9,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\UserSystemInfoHelper;
 use App\Http\Requests\StoreFormRequest;
-use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
 class MachineController extends Controller
@@ -20,6 +21,11 @@ class MachineController extends Controller
         $this->middleware('verified');
     }
 
+    public function export()
+    {
+        return Excel::download(new MachinesExport, 'inventor.xlsx');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -27,6 +33,7 @@ class MachineController extends Controller
      */
     public function index(Request $request)
     {
+        return Excel::download(new MachinesExport, 'inventor.xlsx');
         //info_box//
         $global_atril_count = DB::table('machines')
             ->select('type_id', 'campus_id', 'status_deleted_at', 'deleted_at')

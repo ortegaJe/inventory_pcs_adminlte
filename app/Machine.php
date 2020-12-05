@@ -12,10 +12,10 @@ class Machine extends Model
 
         public function getRouteKeyName()
         {
-        return 'url';
+                return 'url';
         }
 
         protected $fillable = [
-        'status',
+                'status_deleted_at',
         ];
 }

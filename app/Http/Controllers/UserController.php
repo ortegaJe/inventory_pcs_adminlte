@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Campu;
+use App\Exports\UsersExport;
 use App\Http\Requests\UserEditFormRequest;
 use App\Http\Requests\UserFormRequest;
 use App\Role;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -23,6 +25,11 @@ class UserController extends Controller
     {
         $this->middleware('admin');
         $this->middleware('verified');
+    }
+
+    public function export()
+    {
+        return Excel::download(new UsersExport, 'inventor.xlsx');
     }
 
     public function index()
