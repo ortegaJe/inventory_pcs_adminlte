@@ -13,7 +13,13 @@ use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Events\AfterSheet;
 
-class MachinesExport implements FromCollection, Responsable, ShouldAutoSize, WithHeadings, WithEvents, WithCustomStartCell
+class MachinesExport implements
+    FromCollection,
+    Responsable,
+    ShouldAutoSize,
+    WithHeadings,
+    WithEvents,
+    WithCustomStartCell
 {
     use Exportable;
 
@@ -24,16 +30,30 @@ class MachinesExport implements FromCollection, Responsable, ShouldAutoSize, Wit
     public function collection()
     {
         return DB::table('machines AS m')
-                ->join('types AS t', 't.id', '=', 'm.type_id')
-                ->join('campus AS c', 'c.id', '=', 'm.campus_id')
-                ->join('rams AS r', 'r.id', '=', 'm.ram_slot_00_id')
-                ->join('rams AS ra', 'ra.id', '=', 'm.ram_slot_01_id')
-                ->select('t.name','m.serial','m.manufacturer','m.model','m.cpu','r.ram', 'ra.ram',
-                    'm.name_pc','m.ip_range','m.mac_address','m.anydesk','m.os',
-                    'm.location','m.comment','m.created_at','c.campu_name'
-                )->whereNull('deleted_at')->get();
+            ->join('types AS t', 't.id', '=', 'm.type_id')
+            ->join('campus AS c', 'c.id', '=', 'm.campus_id')
+            ->join('rams AS r', 'r.id', '=', 'm.ram_slot_00_id')
+            ->join('rams AS ra', 'ra.id', '=', 'm.ram_slot_01_id')
+            ->select(
+                't.name',
+                'm.serial',
+                'm.manufacturer',
+                'm.model',
+                'm.cpu',
+                'r.ram',
+                'ra.ram',
+                'm.name_pc',
+                'm.ip_range',
+                'm.mac_address',
+                'm.anydesk',
+                'm.os',
+                'm.location',
+                'm.comment',
+                'm.created_at',
+                'c.campu_name'
+            )->whereNull('deleted_at')->get();
 
-                /*SELECT  t.name,m.serial,m.manufacturer,m.model,m.cpu,r0.ram,r1.ram,
+        /*SELECT  t.name,m.serial,m.manufacturer,m.model,m.cpu,r0.ram,r1.ram,
         m.name_pc,m.ip_range,m.mac_address,m.anydesk,m.os,
         m.location,m.comment,m.created_at,c.campu_name
 FROM machines AS m
@@ -43,7 +63,7 @@ INNER JOIN rams AS r0 ON  m.ram_slot_00_id  = r0.id
 FULL JOIN rams AS r1 ON  m.ram_slot_01_id  = r1.id*/
     }
 
-    public function headings(): array 
+    public function headings(): array
     {
         return [
             'TIPO DE MAQUINA',
@@ -68,20 +88,36 @@ FULL JOIN rams AS r1 ON  m.ram_slot_01_id  = r1.id*/
     public function registerEvents(): array
     {
         return [
-            AfterSheet::class => function(AfterSheet $event) {
+            AfterSheet::class => function (AfterSheet $event) {
                 $event->sheet->insertNewColumnBefore('A', 1);
-                $event->sheet->getStyle('B2:R2')->applyFromArray([
+                //$event->sheet->getRowDimension('2')->setRowHeight(60);
+                $event->sheet->getRowDimension('3')->setRowHeight(20);
+                $event->sheet->getStyle('B3:R3')->applyFromArray([
                     'font' => [
-                    'bold' => true
+                        'bold' => true,
+                        'size' => 14,
                     ],
-
+                    "fill" => [
+                        "fillType" => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                        "startColor" => ["rgb" => "595959"]
+                    ],
+                    "font" => [
+                        "color" => ["rgb" => "FFFFFF"]
+                    ],
                     'borders' => [
-                        'outline' => [
+                        'allBorders' => [
                             'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                                'color' => ['argb' => '#7f8c8d'],
+                            'color' => ['argb' => '#7f8c8d'],
                         ],
                     ]
-
+                ]);
+                $event->sheet->getStyle('B4:R500')->applyFromArray([
+                    'borders' => [
+                        'allBorders' => [
+                            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                            'color' => ['argb' => '#7f8c8d'],
+                        ],
+                    ]
                 ]);
             }
         ];
@@ -89,7 +125,6 @@ FULL JOIN rams AS r1 ON  m.ram_slot_01_id  = r1.id*/
 
     public function startCell(): string
     {
-        return 'A2';
+        return 'A3';
     }
-
 }

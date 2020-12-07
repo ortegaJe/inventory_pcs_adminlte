@@ -1,4 +1,9 @@
-<table>
+<style>
+    .table-bordered {
+        border: 1px;
+    }
+</style>
+<table class="table-bordered">
     <thead>
         <tr>
             <th>Name</th>

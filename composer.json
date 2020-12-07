@@ -20,7 +20,8 @@
         "laravelcollective/html": "^6.2",
         "maatwebsite/excel": "^3.1",
         "spatie/laravel-permission": "^3.17",
-        "yajra/laravel-datatables-oracle": "~9.0"
+        "yajra/laravel-datatables-oracle": "~9.0",
+         "dompdf/dompdf": "dev-master"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

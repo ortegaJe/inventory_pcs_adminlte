@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\MachinesCsvExport;
 use App\Exports\MachinesExport;
+use App\Exports\MachinesPdfExport;
 use App\Exports\MachinesViewExport;
 use App\Http\Requests\MachineFormRequest;
 use Illuminate\Http\Request;
@@ -12,15 +13,19 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\UserSystemInfoHelper;
 use App\Http\Requests\StoreFormRequest;
-use Maatwebsite\Excel\Facades\Excel;
+//use Maatwebsite\Excel\Facades\Excel as Excel;
+use Maatwebsite\Excel\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
 class MachineController extends Controller
 {
-    public function __construct()
+    private $excel;
+
+    public function __construct(Excel $excel)
     {
         $this->middleware('admin');
         $this->middleware('verified');
+        $this->excel = $excel;
     }
 
     /**
@@ -34,8 +39,8 @@ class MachineController extends Controller
         $global_atril_count = DB::table('machines')
             ->select('type_id', 'campus_id', 'status_deleted_at', 'deleted_at')
             ->where('status_deleted_at', '=', [1])
-            ->where('type_id', '=', [2])
             ->where('deleted_at', '=', NULL)
+            ->where('type_id', '=', [2])
             ->count();
 
         $type_atril = DB::table('types')->get(); //nombres de los tipos
@@ -120,7 +125,7 @@ class MachineController extends Controller
         return 'hello';
     }
 
-        public function export_excel()
+    public function export_excel()
     {
         return new MachinesExport;
     }
@@ -130,15 +135,11 @@ class MachineController extends Controller
         return new MachinesCsvExport;
     }
 
-        public function export_pdf()
+    public function export_pdf()
     {
         //return new MachinesPdfExport;
+        return $this->excel->download(new MachinesPdfExport, 'invoices.pdf', Excel::DOMPDF);
     }
-
-    public function export() 
-{
-    return Excel::download(new MachinesViewExport, 'invoices.xlsx');
-}
 
     /**
      * Show the form for creating a new resource.

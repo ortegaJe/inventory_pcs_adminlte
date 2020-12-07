@@ -2,14 +2,15 @@
 
 namespace App\Exports;
 
+use App\Machine;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\DB;
-use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromView;
 
-class MachinesCsvExport implements FromCollection
+class MachinesPdfExport implements FromCollection
 {
-    use Exportable;
-    private $fileName = "inventor_all_machines.csv";
     /**
      * @return \Illuminate\Support\Collection
      */
@@ -19,14 +20,15 @@ class MachinesCsvExport implements FromCollection
             ->join('types AS t', 't.id', '=', 'm.type_id')
             ->join('campus AS c', 'c.id', '=', 'm.campus_id')
             ->join('rams AS r', 'r.id', '=', 'm.ram_slot_00_id')
+            ->join('rams AS ra', 'ra.id', '=', 'm.ram_slot_01_id')
             ->select(
-                'm.id',
                 't.name',
                 'm.serial',
                 'm.manufacturer',
                 'm.model',
                 'm.cpu',
                 'r.ram',
+                'ra.ram',
                 'm.name_pc',
                 'm.ip_range',
                 'm.mac_address',
@@ -36,8 +38,6 @@ class MachinesCsvExport implements FromCollection
                 'm.comment',
                 'm.created_at',
                 'c.campu_name'
-            )
-            ->whereNull('deleted_at')
-            ->get();
+            )->whereNull('deleted_at')->get();
     }
 }

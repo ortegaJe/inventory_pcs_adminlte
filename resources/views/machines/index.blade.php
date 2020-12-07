@@ -20,10 +20,6 @@
             <button type="button" class="btn btn-tool" title="Exportar Excel">
               <i class="fas fa-file-excel"></i></button>
           </a>
-          <a href="{{ url('/export_csv') }}">
-            <button type="button" class="btn btn-tool" title="Exportar CVS">
-              <i class="fas fa-file-csv"></i></button>
-          </a>
           <a href="{{ url('/export_pdf') }}">
             <button type="button" class="btn btn-tool" title="Exportar PDF">
               <i class="fas fa-file-pdf"></i></button>
