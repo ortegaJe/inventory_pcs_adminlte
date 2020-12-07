@@ -16,8 +16,20 @@
             <i class="fa fa-plus"></i> Agregar equipo</button>
         </a>
         <div class="card-tools">
+          <a href="{{ url('/export_excel') }}">
+            <button type="button" class="btn btn-tool" title="Exportar Excel">
+              <i class="fas fa-file-excel"></i></button>
+          </a>
+          <a href="{{ url('/export_csv') }}">
+            <button type="button" class="btn btn-tool" title="Exportar CVS">
+              <i class="fas fa-file-csv"></i></button>
+          </a>
+          <a href="{{ url('/export_pdf') }}">
+            <button type="button" class="btn btn-tool" title="Exportar PDF">
+              <i class="fas fa-file-pdf"></i></button>
+          </a>
           <button type="button" class="btn btn-tool" data-card-widget="collapse">
-            <i class="fas fa-minus"></i>
+            <i class="fas fa-bars"></i>
           </button>
         </div>
       </div>

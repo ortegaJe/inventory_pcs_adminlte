@@ -20,13 +20,20 @@ Auth::routes(['verify' => true]);
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::resource('machines', 'MachineController')->middleware('admin');
-Route::get('/machines/excel', 'MachineController@excel')->middleware('admin');
+Route::get('/export_excel', 'MachineController@export_excel')->middleware('admin');
+Route::get('/export_csv', 'MachineController@export_csv')->middleware('admin');
+Route::get('/export_pdf', 'MachineController@export_pdf')->middleware('admin');
+Route::get('/export', 'MachineController@export')->middleware('admin');
+
 Route::post('/technicians/script', 'UserController@script');
 Route::get('/technicians/export', 'UserController@export')->middleware('admin');
+Route::get('/technicians/hi', 'UserController@hi')->middleware('admin');
 Route::resource('technicians', 'UserController')->middleware('admin');
 Route::resource('/profile/username', 'ProfileController');
+
 Route::resource('roles', 'RoleController')->middleware('admin');
 Route::resource('campus', 'CampuController')->middleware('admin'); // colocar un solo controlador para las sedes
+Route::get('/campus/export', 'CampuController@export')->middleware('admin'); // colocar un solo controlador para las sedes
 
 Route::resource('/sedes/macarena', 'MacarenaController');
 Route::resource('/sedes/carrera_16', 'CaDieciseisController');

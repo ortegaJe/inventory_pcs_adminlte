@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Campu;
+use App\Exports\CampusExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
 class CampuController extends Controller
@@ -39,6 +41,11 @@ class CampuController extends Controller
         }
 
         return view('campus.index');
+    }
+
+    public function export()
+    {
+        return Excel::download(new CampusExport, 'inventor.xlsx');
     }
 
     /**

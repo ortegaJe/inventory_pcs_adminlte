@@ -32,6 +32,11 @@ class UserController extends Controller
         return Excel::download(new UsersExport, 'inventor.xlsx');
     }
 
+    public function hi()
+    {
+        return 'hello';
+    }
+
     public function index()
     {
 

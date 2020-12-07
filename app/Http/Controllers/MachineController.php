@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\MachinesCsvExport;
 use App\Exports\MachinesExport;
+use App\Exports\MachinesViewExport;
 use App\Http\Requests\MachineFormRequest;
 use Illuminate\Http\Request;
 use App\Machine;
@@ -21,11 +23,6 @@ class MachineController extends Controller
         $this->middleware('verified');
     }
 
-    public function export()
-    {
-        return Excel::download(new MachinesExport, 'inventor.xlsx');
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -33,7 +30,6 @@ class MachineController extends Controller
      */
     public function index(Request $request)
     {
-        return Excel::download(new MachinesExport, 'inventor.xlsx');
         //info_box//
         $global_atril_count = DB::table('machines')
             ->select('type_id', 'campus_id', 'status_deleted_at', 'deleted_at')
@@ -123,6 +119,26 @@ class MachineController extends Controller
     {
         return 'hello';
     }
+
+        public function export_excel()
+    {
+        return new MachinesExport;
+    }
+
+    public function export_csv()
+    {
+        return new MachinesCsvExport;
+    }
+
+        public function export_pdf()
+    {
+        //return new MachinesPdfExport;
+    }
+
+    public function export() 
+{
+    return Excel::download(new MachinesViewExport, 'invoices.xlsx');
+}
 
     /**
      * Show the form for creating a new resource.
