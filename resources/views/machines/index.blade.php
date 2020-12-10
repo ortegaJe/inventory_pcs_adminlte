@@ -16,11 +16,11 @@
             <i class="fa fa-plus"></i> Agregar equipo</button>
         </a>
         <div class="card-tools">
-          <a href="{{ url('/export_excel') }}">
+          <a href="{{ url('/inventor/export_excel') }}">
             <button type="button" class="btn btn-tool" title="Exportar Excel">
               <i class="fas fa-file-excel"></i></button>
           </a>
-          <a href="{{ url('/export_pdf') }}">
+          <a href="{{ url('/inventor/export_pdf') }}">
             <button type="button" class="btn btn-tool" title="Exportar PDF">
               <i class="fas fa-file-pdf"></i></button>
           </a>
@@ -47,7 +47,7 @@
 <!--charts-->
 <div class="row">
   <div class="col-md-10">
-    <div class="card card-maroon">
+    <div class="card card-maroon card-outline">
       <div class="card-header border">
         <h3 class="card-title" style="font-weight: 500; font-size:28px">Informes
         </h3>
@@ -72,7 +72,7 @@
     </div>
   </div>
   <div class="col-md-2">
-    <div class="card card-indigo">
+    <div class="card card-indigo card-outline">
       <div class="card-header border">
         <h3 class="card-title" style="font-weight: 500; font-size:28px">Datos
         </h3>

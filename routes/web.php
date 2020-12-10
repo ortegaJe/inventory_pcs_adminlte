@@ -19,11 +19,13 @@ Auth::routes(['verify' => true]);
 
 Route::get('/', 'HomeController@index')->name('home');
 
-Route::resource('machines', 'MachineController')->middleware('admin');
+Route::prefix('inventor')->group(function () {
+Route::resource('/machines', 'MachineController')->middleware('admin');
 Route::get('/export_excel', 'MachineController@export_excel')->middleware('admin');
 Route::get('/export_csv', 'MachineController@export_csv')->middleware('admin');
-Route::get('/export_pdf', 'MachineController@export_pdf')->middleware('admin');
+Route::get('/export_pdf', 'MachineController@exportPdf')->middleware('admin');
 Route::get('/export', 'MachineController@export')->middleware('admin');
+});
 
 Route::post('/technicians/script', 'UserController@script');
 Route::get('/technicians/export', 'UserController@export')->middleware('admin');

@@ -35,6 +35,7 @@ class MachinesExport implements
             ->join('rams AS r', 'r.id', '=', 'm.ram_slot_00_id')
             ->join('rams AS ra', 'ra.id', '=', 'm.ram_slot_01_id')
             ->select(
+                'm.id',
                 't.name',
                 'm.serial',
                 'm.manufacturer',
@@ -51,7 +52,7 @@ class MachinesExport implements
                 'm.comment',
                 'm.created_at',
                 'c.campu_name'
-            )->whereNull('deleted_at')->get();
+            )->whereNull('deleted_at')->orderBy('m.id', 'ASC')->get();
 
         /*SELECT  t.name,m.serial,m.manufacturer,m.model,m.cpu,r0.ram,r1.ram,
         m.name_pc,m.ip_range,m.mac_address,m.anydesk,m.os,
@@ -99,7 +100,7 @@ FULL JOIN rams AS r1 ON  m.ram_slot_01_id  = r1.id*/
                     ],
                     "fill" => [
                         "fillType" => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                        "startColor" => ["rgb" => "595959"]
+                        "startColor" => ["rgb" => "28A745"]
                     ],
                     "font" => [
                         "color" => ["rgb" => "FFFFFF"]

@@ -217,7 +217,7 @@ class UserController extends Controller
         if ($users->delete()) { // If softdeleted
 
             $ts = now()->toDateTimeString();
-            $data = array('deleted_at' => $ts, 'status' => 0);
+            $data = array('deleted_at' => $ts, 'status_deleted_at' => 0);
             DB::table('users')->where('id', $id)->update($data);
         }
 

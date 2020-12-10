@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Campu;
 use App\Exports\MachinesCsvExport;
 use App\Exports\MachinesExport;
 use App\Exports\MachinesPdfExport;
@@ -16,6 +17,7 @@ use App\Http\Requests\StoreFormRequest;
 //use Maatwebsite\Excel\Facades\Excel as Excel;
 use Maatwebsite\Excel\Excel;
 use Yajra\DataTables\Facades\DataTables;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class MachineController extends Controller
 {
@@ -135,10 +137,26 @@ class MachineController extends Controller
         return new MachinesCsvExport;
     }
 
-    public function export_pdf()
+    public function exportPdf()
     {
         //return new MachinesPdfExport;
-        return $this->excel->download(new MachinesPdfExport, 'invoices.pdf', Excel::DOMPDF);
+        //return $this->excel->download(new MachinesPdfExport, 'invoices.pdf', Excel::DOMPDF);
+        $machines = Machine::all();
+        $types = DB::select('SELECT id,name FROM types', [1]);
+        $rams = DB::select('SELECT id,ram FROM rams', [1]);
+        $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
+        $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
+
+        $pdf = PDF::loadView('machines.table_machines', 
+        [
+            'machines' => $machines,
+            'types' => $types,
+            'campus' => $campus,
+            'rams' => $rams,
+            'hdds' => $hdds,
+        ])->setPaper('a4', 'landscape');
+
+        return $pdf->stream('export-machines.pdf');
     }
 
     /**

@@ -243,7 +243,7 @@ return [
             'submenu' => [
                 [
                     'text' => 'Equipos',
-                    'url'  => 'machines',
+                    'url'  => '/inventor/machines',
                     'icon' => 'fas fa-fw fa-desktop',
                     'can'  =>  'admin',
                 ],
