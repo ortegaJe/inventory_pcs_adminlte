@@ -2,17 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\RoleCreateFormRequest;
-use App\Role;
-use App\User;
 use Illuminate\Http\Request;
 
-class RoleController extends Controller
+class CompensarController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     /**
      * Display a listing of the resource.
      *
@@ -20,8 +13,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::all();
-        return view('roles.index', ['roles' => $roles]);
+        //
     }
 
     /**
@@ -31,6 +23,7 @@ class RoleController extends Controller
      */
     public function create()
     {
+        //
     }
 
     /**
@@ -41,15 +34,7 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-
-        $role = new Role();
-
-        $role->name = request('rol-name');
-        $role->label = request('label');
-
-        $role->save();
-
-        return redirect('/roles');
+        //
     }
 
     /**
@@ -94,10 +79,6 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        $users = Role::findOrFail($id);
-
-        $users->delete();
-
-        return redirect('/roles');
+        //
     }
 }

@@ -20,11 +20,11 @@ Auth::routes(['verify' => true]);
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::prefix('inventor')->group(function () {
-Route::resource('/machines', 'MachineController')->middleware('admin');
-Route::get('/export_excel', 'MachineController@export_excel')->middleware('admin');
-Route::get('/export_csv', 'MachineController@export_csv')->middleware('admin');
-Route::get('/export_pdf', 'MachineController@exportPdf')->middleware('admin');
-Route::get('/export', 'MachineController@export')->middleware('admin');
+    Route::resource('/machines', 'MachineController')->middleware('admin');
+    Route::get('/export_excel', 'MachineController@export_excel')->middleware('admin');
+    Route::get('/export_pdf', 'MachineController@exportPdf')->middleware('admin');
+    //Route::get('/export_csv', 'MachineController@export_csv')->middleware('admin');
+    //Route::get('/export', 'MachineController@export')->middleware('admin');
 });
 
 Route::post('/technicians/script', 'UserController@script');
@@ -43,6 +43,11 @@ Route::resource('/sedes/sura_san_jose', 'SuraSanJoseController');
 Route::resource('/sedes/calle_30', 'CaTreintaController'); //->middleware('ctreinta')
 Route::resource('/sedes/soledad', 'SoledadController');
 Route::resource('/sedes/kennedy', 'KennedyController');
+Route::resource('/sedes/sura_85', 'SuraOchoCincoController');
+
+Route::resource('/sedes/compensar', 'CompensarController');
+Route::get('/sedes/compensar/export_excel', 'CompensarController@export_excel')->middleware('admin');
+Route::get('/sedes/compensar/export_pdf', 'CompensarController@export_pdf')->middleware('admin');
 
 Route::prefix('/santa_marta')->group(function () {
     Route::resource('/sedes/cienaga', 'SantaMarta\Cienaga\CienagaController');

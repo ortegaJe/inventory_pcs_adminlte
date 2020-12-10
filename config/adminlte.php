@@ -350,6 +350,13 @@ return [
                     'can'  =>  ['TEC_SSJ', 'admin'],
                 ],
                 [
+                    'text' => 'Sura 85',
+                    'url'  => '/sedes/sura_85',
+                    'icon' => 'fas fa-fw fa-building',
+                    'icon_color' => 'success',
+                    'can'  =>  ['TEC_S85', 'admin'],
+                ],
+                [
                     'text' => 'Valledupar',
                     'url'  => '/santa_marta/sedes/valledupar',
                     'icon' => 'fas fa-fw fa-building',
