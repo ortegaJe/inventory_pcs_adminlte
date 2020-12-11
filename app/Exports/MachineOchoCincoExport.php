@@ -7,13 +7,12 @@ use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithCustomStartCell;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Events\AfterSheet;
 
-class MachinesExport implements
+class MachineOchoCincoExport implements
     FromCollection,
     Responsable,
     //ShouldAutoSize,
@@ -23,7 +22,7 @@ class MachinesExport implements
 {
     use Exportable;
 
-    private $fileName = "inventor_all_machines.xlsx";
+    private $fileName = "inventor_machines_s85.xlsx";
     /**
      * @return \Illuminate\Support\Collection
      */
@@ -35,13 +34,14 @@ class MachinesExport implements
                        'machines.name_pc','machines.ip_range','machines.mac_address',
                        'machines.anydesk','machines.os','machines.location',
                        'machines.comment','machines.created_at',
-                       'campus.campu_name',)
+                       'campus.campu_name')
                     ->leftJoin('types', 'types.id', '=', 'machines.type_id')
                     ->leftJoin('hdds', 'hdds.id', '=', 'machines.hard_drive_id')
                     ->leftJoin('campus', 'campus.id', '=', 'machines.campus_id')
                     ->leftJoin('rams AS ram0', 'ram0.id', '=', 'machines.ram_slot_00_id')
                     ->leftJoin('rams AS ram1', 'ram1.id', '=', 'machines.ram_slot_01_id')
                     ->where('machines.status_deleted_at', '=', 1)
+                    ->where('campus.label', '=', 'S85')
                     ->orderBy('machines.id', 'ASC')
                     ->get();
     }

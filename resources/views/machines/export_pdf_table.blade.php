@@ -64,7 +64,7 @@
 
   <main>
     <h1></h1>
-    <div class="table-responsive-md" style="overflow-x:auto;">
+    <div style="overflow-x:auto;">
       <table class="table">
         <thead>
           <tr>
@@ -89,36 +89,12 @@
         <tbody>
           @foreach($machines as $machine)
           <tr style="text-align: center;">
-            <td>
-              @foreach($types as $type)
-              @if($type->id == $machine->type_id)
-              {{ $type->name }}
-              @endif
-              @endforeach
-            </td>
+            <td>{{ $machine->name }}</td>
             <td>{{ $machine->manufacturer }}</td>
             <td>{{ $machine->model }}</td>
-            <td>
-              @foreach($rams as $ram)
-              @if($ram->id == $machine->ram_slot_00_id)
-              {{ $ram->ram }}
-              @endif
-              @endforeach
-            </td>
-            <td>
-              @foreach($rams as $ram)
-              @if($ram->id == $machine->ram_slot_01_id)
-              {{ $ram->ram }}
-              @endif
-              @endforeach
-            </td>
-            <td>
-              @foreach($hdds as $hdd)
-              @if($hdd->id == $machine->hard_drive_id)
-              {{ $hdd->size }} {{ $hdd->type }}
-              @endif
-              @endforeach
-            </td>
+            <td>{{ $machine->r0 }}</td>
+            <td>{{ $machine->r1 }}</td>
+            <td>{{ $machine->size }} {{ $machine->type }}</td>
             <td>{{ $machine->cpu }}</td>
             <td>{{ $machine->name_pc }}</td>
             <td>{{ $machine->serial }}</td>
@@ -127,13 +103,7 @@
             <td>{{ $machine->anydesk }}</td>
             <td>{{ $machine->os }}</td>
             <td>{{ $machine->location }}</td>
-            <td>
-              @foreach($campus as $campu)
-              @if($campu->id == $machine->campus_id)
-              {{ $campu->campu_name }}
-              @endif
-              @endforeach
-            </td>
+            <td>{{ $machine->campu_name }}</td>
             <td>{{ \Carbon\Carbon::parse($machine->created_at)->toFormattedDateString() }}</td>
           </tr>
           @endforeach

@@ -210,6 +210,51 @@
     </div>
   </div>
   @endcan
+  @can('TEC_S85')
+  <div class="col-md-6 mb-3 d-none">
+    <label for="campus">Sede del equipo:</label>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text"><i class="fas fa-building"></i></span>
+      </div>
+      <select class="custom-select" name="campus">
+        @foreach ($s85_campus as $s85_campu)
+        <option value="{{ $s85_campu->id }}" selected>{{ $s85_campu->campu_name }}</option>
+        @endforeach
+      </select>
+    </div>
+  </div>
+  @endcan
+  @can('TEC_MTRZ')
+  <div class="col-md-6 mb-3 d-none">
+    <label for="campus">Sede del equipo:</label>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text"><i class="fas fa-building"></i></span>
+      </div>
+      <select class="custom-select" name="campus">
+        @foreach ($mtrz_campus as $mtrz_campu)
+        <option value="{{ $mtrz_campu->id }}" selected>{{ $mtrz_campu->campu_name }}</option>
+        @endforeach
+      </select>
+    </div>
+  </div>
+  @endcan
+  @can('TEC_COMP')
+  <div class="col-md-6 mb-3 d-none">
+    <label for="campus">Sede del equipo:</label>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text"><i class="fas fa-building"></i></span>
+      </div>
+      <select class="custom-select" name="campus">
+        @foreach ($comp_campus as $comp_campu)
+        <option value="{{ $comp_campu->id }}" selected>{{ $comp_campu->campu_name }}</option>
+        @endforeach
+      </select>
+    </div>
+  </div>
+  @endcan
   @can('TEC_C30')
   <div class="col-md-6 mb-3 d-none">
     <label for="campus">Sede del equipo:</label>

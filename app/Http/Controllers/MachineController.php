@@ -141,24 +141,30 @@ class MachineController extends Controller
     {
         //return new MachinesPdfExport;
         //return $this->excel->download(new MachinesPdfExport, 'invoices.pdf', Excel::DOMPDF);
-        $machines = Machine::all();
-        $types = DB::select('SELECT id,name FROM types', [1]);
-        $rams = DB::select('SELECT id,ram FROM rams', [1]);
-        $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
-        $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
+        $machines = DB::table('machines')
+                    ->select('types.name','machines.serial','machines.manufacturer','machines.model',
+                       'machines.cpu','hdds.size','hdds.type','ram0.ram AS r0', 'ram1.ram AS r1',
+                       'machines.name_pc','machines.ip_range','machines.mac_address',
+                       'machines.anydesk','machines.os','machines.location',
+                       'machines.comment','machines.created_at',
+                       'campus.campu_name',)
+                    ->leftJoin('types', 'types.id', '=', 'machines.type_id')
+                    ->leftJoin('hdds', 'hdds.id', '=', 'machines.hard_drive_id')
+                    ->leftJoin('campus', 'campus.id', '=', 'machines.campus_id')
+                    ->leftJoin('rams AS ram0', 'ram0.id', '=', 'machines.ram_slot_00_id')
+                    ->leftJoin('rams AS ram1', 'ram1.id', '=', 'machines.ram_slot_01_id')
+                    ->where('machines.status_deleted_at', '=', 1)
+                    ->orderBy('machines.id', 'ASC')
+                    ->get();
 
         $pdf = PDF::loadView(
-            'machines.table_machines',
+            'machines.export_pdf_table',
             [
-                'machines' => $machines,
-                'types' => $types,
-                'campus' => $campus,
-                'rams' => $rams,
-                'hdds' => $hdds,
+                'machines' => $machines
             ]
         )->setPaper('a4', 'landscape');
 
-        return $pdf->stream('export-machines.pdf');
+        return $pdf->stream('inventor_export_all_machines.pdf');
     }
 
     /**

@@ -293,12 +293,26 @@ return [
                     'icon_color' => 'success',
                     'can'  =>  'admin',
                 ],
+                        [
+            'text'        => 'Santa Marta',
+            'icon'        => 'fas fa-fw fa-map-marker-alt',
+            'icon_color' => 'success',
+            'submenu' => [
                 [
                     'text' => 'Carrera 12',
                     'url'  => '/santa_marta/sedes/carrera_12',
                     'icon' => 'fas fa-fw fa-building',
                     'icon_color' => 'success',
                     'can'  =>  ['TEC_CNG', 'TEC_MAR', 'TEC_C12', 'TEC_RIO', 'TEC_VDP', 'admin'],
+                ],
+             ],
+          ],
+                [
+                    'text' => 'Compensar - Barranquilla',
+                    'url'  => '/sedes/compensar',
+                    'icon' => 'fas fa-fw fa-building',
+                    'icon_color' => 'success',
+                    'can'  =>  ['TEC_S85', 'TEC_COMP','admin'],
                 ],
                 [
                     'text' => 'Cienaga',
@@ -354,7 +368,7 @@ return [
                     'url'  => '/sedes/sura_85',
                     'icon' => 'fas fa-fw fa-building',
                     'icon_color' => 'success',
-                    'can'  =>  ['TEC_S85', 'admin'],
+                    'can'  =>  ['TEC_S85', 'TEC_COMP', 'TEC_MTRZ', 'admin'],
                 ],
                 [
                     'text' => 'Valledupar',

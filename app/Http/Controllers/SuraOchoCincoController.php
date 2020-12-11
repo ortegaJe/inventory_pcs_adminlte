@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\MachineOchoCincoExport;
 use App\Helpers\UserSystemInfoHelper;
 use App\Machine;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -9,13 +10,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
+use Maatwebsite\Excel\Excel;
 
 class SuraOchoCincoController extends Controller
 {
-    public function __construct()
+    public function __construct(Excel $excel)
     {
         $this->middleware('auth');
         $this->middleware('verified');
+        $this->excel = $excel;
     }
 
     public function index(Request $request)
@@ -66,25 +69,13 @@ class SuraOchoCincoController extends Controller
 
         if ($request->ajax()) {
             $s85_machines = DB::table('machines AS m')
-                ->join('types AS t', 't.id', '=', 'm.type_id')
-                ->join('campus AS c', 'c.id', '=', 'm.campus_id')
-                ->select(
-                    'm.id',
-                    't.name',
-                    'm.serial',
-                    'm.manufacturer',
-                    'm.model',
-                    'm.cpu',
-                    'm.name_pc',
-                    'm.ip_range',
-                    'm.mac_address',
-                    'm.anydesk',
-                    'm.os',
-                    'm.location',
-                    'm.comment',
-                    'm.created_at',
-                    'c.campu_name'
-                )->where('label', '=', 'S85')->whereNull('deleted_at');
+                             ->select('m.id','t.name','m.serial','m.manufacturer','m.model',
+                                      'm.cpu','m.name_pc','m.ip_range','m.mac_address','m.anydesk',
+                                      'm.os','m.location','m.comment','m.created_at','c.campu_name')
+                             ->join('types AS t', 't.id', '=', 'm.type_id')
+                             ->join('campus AS c', 'c.id', '=', 'm.campus_id')
+                             ->where('c.label', '=', 'S85')
+                             ->whereNull('deleted_at');
 
             return DataTables::of($s85_machines)
                 ->addColumn('action', 'sedes.sura_85.actions')
@@ -108,52 +99,40 @@ class SuraOchoCincoController extends Controller
         );
     }
 
-    public function export_excel()
+        public function export_excel()
     {
-        //return new MachinesExport;
+        return new MachineOchoCincoExport;
     }
 
-    public function exportPdf()
+    public function export_pdf()
     {
         //return new MachinesPdfExport;
         //return $this->excel->download(new MachinesPdfExport, 'invoices.pdf', Excel::DOMPDF);
-        $s85_machines = DB::table('machines AS m')
-            ->join('types AS t', 't.id', '=', 'm.type_id')
-            ->join('campus AS c', 'c.id', '=', 'm.campus_id')
-            ->select(
-                'm.id',
-                't.name',
-                'm.serial',
-                'm.manufacturer',
-                'm.model',
-                'm.cpu',
-                'm.name_pc',
-                'm.ip_range',
-                'm.mac_address',
-                'm.anydesk',
-                'm.os',
-                'm.location',
-                'm.comment',
-                'm.created_at',
-                'c.campu_name'
-            )->where('label', '=', 'S85')->whereNull('deleted_at');
-        $types = DB::select('SELECT id,name FROM types', [1]);
-        $rams = DB::select('SELECT id,ram FROM rams', [1]);
-        $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
-        $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
+        $machines = DB::table('machines')
+                    ->select('types.name','machines.serial','machines.manufacturer','machines.model',
+                       'machines.cpu','hdds.size','hdds.type','ram0.ram AS r0', 'ram1.ram AS r1',
+                       'machines.name_pc','machines.ip_range','machines.mac_address',
+                       'machines.anydesk','machines.os','machines.location',
+                       'machines.comment','machines.created_at',
+                       'campus.campu_name')
+                    ->leftJoin('types', 'types.id', '=', 'machines.type_id')
+                    ->leftJoin('hdds', 'hdds.id', '=', 'machines.hard_drive_id')
+                    ->leftJoin('campus', 'campus.id', '=', 'machines.campus_id')
+                    ->leftJoin('rams AS ram0', 'ram0.id', '=', 'machines.ram_slot_00_id')
+                    ->leftJoin('rams AS ram1', 'ram1.id', '=', 'machines.ram_slot_01_id')
+                    ->where('machines.status_deleted_at', '=', 1)
+                    ->where('campus.label', '=', 'S85')
+                    ->orderBy('machines.id', 'ASC')
+                    ->get();
 
         $pdf = PDF::loadView(
-            'machines.table_machines',
+            'machines.export_pdf_table',
             [
-                's85_machines' => $s85_machines,
-                'types' => $types,
-                'campus' => $campus,
-                'rams' => $rams,
-                'hdds' => $hdds,
+                'machines' => $machines
             ]
         )->setPaper('a4', 'landscape');
 
-        return $pdf->stream('export-machines.pdf');
+        return $pdf->stream('inventor_export_s85.pdf');
     }
 
     public function create()
