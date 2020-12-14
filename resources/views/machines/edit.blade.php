@@ -22,6 +22,7 @@
               @endforeach
             </ul>
           </div>
+
           @endif
           @include('machines.fields_update')
           <div class="modal-footer">

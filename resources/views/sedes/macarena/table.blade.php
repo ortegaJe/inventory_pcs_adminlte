@@ -32,6 +32,10 @@
           name: 'm.serial',
           visible: false, orderable: true, searchable: true
           },
+          { data: 'serial_monitor',
+          name: 'm.serial_monitor',
+          visible: false, orderable: true, searchable: true
+          },
           { data: 'manufacturer',
           name: 'm.manufacturer',
           orderable: true, searchable: true

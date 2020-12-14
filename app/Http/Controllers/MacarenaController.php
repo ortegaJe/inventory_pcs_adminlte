@@ -2,19 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\MacarenaExport;
 use App\Helpers\UserSystemInfoHelper;
 use App\Machine;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
+use Maatwebsite\Excel\Excel;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class MacarenaController extends Controller
 {
-    public function __construct()
+    public function __construct(Excel $excel)
     {
         $this->middleware('auth');
         $this->middleware('verified');
+        $this->excel = $excel;
     }
 
     public function index(Request $request)
@@ -71,6 +75,7 @@ class MacarenaController extends Controller
                     'm.id',
                     't.name',
                     'm.serial',
+                    'm.serial_monitor',
                     'm.manufacturer',
                     'm.model',
                     'm.cpu',
@@ -107,22 +112,66 @@ class MacarenaController extends Controller
         );
     }
 
+    public function export_excel()
+    {
+        return new MacarenaExport;
+    }
+
+    public function export_pdf()
+    {
+        //return new MachinesPdfExport;
+        //return $this->excel->download(new MachinesPdfExport, 'invoices.pdf', Excel::DOMPDF);
+        $machines = DB::table('machines')
+            ->select(
+                'types.name',
+                'machines.serial',
+                'machines.serial_monitor',
+                'machines.manufacturer',
+                'machines.model',
+                'machines.cpu',
+                'hdds.size',
+                'hdds.type',
+                'ram0.ram AS r0',
+                'ram1.ram AS r1',
+                'machines.name_pc',
+                'machines.ip_range',
+                'machines.mac_address',
+                'machines.anydesk',
+                'machines.os',
+                'machines.location',
+                'machines.comment',
+                'machines.created_at',
+                'campus.campu_name'
+            )
+            ->leftJoin('types', 'types.id', '=', 'machines.type_id')
+            ->leftJoin('hdds', 'hdds.id', '=', 'machines.hard_drive_id')
+            ->leftJoin('campus', 'campus.id', '=', 'machines.campus_id')
+            ->leftJoin('rams AS ram0', 'ram0.id', '=', 'machines.ram_slot_00_id')
+            ->leftJoin('rams AS ram1', 'ram1.id', '=', 'machines.ram_slot_01_id')
+            ->where('machines.status_deleted_at', '=', 1)
+            ->where('campus.label', '=', 'MAC')
+            ->orderBy('machines.id', 'ASC')
+            ->get();
+
+        $pdf = PDF::loadView(
+            'machines.export_pdf_table',
+            [
+                'machines' => $machines
+            ]
+        )->setPaper('a4', 'landscape');
+
+        return $pdf->stream('inventor_machines_mac.pdf');
+    }
+
     public function create()
     {
-        $mac_machines = DB::select('SELECT `id`,`serial`, `lote`, `type_id`, `manufacturer`, 
-                                       `model`, `ram_slot_00_id`, `ram_slot_01_id`, 
-                                       `hard_drive_id`, `cpu`, `ip_range`, `mac_address`,
-                                       `anydesk`, `campus_id`, `location`, `image`, 
-                                       `comment`, `created_at`, `updated_at` 
-                                        FROM 
-                                       `machines` WHERE campus_id=1', [1]);
-
         $types = DB::select('SELECT id,name FROM types', [1]);
         $rams = DB::select('SELECT id,ram FROM rams', [1]);
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
         $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
         $name_campu_table_index = DB::table('campus')->get();
         $mac_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'MAC')->get();
+        $c16_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'C16')->get();
 
         //$getip = UserSystemInfoHelper::get_ip();
         $findmacaddress = exec('getmac');
@@ -130,7 +179,7 @@ class MacarenaController extends Controller
         $getos = UserSystemInfoHelper::get_os();
 
         return view('sedes.macarena.create', [
-            'mac_machines' => $mac_machines,
+            'c16_campus' => $c16_campus,
             'name_campu_table_index' => $name_campu_table_index,
             'mac_campus' => $mac_campus,
             'types' => $types,
@@ -158,6 +207,7 @@ class MacarenaController extends Controller
         $mac_machines->manufacturer = request('manufact');
         $mac_machines->model = request('model');
         $mac_machines->serial = request('serial');
+        $mac_machines->serial_monitor = request('serial-monitor');
         $mac_machines->ram_slot_00_id = request('ramslot00');
         $mac_machines->ram_slot_01_id = request('ramslot01');
         $mac_machines->hard_drive_id = request('hard-drive');
@@ -176,7 +226,10 @@ class MacarenaController extends Controller
         //dd($mac_machines);
         $mac_machines->save();
 
-        return redirect('/sedes/macarena');
+        return redirect('/sedes/macarena')->with(
+            'machine_created',
+            'Nuevo equipo fué añadido al inventario'
+        );
     }
 
     public function edit($machines)
@@ -203,6 +256,7 @@ class MacarenaController extends Controller
     public function update(Request $request, $id)
     {
         //$getos = UserSystemInfoHelper::get_os();
+        $ts = now()->toDateTimeString();
 
         $mac_machines = Machine::findOrFail($id);
 
@@ -211,6 +265,7 @@ class MacarenaController extends Controller
         $mac_machines->manufacturer = $request->get('manufact');
         $mac_machines->model = $request->get('model');
         $mac_machines->serial = $request->get('serial');
+        $mac_machines->serial_monitor = $request->get('serial-monitor');
         $mac_machines->ram_slot_00_id = $request->get('ramslot00');
         $mac_machines->ram_slot_01_id = $request->get('ramslot01');
         $mac_machines->hard_drive_id = $request->get('hard-drive');
@@ -223,10 +278,13 @@ class MacarenaController extends Controller
         $mac_machines->campus_id = $request->get('campus_id');
         $mac_machines->location = $request->get('location');
         $mac_machines->comment = $request->get('comment');
-
+        $mac_machines->updated_at = $ts;
         $mac_machines->update();
 
-        return redirect('/sedes/macarena');
+        return redirect('/sedes/macarena')->with(
+            'machine_update',
+            'Equipo fue actualizado en el inventario'
+        );
     }
 
     public function destroy($id)
@@ -241,6 +299,9 @@ class MacarenaController extends Controller
             DB::table('machines')->where('id', $id)->update($data);
         }
 
-        return redirect('/sedes/macarena');
+        return redirect('/sedes/macarena')->with(
+            'machine_deleted',
+            'Equipo eliminado del inventario'
+        );
     }
 }

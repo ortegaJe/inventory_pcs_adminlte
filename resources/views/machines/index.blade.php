@@ -6,7 +6,6 @@
 <div class="content-header">
   @include('machines.info_box')
 </div>
-<!--datatable-->
 <div class="row">
   <div class="col-12">
     <div class="card card-primary card-outline">
@@ -95,8 +94,6 @@
     </div>
   </div>
 </div>
-
-
 
 @endsection
 

@@ -13,7 +13,7 @@ use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Events\AfterSheet;
 
-class MachinesExport implements
+class MacarenaExport implements
     FromCollection,
     Responsable,
     //ShouldAutoSize,
@@ -23,7 +23,7 @@ class MachinesExport implements
 {
     use Exportable;
 
-    private $fileName = "inventor_all_machines.xlsx";
+    private $fileName = "inventor_machines_mac.xlsx";
     /**
      * @return \Illuminate\Support\Collection
      */
@@ -57,6 +57,7 @@ class MachinesExport implements
             ->leftJoin('rams AS ram0', 'ram0.id', '=', 'machines.ram_slot_00_id')
             ->leftJoin('rams AS ram1', 'ram1.id', '=', 'machines.ram_slot_01_id')
             ->where('machines.status_deleted_at', '=', 1)
+            ->where('campus.label', '=', 'MAC')
             ->orderBy('machines.id', 'ASC')
             ->get();
     }

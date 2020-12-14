@@ -35,7 +35,7 @@
 </div>
 
 <div class="form-row">
-    <div class="col-md-6 mb-3">
+    <div class="col-md-3 mb-3">
         <label for="model">Modelo:</label>
         <div class="input-group">
             <div class="input-group-prepend">
@@ -47,13 +47,25 @@
         </div>
     </div>
 
-    <div class="col-md-6 mb-3">
+    <div class="col-md-3 mb-3">
         <label for="serial">Serial:</label>
         <div class="input-group">
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-tag"></i></span>
             </div>
             <input value="{{ $machine->serial }}" name="serial" style="text-transform:uppercase;"
+                onkeyup="javascript:this.value=this.value.toUpperCase();" type="text" class="form-control"
+                placeholder="S/N">
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <label for="serial">Serial del monitor:</label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-tag"></i></span>
+            </div>
+            <input value="{{ $machine->serial_monitor }}" name="serial-monitor" style="text-transform:uppercase;"
                 onkeyup="javascript:this.value=this.value.toUpperCase();" type="text" class="form-control"
                 placeholder="S/N">
         </div>

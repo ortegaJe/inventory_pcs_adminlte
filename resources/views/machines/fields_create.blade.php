@@ -29,7 +29,7 @@
 </div>
 
 <div class="form-row">
-  <div class="col-md-6 mb-3">
+  <div class="col-md-3 mb-3">
     <label for="model">Modelo:</label>
     <div class="input-group">
       <div class="input-group-prepend">
@@ -40,7 +40,7 @@
     </div>
   </div>
 
-  <div class="col-md-6 mb-3">
+  <div class="col-md-3 mb-3">
     <label for="serial">Serial:</label>
     <div class="input-group">
       <div class="input-group-prepend">
@@ -48,6 +48,17 @@
       </div>
       <input style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" type="text"
         class="form-control" name="serial" placeholder="S/N" required>
+    </div>
+  </div>
+
+  <div class="col-md-3 mb-3">
+    <label for="serial-monitor">Serial del monitor:</label>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text"><i class="fas fa-tag"></i></span>
+      </div>
+      <input style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" type="text"
+        class="form-control" name="serial-monitor" placeholder="S/N">
     </div>
   </div>
 </div>

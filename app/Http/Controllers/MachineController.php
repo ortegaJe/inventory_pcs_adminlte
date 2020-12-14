@@ -17,7 +17,6 @@ use Barryvdh\DomPDF\Facade as PDF;
 
 class MachineController extends Controller
 {
-  private $excel;
 
   public function __construct(Excel $excel)
   {
@@ -79,6 +78,7 @@ class MachineController extends Controller
           'm.id',
           't.name',
           'm.serial',
+          'm.serial_monitor',
           'm.manufacturer',
           'm.model',
           'm.cpu',
@@ -141,6 +141,7 @@ class MachineController extends Controller
       ->select(
         'types.name',
         'machines.serial',
+        'machines.serial_monitor',
         'machines.manufacturer',
         'machines.model',
         'machines.cpu',
@@ -188,7 +189,6 @@ class MachineController extends Controller
     $rams = DB::select('SELECT id,ram FROM rams', [1]);
     $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
     $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
-    //$mac_campus = DB::table('campus')->select('id','campu_name')->where('label', '=', 'MAC')->get();
     $roles = DB::select('SELECT id FROM roles', [1]);
 
     //$getip = UserSystemInfoHelper::get_ip();
@@ -231,6 +231,7 @@ class MachineController extends Controller
     $machines->manufacturer = request('manufact');
     $machines->model = request('model');
     $machines->serial = $request['serial'];
+    $machines->serial_monitor = $request['serial-monitor'];
     $machines->ram_slot_00_id = $request['ramslot00'];
     $machines->ram_slot_01_id = $request['ramslot01'];
     $machines->hard_drive_id = $request['hard-drive'];
@@ -300,6 +301,7 @@ class MachineController extends Controller
   public function update(MachineFormRequest $request, $id)
   {
     //$getos = UserSystemInfoHelper::get_os();
+    $ts = now()->toDateTimeString();
 
     $machines = Machine::findOrFail($id);
 
@@ -308,6 +310,7 @@ class MachineController extends Controller
     $machines->manufacturer = $request->get('manufact');
     $machines->model = $request->get('model');
     $machines->serial = $request->get('serial');
+    $machines->serial_monitor = $request->get('serial-monitor');
     $machines->ram_slot_00_id = $request->get('ramslot00');
     $machines->ram_slot_01_id = $request->get('ramslot01');
     $machines->hard_drive_id = $request->get('hard-drive');
@@ -320,6 +323,7 @@ class MachineController extends Controller
     $machines->campus_id = $request->get('campus_id');
     $machines->location = $request->get('location');
     $machines->comment = $request->get('comment');
+    $machines->updated_at = $ts;
 
     $machines->save();
 

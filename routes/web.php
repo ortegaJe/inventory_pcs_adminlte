@@ -36,6 +36,9 @@ Route::resource('campus', 'CampuController')->middleware('admin'); // colocar un
 Route::get('/campus/export', 'CampuController@export')->middleware('admin'); // colocar un solo controlador para las sedes
 
 Route::resource('/sedes/macarena', 'MacarenaController');
+Route::get('/macarena/export_excel', 'MacarenaController@export_excel');
+Route::get('/macarena/export_pdf', 'MacarenaController@export_pdf');
+
 Route::resource('/sedes/carrera_16', 'CaDieciseisController');
 Route::resource('/sedes/sura_san_jose', 'SuraSanJoseController');
 Route::resource('/sedes/calle_30', 'CaTreintaController'); //->middleware('ctreinta')
