@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\CompensarExport;
+use App\Exports\CountryExport;
 use App\Helpers\UserSystemInfoHelper;
 use App\Machine;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Maatwebsite\Excel\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
-class CompensarController extends Controller
+class CountryController extends Controller
 {
     public function __construct(Excel $excel)
     {
@@ -31,7 +31,7 @@ class CompensarController extends Controller
             ->where('status_deleted_at', '=', [1])
             ->where('deleted_at', '=', NULL)
             ->where('type_id', '=', [2]) //id en la tabla types
-            ->where('campus_id', '=', [19]) //id en la tabla campus
+            ->where('campus_id', '=', [18]) //id en la tabla campus
             ->count();
 
         $type_atril = DB::table('types')->get(); //nombres de los tipos
@@ -41,7 +41,7 @@ class CompensarController extends Controller
             ->where('status_deleted_at', '=', [1])
             ->where('deleted_at', '=', NULL)
             ->where('type_id', '=', [1])
-            ->where('campus_id', '=', [19])
+            ->where('campus_id', '=', [18])
             ->count();
 
         $type_pc = DB::table('types')->get();
@@ -51,7 +51,7 @@ class CompensarController extends Controller
             ->where('status_deleted_at', '=', [1])
             ->where('deleted_at', '=', NULL)
             ->where('type_id', '=', [3])
-            ->where('campus_id', '=', [19])
+            ->where('campus_id', '=', [18])
             ->count();
 
         $type_laptop = DB::table('types')->get();
@@ -61,14 +61,14 @@ class CompensarController extends Controller
             ->where('status_deleted_at', '=', [1])
             ->where('deleted_at', '=', NULL)
             ->where('type_id', '=', [4])
-            ->where('campus_id', '=', [19])
+            ->where('campus_id', '=', [18])
             ->count();
 
         $type_berry = DB::table('types')->get();
         //end info_box//
 
         if ($request->ajax()) {
-            $comp_machines = DB::table('machines AS m')
+            $ctry_machines = DB::table('machines AS m')
                 ->select(
                     'm.id',
                     't.name',
@@ -88,18 +88,18 @@ class CompensarController extends Controller
                 )
                 ->join('types AS t', 't.id', '=', 'm.type_id')
                 ->join('campus AS c', 'c.id', '=', 'm.campus_id')
-                ->where('c.label', '=', 'COMP')
+                ->where('c.label', '=', 'CTRY')
                 ->where('m.status_deleted_at', '=', 1)
                 ->whereNull('deleted_at');
 
-            return DataTables::of($comp_machines)
-                ->addColumn('action', 'sedes.compensar.actions')
+            return DataTables::of($ctry_machines)
+                ->addColumn('action', 'sedes.country.actions')
                 ->rawColumns(['action'])
                 ->make(true);
         }
 
         return view(
-            'sedes.compensar.index',
+            'sedes.country.index',
             [
                 'name_campu_table_index' => $name_campu_table_index,
                 'atril_count' => $atril_count,
@@ -116,7 +116,7 @@ class CompensarController extends Controller
 
     public function export_excel()
     {
-        return new CompensarExport;
+        return new CountryExport;
     }
 
     public function export_pdf()
@@ -150,7 +150,7 @@ class CompensarController extends Controller
             ->leftJoin('rams AS ram0', 'ram0.id', '=', 'machines.ram_slot_00_id')
             ->leftJoin('rams AS ram1', 'ram1.id', '=', 'machines.ram_slot_01_id')
             ->where('machines.status_deleted_at', '=', 1)
-            ->where('campus.label', '=', 'COMP')
+            ->where('campus.label', '=', 'CTRY')
             ->orderBy('machines.id', 'ASC')
             ->get();
 
@@ -161,37 +161,39 @@ class CompensarController extends Controller
             ]
         )->setPaper('a4', 'landscape');
 
-        return $pdf->stream('inventor_export_comp.pdf');
+        return $pdf->stream('inventor_export_ctry.pdf');
     }
 
     public function create()
     {
-        $comp_machines = DB::select('SELECT `id`,`serial`, `lote`, `type_id`, `manufacturer`, 
+        $ctry_machines = DB::select('SELECT `id`,`serial`, `lote`, `type_id`, `manufacturer`, 
                                        `model`, `ram_slot_00_id`, `ram_slot_01_id`, 
                                        `hard_drive_id`, `cpu`, `ip_range`, `mac_address`,
                                        `anydesk`, `campus_id`, `location`, `image`, 
                                        `comment`, `created_at`, `updated_at` 
                                         FROM 
-                                       `machines` WHERE campus_id=19', [1]);
+                                       `machines` WHERE campus_id=18', [1]);
 
         $types = DB::select('SELECT id,name FROM types', [1]);
         $rams = DB::select('SELECT id,ram FROM rams', [1]);
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
         $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
         $name_campu_table_index = DB::table('campus')->get();
-        $comp_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'COMP')->get();
-        $s85_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'S85')->get();
+        $mtrz_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'MTRZ')->get();
+        $ctry_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'CTRY')->get();
+        $ctii_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'CTII')->get();
 
         //$getip = UserSystemInfoHelper::get_ip();
         $findmacaddress = exec('getmac');
         $getmacaddress = strtok($findmacaddress, ' ');
         $getos = UserSystemInfoHelper::get_os();
 
-        return view('sedes.compensar.create', [
-            's85_campus' => $s85_campus,
-            'comp_machines' => $comp_machines,
+        return view('sedes.country.create', [
+            'ctry_campus' => $ctry_campus,
+            'ctii_campus' => $ctii_campus,
+            'ctry_machines' => $ctry_machines,
             'name_campu_table_index' => $name_campu_table_index,
-            'comp_campus' => $comp_campus,
+            'mtrz_campus' => $mtrz_campus,
             'types' => $types,
             'campus' => $campus,
             'rams' => $rams,
@@ -235,7 +237,7 @@ class CompensarController extends Controller
         //dd($machines);
         $machines->save();
 
-        return redirect('/sedes/compensar')->with(
+        return redirect('/sedes/country')->with(
             'machine_created',
             'Nuevo equipo fué añadido al inventario'
         );
@@ -247,13 +249,13 @@ class CompensarController extends Controller
         $rams = DB::select('SELECT id,ram FROM rams', [1]);
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
         $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
-        $comp_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'COMP')->get();
+        $ctry_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'CTRY')->get();
 
         //$getos = UserSystemInfoHelper::get_os();
 
-        return view('sedes.compensar.edit', [
+        return view('sedes.country.edit', [
             'machine' => Machine::findOrFail($machines),
-            'comp_campus' => $comp_campus,
+            'ctry_campus' => $ctry_campus,
             //'getos' => $getos,
             'types' => $types,
             'campus' => $campus,
@@ -288,7 +290,7 @@ class CompensarController extends Controller
 
         $machines->update();
 
-        return redirect('/sedes/compensar')
+        return redirect('/sedes/country')
             ->with(
                 'machine_update',
                 'Equipo fue actualizado en el inventario'
@@ -307,7 +309,7 @@ class CompensarController extends Controller
             DB::table('machines')->where('id', $id)->update($data);
         }
 
-        return redirect('/sedes/compensar')
+        return redirect('/sedes/country')
             ->with(
                 'machine_deleted',
                 'Equipo eliminado del inventario'

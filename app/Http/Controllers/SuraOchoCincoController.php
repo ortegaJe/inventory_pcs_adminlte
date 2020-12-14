@@ -69,13 +69,27 @@ class SuraOchoCincoController extends Controller
 
         if ($request->ajax()) {
             $s85_machines = DB::table('machines AS m')
-                             ->select('m.id','t.name','m.serial','m.manufacturer','m.model',
-                                      'm.cpu','m.name_pc','m.ip_range','m.mac_address','m.anydesk',
-                                      'm.os','m.location','m.comment','m.created_at','c.campu_name')
-                             ->join('types AS t', 't.id', '=', 'm.type_id')
-                             ->join('campus AS c', 'c.id', '=', 'm.campus_id')
-                             ->where('c.label', '=', 'S85')
-                             ->whereNull('deleted_at');
+                ->select(
+                    'm.id',
+                    't.name',
+                    'm.serial',
+                    'm.manufacturer',
+                    'm.model',
+                    'm.cpu',
+                    'm.name_pc',
+                    'm.ip_range',
+                    'm.mac_address',
+                    'm.anydesk',
+                    'm.os',
+                    'm.location',
+                    'm.comment',
+                    'm.created_at',
+                    'c.campu_name'
+                )
+                ->join('types AS t', 't.id', '=', 'm.type_id')
+                ->join('campus AS c', 'c.id', '=', 'm.campus_id')
+                ->where('c.label', '=', 'S85')
+                ->whereNull('deleted_at');
 
             return DataTables::of($s85_machines)
                 ->addColumn('action', 'sedes.sura_85.actions')
@@ -99,7 +113,7 @@ class SuraOchoCincoController extends Controller
         );
     }
 
-        public function export_excel()
+    public function export_excel()
     {
         return new MachineOchoCincoExport;
     }
@@ -109,21 +123,35 @@ class SuraOchoCincoController extends Controller
         //return new MachinesPdfExport;
         //return $this->excel->download(new MachinesPdfExport, 'invoices.pdf', Excel::DOMPDF);
         $machines = DB::table('machines')
-                    ->select('types.name','machines.serial','machines.manufacturer','machines.model',
-                       'machines.cpu','hdds.size','hdds.type','ram0.ram AS r0', 'ram1.ram AS r1',
-                       'machines.name_pc','machines.ip_range','machines.mac_address',
-                       'machines.anydesk','machines.os','machines.location',
-                       'machines.comment','machines.created_at',
-                       'campus.campu_name')
-                    ->leftJoin('types', 'types.id', '=', 'machines.type_id')
-                    ->leftJoin('hdds', 'hdds.id', '=', 'machines.hard_drive_id')
-                    ->leftJoin('campus', 'campus.id', '=', 'machines.campus_id')
-                    ->leftJoin('rams AS ram0', 'ram0.id', '=', 'machines.ram_slot_00_id')
-                    ->leftJoin('rams AS ram1', 'ram1.id', '=', 'machines.ram_slot_01_id')
-                    ->where('machines.status_deleted_at', '=', 1)
-                    ->where('campus.label', '=', 'S85')
-                    ->orderBy('machines.id', 'ASC')
-                    ->get();
+            ->select(
+                'types.name',
+                'machines.serial',
+                'machines.manufacturer',
+                'machines.model',
+                'machines.cpu',
+                'hdds.size',
+                'hdds.type',
+                'ram0.ram AS r0',
+                'ram1.ram AS r1',
+                'machines.name_pc',
+                'machines.ip_range',
+                'machines.mac_address',
+                'machines.anydesk',
+                'machines.os',
+                'machines.location',
+                'machines.comment',
+                'machines.created_at',
+                'campus.campu_name'
+            )
+            ->leftJoin('types', 'types.id', '=', 'machines.type_id')
+            ->leftJoin('hdds', 'hdds.id', '=', 'machines.hard_drive_id')
+            ->leftJoin('campus', 'campus.id', '=', 'machines.campus_id')
+            ->leftJoin('rams AS ram0', 'ram0.id', '=', 'machines.ram_slot_00_id')
+            ->leftJoin('rams AS ram1', 'ram1.id', '=', 'machines.ram_slot_01_id')
+            ->where('machines.status_deleted_at', '=', 1)
+            ->where('campus.label', '=', 'S85')
+            ->orderBy('machines.id', 'ASC')
+            ->get();
 
         $pdf = PDF::loadView(
             'machines.export_pdf_table',
@@ -151,6 +179,7 @@ class SuraOchoCincoController extends Controller
         $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
         $name_campu_table_index = DB::table('campus')->get();
         $s85_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'S85')->get();
+        $comp_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'COMP')->get();
 
         //$getip = UserSystemInfoHelper::get_ip();
         $findmacaddress = exec('getmac');
@@ -159,6 +188,7 @@ class SuraOchoCincoController extends Controller
 
         return view('sedes.sura_85.create', [
             's85_machines' => $s85_machines,
+            'comp_campus' => $comp_campus,
             'name_campu_table_index' => $name_campu_table_index,
             's85_campus' => $s85_campus,
             'types' => $types,
@@ -204,7 +234,10 @@ class SuraOchoCincoController extends Controller
         //dd($machines);
         $machines->save();
 
-        return redirect('/sedes/sura_85');
+        return redirect('/sedes/sura_85')->with(
+            'machine_created',
+            'Nuevo equipo fué añadido al inventario'
+        );
     }
 
     public function edit($machines)
@@ -254,7 +287,11 @@ class SuraOchoCincoController extends Controller
 
         $machines->update();
 
-        return redirect('/sedes/sura_85');
+        return redirect('/sedes/sura_85')
+            ->with(
+                'machine_update',
+                'Equipo fue actualizado en el inventario'
+            );
     }
 
     public function destroy($id)
@@ -269,6 +306,10 @@ class SuraOchoCincoController extends Controller
             DB::table('machines')->where('id', $id)->update($data);
         }
 
-        return redirect('/sedes/sura_85');
+        return redirect('/sedes/sura_85')
+            ->with(
+                'machine_deleted',
+                'Equipo eliminado del inventario'
+            );
     }
 }

@@ -23,7 +23,6 @@ Route::prefix('inventor')->group(function () {
     Route::resource('/machines', 'MachineController')->middleware('admin');
     Route::get('/export_excel', 'MachineController@export_excel')->middleware('admin');
     Route::get('/export_pdf', 'MachineController@exportPdf')->middleware('admin');
-
 });
 
 Route::post('/technicians/script', 'UserController@script');
@@ -48,8 +47,12 @@ Route::get('/sura_85/export_excel', 'SuraOchoCincoController@export_excel');
 Route::get('/sura_85/export_pdf', 'SuraOchoCincoController@export_pdf');
 
 Route::resource('/sedes/compensar', 'CompensarController');
-Route::get('/sedes/compensar/export_excel_comp', 'CompensarController@export_excel_comp');
-Route::get('/sedes/compensar/export_pdf_comp', 'CompensarController@export_pdf_comp');
+Route::get('/compensar/export_excel', 'CompensarController@export_excel');
+Route::get('/compensar/export_pdf', 'CompensarController@export_pdf');
+
+Route::resource('/sedes/country', 'CountryController');
+Route::get('/country/export_excel', 'CountryController@export_excel');
+Route::get('/country/export_pdf', 'CountryController@export_pdf');
 
 Route::prefix('/santa_marta')->group(function () {
     Route::resource('/sedes/cienaga', 'SantaMarta\Cienaga\CienagaController');

@@ -225,6 +225,21 @@
     </div>
   </div>
   @endcan
+  @can('TEC_COMP')
+  <div class="col-md-6 mb-3 d-none">
+    <label for="campus">Sede del equipo:</label>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text"><i class="fas fa-building"></i></span>
+      </div>
+      <select class="custom-select" name="campus">
+        @foreach ($comp_campus as $comp_campu)
+        <option value="{{ $comp_campu->id }}" selected>{{ $comp_campu->campu_name }}</option>
+        @endforeach
+      </select>
+    </div>
+  </div>
+  @endcan
   @can('TEC_MTRZ')
   <div class="col-md-6 mb-3 d-none">
     <label for="campus">Sede del equipo:</label>
@@ -240,7 +255,7 @@
     </div>
   </div>
   @endcan
-  @can('TEC_COMP')
+  @can('TEC_CTRY')
   <div class="col-md-6 mb-3 d-none">
     <label for="campus">Sede del equipo:</label>
     <div class="input-group">
@@ -248,8 +263,8 @@
         <span class="input-group-text"><i class="fas fa-building"></i></span>
       </div>
       <select class="custom-select" name="campus">
-        @foreach ($comp_campus as $comp_campu)
-        <option value="{{ $comp_campu->id }}" selected>{{ $comp_campu->campu_name }}</option>
+        @foreach ($ctry_campus as $ctry_campu)
+        <option value="{{ $ctry_campu->id }}" selected>{{ $ctry_campu->campu_name }}</option>
         @endforeach
       </select>
     </div>

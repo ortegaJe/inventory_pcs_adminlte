@@ -130,8 +130,8 @@ class UserController extends Controller
             $users->email = e($request->input('email'));
             $users->phone = e($request->input('phone'));
             $users->campus_id = e($request->input('campu-name'));
-            $users->role_id = $request['rol'];
-            $users->assignRole($request->get('rol'));
+            $users->role_id = e($request->input('rol'));
+            //$users->assignRole($request->get('rol'));
             $users->work_function = e($request->input('work-function'));
             $users->password = Hash::make($request['password']);
             if ($request->hasFile('avatar')) {

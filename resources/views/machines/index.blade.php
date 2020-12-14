@@ -3,7 +3,9 @@
 @section('title', 'Lista de equipos')
 
 @section('content')
-@include('machines.info_box')
+<div class="content-header">
+  @include('machines.info_box')
+</div>
 <!--datatable-->
 <div class="row">
   <div class="col-12">
@@ -114,6 +116,16 @@
 '{!! Session::get('machine_created') !!}',
 'success'
 )
+</script>
+@endif
+
+@if(Session::has('machine_update'))
+<script>
+  Swal.fire(
+  'Actualizado con Exito!',
+  '{!! Session::get('machine_update') !!}',
+  'success'
+  )
 </script>
 @endif
 

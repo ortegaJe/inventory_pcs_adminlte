@@ -10,11 +10,11 @@
       <div class="card card-primary">
         <div class="card-header">
           <h3 class="card-title" style="font-weight: 700; font-size:20px">Registrar Equipo en:
-            {{ $name_campu_table_index[5]->campu_name }}
+            {{ $name_campu_table_index[15]->campu_name }}
           </h3>
         </div>
         <div class="card-body">
-          <form action="/sedes/sura_85" method="POST">
+          <form action="/sedes/compensar" method="POST">
             @csrf
             @if ($errors->any())
             <div class="alert alert-danger alert-dismissible">

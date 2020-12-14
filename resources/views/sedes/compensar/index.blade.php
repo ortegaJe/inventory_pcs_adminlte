@@ -1,28 +1,28 @@
 @extends('adminlte::page')
 
-@section('title', 'Sura 85')
+@section('title', 'Compensar')
 
 @section('content')
 <div class="content-header">
-  @include('/sedes/sura_85.info_box')
+  @include('/sedes/compensar.info_box')
 </div>
 <div class="row">
   <div class="col-12">
     <div class="card card-danger card-outline">
       <div class="card-header border">
         <h3 class="card-title" style="font-weight: 500; font-size:28px">Lista de equipos |
-          {{$name_campu_table_index[5]->campu_name}}
+          {{$name_campu_table_index[15]->campu_name}}
         </h3>
-        <a href="{{'sura_85/create'}}">
+        <a href="{{'compensar/create'}}">
           <button type="button" class="btn bg-danger float-left btn-sm ml-2">
             <i class="fa fa-plus"></i> Agregar equipo</button>
         </a>
         <div class="card-tools">
-          <a href="{{ url('/sura_85/export_excel') }}">
+          <a href="{{ url('/compensar/export_excel') }}">
             <button type="button" class="btn btn-tool" title="Exportar Excel">
               <i class="fas fa-file-excel"></i></button>
           </a>
-          <a href="{{ url('/sura_85/export_pdf') }}">
+          <a href="{{ url('/compensar/export_pdf') }}">
             <button type="button" class="btn btn-tool" title="Exportar PDF">
               <i class="fas fa-file-pdf"></i></button>
           </a>
@@ -34,7 +34,7 @@
       <!-- /.card-header -->
       <div class="card-body p-0" style="display: block;">
         <div class="table-responsive p-2">
-          @include('/sedes/sura_85.table')
+          @include('/sedes/compensar.table')
         </div>
         <!-- /.table-responsive -->
       </div>
