@@ -1,4 +1,4 @@
-<canvas id="myChart"></canvas>
+<canvas id="myChart" class="mb-2"></canvas>
 
 @push('js')
 <script>

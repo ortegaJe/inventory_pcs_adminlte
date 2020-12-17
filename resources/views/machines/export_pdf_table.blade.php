@@ -77,6 +77,7 @@
             <th style="width:10%;">CPU</th>
             <th style="width:6%;">NAME PC</th>
             <th style="width:7%;">SERIAL</th>
+            <th style="width:6%;">MONITOR</th>
             <th style="width:8%;">IP</th>
             <th style="width:10%;">MAC</th>
             <th style="width:6%;">ANYDESK</th>
@@ -98,6 +99,7 @@
             <td>{{ $machine->cpu }}</td>
             <td>{{ $machine->name_pc }}</td>
             <td>{{ $machine->serial }}</td>
+            <td>{{ $machine->serial_monitor }}</td>
             <td>{{ $machine->ip_range }}</td>
             <td>{{ $machine->mac_address }}</td>
             <td>{{ $machine->anydesk }}</td>

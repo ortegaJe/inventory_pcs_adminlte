@@ -11,7 +11,6 @@
                 <option value="{{ $type->id }}" {{ $type->id == $machine->type_id ? 'selected' : '' }}>
                     {{ $type->name }}</option>
                 @endforeach
-                </td>
             </select>
             @if ($errors->has('type'))
             <span class="invalid-feedback">

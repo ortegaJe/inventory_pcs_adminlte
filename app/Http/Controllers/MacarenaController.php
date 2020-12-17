@@ -199,6 +199,7 @@ class MacarenaController extends Controller
         //$getmacaddress = strtok($findmacaddress, ' ');
 
         $roles = Auth::user()->rol_id;
+        $ts = now()->toDateTimeString();
 
         $mac_machines = new Machine();
 
@@ -223,6 +224,8 @@ class MacarenaController extends Controller
         $mac_machines->campus_id = request('campus');
         $mac_machines->location = request('location');
         $mac_machines->comment = request('comment');
+        $mac_machines->created_at = $ts;
+
         //dd($mac_machines);
         $mac_machines->save();
 
@@ -256,7 +259,7 @@ class MacarenaController extends Controller
     public function update(Request $request, $id)
     {
         //$getos = UserSystemInfoHelper::get_os();
-        $ts = now()->toDateTimeString();
+        //$ts = now()->toDateTimeString();
 
         $mac_machines = Machine::findOrFail($id);
 
@@ -278,7 +281,7 @@ class MacarenaController extends Controller
         $mac_machines->campus_id = $request->get('campus_id');
         $mac_machines->location = $request->get('location');
         $mac_machines->comment = $request->get('comment');
-        $mac_machines->updated_at = $ts;
+        //$mac_machines->updated_at = $ts;
         $mac_machines->update();
 
         return redirect('/sedes/macarena')->with(

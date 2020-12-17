@@ -67,7 +67,7 @@ class MachinesExport implements
             //'#',
             'TIPO DE MAQUINA',
             'SERIAL',
-            'MONITOR S/N',
+            'MONITOR',
             'FABRICANTE',
             'MODELO',
             'PROCESADOR',

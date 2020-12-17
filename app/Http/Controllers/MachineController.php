@@ -71,6 +71,41 @@ class MachineController extends Controller
     $type_berry = DB::table('types')->get();
     //end info_box//
 
+    $act_recent_machines = DB::table('machines AS m')
+        ->join('types AS t', 't.id', '=', 'm.type_id')
+        ->join('campus AS c', 'c.id', '=', 'm.campus_id')
+        ->select([
+          'm.id',
+          't.name',
+          'm.serial',
+          'm.ip_range',
+          'm.created_at',
+          'c.campu_name'
+        ])
+        ->where('m.status_deleted_at', '=', 1)
+        //->where('m.created_at', '!=', now())
+        ->orderByDesc('m.created_at')
+        ->limit(3)
+        ->get();
+
+        
+    $upd_recent_machines = DB::table('machines AS m')
+        ->join('types AS t', 't.id', '=', 'm.type_id')
+        ->join('campus AS c', 'c.id', '=', 'm.campus_id')
+        ->select([
+          'm.id',
+          't.name',
+          'm.serial',
+          'm.ip_range',
+          'm.updated_at',
+          'c.campu_name'
+        ])
+        ->where('m.status_deleted_at', '=', 1)
+        //->where('m.updated_at', '<', now())
+        ->orderByDesc('m.updated_at')
+        ->limit(1)
+        ->get();
+
     if ($request->ajax()) {
       DB::statement(DB::raw('set @rownum=0'));
       $machines = DB::table('machines AS m')
@@ -115,6 +150,8 @@ class MachineController extends Controller
     return view(
       'machines.index',
       [
+        'act_recent_machines' => $act_recent_machines,
+        'upd_recent_machines' => $upd_recent_machines,
         'global_atril_count' => $global_atril_count,
         'type_atril' => $type_atril,
         'global_pc_count' => $global_pc_count,
@@ -314,7 +351,7 @@ class MachineController extends Controller
   public function update(MachineFormRequest $request, $id)
   {
     //$getos = UserSystemInfoHelper::get_os();
-    $ts = now()->toDateTimeString();
+    //$ts = now()->toDateTimeString();
 
     $machines = Machine::findOrFail($id);
 
@@ -336,7 +373,7 @@ class MachineController extends Controller
     $machines->campus_id = $request->get('campus_id');
     $machines->location = $request->get('location');
     $machines->comment = $request->get('comment');
-    $machines->updated_at = $ts;
+    //$machines->updated_at = $ts;
 
     $machines->save();
 
