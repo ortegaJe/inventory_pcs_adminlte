@@ -14,6 +14,7 @@ use App\Http\Requests\StoreFormRequest;
 use Maatwebsite\Excel\Excel;
 use Yajra\DataTables\Facades\DataTables;
 use Barryvdh\DomPDF\Facade as PDF;
+use Carbon\Carbon;
 
 class MachineController extends Controller
 {
@@ -71,10 +72,12 @@ class MachineController extends Controller
     //end info_box//
 
     if ($request->ajax()) {
+      DB::statement(DB::raw('set @rownum=0'));
       $machines = DB::table('machines AS m')
         ->join('types AS t', 't.id', '=', 'm.type_id')
         ->join('campus AS c', 'c.id', '=', 'm.campus_id')
-        ->select(
+        ->select([
+          DB::raw('@rownum  := @rownum  + 1 AS rownum'),
           'm.id',
           't.name',
           'm.serial',
@@ -91,12 +94,22 @@ class MachineController extends Controller
           'm.comment',
           'm.created_at',
           'c.campu_name'
-        )->whereNull('deleted_at');
+        ])
+        //->orderByDesc('m.created_at');
+        ->whereNull('deleted_at');
 
-      return DataTables::of($machines)
-        ->addColumn('action', 'machines.actions')
-        ->rawColumns(['action'])
-        ->make(true);
+      $datatables = DataTables::of($machines);
+
+      $datatables->addColumn('rownum', 'whereRaw', '@rownum  + 1');
+
+      $datatables->editColumn('m.created_at', function ($machines) {
+        return $machines->created_at ? with(new Carbon($machines->created_at))
+          ->isoFormat('MMM DD YYYY, h:mm:ss a') : '';
+      });
+      $datatables->blacklist(['deleted_at']);
+      $datatables->addColumn('action', 'machines.actions');
+      $datatables->rawColumns(['action']);
+      return $datatables->make(true);
     }
 
     return view(
@@ -223,7 +236,7 @@ class MachineController extends Controller
     //$getmacaddress = strtok($findmacaddress, ' ');
     //$getos = UserSystemInfoHelper::get_os();
     $roles = Auth::user()->rol_id;
-
+    $ts = now()->toDateTimeString();
     $machines = new Machine();
 
     //        [db]           [name] (db campos en la base de datos - name campus en el blade create)
@@ -247,7 +260,7 @@ class MachineController extends Controller
     $machines->campus_id = $request['campus'];
     $machines->location = $request['location'];
     $machines->comment = request('comment');
-
+    $machines->created_at = $ts;
     $machines->save();
 
     return redirect('/inventor/machines')->with(

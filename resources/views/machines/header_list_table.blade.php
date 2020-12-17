@@ -1,3 +1,4 @@
+<th scope="col">#</th>
 <th scope="col">ID</th>
 <th scope="col">TYPE</th>
 <th scope="col">SERIAL</th>

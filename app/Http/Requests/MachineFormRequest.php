@@ -30,9 +30,9 @@ class MachineFormRequest extends FormRequest
             'serial' => 'required',
             'ramslot00' => 'required',
             'hard-drive' => 'required',
-            'cpu' => 'required',
-            'ip' => 'required|ipv4|max:15',
-            'mac' => 'required|max:17',
+            //'cpu' => 'required',
+            //'ip' => 'required|ipv4|max:15',
+            //'mac' => 'required|max:17',
             //'campus_id' => 'required',
             'location' => 'required|max:56'
         ];

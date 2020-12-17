@@ -18,4 +18,6 @@ class Machine extends Model
         protected $fillable = [
                 'status_deleted_at',
         ];
+
+        protected $created_at = 'U';
 }

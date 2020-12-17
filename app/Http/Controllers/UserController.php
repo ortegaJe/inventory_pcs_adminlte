@@ -40,6 +40,9 @@ class UserController extends Controller
     public function index()
     {
 
+        /*DB::statement(DB::raw('set @raw:=0'));
+        $user = User::select(DB::raw('@row:=@row+1 as rowNumber'))->get();
+        dd($user);*/
         //$users = DB::table('users')->select('users.*')->orderBy('id', 'DESC')->get(); consulta todos los registros de la tabla;
         //$users = DB::table('users')->select('name', 'age' etc)->orderBy('id', 'DESC')->get(); selecciona solos los campos a consultar;
         $users = User::select('users.*')->orderBy('id', 'ASC')->paginate(4, ['*'], 'users');

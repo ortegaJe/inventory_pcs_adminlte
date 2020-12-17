@@ -549,6 +549,10 @@ INSERT INTO `roles` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (8, 'TEC_VDP', '2020-11-24 05:30:31', '2020-11-24 05:30:31'),
 (9, 'TEC_RIO', '2020-11-24 05:30:43', '2020-11-24 05:30:43');
 
+UPDATE machines SET created_at='2020-09-01 11:07:32' WHERE created_at IS NULL
+
+SELECT id,created_at FROM machines
+
 -- --------------------------------------------------------
 
 --

@@ -31,9 +31,9 @@ class StoreFormRequest extends FormRequest
             'ramslot00' => 'required',
             'ramslot01' => 'required',
             'hard-drive' => 'required',
-            'cpu' => 'required',
-            'ip' => 'required|ip|max:15|unique:machines,ip_range',
-            'mac' => 'required|max:17|unique:machines,mac_address',
+            //'cpu' => 'required',
+            //'ip' => 'required|ip|max:15|unique:machines,ip_range',
+            //'mac' => 'required|max:17|unique:machines,mac_address',
             'campus' => 'required',
             'location' => 'required|max:200'
         ];
