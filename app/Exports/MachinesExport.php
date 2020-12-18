@@ -29,8 +29,10 @@ class MachinesExport implements
      */
     public function collection()
     {
+        DB::statement(DB::raw('set @rownum=0'));
         return DB::table('machines')
             ->select(
+                DB::raw('@rownum  := @rownum  + 1 AS rownum'),
                 'types.name',
                 'machines.serial',
                 'machines.serial_monitor',
@@ -64,7 +66,7 @@ class MachinesExport implements
     public function headings(): array
     {
         return [
-            //'#',
+            '#',
             'TIPO DE MAQUINA',
             'SERIAL',
             'MONITOR',
@@ -94,8 +96,8 @@ class MachinesExport implements
                 $event->sheet->insertNewColumnBefore('A', 1);
                 //$event->sheet->getRowDimension('2')->setRowHeight(60);
                 $event->sheet->getRowDimension('3')->setRowHeight(25);
-                $event->sheet->setAutoFilter('B3:T3');
-                $event->sheet->getStyle('B3:T3')->applyFromArray([
+                $event->sheet->setAutoFilter('B3:U3');
+                $event->sheet->getStyle('B3:U3')->applyFromArray([
                     'font' => [
                         'bold' => true,
                         'size' => 14,

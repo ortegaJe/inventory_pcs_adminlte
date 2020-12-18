@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Maatwebsite\Excel\Excel;
 use Barryvdh\DomPDF\Facade as PDF;
+use Carbon\Carbon;
 
 class MacarenaController extends Controller
 {
@@ -68,10 +69,12 @@ class MacarenaController extends Controller
         //end info_box//
 
         if ($request->ajax()) {
+            DB::statement(DB::raw('set @rownum=0'));
             $mac_machines = DB::table('machines AS m')
                 ->join('types AS t', 't.id', '=', 'm.type_id')
                 ->join('campus AS c', 'c.id', '=', 'm.campus_id')
                 ->select(
+                    DB::raw('@rownum  := @rownum  + 1 AS rownum'),
                     'm.id',
                     't.name',
                     'm.serial',
@@ -88,12 +91,22 @@ class MacarenaController extends Controller
                     'm.comment',
                     'm.created_at',
                     'c.campu_name'
-                )->where('label', '=', 'MAC')->whereNull('deleted_at');
+                )->where('label', '=', 'MAC')
+                ->where('status_deleted_at', '=', 1)
+                //->orderByDesc('m.id')
+                ->whereNull('deleted_at');
 
-            return DataTables::of($mac_machines)
-                ->addColumn('action', 'sedes.macarena.actions')
-                ->rawColumns(['action'])
-                ->make(true);
+            $datatables = DataTables::of($mac_machines);
+
+            $datatables->addColumn('rownum', 'whereRaw', '@rownum  + 1');
+
+            $datatables->editColumn('m.created_at', function ($mac_machines) {
+                return $mac_machines->created_at ? with(new Carbon($mac_machines->created_at))
+                    ->toDayDateTimeString() : '';
+            });
+            $datatables->addColumn('action', 'sedes.macarena.actions');
+            $datatables->rawColumns(['action']);
+            return $datatables->make(true);
         }
 
         return view(

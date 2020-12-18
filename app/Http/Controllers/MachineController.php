@@ -72,39 +72,39 @@ class MachineController extends Controller
     //end info_box//
 
     $act_recent_machines = DB::table('machines AS m')
-        ->join('types AS t', 't.id', '=', 'm.type_id')
-        ->join('campus AS c', 'c.id', '=', 'm.campus_id')
-        ->select([
-          'm.id',
-          't.name',
-          'm.serial',
-          'm.ip_range',
-          'm.created_at',
-          'c.campu_name'
-        ])
-        ->where('m.status_deleted_at', '=', 1)
-        //->where('m.created_at', '!=', now())
-        ->orderByDesc('m.created_at')
-        ->limit(3)
-        ->get();
+      ->join('types AS t', 't.id', '=', 'm.type_id')
+      ->join('campus AS c', 'c.id', '=', 'm.campus_id')
+      ->select([
+        'm.id',
+        't.name',
+        'm.serial',
+        'm.ip_range',
+        'm.created_at',
+        'c.campu_name'
+      ])
+      ->where('m.status_deleted_at', '=', 1)
+      //->where('m.created_at', '!=', now())
+      ->orderByDesc('m.created_at')
+      ->limit(3)
+      ->get();
 
-        
+
     $upd_recent_machines = DB::table('machines AS m')
-        ->join('types AS t', 't.id', '=', 'm.type_id')
-        ->join('campus AS c', 'c.id', '=', 'm.campus_id')
-        ->select([
-          'm.id',
-          't.name',
-          'm.serial',
-          'm.ip_range',
-          'm.updated_at',
-          'c.campu_name'
-        ])
-        ->where('m.status_deleted_at', '=', 1)
-        //->where('m.updated_at', '<', now())
-        ->orderByDesc('m.updated_at')
-        ->limit(1)
-        ->get();
+      ->join('types AS t', 't.id', '=', 'm.type_id')
+      ->join('campus AS c', 'c.id', '=', 'm.campus_id')
+      ->select([
+        'm.id',
+        't.name',
+        'm.serial',
+        'm.ip_range',
+        'm.updated_at',
+        'c.campu_name'
+      ])
+      ->where('m.status_deleted_at', '=', 1)
+      //->where('m.updated_at', '<', now())
+      ->orderByDesc('m.updated_at')
+      ->limit(3)
+      ->get();
 
     if ($request->ajax()) {
       DB::statement(DB::raw('set @rownum=0'));
@@ -131,6 +131,7 @@ class MachineController extends Controller
           'c.campu_name'
         ])
         //->orderByDesc('m.created_at');
+        ->where('status_deleted_at', '=', 1)
         ->whereNull('deleted_at');
 
       $datatables = DataTables::of($machines);
@@ -139,7 +140,7 @@ class MachineController extends Controller
 
       $datatables->editColumn('m.created_at', function ($machines) {
         return $machines->created_at ? with(new Carbon($machines->created_at))
-          ->isoFormat('MMM DD YYYY, h:mm:ss a') : '';
+          ->toDayDateTimeString() : '';
       });
       $datatables->blacklist(['deleted_at']);
       $datatables->addColumn('action', 'machines.actions');
@@ -297,7 +298,7 @@ class MachineController extends Controller
     $machines->campus_id = $request['campus'];
     $machines->location = $request['location'];
     $machines->comment = request('comment');
-    $machines->created_at = $ts;
+    //$machines->created_at = $ts;
     $machines->save();
 
     return redirect('/inventor/machines')->with(

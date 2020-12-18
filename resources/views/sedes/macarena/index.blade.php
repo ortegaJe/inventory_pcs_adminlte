@@ -9,7 +9,7 @@
 <div class="row">
   <div class="col-12">
     <div class="card card-danger card-outline">
-      <div class="card-header border">
+      <div class="card-header border-0">
         <h3 class="card-title" style="font-weight: 500; font-size:28px">Lista de equipos |
           {{$name_campu_table_index[0]->campu_name}}
         </h3>
@@ -39,8 +39,9 @@
         <!-- /.table-responsive -->
       </div>
       <!-- /.card-body -->
-      <div class="card-footer clearfix">
-      </div>
+      <!--<div class="card-footer clearfix">
+      
+            </div>-->
       <!-- /.card-footer -->
     </div>
   </div>

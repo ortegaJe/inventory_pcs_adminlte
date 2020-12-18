@@ -19,5 +19,5 @@ class Machine extends Model
                 'status_deleted_at',
         ];
 
-        protected $created_at = 'U';
+        protected $updated_at = 'U';
 }

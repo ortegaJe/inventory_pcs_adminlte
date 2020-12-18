@@ -3,11 +3,13 @@
 namespace App\Exports;
 
 use App\Machine;
+use Carbon\Carbon;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithColumnWidths;
 use Maatwebsite\Excel\Concerns\WithCustomStartCell;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -19,7 +21,8 @@ class MacarenaExport implements
     //ShouldAutoSize,
     WithHeadings,
     WithEvents,
-    WithCustomStartCell
+    WithCustomStartCell,
+    WithColumnWidths
 {
     use Exportable;
 
@@ -29,8 +32,10 @@ class MacarenaExport implements
      */
     public function collection()
     {
+        DB::statement(DB::raw('set @rownum=0'));
         return DB::table('machines')
             ->select(
+                DB::raw('@rownum  := @rownum  + 1 AS rownum'),
                 'types.name',
                 'machines.serial',
                 'machines.serial_monitor',
@@ -65,7 +70,7 @@ class MacarenaExport implements
     public function headings(): array
     {
         return [
-            //'#',
+            '#',
             'TIPO DE MAQUINA',
             'SERIAL',
             'MONITOR S/N',
@@ -95,8 +100,13 @@ class MacarenaExport implements
                 $event->sheet->insertNewColumnBefore('A', 1);
                 //$event->sheet->getRowDimension('2')->setRowHeight(60);
                 $event->sheet->getRowDimension('3')->setRowHeight(25);
-                $event->sheet->setAutoFilter('B3:T3');
-                $event->sheet->getStyle('B3:T3')->applyFromArray([
+                $time = Carbon::now()->toDayDateTimeString();
+                $event->sheet->setCellValue('D1', ($time));
+                $event->sheet->getStyle('D1')
+                    ->getNumberFormat()
+                    ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_YYYYMMDDSLASH);
+                $event->sheet->setAutoFilter('B3:U3');
+                $event->sheet->getStyle('B3:U3')->applyFromArray([
                     'font' => [
                         'bold' => true,
                         'size' => 14,
@@ -130,5 +140,13 @@ class MacarenaExport implements
     public function startCell(): string
     {
         return 'A3';
+    }
+
+    public function columnWidths(): array
+    {
+        return [
+            'A' => 5,
+            //'B' => 45,
+        ];
     }
 }

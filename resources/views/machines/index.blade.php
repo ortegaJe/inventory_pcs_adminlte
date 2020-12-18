@@ -47,7 +47,7 @@
 </div>
 <!--charts-->
 <div class="row">
-  <div class="col-md-10">
+  <div class="col-md-9">
     <div class="card card-maroon card-outline">
       <div class="card-header border-0">
         <h3 class="card-title" style="font-weight: 500; font-size:28px">Informes
@@ -72,9 +72,9 @@
       <!-- /.card-footer -->
     </div>
   </div>
-  <div class="col-md-2">
+  <div class="col-md-3">
     <div class="card card-success card-outline">
-      <div class="card-header">
+      <div class="card-header border-0">
         <h3 class="card-title">Actividad reciente</h3>
 
         <div class="card-tools">
@@ -93,10 +93,12 @@
             </div>
             <div class="product-info">
               <span class="product-title">{{ $act_machine->serial }}</span>
-              <span class="badge badge-primary float-right">New</span>
+              <span class="badge badge-primary float-right">New
+                <div><i class="fas fa-clock"></i> {{ \Carbon\Carbon::parse($act_machine->created_at)->diffForHumans() }}
+                </div>
+              </span>
               <span class="product-description">
                 {{ $act_machine->ip_range }}
-                <span class="small">{{ \Carbon\Carbon::parse($act_machine->created_at)->diffForHumans() }}</span>
               </span>
               <span class="product-description">
                 {{ $act_machine->campu_name }}
@@ -105,14 +107,17 @@
           </li>
           @endforeach
           <!-- /.item -->
-          <!--@foreach($upd_recent_machines as $upd_machine)
+          @foreach($upd_recent_machines as $upd_machine)
           <li class="item">
             <div class="col-sm-6">
               <span>{{ $upd_machine->name }}</span>
             </div>
             <div class="product-info">
-              <span class="product-title">{{ $upd_machine->serial }}
-                <span class="badge badge-success float-right">Actualizado</span></span>
+              <span class="product-title">{{ $upd_machine->serial }}</span>
+              <span class="badge badge-success float-right">Actualizado
+                <div><i class="fas fa-clock"></i> {{ \Carbon\Carbon::parse($upd_machine->updated_at)->diffForHumans() }}
+                </div>
+              </span>
               <span class="product-description">
                 {{ $upd_machine->ip_range }}
               </span>
@@ -121,7 +126,7 @@
               </span>
             </div>
           </li>
-          @endforeach-->
+          @endforeach
           <!-- /.item -->
         </ul>
       </div>
