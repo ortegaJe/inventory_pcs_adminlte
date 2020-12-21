@@ -18,6 +18,7 @@
         //responsive: true,
         autoWidth: true,
         lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
+        order: [[ 16, 'desc' ]],
         ajax: "{{ route('macarena.index')}}",
         columns: [
           {data: 'rownum',

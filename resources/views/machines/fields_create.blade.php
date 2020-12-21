@@ -213,7 +213,7 @@
       <div class="input-group-prepend">
         <span class="input-group-text"><i class="fas fa-building"></i></span>
       </div>
-      <select class="custom-select" name="campus">
+      <select class="custom-select" name="campus-mac">
         @foreach ($mac_campus as $mac_campu)
         <option value="{{ $mac_campu->id }}" selected>{{ $mac_campu->campu_name }}</option>
         @endforeach
@@ -318,7 +318,7 @@
       <div class="input-group-prepend">
         <span class="input-group-text"><i class="fas fa-building"></i></span>
       </div>
-      <select class="custom-select" name="campus">
+      <select class="custom-select" name="campus-c16">
         @foreach ($c16_campus as $c16_campu)
         <option value="{{ $c16_campu->id }}" selected>{{ $c16_campu->campu_name }}</option>
         @endforeach

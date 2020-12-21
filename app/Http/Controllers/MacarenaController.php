@@ -73,7 +73,7 @@ class MacarenaController extends Controller
             $mac_machines = DB::table('machines AS m')
                 ->join('types AS t', 't.id', '=', 'm.type_id')
                 ->join('campus AS c', 'c.id', '=', 'm.campus_id')
-                ->select(
+                ->select([
                     DB::raw('@rownum  := @rownum  + 1 AS rownum'),
                     'm.id',
                     't.name',
@@ -91,9 +91,9 @@ class MacarenaController extends Controller
                     'm.comment',
                     'm.created_at',
                     'c.campu_name'
-                )->where('label', '=', 'MAC')
+                ])->where('label', '=', 'MAC')
                 ->where('status_deleted_at', '=', 1)
-                //->orderByDesc('m.id')
+                ->orderByDesc('m.created_at', 'DESC')
                 ->whereNull('deleted_at');
 
             $datatables = DataTables::of($mac_machines);
@@ -234,7 +234,7 @@ class MacarenaController extends Controller
         $mac_machines->created_by = Auth::user()->id;
         $mac_machines->rol_id = $roles;
         $mac_machines->status_deleted_at = request('status');
-        $mac_machines->campus_id = request('campus');
+        $mac_machines->campus_id = request('campus-mac');
         $mac_machines->location = request('location');
         $mac_machines->comment = request('comment');
         $mac_machines->created_at = $ts;
@@ -254,13 +254,13 @@ class MacarenaController extends Controller
         $rams = DB::select('SELECT id,ram FROM rams', [1]);
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
         $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
-        $mac_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'MAC')->get();
+        //$mac_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'MAC')->get();
 
         //$getos = UserSystemInfoHelper::get_os();
 
         return view('sedes.macarena.edit', [
             'machine' => Machine::findOrFail($machines),
-            'mac_campus' => $mac_campus,
+            //'mac_campus' => $mac_campus,
             //'getos' => $getos,
             'types' => $types,
             'campus' => $campus,

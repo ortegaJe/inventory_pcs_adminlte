@@ -6,11 +6,11 @@
 
 <div class="content-fluid">
   <div class="col-20">
-    <div class="col-sm-8 mx-auto">
+    <div class="col-sm-12 mx-auto">
       <div class="card card-primary">
         <div class="card-header">
           <h3 class="card-title" style="font-weight: 700; font-size:20px">Registrar Equipo en:
-            {{$name_campu_table_index[2]->campu_name}}
+            {{ $name_campu_table_index[2]->campu_name }}
           </h3>
         </div>
         <div class="card-body">

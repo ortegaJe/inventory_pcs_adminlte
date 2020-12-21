@@ -18,7 +18,7 @@
         //responsive: true,
         autoWidth: true,
         lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
-        order: [[ 1, 'desc' ], [ 16, 'desc' ]],
+        order: [[ 0, 'desc' ]],
         ajax: "{{ route('machines.index')}}",
         columns: [
           {data: 'rownum', 

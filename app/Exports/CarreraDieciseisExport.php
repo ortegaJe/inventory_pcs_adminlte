@@ -9,13 +9,14 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
-use Maatwebsite\Excel\Concerns\WithCustomStartCell;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
+use Maatwebsite\Excel\Concerns\WithCustomStartCell;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Events\AfterSheet;
 
-class MachinesExport implements
+
+class CarreraDieciseisExport implements
     FromCollection,
     Responsable,
     //ShouldAutoSize,
@@ -26,7 +27,7 @@ class MachinesExport implements
 {
     use Exportable;
 
-    private $fileName = "inventor_all_machines.xlsx";
+    private $fileName = "inventor_machines_c16.xlsx";
     /**
      * @return \Illuminate\Support\Collection
      */
@@ -62,6 +63,7 @@ class MachinesExport implements
             ->leftJoin('rams AS ram0', 'ram0.id', '=', 'machines.ram_slot_00_id')
             ->leftJoin('rams AS ram1', 'ram1.id', '=', 'machines.ram_slot_01_id')
             ->where('machines.status_deleted_at', '=', 1)
+            ->where('campus.label', '=', 'C16')
             ->orderBy('rownum', 'ASC')
             ->get();
     }
@@ -72,7 +74,7 @@ class MachinesExport implements
             '#',
             'TIPO DE MAQUINA',
             'SERIAL',
-            'MONITOR',
+            'MONITOR S/N',
             'FABRICANTE',
             'MODELO',
             'PROCESADOR',
@@ -110,7 +112,7 @@ class MachinesExport implements
                 $event->sheet->mergeCells('B2:U2');
                 $event->sheet->getStyle('B2:U2')
                 ->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_TOP);
-                $event->sheet->getCell('B2')->setValue("INVENTARIO DE EQUIPOS REGISTRADOS");
+                $event->sheet->getCell('B2')->setValue("INVENTARIO DE EQUIPOS REGISTRADOS | SEDE VIVA 1A CARRERA 16");
                 $event->sheet->getStyle('B2:U2')->applyFromArray([
                     'font' => [
                         'bold' => true,
@@ -154,7 +156,7 @@ class MachinesExport implements
         return 'A3';
     }
 
-        public function columnWidths(): array
+    public function columnWidths(): array
     {
         return [
             'A' => 5,

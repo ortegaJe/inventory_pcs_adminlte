@@ -40,6 +40,9 @@ Route::get('/macarena/export_excel', 'MacarenaController@export_excel');
 Route::get('/macarena/export_pdf', 'MacarenaController@export_pdf');
 
 Route::resource('/sedes/carrera_16', 'CaDieciseisController');
+Route::get('/carrera_16/export_excel', 'CaDieciseisController@export_excel');
+Route::get('/carrera_16/export_pdf', 'CaDieciseisController@export_pdf');
+
 Route::resource('/sedes/sura_san_jose', 'SuraSanJoseController');
 Route::resource('/sedes/calle_30', 'CaTreintaController'); //->middleware('ctreinta')
 Route::resource('/sedes/soledad', 'SoledadController');

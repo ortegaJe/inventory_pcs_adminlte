@@ -19,10 +19,10 @@ class MacarenaExport implements
     FromCollection,
     Responsable,
     //ShouldAutoSize,
+    WithColumnWidths,
     WithHeadings,
     WithEvents,
-    WithCustomStartCell,
-    WithColumnWidths
+    WithCustomStartCell
 {
     use Exportable;
 
@@ -63,7 +63,7 @@ class MacarenaExport implements
             ->leftJoin('rams AS ram1', 'ram1.id', '=', 'machines.ram_slot_01_id')
             ->where('machines.status_deleted_at', '=', 1)
             ->where('campus.label', '=', 'MAC')
-            ->orderBy('machines.id', 'ASC')
+            ->orderBy('rownum', 'ASC')
             ->get();
     }
 
@@ -97,26 +97,36 @@ class MacarenaExport implements
     {
         return [
             AfterSheet::class => function (AfterSheet $event) {
+                $event->sheet->getStyle('A1:U500')->getFont()->setName('Nunito');
                 $event->sheet->insertNewColumnBefore('A', 1);
-                //$event->sheet->getRowDimension('2')->setRowHeight(60);
+                $event->sheet->getRowDimension('2')->setRowHeight(30);
                 $event->sheet->getRowDimension('3')->setRowHeight(25);
+                $event->sheet->setAutoFilter('B3:U3');
+                $event->sheet->mergeCells('B1:C1');
+                $event->sheet->getCell('B1')->setValue("Generado: ");
                 $time = Carbon::now()->toDayDateTimeString();
                 $event->sheet->setCellValue('D1', ($time));
-                $event->sheet->getStyle('D1')
-                    ->getNumberFormat()
-                    ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_YYYYMMDDSLASH);
-                $event->sheet->setAutoFilter('B3:U3');
+                $event->sheet->getStyle('D1')->getNumberFormat()
+                ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_YYYYMMDDSLASH);
+                $event->sheet->mergeCells('B2:U2');
+                $event->sheet->getStyle('B2:U2')
+                ->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_TOP);
+                $event->sheet->getCell('B2')->setValue("INVENTARIO DE EQUIPOS REGISTRADOS | SEDE VIVA 1A MACARENA");
+                $event->sheet->getStyle('B2:U2')->applyFromArray([
+                    'font' => [
+                        'bold' => true,
+                        'size' => 18,
+                    ],
+                ]);
                 $event->sheet->getStyle('B3:U3')->applyFromArray([
                     'font' => [
                         'bold' => true,
-                        'size' => 14,
+                        'size' => 10,
+                        "color" => ["rgb" => "FFFFFF"]
                     ],
                     "fill" => [
                         "fillType" => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                        "startColor" => ["rgb" => "28A745"]
-                    ],
-                    "font" => [
-                        "color" => ["rgb" => "FFFFFF"]
+                        "startColor" => ["rgb" => "636E72"]
                     ],
                     'borders' => [
                         'allBorders' => [
@@ -125,13 +135,16 @@ class MacarenaExport implements
                         ],
                     ]
                 ]);
-                $event->sheet->getStyle('B4:S500')->applyFromArray([
+                $event->sheet->getStyle('B4:U500')->applyFromArray([
                     'borders' => [
                         'allBorders' => [
                             'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
                             'color' => ['argb' => '#7f8c8d'],
                         ],
-                    ]
+                    ],
+                    'font' => [
+                        'size' => 9,
+                    ],
                 ]);
             }
         ];

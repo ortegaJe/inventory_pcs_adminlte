@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\CarreraDieciseisExport;
 use App\Helpers\UserSystemInfoHelper;
 use App\Machine;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
+use Maatwebsite\Excel\Excel;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class CaDieciseisController extends Controller
 {
@@ -70,13 +74,16 @@ class CaDieciseisController extends Controller
         //end info_box//
 
         if ($request->ajax()) {
+            DB::statement(DB::raw('set @rownum=0'));
             $c16_machines = DB::table('machines AS m')
                 ->join('types AS t', 't.id', '=', 'm.type_id')
                 ->join('campus AS c', 'c.id', '=', 'm.campus_id')
                 ->select(
+                    DB::raw('@rownum  := @rownum  + 1 AS rownum'),
                     'm.id',
                     't.name',
                     'm.serial',
+                    'm.serial_monitor',
                     'm.manufacturer',
                     'm.model',
                     'm.cpu',
@@ -89,12 +96,22 @@ class CaDieciseisController extends Controller
                     'm.comment',
                     'm.created_at',
                     'c.campu_name'
-                )->where('label', '=', 'C16')->whereNull('deleted_at');
+                )->where('label', '=', 'C16')
+                 ->where('status_deleted_at', '=', 1)
+                 ->orderByDesc('m.created_at', 'DESC')
+                 ->whereNull('deleted_at');
 
-            return DataTables::of($c16_machines)
-                ->addColumn('action', 'sedes.carrera_16.actions')
-                ->rawColumns(['action'])
-                ->make(true);
+            $datatables = DataTables::of($c16_machines);
+
+            $datatables->addColumn('rownum', 'whereRaw', '@rownum  + 1');
+
+            $datatables->editColumn('m.created_at', function ($c16_machines) {
+                return $c16_machines->created_at ? with(new Carbon($c16_machines->created_at))
+                    ->toDayDateTimeString() : '';
+            });
+            $datatables->addColumn('action', 'sedes.carrera_16.actions');
+            $datatables->rawColumns(['action']);
+            return $datatables->make(true);
         }
 
         return view(
@@ -113,21 +130,65 @@ class CaDieciseisController extends Controller
         );
     }
 
+        public function export_excel()
+    {
+        return new CarreraDieciseisExport;
+    }
+
+        public function export_pdf()
+    {
+        //return new MachinesPdfExport;
+        //return $this->excel->download(new MachinesPdfExport, 'invoices.pdf', Excel::DOMPDF);
+        $machines = DB::table('machines')
+            ->select(
+                'types.name',
+                'machines.serial',
+                'machines.serial_monitor',
+                'machines.manufacturer',
+                'machines.model',
+                'machines.cpu',
+                'hdds.size',
+                'hdds.type',
+                'ram0.ram AS r0',
+                'ram1.ram AS r1',
+                'machines.name_pc',
+                'machines.ip_range',
+                'machines.mac_address',
+                'machines.anydesk',
+                'machines.os',
+                'machines.location',
+                'machines.comment',
+                'machines.created_at',
+                'campus.campu_name'
+            )
+            ->leftJoin('types', 'types.id', '=', 'machines.type_id')
+            ->leftJoin('hdds', 'hdds.id', '=', 'machines.hard_drive_id')
+            ->leftJoin('campus', 'campus.id', '=', 'machines.campus_id')
+            ->leftJoin('rams AS ram0', 'ram0.id', '=', 'machines.ram_slot_00_id')
+            ->leftJoin('rams AS ram1', 'ram1.id', '=', 'machines.ram_slot_01_id')
+            ->where('machines.status_deleted_at', '=', 1)
+            ->where('campus.label', '=', 'C16')
+            ->orderBy('machines.id', 'ASC')
+            ->get();
+
+        $pdf = PDF::loadView(
+            'machines.export_pdf_table',
+            [
+                'machines' => $machines
+            ]
+        )->setPaper('a4', 'landscape');
+
+        return $pdf->stream('inventor_machines_mac.pdf');
+    }
+
     public function create()
     {
-        $c16_machines = DB::select('SELECT `id`,`serial`, `lote`, `type_id`, `manufacturer`, 
-                                       `model`, `ram_slot_00_id`, `ram_slot_01_id`, 
-                                       `hard_drive_id`, `cpu`, `ip_range`, `mac_address`,
-                                       `anydesk`, `campus_id`, `location`, `image`, 
-                                       `comment`, `created_at`, `updated_at` 
-                                        FROM 
-                                       `machines` WHERE campus_id=4', [1]);
-
         $types = DB::select('SELECT id,name FROM types', [1]);
         $rams = DB::select('SELECT id,ram FROM rams', [1]);
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
         $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
         $c16_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'C16')->get();
+        $mac_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'MAC')->get();
         $name_campu_table_index = DB::table('campus')->get();
 
 
@@ -137,8 +198,8 @@ class CaDieciseisController extends Controller
         $getos = UserSystemInfoHelper::get_os();
 
         return view('sedes.carrera_16.create', [
-            'c16_machines' => $c16_machines,
             'c16_campus' => $c16_campus,
+            'mac_campus' => $mac_campus,
             'name_campu_table_index' => $name_campu_table_index,
             'types' => $types,
             'campus' => $campus,
@@ -157,6 +218,7 @@ class CaDieciseisController extends Controller
         //$getmacaddress = strtok($findmacaddress, ' ');
 
         $roles = Auth::user()->rol_id;
+        $ts = now()->toDateTimeString();
 
         $c16_machines = new Machine();
 
@@ -177,13 +239,17 @@ class CaDieciseisController extends Controller
         $c16_machines->created_by = Auth::user()->id;
         $c16_machines->rol_id = $roles;
         $c16_machines->status_deleted_at = request('status');
-        $c16_machines->campus_id = request('campus');
+        $c16_machines->campus_id = request('campus-c16');
         $c16_machines->location = request('location');
         $c16_machines->comment = request('comment');
+        $c16_machines->created_at = $ts;
 
         $c16_machines->save();
 
-        return redirect('/sedes/carrera_16');
+        return redirect('/sedes/carrera_16')->with(
+            'machine_created',
+            'Nuevo equipo fué añadido al inventario'
+        );
     }
 
     public function edit($machines)
@@ -208,43 +274,52 @@ class CaDieciseisController extends Controller
     public function update(Request $request, $id)
     {
         //$getos = UserSystemInfoHelper::get_os();
+        //$ts = now()->toDateTimeString();
 
-        $machines = Machine::findOrFail($id);
+        $c16_machines = Machine::findOrFail($id);
 
         //        [db]                 [name] (db campos en la base de datos - name campus en el blade edit)
-        $machines->type_id = $request->get('type');
-        $machines->manufacturer = $request->get('manufact');
-        $machines->model = $request->get('model');
-        $machines->serial = $request->get('serial');
-        $machines->ram_slot_00_id = $request->get('ramslot00');
-        $machines->ram_slot_01_id = $request->get('ramslot01');
-        $machines->hard_drive_id = $request->get('hard-drive');
-        $machines->cpu = $request->get('cpu');
-        $machines->ip_range = $request->get('ip');
-        $machines->mac_address = $request->get('mac');
-        $machines->anydesk = $request->get('anydesk');
-        $machines->os = $request->get('os');
-        $machines->campus_id = $request->get('campus_id');
-        $machines->location = $request->get('location');
-        $machines->comment = $request->get('comment');
+        $c16_machines->type_id = $request->get('type');
+        $c16_machines->manufacturer = $request->get('manufact');
+        $c16_machines->model = $request->get('model');
+        $c16_machines->serial = $request->get('serial');
+        $c16_machines->serial_monitor = $request->get('serial-monitor');
+        $c16_machines->ram_slot_00_id = $request->get('ramslot00');
+        $c16_machines->ram_slot_01_id = $request->get('ramslot01');
+        $c16_machines->hard_drive_id = $request->get('hard-drive');
+        $c16_machines->cpu = $request->get('cpu');
+        $c16_machines->name_pc = request('name-pc');
+        $c16_machines->ip_range = $request->get('ip');
+        $c16_machines->mac_address = $request->get('mac');
+        $c16_machines->anydesk = $request->get('anydesk');
+        $c16_machines->os = $request->get('os');
+        $c16_machines->campus_id = $request->get('campus_id');
+        $c16_machines->location = $request->get('location');
+        $c16_machines->comment = $request->get('comment');
+        //$c16_machines->updated_at = $ts;
+        $c16_machines->update();
 
-        $machines->update();
-
-        return redirect('/sedes/carrera_16');
+        return redirect('/sedes/carrera_16')->with(
+            'machine_update',
+            'Equipo fue actualizado en el inventario'
+        );
     }
 
     public function destroy($id)
     {
-        $machines = Machine::findOrFail($id);
+        $mac_machines = Machine::findOrFail($id);
 
 
-        if ($machines->delete()) { // If softdeleted
+        if ($mac_machines->delete()) { // If softdeleted
 
             $ts = now()->toDateTimeString();
             $data = array('deleted_at' => $ts, 'status_deleted_at' => 0);
             DB::table('machines')->where('id', $id)->update($data);
         }
 
-        return redirect('/sedes/carrera_16');
+        return redirect('/sedes/carrera_16')->with(
+            'machine_deleted',
+            'Equipo eliminado del inventario'
+        );
     }
 }

@@ -291,7 +291,7 @@ return [
                     'url'  => '/sedes/carrera_16',
                     'icon' => 'fas fa-fw fa-building',
                     'icon_color' => 'success',
-                    'can'  =>  'admin',
+                    'can'  =>  ['admin', 'TEC_MAC', 'TEC_C16'],
                 ],
                 [
                     'text'        => 'Santa Marta',
@@ -341,7 +341,7 @@ return [
                     'url'  => '/sedes/macarena',
                     'icon' => 'fas fa-fw fa-building',
                     'icon_color' => 'success',
-                    'can'  =>  ['admin', 'TEC_MAC'],
+                    'can'  =>  ['admin', 'TEC_MAC', 'TEC_C16'],
                 ],
                 [
                     'text' => 'Marinelo',

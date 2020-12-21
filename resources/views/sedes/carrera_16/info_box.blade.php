@@ -36,7 +36,7 @@
             <div class="inner">
                 <h3>{{ $laptop_count ?? '0' }}</h3>
                 <?php $type_laptop = DB::table('types')->get();?>
-                <p><b>{{$type_pc[2]->name}}</b> Registrados</p>
+                <p><b>{{$type_laptop[2]->name}}</b> Registrados</p>
             </div>
             <div class="icon">
                 <i class="fas fa-laptop"></i>
@@ -47,7 +47,7 @@
     <!-- ./col -->
     <div class="col-lg-3 col-6">
         <!-- small box -->
-        <div class="small-box bg-danger">
+        <div class="small-box bg-maroon">
             <div class="inner">
                 <h3>{{ $berry_count ?? '0' }}</h3>
                 <?php $type_berry = DB::table('types')->get();?>

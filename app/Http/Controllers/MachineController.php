@@ -129,10 +129,8 @@ class MachineController extends Controller
           'm.comment',
           'm.created_at',
           'c.campu_name'
-        ])
-        //->orderByDesc('m.created_at');
-        ->where('status_deleted_at', '=', 1)
-        ->whereNull('deleted_at');
+        ])->where('m.status_deleted_at', '=', 1)
+        ->whereNull('m.deleted_at');
 
       $datatables = DataTables::of($machines);
 
@@ -216,7 +214,7 @@ class MachineController extends Controller
       ->leftJoin('rams AS ram0', 'ram0.id', '=', 'machines.ram_slot_00_id')
       ->leftJoin('rams AS ram1', 'ram1.id', '=', 'machines.ram_slot_01_id')
       ->where('machines.status_deleted_at', '=', 1)
-      ->orderBy('machines.id', 'ASC')
+      ->orderBy('machines.id', 'DESC')
       ->get();
 
     $pdf = PDF::loadView(
