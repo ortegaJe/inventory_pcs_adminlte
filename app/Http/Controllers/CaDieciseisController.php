@@ -97,9 +97,9 @@ class CaDieciseisController extends Controller
                     'm.created_at',
                     'c.campu_name'
                 )->where('label', '=', 'C16')
-                 ->where('status_deleted_at', '=', 1)
-                 ->orderByDesc('m.created_at', 'DESC')
-                 ->whereNull('deleted_at');
+                ->where('status_deleted_at', '=', 1)
+                ->orderByDesc('m.created_at', 'DESC')
+                ->whereNull('deleted_at');
 
             $datatables = DataTables::of($c16_machines);
 
@@ -130,12 +130,12 @@ class CaDieciseisController extends Controller
         );
     }
 
-        public function export_excel()
+    public function export_excel()
     {
         return new CarreraDieciseisExport;
     }
 
-        public function export_pdf()
+    public function export_pdf()
     {
         //return new MachinesPdfExport;
         //return $this->excel->download(new MachinesPdfExport, 'invoices.pdf', Excel::DOMPDF);
@@ -183,6 +183,14 @@ class CaDieciseisController extends Controller
 
     public function create()
     {
+        $c16_machines = DB::select('SELECT `id`,`serial`, `lote`, `type_id`, `manufacturer`, 
+                                       `model`, `ram_slot_00_id`, `ram_slot_01_id`, 
+                                       `hard_drive_id`, `cpu`, `ip_range`, `mac_address`,
+                                       `anydesk`, `campus_id`, `location`, `image`, 
+                                       `comment`, `created_at`, `updated_at` 
+                                        FROM 
+                                       `machines` WHERE campus_id=4', [1]);
+
         $types = DB::select('SELECT id,name FROM types', [1]);
         $rams = DB::select('SELECT id,ram FROM rams', [1]);
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
@@ -198,6 +206,7 @@ class CaDieciseisController extends Controller
         $getos = UserSystemInfoHelper::get_os();
 
         return view('sedes.carrera_16.create', [
+            'c16_machines' => $c16_machines,
             'c16_campus' => $c16_campus,
             'mac_campus' => $mac_campus,
             'name_campu_table_index' => $name_campu_table_index,
@@ -227,6 +236,7 @@ class CaDieciseisController extends Controller
         $c16_machines->manufacturer = request('manufact');
         $c16_machines->model = request('model');
         $c16_machines->serial = request('serial');
+        $c16_machines->serial_monitor = request('serial-monitor');
         $c16_machines->ram_slot_00_id = request('ramslot00');
         $c16_machines->ram_slot_01_id = request('ramslot01');
         $c16_machines->hard_drive_id = request('hard-drive');
@@ -258,6 +268,7 @@ class CaDieciseisController extends Controller
         $rams = DB::select('SELECT id,ram FROM rams', [1]);
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
         $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
+        //$c16_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'CTRY')->get();
 
         //$getos = UserSystemInfoHelper::get_os();
 

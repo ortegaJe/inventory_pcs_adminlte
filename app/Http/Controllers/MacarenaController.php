@@ -91,7 +91,8 @@ class MacarenaController extends Controller
                     'm.comment',
                     'm.created_at',
                     'c.campu_name'
-                ])->where('label', '=', 'MAC')
+                ])
+                ->where('label', '=', 'MAC')
                 ->where('status_deleted_at', '=', 1)
                 ->orderByDesc('m.created_at', 'DESC')
                 ->whereNull('deleted_at');

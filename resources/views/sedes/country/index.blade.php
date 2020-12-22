@@ -22,7 +22,7 @@
             <button type="button" class="btn btn-tool" title="Exportar Excel">
               <i class="fas fa-file-excel"></i></button>
           </a>
-          <a href="{{ url('/country/export_pdf') }}">
+          <a href="{{ url('/country/export_pdf') }}" hidden>
             <button type="button" class="btn btn-tool" title="Exportar PDF">
               <i class="fas fa-file-pdf"></i></button>
           </a>

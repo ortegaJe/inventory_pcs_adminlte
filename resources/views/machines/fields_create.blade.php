@@ -273,7 +273,7 @@
       <div class="input-group-prepend">
         <span class="input-group-text"><i class="fas fa-building"></i></span>
       </div>
-      <select class="custom-select" name="campus">
+      <select class="custom-select" name="campu-ctry">
         @foreach ($ctry_campus as $ctry_campu)
         <option value="{{ $ctry_campu->id }}" selected>{{ $ctry_campu->campu_name }}</option>
         @endforeach

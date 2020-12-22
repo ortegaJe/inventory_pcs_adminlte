@@ -107,10 +107,10 @@ class MacarenaExport implements
                 $time = Carbon::now()->toDayDateTimeString();
                 $event->sheet->setCellValue('D1', ($time));
                 $event->sheet->getStyle('D1')->getNumberFormat()
-                ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_YYYYMMDDSLASH);
+                    ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_YYYYMMDDSLASH);
                 $event->sheet->mergeCells('B2:U2');
                 $event->sheet->getStyle('B2:U2')
-                ->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_TOP);
+                    ->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_TOP);
                 $event->sheet->getCell('B2')->setValue("INVENTARIO DE EQUIPOS REGISTRADOS | SEDE VIVA 1A MACARENA");
                 $event->sheet->getStyle('B2:U2')->applyFromArray([
                     'font' => [

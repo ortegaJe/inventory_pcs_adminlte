@@ -231,7 +231,7 @@
     <div class="input-group-prepend">
         <span class="input-group-text">Observacion:</span>
     </div>
-    <textarea class="form-control" maxlength="200" id="" name="comment" value="{{ $machine->comment }}"></textarea>
+    <textarea class="form-control" maxlength="200" id="" name="comment" value="">{{ $machine->comment }}</textarea>
 </div>
 
 <!--<div class="modal-footer">

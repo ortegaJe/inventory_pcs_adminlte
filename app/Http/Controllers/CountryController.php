@@ -8,6 +8,7 @@ use App\Machine;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Barryvdh\DomPDF\Facade as PDF;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
@@ -68,11 +69,16 @@ class CountryController extends Controller
         //end info_box//
 
         if ($request->ajax()) {
+            DB::statement(DB::raw('set @rownum=0'));
             $ctry_machines = DB::table('machines AS m')
-                ->select(
+                ->join('types AS t', 't.id', '=', 'm.type_id')
+                ->join('campus AS c', 'c.id', '=', 'm.campus_id')
+                ->select([
+                    DB::raw('@rownum  := @rownum  + 1 AS rownum'),
                     'm.id',
                     't.name',
                     'm.serial',
+                    'm.serial_monitor',
                     'm.manufacturer',
                     'm.model',
                     'm.cpu',
@@ -85,17 +91,23 @@ class CountryController extends Controller
                     'm.comment',
                     'm.created_at',
                     'c.campu_name'
-                )
-                ->join('types AS t', 't.id', '=', 'm.type_id')
-                ->join('campus AS c', 'c.id', '=', 'm.campus_id')
+                ])
                 ->where('c.label', '=', 'CTRY')
                 ->where('m.status_deleted_at', '=', 1)
+                ->orderByDesc('m.created_at', 'DESC')
                 ->whereNull('deleted_at');
 
-            return DataTables::of($ctry_machines)
-                ->addColumn('action', 'sedes.country.actions')
-                ->rawColumns(['action'])
-                ->make(true);
+            $datatables = DataTables::of($ctry_machines);
+
+            $datatables->addColumn('rownum', 'whereRaw', '@rownum  + 1');
+
+            $datatables->editColumn('m.created_at', function ($ctry_machines) {
+                return $ctry_machines->created_at ? with(new Carbon($ctry_machines->created_at))
+                    ->toDayDateTimeString() : '';
+            });
+            $datatables->addColumn('action', 'sedes.country.actions');
+            $datatables->rawColumns(['action']);
+            return $datatables->make(true);
         }
 
         return view(
@@ -166,14 +178,6 @@ class CountryController extends Controller
 
     public function create()
     {
-        $ctry_machines = DB::select('SELECT `id`,`serial`, `lote`, `type_id`, `manufacturer`, 
-                                       `model`, `ram_slot_00_id`, `ram_slot_01_id`, 
-                                       `hard_drive_id`, `cpu`, `ip_range`, `mac_address`,
-                                       `anydesk`, `campus_id`, `location`, `image`, 
-                                       `comment`, `created_at`, `updated_at` 
-                                        FROM 
-                                       `machines` WHERE campus_id=18', [1]);
-
         $types = DB::select('SELECT id,name FROM types', [1]);
         $rams = DB::select('SELECT id,ram FROM rams', [1]);
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
@@ -190,9 +194,7 @@ class CountryController extends Controller
 
         return view('sedes.country.create', [
             'ctry_campus' => $ctry_campus,
-            'ctii_campus' => $ctii_campus,
-            'ctry_machines' => $ctry_machines,
-            'name_campu_table_index' => $name_campu_table_index,
+            'ctii_campus' => $ctii_campus,            'name_campu_table_index' => $name_campu_table_index,
             'mtrz_campus' => $mtrz_campus,
             'types' => $types,
             'campus' => $campus,
@@ -211,6 +213,7 @@ class CountryController extends Controller
         //$getmacaddress = strtok($findmacaddress, ' ');
 
         $roles = Auth::user()->rol_id;
+        $ts = now()->toDateTimeString();
 
         $machines = new Machine();
 
@@ -219,6 +222,7 @@ class CountryController extends Controller
         $machines->manufacturer = request('manufact');
         $machines->model = request('model');
         $machines->serial = request('serial');
+        $machines->serial_monitor = request('serial-monitor');
         $machines->ram_slot_00_id = request('ramslot00');
         $machines->ram_slot_01_id = request('ramslot01');
         $machines->hard_drive_id = request('hard-drive');
@@ -231,9 +235,10 @@ class CountryController extends Controller
         $machines->created_by = Auth::user()->id;
         $machines->rol_id = $roles;
         $machines->status_deleted_at = request('status');
-        $machines->campus_id = request('campus');
+        $machines->campus_id = request('campu-ctry');
         $machines->location = request('location');
         $machines->comment = request('comment');
+        $machines->created_at = $ts;
         //dd($machines);
         $machines->save();
 
@@ -249,13 +254,13 @@ class CountryController extends Controller
         $rams = DB::select('SELECT id,ram FROM rams', [1]);
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
         $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
-        $ctry_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'CTRY')->get();
+        //$ctry_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'CTRY')->get();
 
         //$getos = UserSystemInfoHelper::get_os();
 
         return view('sedes.country.edit', [
             'machine' => Machine::findOrFail($machines),
-            'ctry_campus' => $ctry_campus,
+            //'ctry_campus' => $ctry_campus,
             //'getos' => $getos,
             'types' => $types,
             'campus' => $campus,
@@ -275,6 +280,7 @@ class CountryController extends Controller
         $machines->manufacturer = $request->get('manufact');
         $machines->model = $request->get('model');
         $machines->serial = $request->get('serial');
+        $machines->serial_monitor = $request->get('serial-monitor');
         $machines->ram_slot_00_id = $request->get('ramslot00');
         $machines->ram_slot_01_id = $request->get('ramslot01');
         $machines->hard_drive_id = $request->get('hard-drive');
