@@ -44,8 +44,15 @@ Route::get('/carrera_16/export_excel', 'CaDieciseisController@export_excel');
 Route::get('/carrera_16/export_pdf', 'CaDieciseisController@export_pdf');
 
 Route::resource('/sedes/sura_san_jose', 'SuraSanJoseController');
+
 Route::resource('/sedes/calle_30', 'CaTreintaController'); //->middleware('ctreinta')
+Route::get('/calle_30/export_excel', 'CaTreintaController@export_excel');
+Route::get('/calle_30/export_pdf', 'CaTreintaController@export_pdf');
+
 Route::resource('/sedes/soledad', 'SoledadController');
+Route::get('/soledad/export_excel', 'SoledadController@export_excel');
+Route::get('/soledad/export_pdf', 'SoledadController@export_pdf');
+
 Route::resource('/sedes/kennedy', 'KennedyController');
 
 Route::resource('/sedes/sura_85', 'SuraOchoCincoController');

@@ -18,9 +18,16 @@
         //responsive: true,
         autoWidth: true,
         lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
+        order: [[ 16, 'desc' ]],
         ajax: "{{ route('soledad.index')}}",
         columns: [
-          { data: 'id',
+          {data: 'rownum',
+          name: 'rownum',
+          visible: true,
+          searchable: false,
+          //orderable: true,
+          },
+         { data: 'id',
           name: 'm.id',
           visible: false
           },
@@ -30,6 +37,10 @@
           },
           { data: 'serial',
           name: 'm.serial',
+          visible: false, orderable: true, searchable: true
+          },
+          { data: 'serial_monitor',
+          name: 'm.serial_monitor',
           visible: false, orderable: true, searchable: true
           },
           { data: 'manufacturer',
@@ -76,7 +87,7 @@
           name: 'm.comment',
           visible: false, orderable: true, searchable: true
           },
-          { data: 'created_at',
+          { data: 'm.created_at',
           name: 'm.created_at',
           visible: true, orderable: true, searchable: true
           },

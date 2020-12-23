@@ -32,7 +32,7 @@
     <!-- ./col -->
     <div class="col-lg-3 col-6">
         <!-- small box -->
-        <div class="small-box bg-warning">
+        <div class="small-box bg-purple">
             <div class="inner">
                 <h3>{{ $laptop_count ?? '0' }}</h3>
                 <?php $type_laptop = DB::table('types')->get();?>
@@ -47,7 +47,7 @@
     <!-- ./col -->
     <div class="col-lg-3 col-6">
         <!-- small box -->
-        <div class="small-box bg-danger">
+        <div class="small-box bg-maroon">
             <div class="inner">
                 <h3>{{ $berry_count ?? '0' }}</h3>
                 <?php $type_berry = DB::table('types')->get();?>

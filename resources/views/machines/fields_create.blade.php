@@ -288,9 +288,24 @@
       <div class="input-group-prepend">
         <span class="input-group-text"><i class="fas fa-building"></i></span>
       </div>
-      <select class="custom-select" name="campus">
-        @foreach ($c30_campus as $c30_campus)
-        <option value="{{ $c30_campus->id }}" selected>{{ $c30_campus->campu_name }}</option>
+      <select class="custom-select" name="campus-c30">
+        @foreach ($c30_campus as $c30_campu)
+        <option value="{{ $c30_campu->id }}" selected>{{ $c30_campu->campu_name }}</option>
+        @endforeach
+      </select>
+    </div>
+  </div>
+  @endcan
+  @can('TEC_SOL')
+  <div class="col-md-6 mb-3 d-none">
+    <label for="campus">Sede del equipo:</label>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text"><i class="fas fa-building"></i></span>
+      </div>
+      <select class="custom-select" name="campus-sol">
+        @foreach ($sol_campus as $sol_campu)
+        <option value="{{ $sol_campu->id }}" selected>{{ $sol_campu->campu_name }}</option>
         @endforeach
       </select>
     </div>

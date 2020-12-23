@@ -284,7 +284,7 @@ return [
                     'url'  => '/sedes/calle_30',
                     'icon' => 'fas fa-fw fa-building',
                     'icon_color' => 'success',
-                    'can'  =>  ['ctreinta', 'admin'],
+                    'can'  =>  ['TEC_C30', 'TEC_SOL', 'admin'],
                 ],
                 [
                     'text' => 'Carrera 16',
@@ -362,7 +362,7 @@ return [
                     'url'  => '/sedes/soledad',
                     'icon' => 'fas fa-fw fa-building',
                     'icon_color' => 'success',
-                    'can'  =>  ['ctreinta', 'admin'],
+                    'can'  =>  ['TEC_C30', 'TEC_SOL', 'admin'],
                 ],
                 [
                     'text' => 'Sura San Jose',
