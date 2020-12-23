@@ -36,7 +36,7 @@
         <span class="input-group-text"><i class="fas fa-pencil-ruler"></i></span>
       </div>
       <input style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" type="text"
-        class="form-control" name="model" placeholder="">
+        class="form-control" name="model" value="{{ old('model') }}" placeholder="">
     </div>
   </div>
 
@@ -47,7 +47,7 @@
         <span class="input-group-text"><i class="fas fa-tag"></i></span>
       </div>
       <input style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" type="text"
-        class="form-control" name="serial" placeholder="S/N" required>
+        class="form-control" name="serial" value="{{ old('serial') }}" placeholder="S/N" required>
     </div>
   </div>
 
@@ -58,7 +58,7 @@
         <span class="input-group-text"><i class="fas fa-tag"></i></span>
       </div>
       <input style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" type="text"
-        class="form-control" name="serial-monitor" placeholder="S/N">
+        class="form-control" name="serial-monitor" value="{{ old('serial-monitor') }}" placeholder="S/N">
     </div>
   </div>
 </div>
@@ -116,7 +116,7 @@
         <span class="input-group-text"><i class="fas fa-microchip"></i></span>
       </div>
       <input style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" type="text"
-        class="form-control" name="cpu" placeholder="">
+        class="form-control" name="cpu" value="{{ old('cpu') }}" placeholder="">
     </div>
   </div>
 </div>
@@ -128,7 +128,7 @@
       <div class="input-group-prepend">
         <span class="input-group-text"><i class="fas fa-ethernet"></i></span>
       </div>
-      <input type="text" maxlength="15" class="form-control" name="ip" value="">
+      <input type="text" maxlength="15" class="form-control" name="ip" value="{{ old('ip') }}" value="">
     </div>
   </div>
 
@@ -150,7 +150,7 @@
         <span class="input-group-text"><img src="https://anydesk.com/_static/img/favicon/anydesk_icon.png" width="20px"
             alt="" /></span>
       </div>
-      <input type="text" class="form-control" name="anydesk" placeholder="000 000 000">
+      <input type="text" class="form-control" name="anydesk" value="{{ old('anydesk') }}" placeholder="000 000 000">
     </div>
   </div>
 </div>
@@ -174,7 +174,7 @@
         <span class="input-group-text bg-primary"><i class="fas fa-keyboard"></i></span>
       </div>
       <input style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" type="text"
-        class="form-control" name="name-pc" placeholder="V1AMAC-CON12" maxlength="19">
+        class="form-control" name="name-pc" value="{{ old('name-pc') }}" placeholder="V1AMAC-CON12" maxlength="19">
     </div>
   </div>
 </div>
@@ -187,7 +187,7 @@
         <span class="input-group-text"><img src="{{ asset('svg/aim.svg') }}" width="20px" alt="" /></span>
       </div>
       <input style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" type="text"
-        class="form-control" name="location" placeholder="" required>
+        class="form-control" name="location" value="{{ old('location') }}" placeholder="" required>
     </div>
   </div>
   @can('admin')
@@ -442,7 +442,8 @@
   <div class="input-group-prepend">
     <span class="input-group-text">Observacion:</span>
   </div>
-  <textarea class="form-control" maxlength="200" id="" name="comment" aria-label="With textarea"></textarea>
+  <textarea class="form-control" maxlength="200" id="" name="comment" value="{{ old('comment') }}"
+    aria-label="With textarea"></textarea>
 </div>
 
 <!--<div class="modal-footer">
