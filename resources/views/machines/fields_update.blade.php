@@ -28,7 +28,7 @@
             </div>
             <input value="{{ $machine->manufacturer }}" name="manufact" style="text-transform:uppercase;"
                 onkeyup="javascript:this.value=this.value.toUpperCase();" type="text" class="form-control"
-                id="name-input" placeholder="HP">
+                id="name-input" placeholder="LENOVO">
         </div>
     </div>
 </div>

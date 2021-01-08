@@ -39,6 +39,7 @@ class MachineController extends Controller
       ->where('status_deleted_at', '=', [1])
       ->where('deleted_at', '=', NULL)
       ->where('type_id', '=', [2])
+
       ->count();
 
     $type_atril = DB::table('types')->get(); //nombres de los tipos
