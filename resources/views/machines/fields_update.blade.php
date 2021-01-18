@@ -178,7 +178,7 @@
                 type="text" class="form-control" name="os" value="{{ $machine->os }}">
         </div>
     </div>
-    <div class="col-md-6 mb-3">
+    <div class="col-md-3 mb-3">
         <label for="location">Nombre del equipo:</label>
         <!--<small style="color: crimson">( Ejemplo: V1A[ABREVIADO DE LA SEDE]-[UBICACION] )</small>-->
         <div class="input-group">
@@ -188,6 +188,22 @@
             <input style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
                 type="text" class="form-control" name="name-pc" value="{{ $machine->name_pc }}"
                 placeholder="V1AMAC-CON12" maxlength="20">
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="location">Estado:</label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="nav-icon far fa-circle text-default"></i></span>
+            </div>
+            <select class="custom-select" name="status-code" required>
+                <option selected disabled>Seleccione estado...</option>
+                @foreach($status_code as $stat_code)
+                <option value="{{ $stat_code->ID_CODE }}"
+                    {{ $stat_code->ID_CODE == $machine->id_statu ? 'selected' : '' }}>
+                    {{ $stat_code->DESCRIPTION }}</option>
+                @endforeach
+            </select>
         </div>
     </div>
 </div>

@@ -20,12 +20,14 @@
         lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
         order: [[ 0, 'desc' ]],
         ajax: "{{ route('machines.index')}}",
+        language: {
+        loadingRecords: "<img src='images/Loading.gif'> Loading...",
+        processing: "<img src='{{ asset('gif/load.gif') }}' width='32px'> Procesando..."
+        },
         columns: [
-          {data: 'rownum', 
-          name: 'rownum',
-          visible: true,
-          searchable: false,
-          //orderable: false,
+          { data: 'rownum', 
+            name: 'rownum',
+            visible: true, searchable: false,
           },
           { data: 'id',
             name: 'm.id',
@@ -40,8 +42,8 @@
             visible: false, orderable: true, searchable: true
           },
           { data: 'serial_monitor',
-          name: 'm.serial_monitor',
-          visible: false, orderable: true, searchable: true
+            name: 'm.serial_monitor',
+            visible: false, orderable: true, searchable: true
           },
           { data: 'manufacturer',
             name: 'm.manufacturer',
@@ -88,14 +90,21 @@
             visible: false, orderable: true, searchable: true
           },
           { data: 'm.created_at',
-          name: 'm.created_at',
-          visible: true, orderable: true, searchable: true
+            name: 'm.created_at',
+            visible: true, orderable: true, searchable: true
+          },
+          { data: 'description',
+            name: 'statu_description.description',
+            visible: true, orderable: true, searchable: true
           },
           { data: 'action',
-           orderable: false, searchable: false
+            orderable: false, searchable: false
           },        
                 ]
       });
+      $("#reload").click(function(){
+        $('#data-table').DataTable().ajax.reload();
+        });
     });
 </script>
 @stop

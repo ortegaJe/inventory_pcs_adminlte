@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\UserSystemInfoHelper;
 use App\Http\Requests\StoreFormRequest;
+use App\Type;
 use Maatwebsite\Excel\Excel;
 use Yajra\DataTables\Facades\DataTables;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -34,12 +35,9 @@ class MachineController extends Controller
   public function index(Request $request)
   {
     //info_box//
-    $global_atril_count = DB::table('machines')
-      ->select('type_id', 'campus_id', 'status_deleted_at', 'deleted_at')
-      ->where('status_deleted_at', '=', [1])
+    $global_atril_count = Machine::where('status_deleted_at', '=', [1])
       ->where('deleted_at', '=', NULL)
       ->where('type_id', '=', [2])
-
       ->count();
 
     $type_atril = DB::table('types')->get(); //nombres de los tipos
@@ -110,8 +108,10 @@ class MachineController extends Controller
     if ($request->ajax()) {
       DB::statement(DB::raw('set @rownum=0'));
       $machines = DB::table('machines AS m')
-        ->join('types AS t', 't.id', '=', 'm.type_id')
-        ->join('campus AS c', 'c.id', '=', 'm.campus_id')
+        ->leftJoin('types AS t', 't.id', '=', 'm.type_id')
+        ->leftJoin('campus AS c', 'c.id', '=', 'm.campus_id')
+        ->leftJoin('status_codes AS code_s', 'code_s.id_statu', '=', 'm.id_statu')
+        ->leftJoin('status AS statu_description', 'statu_description.id_statu', '=', 'code_s.id_code')
         ->select([
           DB::raw('@rownum  := @rownum  + 1 AS rownum'),
           'm.id',
@@ -129,8 +129,13 @@ class MachineController extends Controller
           'm.location',
           'm.comment',
           'm.created_at',
-          'c.campu_name'
-        ])->where('m.status_deleted_at', '=', 1)
+          'c.campu_name',
+          'statu_description.description'
+        ])->where('m.status_deleted_at', '=', [1])
+        ->where('m.id_statu', '=', [1])
+        ->orWhere('m.id_statu', '=', [2])
+        ->orWhere('m.id_statu', '=', [3])
+        ->orWhere('m.id_statu', '=', [6])
         ->whereNull('m.deleted_at');
 
       $datatables = DataTables::of($machines);
@@ -187,7 +192,7 @@ class MachineController extends Controller
   {
     //return new MachinesPdfExport;
     //return $this->excel->download(new MachinesPdfExport, 'invoices.pdf', Excel::DOMPDF);
-    $machines = DB::table('machines')
+    $machines = Machine::table('machines')
       ->select(
         'types.name',
         'machines.serial',
@@ -235,11 +240,14 @@ class MachineController extends Controller
    */
   public function create(Request $request)
   {
-    $types = DB::select('SELECT id,name FROM types', [1]);
+    //$types = DB::select('SELECT id,name FROM types', [1]);
+    $types = Type::select('id', 'name')->get();
     $rams = DB::select('SELECT id,ram FROM rams', [1]);
     $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
     $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
     $roles = DB::select('SELECT id FROM roles', [1]);
+    $status_code = DB::select('SELECT STATUS_CODE.id_code AS ID_CODE,STATUS.description AS DESCRIPTION,STATUS.ico AS BADGE,STATUS.created_at,STATUS.updated_at FROM status_codes AS STATUS_CODE 
+	                              INNER JOIN status AS STATUS ON STATUS_CODE.id_statu = STATUS.id_statu;', [1]);
 
     //$getip = UserSystemInfoHelper::get_ip();
     $findmacaddress = exec('getmac');
@@ -251,12 +259,14 @@ class MachineController extends Controller
       'getmacaddress' => $getmacaddress,
       'getos' => $getos,
       //'getip' => $getip,
+      //'types' => $types,
       'types' => $types,
       'campus' => $campus,
       //'mac_campus' => $mac_campus,
       'rams' => $rams,
       'hdds' => $hdds,
-      'roles' => $roles
+      'roles' => $roles,
+      'status_code' => $status_code
     ]);
   }
 
@@ -297,6 +307,7 @@ class MachineController extends Controller
     $machines->campus_id = $request['campus'];
     $machines->location = $request['location'];
     $machines->comment = request('comment');
+    $machines->id_statu = request('status-code');
     //$machines->created_at = $ts;
     $machines->save();
 
@@ -329,10 +340,14 @@ class MachineController extends Controller
     $rams = DB::select('SELECT id,ram FROM rams', [1]);
     $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
     $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
+    $status_code = DB::select('SELECT STATUS_CODE.id_code AS ID_CODE,STATUS.description AS DESCRIPTION FROM status_codes AS STATUS_CODE 
+	                              INNER JOIN status AS STATUS ON STATUS_CODE.id_statu = STATUS.id_statu;', [1]);
+
     //$getos = UserSystemInfoHelper::get_os();
 
     return view('machines.edit', [
       'machine' => Machine::findOrFail($machines),
+      'status_code' => $status_code,
       //'getos' => $getos,
       'types' => $types,
       'campus' => $campus,
@@ -371,6 +386,7 @@ class MachineController extends Controller
     $machines->anydesk = $request->get('anydesk');
     $machines->os = $request->get('os');
     $machines->campus_id = $request->get('campus_id');
+    $machines->id_statu = request('status-code');
     $machines->location = $request->get('location');
     $machines->comment = $request->get('comment');
     //$machines->updated_at = $ts;
@@ -402,7 +418,7 @@ class MachineController extends Controller
     if ($machines->delete()) { // If softdeleted
 
       $ts = now()->toDateTimeString();
-      $data = array('deleted_at' => $ts, 'status_deleted_at' => 0);
+      $data = array('deleted_at' => $ts, 'status_deleted_at' => 0, 'id_statu' => 5);
       DB::table('machines')->where('id', $id)->update($data);
     }
 
