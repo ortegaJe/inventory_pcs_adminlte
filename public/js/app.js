@@ -84,8 +84,7 @@
 /******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
-/******/ 
-({
+/******/ ({
 
 /***/ "./node_modules/axios/index.js":
 /*!*************************************!*\
@@ -49879,8 +49878,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! E:\coding projects\laravel\inventor\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! E:\coding projects\laravel\inventor\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\www\inventor\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\www\inventor\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
