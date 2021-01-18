@@ -25,6 +25,8 @@
             <button type="button" class="btn btn-tool" title="Exportar PDF">
               <i class="fas fa-file-pdf"></i></button>
           </a>
+          <button type="button" id="reload" class="btn btn-tool">
+            <i class="fas fa-redo-alt" title="Recargar tabla"></i></button>
           <button type="button" class="btn btn-tool" data-card-widget="collapse">
             <i class="fas fa-bars"></i>
           </button>

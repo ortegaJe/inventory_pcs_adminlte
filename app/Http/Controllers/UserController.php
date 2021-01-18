@@ -151,7 +151,10 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        $user = User::findOrFail($id);
+        $user = User::find($id);
+        if (!$user) {
+            abort(404);
+        }
         $roles = Role::all();
         $campus = Campu::all();
         return view('technicians.edit', ['user' => $user, 'roles' => $roles, 'campus' => $campus]);
@@ -165,7 +168,10 @@ class UserController extends Controller
             ['email' => ['required', 'email', 'max:255', 'unique:users,email,' . $id]]
         );
 
-        $users = User::findOrFail($id);
+        $users = User::find($id);
+        if (!$users) {
+            abort(404);
+        }
 
         $users->cc = $request->get('cc');
         $users->email = $request->get('email');
@@ -202,7 +208,10 @@ class UserController extends Controller
 
     public function show($id)
     {
-        $user = User::findOrFail($id);
+        $user = User::find($id);
+        if (!$user) {
+            abort(404);
+        }
         $roles = Role::all();
 
         $campus = DB::table('campus')
@@ -215,7 +224,10 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-        $users = User::findOrFail($id);
+        $users = User::find($id);
+        if (!$users) {
+            abort(404);
+        }
 
         if ($users->delete()) { // If softdeleted
 
