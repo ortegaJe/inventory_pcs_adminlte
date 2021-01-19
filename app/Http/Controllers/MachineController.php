@@ -110,8 +110,8 @@ class MachineController extends Controller
       $machines = DB::table('machines AS m')
         ->leftJoin('types AS t', 't.id', '=', 'm.type_id')
         ->leftJoin('campus AS c', 'c.id', '=', 'm.campus_id')
-        ->leftJoin('status_codes AS code_s', 'code_s.id_statu', '=', 'm.id_statu')
-        ->leftJoin('status AS statu_description', 'statu_description.id_statu', '=', 'code_s.id_code')
+        ->leftJoin('status_codes AS code_s', 'code_s.id_code', '=', 'm.id_statu')
+        ->leftJoin('status AS statu_description', 'statu_description.id_statu', '=', 'code_s.id_statu')
         ->select([
           DB::raw('@rownum  := @rownum  + 1 AS rownum'),
           'm.id',
@@ -132,10 +132,7 @@ class MachineController extends Controller
           'c.campu_name',
           'statu_description.description'
         ])->where('m.status_deleted_at', '=', [1])
-        ->where('m.id_statu', '=', [1])
-        ->orWhere('m.id_statu', '=', [2])
-        ->orWhere('m.id_statu', '=', [3])
-        ->orWhere('m.id_statu', '=', [6])
+        ->whereIn('m.id_statu', [1, 2, 3, 4])
         ->whereNull('m.deleted_at');
 
       $datatables = DataTables::of($machines);
@@ -247,7 +244,8 @@ class MachineController extends Controller
     $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
     $roles = DB::select('SELECT id FROM roles', [1]);
     $status_code = DB::select('SELECT STATUS_CODE.id_code AS ID_CODE,STATUS.description AS DESCRIPTION,STATUS.ico AS BADGE,STATUS.created_at,STATUS.updated_at FROM status_codes AS STATUS_CODE 
-	                              INNER JOIN status AS STATUS ON STATUS_CODE.id_statu = STATUS.id_statu;', [1]);
+                                INNER JOIN status AS STATUS ON STATUS_CODE.id_statu = STATUS.id_statu
+                                WHERE ID_CODE IN (1,2,3,4)', [1]);
 
     //$getip = UserSystemInfoHelper::get_ip();
     $findmacaddress = exec('getmac');
@@ -308,6 +306,7 @@ class MachineController extends Controller
     $machines->location = $request['location'];
     $machines->comment = request('comment');
     $machines->id_statu = request('status-code');
+    dd($machines);
     //$machines->created_at = $ts;
     $machines->save();
 
@@ -340,8 +339,9 @@ class MachineController extends Controller
     $rams = DB::select('SELECT id,ram FROM rams', [1]);
     $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
     $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
-    $status_code = DB::select('SELECT STATUS_CODE.id_code AS ID_CODE,STATUS.description AS DESCRIPTION FROM status_codes AS STATUS_CODE 
-	                              INNER JOIN status AS STATUS ON STATUS_CODE.id_statu = STATUS.id_statu;', [1]);
+    $status_code = DB::select('SELECT STATUS_CODE.id_code AS ID_CODE,STATUS.description AS DESCRIPTION,STATUS.ico AS BADGE,STATUS.created_at,STATUS.updated_at FROM status_codes AS STATUS_CODE 
+                                INNER JOIN status AS STATUS ON STATUS_CODE.id_statu = STATUS.id_statu
+                                WHERE ID_CODE IN (1,2,3,4)', [1]);
 
     //$getos = UserSystemInfoHelper::get_os();
 
