@@ -17,11 +17,12 @@
             <i class="fa fa-plus"></i> Agregar equipo</button>
         </a>
         <div class="card-tools">
-          <a href="{{ url('/inventor/export_excel') }}">
-            <button type="button" class="btn btn-tool" title="Exportar Excel">
+          <a href="{{ url('/dashboard/admin/export_excel') }}">
+            <button type="button" class="btn btn-tool" data-toggle="tooltip" data-placement="top"
+              title="Exportar Excel">
               <i class="fas fa-file-excel"></i></button>
           </a>
-          <a href="{{ url('/inventor/export_pdf') }}">
+          <a href="{{ url('/dashboard/admin/export_pdf') }}">
             <button type="button" class="btn btn-tool" title="Exportar PDF">
               <i class="fas fa-file-pdf"></i></button>
           </a>

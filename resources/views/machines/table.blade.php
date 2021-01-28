@@ -47,11 +47,11 @@
           },
           { data: 'manufacturer',
             name: 'm.manufacturer',
-            orderable: true, searchable: true
+            orderable: true, searchable: true, visible: false
           },
           { data: 'model',
             name: 'm.model',
-            orderable: true, searchable: true
+            orderable: true, searchable: true, visible: false
           },
           { data: 'cpu',
             name: 'm.cpu',
@@ -93,13 +93,13 @@
             name: 'm.created_at',
             visible: true, orderable: true, searchable: true
           },
-          { data: 'description',
-            name: 'statu_description.description',
+          {
+            data: 'statu_description.description',
             visible: true, orderable: true, searchable: true
           },
           { data: 'action',
             orderable: false, searchable: false
-          },        
+          },       
                 ]
       });
       $("#reload").click(function(){

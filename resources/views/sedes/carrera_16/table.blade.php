@@ -91,6 +91,10 @@
           name: 'm.created_at',
           visible: true, orderable: true, searchable: true
           },
+          { data: 'description',
+          name: 'statu_description.description',
+          visible: true, orderable: true, searchable: true
+          },
           { data: 'action',
            orderable: false, searchable: false
           },        

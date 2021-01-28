@@ -143,9 +143,27 @@ class MachineController extends Controller
         return $machines->created_at ? with(new Carbon($machines->created_at))
           ->toDayDateTimeString() : '';
       });
-      $datatables->blacklist(['deleted_at']);
+      $datatables->addColumn('statu_description.description', function ($machines) {
+        switch ($machines->description) {
+          case $machines->description == 'RENDIMIENTO OPTIMO':
+            return '<span class="badge bg-success">' . $machines->description . '</span>';
+            break;
+          case $machines->description == 'RENDIMIENTO BAJO':
+            return '<span class="badge bg-warning">' . $machines->description . '</span>';
+            break;
+          case $machines->description == 'HURTADO':
+            return '<span class="badge bg-orange">' . $machines->description . '</span>';
+            break;
+          case $machines->description == 'DADO DE BAJA':
+            return '<span class="badge bg-secondary">' . $machines->description . '</span>';
+            break;
+          default:
+            echo "NO REGISTRA ESTADO";
+        }
+      });
+      $datatables->blacklist(['m.deleted_at']);
       $datatables->addColumn('action', 'machines.actions');
-      $datatables->rawColumns(['action']);
+      $datatables->rawColumns(['action', 'statu_description.description']);
       return $datatables->make(true);
     }
 
@@ -306,11 +324,10 @@ class MachineController extends Controller
     $machines->location = $request['location'];
     $machines->comment = request('comment');
     $machines->id_statu = request('status-code');
-    dd($machines);
     //$machines->created_at = $ts;
     $machines->save();
 
-    return redirect('/inventor/machines')->with(
+    return redirect('/dashboard/admin/machines')->with(
       'machine_created',
       'Nuevo equipo fué añadido al inventario'
     );
@@ -356,6 +373,22 @@ class MachineController extends Controller
     ]);
   }
 
+  public function report($id)
+  {
+
+    if ($machines = Machine::findOrFail($id)) {
+      $machines = DB::table('machinesView')
+        ->where('id', '=', $id)
+        ->get();
+      //dd($machines);
+      return view('machines.reports', [
+        'machines' => $machines,
+      ]);
+    } else {
+      abort(404, 'id no encontrado');
+    }
+  }
+
   /**
    * Update the specified resource in storage.
    *
@@ -393,7 +426,7 @@ class MachineController extends Controller
 
     $machines->save();
 
-    return redirect('/inventor/machines')
+    return redirect('/dashboard/admin/machines')
       ->with(
         'machine_update',
         'Equipo fue actualizado en el inventario'
@@ -422,7 +455,7 @@ class MachineController extends Controller
       DB::table('machines')->where('id', $id)->update($data);
     }
 
-    return redirect('/inventor/machines')
+    return redirect('/dashboard/admin/machines')
       ->with(
         'machine_deleted',
         'Equipo eliminado del inventario'

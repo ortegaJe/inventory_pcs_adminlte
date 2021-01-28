@@ -19,5 +19,7 @@ class Machine extends Model
                 'status_deleted_at',
         ];
 
-        protected $updated_at = 'U';
+        //protected $updated_at = 'U';
+
+        //protected $table = 'machinesview';
 }

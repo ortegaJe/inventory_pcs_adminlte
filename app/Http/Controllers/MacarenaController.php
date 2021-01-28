@@ -73,6 +73,8 @@ class MacarenaController extends Controller
             $mac_machines = DB::table('machines AS m')
                 ->join('types AS t', 't.id', '=', 'm.type_id')
                 ->join('campus AS c', 'c.id', '=', 'm.campus_id')
+                ->leftJoin('status_codes AS code_s', 'code_s.id_code', '=', 'm.id_statu')
+                ->leftJoin('status AS statu_description', 'statu_description.id_statu', '=', 'code_s.id_statu')
                 ->select([
                     DB::raw('@rownum  := @rownum  + 1 AS rownum'),
                     'm.id',
@@ -90,12 +92,14 @@ class MacarenaController extends Controller
                     'm.location',
                     'm.comment',
                     'm.created_at',
-                    'c.campu_name'
+                    'c.campu_name',
+                    'statu_description.description'
                 ])
                 ->where('label', '=', 'MAC')
                 ->where('status_deleted_at', '=', 1)
-                ->orderByDesc('m.created_at', 'DESC')
-                ->whereNull('deleted_at');
+                ->whereIn('m.id_statu', [1, 2, 3, 4])
+                ->whereNull('m.deleted_at')
+                ->orderByDesc('m.created_at', 'DESC');
 
             $datatables = DataTables::of($mac_machines);
 
@@ -105,6 +109,7 @@ class MacarenaController extends Controller
                 return $mac_machines->created_at ? with(new Carbon($mac_machines->created_at))
                     ->toDayDateTimeString() : '';
             });
+            $datatables->blacklist(['m.deleted_at']);
             $datatables->addColumn('action', 'sedes.macarena.actions');
             $datatables->rawColumns(['action']);
             return $datatables->make(true);
@@ -184,6 +189,9 @@ class MacarenaController extends Controller
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
         $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
         $name_campu_table_index = DB::table('campus')->get();
+        $status_code = DB::select('SELECT STATUS_CODE.id_code AS ID_CODE,STATUS.description AS DESCRIPTION,STATUS.ico AS BADGE,STATUS.created_at,STATUS.updated_at FROM status_codes AS STATUS_CODE 
+                                    INNER JOIN status AS STATUS ON STATUS_CODE.id_statu = STATUS.id_statu
+                                        WHERE ID_CODE IN (1,2,3,4)', [1]);
         $mac_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'MAC')->get();
         $c16_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'C16')->get();
 
@@ -194,6 +202,7 @@ class MacarenaController extends Controller
 
         return view('sedes.macarena.create', [
             'c16_campus' => $c16_campus,
+            'status_code' => $status_code,
             'name_campu_table_index' => $name_campu_table_index,
             'mac_campus' => $mac_campus,
             'types' => $types,
@@ -238,8 +247,8 @@ class MacarenaController extends Controller
         $mac_machines->campus_id = request('campus-mac');
         $mac_machines->location = request('location');
         $mac_machines->comment = request('comment');
-        $mac_machines->created_at = $ts;
-
+        //$mac_machines->created_at = $ts;
+        $mac_machines->id_statu = request('status-code');
         //dd($mac_machines);
         $mac_machines->save();
 
@@ -255,12 +264,17 @@ class MacarenaController extends Controller
         $rams = DB::select('SELECT id,ram FROM rams', [1]);
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
         $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
+        $status_code = DB::select('SELECT STATUS_CODE.id_code AS ID_CODE,STATUS.description AS DESCRIPTION,STATUS.ico AS BADGE,STATUS.created_at,STATUS.updated_at FROM status_codes AS STATUS_CODE 
+                                    INNER JOIN status AS STATUS ON STATUS_CODE.id_statu = STATUS.id_statu
+                                        WHERE ID_CODE IN (1,2,3,4)', [1]);
+
         //$mac_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'MAC')->get();
 
         //$getos = UserSystemInfoHelper::get_os();
 
         return view('sedes.macarena.edit', [
             'machine' => Machine::findOrFail($machines),
+            'status_code' => $status_code,
             //'mac_campus' => $mac_campus,
             //'getos' => $getos,
             'types' => $types,
@@ -295,6 +309,7 @@ class MacarenaController extends Controller
         $mac_machines->campus_id = $request->get('campus_id');
         $mac_machines->location = $request->get('location');
         $mac_machines->comment = $request->get('comment');
+        $mac_machines->id_statu = request('status-code');
         //$mac_machines->updated_at = $ts;
         $mac_machines->update();
 
@@ -312,7 +327,7 @@ class MacarenaController extends Controller
         if ($mac_machines->delete()) { // If softdeleted
 
             $ts = now()->toDateTimeString();
-            $data = array('deleted_at' => $ts, 'status_deleted_at' => 0);
+            $data = array('deleted_at' => $ts, 'status_deleted_at' => 0, 'id_statu' => 5);
             DB::table('machines')->where('id', $id)->update($data);
         }
 

@@ -78,6 +78,8 @@ class CaDieciseisController extends Controller
             $c16_machines = DB::table('machines AS m')
                 ->join('types AS t', 't.id', '=', 'm.type_id')
                 ->join('campus AS c', 'c.id', '=', 'm.campus_id')
+                ->leftJoin('status_codes AS code_s', 'code_s.id_code', '=', 'm.id_statu')
+                ->leftJoin('status AS statu_description', 'statu_description.id_statu', '=', 'code_s.id_statu')
                 ->select(
                     DB::raw('@rownum  := @rownum  + 1 AS rownum'),
                     'm.id',
@@ -95,11 +97,13 @@ class CaDieciseisController extends Controller
                     'm.location',
                     'm.comment',
                     'm.created_at',
-                    'c.campu_name'
+                    'c.campu_name',
+                    'statu_description.description'
                 )->where('label', '=', 'C16')
                 ->where('status_deleted_at', '=', 1)
-                ->orderByDesc('m.created_at', 'DESC')
-                ->whereNull('deleted_at');
+                ->whereIn('m.id_statu', [1, 2, 3, 4])
+                ->whereNull('m.deleted_at')
+                ->orderByDesc('m.created_at', 'DESC');
 
             $datatables = DataTables::of($c16_machines);
 
@@ -109,6 +113,7 @@ class CaDieciseisController extends Controller
                 return $c16_machines->created_at ? with(new Carbon($c16_machines->created_at))
                     ->toDayDateTimeString() : '';
             });
+            $datatables->blacklist(['m.deleted_at']);
             $datatables->addColumn('action', 'sedes.carrera_16.actions');
             $datatables->rawColumns(['action']);
             return $datatables->make(true);
@@ -183,18 +188,14 @@ class CaDieciseisController extends Controller
 
     public function create()
     {
-        $c16_machines = DB::select('SELECT `id`,`serial`, `lote`, `type_id`, `manufacturer`, 
-                                       `model`, `ram_slot_00_id`, `ram_slot_01_id`, 
-                                       `hard_drive_id`, `cpu`, `ip_range`, `mac_address`,
-                                       `anydesk`, `campus_id`, `location`, `image`, 
-                                       `comment`, `created_at`, `updated_at` 
-                                        FROM 
-                                       `machines` WHERE campus_id=4', [1]);
-
         $types = DB::select('SELECT id,name FROM types', [1]);
         $rams = DB::select('SELECT id,ram FROM rams', [1]);
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
         $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
+        $status_code = DB::select('SELECT STATUS_CODE.id_code AS ID_CODE,STATUS.description AS DESCRIPTION,STATUS.ico AS BADGE,STATUS.created_at,STATUS.updated_at FROM status_codes AS STATUS_CODE 
+                                    INNER JOIN status AS STATUS ON STATUS_CODE.id_statu = STATUS.id_statu
+                                        WHERE ID_CODE IN (1,2,3,4)', [1]);
+
         $c16_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'C16')->get();
         $mac_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'MAC')->get();
         $name_campu_table_index = DB::table('campus')->get();
@@ -206,8 +207,8 @@ class CaDieciseisController extends Controller
         $getos = UserSystemInfoHelper::get_os();
 
         return view('sedes.carrera_16.create', [
-            'c16_machines' => $c16_machines,
             'c16_campus' => $c16_campus,
+            'status_code' => $status_code,
             'mac_campus' => $mac_campus,
             'name_campu_table_index' => $name_campu_table_index,
             'types' => $types,
@@ -252,7 +253,8 @@ class CaDieciseisController extends Controller
         $c16_machines->campus_id = request('campus-c16');
         $c16_machines->location = request('location');
         $c16_machines->comment = request('comment');
-        $c16_machines->created_at = $ts;
+        $c16_machines->id_statu = request('status-code');
+        //$c16_machines->created_at = $ts;
 
         $c16_machines->save();
 
@@ -268,12 +270,17 @@ class CaDieciseisController extends Controller
         $rams = DB::select('SELECT id,ram FROM rams', [1]);
         $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
         $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
+        $status_code = DB::select('SELECT STATUS_CODE.id_code AS ID_CODE,STATUS.description AS DESCRIPTION,STATUS.ico AS BADGE,STATUS.created_at,STATUS.updated_at FROM status_codes AS STATUS_CODE 
+                                    INNER JOIN status AS STATUS ON STATUS_CODE.id_statu = STATUS.id_statu
+                                        WHERE ID_CODE IN (1,2,3,4)', [1]);
+
         //$c16_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'CTRY')->get();
 
         //$getos = UserSystemInfoHelper::get_os();
 
         return view('sedes.carrera_16.edit', [
             'machine' => Machine::findOrFail($machines),
+            'status_code' => $status_code,
             //'getos' => $getos,
             'types' => $types,
             'campus' => $campus,
@@ -307,6 +314,8 @@ class CaDieciseisController extends Controller
         $c16_machines->campus_id = $request->get('campus_id');
         $c16_machines->location = $request->get('location');
         $c16_machines->comment = $request->get('comment');
+        $c16_machines->id_statu = request('status-code');
+
         //$c16_machines->updated_at = $ts;
         $c16_machines->update();
 
@@ -324,7 +333,7 @@ class CaDieciseisController extends Controller
         if ($mac_machines->delete()) { // If softdeleted
 
             $ts = now()->toDateTimeString();
-            $data = array('deleted_at' => $ts, 'status_deleted_at' => 0);
+            $data = array('deleted_at' => $ts, 'status_deleted_at' => 0, 'id_statu' => 5);
             DB::table('machines')->where('id', $id)->update($data);
         }
 

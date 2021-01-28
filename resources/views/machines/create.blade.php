@@ -10,7 +10,7 @@
         <h3 class="card-title" style="font-weight: 700; font-size:20px">Registrar Equipo</h3>
       </div>
       <div class="card-body">
-        <form action="/inventor/machines" method="POST">
+        <form action="/dashboard/admin/machines" method="POST">
           @csrf
           @if ($errors->any())
           <div class="alert alert-danger alert-dismissible">

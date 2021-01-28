@@ -19,20 +19,24 @@ Auth::routes(['verify' => true]);
 
 Route::get('/', 'HomeController@index')->name('home');
 
-Route::prefix('inventor')->group(function () {
-    Route::resource('/machines', 'MachineController')->middleware('admin');
-    Route::get('/export_excel', 'MachineController@export_excel')->middleware('admin');
-    Route::get('/export_pdf', 'MachineController@exportPdf')->middleware('admin');
+Route::prefix('/dashboard/admin')->middleware('admin')->group(function () {
+    Route::resource('/machines', 'MachineController');
+    Route::get('/export_excel', 'MachineController@export_excel');
+    Route::get('/export_pdf', 'MachineController@exportPdf');
+    Route::get('/reports/{id}', 'MachineController@report')->name('reportMachine.data');
 });
+
+
+Route::get('datatables', 'DatatablesController@getIndex')->name('datatables.data');
 
 Route::post('/technicians/script', 'UserController@script');
 Route::get('/technicians/export', 'UserController@export')->middleware('admin');
 Route::get('/technicians/hi', 'UserController@hi')->middleware('admin');
-Route::resource('technicians', 'UserController')->middleware('admin');
+Route::resource('/dashboard/admin/technicians', 'UserController')->middleware('admin');
 Route::resource('/profile/username', 'ProfileController');
 
-Route::resource('roles', 'RoleController')->middleware('admin');
-Route::resource('campus', 'CampuController')->middleware('admin'); // colocar un solo controlador para las sedes
+Route::resource('/dashboard/admin/roles', 'RoleController')->middleware('admin');
+Route::resource('/dashboard/admin/campus', 'CampuController')->middleware('admin'); // colocar un solo controlador para las sedes
 Route::get('/campus/export', 'CampuController@export')->middleware('admin'); // colocar un solo controlador para las sedes
 
 Route::resource('/sedes/macarena', 'MacarenaController');
@@ -75,10 +79,10 @@ Route::prefix('/santa_marta')->group(function () {
     Route::resource('/sedes/valledupar', 'SantaMarta\Valledupar\ValleduparController');
 });
 
-Route::resource('parts', 'PartController')->middleware('admin');
-Route::resource('ram', 'RamController')->middleware('admin');
-Route::resource('hdd', 'HddController')->middleware('admin');
-Route::resource('type', 'TypeController')->middleware('admin');
+Route::resource('/dashboard/admin/parts', 'PartController')->middleware('admin');
+Route::resource('/dashboard/admin/ram', 'RamController')->middleware('admin');
+Route::resource('/dashboard/admin/hdd', 'HddController')->middleware('admin');
+Route::resource('/dashboard/admin/type', 'TypeController')->middleware('admin');
 
 //Route::get('/getusersysteminfo', 'UserSystemInfoController@getusersysteminfo');
 

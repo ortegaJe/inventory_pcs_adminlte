@@ -243,31 +243,31 @@ return [
             'submenu' => [
                 [
                     'text' => 'Equipos',
-                    'url'  => '/inventor/machines',
+                    'url'  => '/dashboard/admin/machines',
                     'icon' => 'fas fa-fw fa-desktop',
                     'can'  =>  'admin',
                 ],
                 [
                     'text' => 'Usuarios',
-                    'url'  => 'technicians',
+                    'url'  => '/dashboard/admin/technicians',
                     'icon' => 'fas fa-fw fa-user',
                     'can'  =>  'admin',
                 ],
                 [
                     'text' => 'Sedes',
-                    'url'  => 'campus',
+                    'url'  => '/dashboard/admin/campus',
                     'icon' => 'fas fa-fw fa-building',
                     'can'  =>  'admin',
                 ],
                 [
                     'text' => 'Roles',
-                    'url'  => 'roles',
+                    'url'  => '/dashboard/admin/roles',
                     'icon' => 'fas fa-fw fa-users-cog',
                     'can'  =>  'admin',
                 ],
                 [
                     'text' => 'Hardware',
-                    'url'  => 'parts',
+                    'url'  => '/dashboard/admin/parts',
                     'icon' => 'fas fa-fw fa-toolbox',
                     'can'  =>  'admin',
                 ],
