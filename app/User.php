@@ -22,8 +22,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'cc','name', 'last_name', 'nick_name', 'email',
-        'password', 'phone', 'campus_id', 'rol', 'position','status',
+        'cc', 'name', 'last_name', 'nick_name', 'email',
+        'password', 'phone', 'campus_id', 'rol', 'position', 'status',
     ];
 
     /**
@@ -36,7 +36,7 @@ class User extends Authenticatable
     ];
 
     protected $dates = [
-'current_sign_in_at', 'last_sign_in_at'
+        'current_sign_in_at', 'last_sign_in_at'
     ];
 
     /**
@@ -53,7 +53,7 @@ class User extends Authenticatable
         return Cache::has('user-is-online-' . $this->id);
     }
 
-        public function isOffline()
+    public function isOffline()
     {
         return Cache::has('user-is-offline-' . $this->id);
     }
@@ -79,9 +79,9 @@ class User extends Authenticatable
         return $user_login_avatar;
     }
 
-    public function campu()
+    public function campus()
     {
-        return $this->belongsTo('App\Models\Campu');
+        return $this->hasMany('App\Campu');
     }
 
     public function adminlte_desc()

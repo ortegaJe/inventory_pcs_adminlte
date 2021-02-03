@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use App\Helpers\UserSystemInfoHelper;
 use App\Http\Requests\StoreFormRequest;
 use App\Type;
+use App\User;
 use Maatwebsite\Excel\Excel;
 use Yajra\DataTables\Facades\DataTables;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -133,7 +134,8 @@ class MachineController extends Controller
           'statu_description.description'
         ])->where('m.status_deleted_at', '=', [1])
         ->whereIn('m.id_statu', [1, 2, 3, 4])
-        ->whereNull('m.deleted_at');
+        ->whereNull('m.deleted_at')
+        ->orderByDesc('m.created_at');
 
       $datatables = DataTables::of($machines);
 
@@ -144,6 +146,16 @@ class MachineController extends Controller
           ->toDayDateTimeString() : '';
       });
       $datatables->addColumn('statu_description.description', function ($machines) {
+        /*if ($machines->description == 'RENDIMIENTO OPTIMO') {
+          return '<span class="badge bg-success">' . $machines->description . '</span>';
+        } else if ($machines->description == 'RENDIMIENTO BAJO') {
+          return '<span class="badge bg-warning">' . $machines->description . '</span>';
+        } else if ($machines->description == 'HURTADO') {
+          return '<span class="badge bg-orange">' . $machines->description . '</span>';
+        } else if ($machines->description == 'DADO DE BAJA') {
+          return '<span class="badge bg-secondary">' . $machines->description . '</span>';
+        }*/
+
         switch ($machines->description) {
           case $machines->description == 'RENDIMIENTO OPTIMO':
             return '<span class="badge bg-success">' . $machines->description . '</span>';
@@ -375,18 +387,25 @@ class MachineController extends Controller
 
   public function report($id)
   {
+    $name_reports = DB::table('name_reports')->get();
 
     if ($machines = Machine::findOrFail($id)) {
-      $machines = DB::table('machinesView')
-        ->where('id', '=', $id)
+      $machines = DB::table('reportBajaComputers')
+        ->where('IDComputer', '=', $id)
         ->get();
       //dd($machines);
       return view('machines.reports', [
         'machines' => $machines,
+        'name_reports' => $name_reports
       ]);
     } else {
       abort(404, 'id no encontrado');
     }
+  }
+
+  public function invocePrint()
+  {
+    return view('machines.invoce-print');
   }
 
   /**

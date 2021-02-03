@@ -27,7 +27,7 @@
         columns: [
           { data: 'rownum', 
             name: 'rownum',
-            visible: true, searchable: false,
+            visible: true, searchable: false
           },
           { data: 'id',
             name: 'm.id',

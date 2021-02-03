@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Campu extends Model
 {
-        public function user()
+    public function users()
     {
-        return $this->hasOne('App\Models\User');
+        return $this->belongsToMany('App\User', 'campus_id');
     }
 }
