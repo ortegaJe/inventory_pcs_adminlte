@@ -12,7 +12,10 @@ use Illuminate\Support\Facades\DB;
 use App\Helpers\UserSystemInfoHelper;
 use App\Http\Requests\StoreFormRequest;
 use App\Type;
+<<<<<<< HEAD
 use App\User;
+=======
+>>>>>>> 946273bc402867771c284657b59b82c90e16874d
 use Maatwebsite\Excel\Excel;
 use Yajra\DataTables\Facades\DataTables;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -111,8 +114,13 @@ class MachineController extends Controller
       $machines = DB::table('machines AS m')
         ->leftJoin('types AS t', 't.id', '=', 'm.type_id')
         ->leftJoin('campus AS c', 'c.id', '=', 'm.campus_id')
+<<<<<<< HEAD
         ->leftJoin('status_codes AS code_s', 'code_s.id_code', '=', 'm.id_statu')
         ->leftJoin('status AS statu_description', 'statu_description.id_statu', '=', 'code_s.id_statu')
+=======
+        ->leftJoin('status_codes AS code_s', 'code_s.id_statu', '=', 'm.id_statu')
+        ->leftJoin('status AS statu_description', 'statu_description.id_statu', '=', 'code_s.id_code')
+>>>>>>> 946273bc402867771c284657b59b82c90e16874d
         ->select([
           DB::raw('@rownum  := @rownum  + 1 AS rownum'),
           'm.id',
@@ -133,9 +141,17 @@ class MachineController extends Controller
           'c.campu_name',
           'statu_description.description'
         ])->where('m.status_deleted_at', '=', [1])
+<<<<<<< HEAD
         ->whereIn('m.id_statu', [1, 2, 3, 4])
         ->whereNull('m.deleted_at')
         ->orderByDesc('m.created_at');
+=======
+        ->where('m.id_statu', '=', [1])
+        ->orWhere('m.id_statu', '=', [2])
+        ->orWhere('m.id_statu', '=', [3])
+        ->orWhere('m.id_statu', '=', [6])
+        ->whereNull('m.deleted_at');
+>>>>>>> 946273bc402867771c284657b59b82c90e16874d
 
       $datatables = DataTables::of($machines);
 
@@ -274,8 +290,12 @@ class MachineController extends Controller
     $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
     $roles = DB::select('SELECT id FROM roles', [1]);
     $status_code = DB::select('SELECT STATUS_CODE.id_code AS ID_CODE,STATUS.description AS DESCRIPTION,STATUS.ico AS BADGE,STATUS.created_at,STATUS.updated_at FROM status_codes AS STATUS_CODE 
+<<<<<<< HEAD
                                 INNER JOIN status AS STATUS ON STATUS_CODE.id_statu = STATUS.id_statu
                                 WHERE ID_CODE IN (1,2,3,4)', [1]);
+=======
+	                              INNER JOIN status AS STATUS ON STATUS_CODE.id_statu = STATUS.id_statu;', [1]);
+>>>>>>> 946273bc402867771c284657b59b82c90e16874d
 
     //$getip = UserSystemInfoHelper::get_ip();
     $findmacaddress = exec('getmac');
@@ -368,9 +388,14 @@ class MachineController extends Controller
     $rams = DB::select('SELECT id,ram FROM rams', [1]);
     $hdds = DB::select('SELECT id,size,type FROM hdds', [1]);
     $campus = DB::select('SELECT id,campu_name FROM campus', [1]);
+<<<<<<< HEAD
     $status_code = DB::select('SELECT STATUS_CODE.id_code AS ID_CODE,STATUS.description AS DESCRIPTION,STATUS.ico AS BADGE,STATUS.created_at,STATUS.updated_at FROM status_codes AS STATUS_CODE 
                                 INNER JOIN status AS STATUS ON STATUS_CODE.id_statu = STATUS.id_statu
                                 WHERE ID_CODE IN (1,2,3,4)', [1]);
+=======
+    $status_code = DB::select('SELECT STATUS_CODE.id_code AS ID_CODE,STATUS.description AS DESCRIPTION FROM status_codes AS STATUS_CODE 
+	                              INNER JOIN status AS STATUS ON STATUS_CODE.id_statu = STATUS.id_statu;', [1]);
+>>>>>>> 946273bc402867771c284657b59b82c90e16874d
 
     //$getos = UserSystemInfoHelper::get_os();
 

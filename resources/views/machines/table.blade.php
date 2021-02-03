@@ -27,7 +27,11 @@
         columns: [
           { data: 'rownum', 
             name: 'rownum',
+<<<<<<< HEAD
             visible: true, searchable: false
+=======
+            visible: true, searchable: false,
+>>>>>>> 946273bc402867771c284657b59b82c90e16874d
           },
           { data: 'id',
             name: 'm.id',
@@ -93,13 +97,22 @@
             name: 'm.created_at',
             visible: true, orderable: true, searchable: true
           },
+<<<<<<< HEAD
           {
             data: 'statu_description.description',
+=======
+          { data: 'description',
+            name: 'statu_description.description',
+>>>>>>> 946273bc402867771c284657b59b82c90e16874d
             visible: true, orderable: true, searchable: true
           },
           { data: 'action',
             orderable: false, searchable: false
+<<<<<<< HEAD
           },       
+=======
+          },        
+>>>>>>> 946273bc402867771c284657b59b82c90e16874d
                 ]
       });
       $("#reload").click(function(){
