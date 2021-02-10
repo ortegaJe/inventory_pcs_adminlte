@@ -24,18 +24,19 @@
         loadingRecords: "<img src='images/Loading.gif'> Loading...",
         processing: "<img src='{{ asset('gif/load.gif') }}' width='32px'> Procesando..."
         },
+        columnDefs:[{
+                        targets:-1,
+                        data:null,
+                        defaultContent: "<button class='btn btn-danger btn-create-report'>Reportes</button>"
+                        }],
         columns: [
           { data: 'rownum', 
             name: 'rownum',
-<<<<<<< HEAD
             visible: true, searchable: false
-=======
-            visible: true, searchable: false,
->>>>>>> 946273bc402867771c284657b59b82c90e16874d
           },
           { data: 'id',
             name: 'm.id',
-            visible: false 
+            visible: true 
           },
           { data: 'name',
             name: 't.name',
@@ -97,27 +98,44 @@
             name: 'm.created_at',
             visible: true, orderable: true, searchable: true
           },
-<<<<<<< HEAD
           {
             data: 'statu_description.description',
-=======
-          { data: 'description',
-            name: 'statu_description.description',
->>>>>>> 946273bc402867771c284657b59b82c90e16874d
             visible: true, orderable: true, searchable: true
           },
           { data: 'action',
             orderable: false, searchable: false
-<<<<<<< HEAD
-          },       
-=======
-          },        
->>>>>>> 946273bc402867771c284657b59b82c90e16874d
+          },  
+          { data: 'reports',
+                    orderable: false, searchable: false
+                    },    
                 ]
       });
+
+      var fila;
+              $(document).on("click", ".btn-create-report", function(){
+              fila = $(this).closest("tr");
+              id = parseInt(fila.find('td:eq(1)').text());
+              $("#id").val(id);
+              $("#AddReports").modal("show");
+              });
+
+      $("#btnPrueba").click(function(){
+            alert("crear formato");
+            });
+
       $("#reload").click(function(){
         $('#data-table').DataTable().ajax.reload();
         });
+      
     });
+</script>
+
+<script>
+  function getDataFoReport(id){
+    $.get('/machines/'+id,function(machines){
+      $("#id2").val(machines.id);
+      $("#AddReports").modal("show");
+    });
+  }
 </script>
 @stop

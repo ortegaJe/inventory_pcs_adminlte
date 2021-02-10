@@ -23,7 +23,8 @@ Route::prefix('/dashboard/admin')->middleware('admin')->group(function () {
     Route::resource('/machines', 'MachineController');
     Route::get('/export_excel', 'MachineController@export_excel');
     Route::get('/export_pdf', 'MachineController@exportPdf');
-    Route::get('/reports/{id}', 'MachineController@report')->name('reportMachine.data');
+    //Route::get('/machines/{id}', 'MachineController@chooseReports')->name('chooseReports.view');
+    Route::get('/machines/{id}', 'MachineController@reports');
     Route::get('/invocePrint', 'MachineController@invocePrint')->name('invoce-print.data');
 });
 
