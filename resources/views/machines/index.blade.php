@@ -12,15 +12,14 @@
       <div class="card-header border-0">
         <h3 class="card-title" style="font-weight: 500; font-size:28px">Lista de equipos registrados
         </h3>
-        @include('machines.modalChooseReports')
+        @include('machines.modal-choose-reports')
         <a href="{{'machines/create'}}">
           <button type="button" class="btn bg-primary float-left btn-sm ml-2">
             <i class="fa fa-plus"></i> Agregar equipo</button>
         </a>
         <div class="card-tools">
           <a href="{{ url('/dashboard/admin/export_excel') }}">
-            <button type="button" class="btn btn-tool" data-toggle="tooltip" data-placement="top"
-              title="Exportar Excel">
+            <button type="button" class="btn btn-tool" title="Exportar Excel">
               <i class="fas fa-file-excel"></i></button>
           </a>
           <a href="{{ url('/dashboard/admin/export_pdf') }}">
@@ -204,7 +203,5 @@
 )
 </script>
 @endif
-
-
 
 @endpush

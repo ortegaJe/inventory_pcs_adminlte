@@ -248,6 +248,12 @@ return [
                     'can'  =>  'admin',
                 ],
                 [
+                    'text' => 'Reportes',
+                    'url'  => '/dashboard/admin/reportes_pc',
+                    'icon' => 'fas fa-file-alt',
+                    'can'  =>  'admin',
+                ],
+                [
                     'text' => 'Usuarios',
                     'url'  => '/dashboard/admin/technicians',
                     'icon' => 'fas fa-fw fa-user',

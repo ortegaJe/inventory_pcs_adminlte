@@ -23,9 +23,9 @@ Route::prefix('/dashboard/admin')->middleware('admin')->group(function () {
     Route::resource('/machines', 'MachineController');
     Route::get('/export_excel', 'MachineController@export_excel');
     Route::get('/export_pdf', 'MachineController@exportPdf');
-    //Route::get('/machines/{id}', 'MachineController@chooseReports')->name('chooseReports.view');
-    Route::get('/machines/{id}', 'MachineController@reports');
-    Route::get('/invocePrint', 'MachineController@invocePrint')->name('invoce-print.data');
+    Route::get('/reportes_pc', 'MachineController@ReportsPc')->name('ReportPc.data');
+    Route::get('/reportes_pc/{id}', 'MachineController@formatReportsPcById');
+    Route::get('/cancel_reports/{id}', 'MachineController@CancelReportsPc')->name('cancelReportPc.data');
 });
 
 

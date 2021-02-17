@@ -388,14 +388,56 @@ class MachineController extends Controller
     ]);
   }
 
-  public function chooseReports($id)
+  public function ReportsPc()
   {
-    $machines = Machine::findOrFail($id);
-    //dd($machines);
-    return view('machines', ['machines' => $machines]);
+
+    DB::statement(DB::raw('set @rownum=0'));
+    $machines = DB::table('machines AS m')
+      ->leftJoin('types AS t', 't.id', '=', 'm.type_id')
+      ->leftJoin('campus AS c', 'c.id', '=', 'm.campus_id')
+      ->leftJoin('status_codes AS code_s', 'code_s.id_code', '=', 'm.id_statu')
+      ->leftJoin('status AS statu_description', 'statu_description.id_statu', '=', 'code_s.id_statu')
+      ->select([
+        DB::raw('@rownum  := @rownum  + 1 AS rownum'),
+        'm.id',
+        't.name',
+        'm.serial',
+        'm.serial_monitor',
+        'm.manufacturer',
+        'm.model',
+        'm.cpu',
+        'm.name_pc',
+        'm.ip_range',
+        'm.mac_address',
+        'm.anydesk',
+        'm.os',
+        'm.location',
+        'm.comment',
+        'm.created_at',
+        'c.campu_name',
+        'statu_description.description'
+      ])->where('m.status_deleted_at', '=', [1])
+      ->whereIn('m.id_statu', [1, 2, 3, 4])
+      ->whereNull('m.deleted_at')
+      ->orderByDesc('m.id')->paginate(20, ['*'], 'machines');;
+    //dd($td_machines);
+    return view('machines.reportes.reportes_pc', ['machines' => $machines]);
   }
 
-  public function reports($id)
+  public function formatReportsPcById($id)
+  {
+    $name_reports = DB::table('name_reports')->get();
+
+    $machines = Machine::findOrFail($id);
+    //dd($machines);
+    /*return view('machines.format_reports', [
+        'machines' => $machines,
+        'name_reports' => $name_reports
+      ]);*/
+    return response()->json($machines);
+  }
+
+  public function cancelReportsPc($id)
   {
     $name_reports = DB::table('name_reports')->get();
 
@@ -404,19 +446,14 @@ class MachineController extends Controller
         ->where('IDComputer', '=', $id)
         ->get();
       //dd($machines);
-      return response()->json($machines, 200);
-      /*return view('machines.index', [
+      //return response()->json($machines, 200);
+      return view('machines.reportes_pc', [
         'machines' => $machines,
         'name_reports' => $name_reports
-      ]);*/
+      ]);
     } else {
       abort(404, 'id no encontrado');
     }
-  }
-
-  public function invocePrint()
-  {
-    return view('machines.invoce-print');
   }
 
   /**

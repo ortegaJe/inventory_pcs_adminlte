@@ -16,6 +16,7 @@
         processing: true,
         serverSide: true,
         //responsive: true,
+        //select: true,
         autoWidth: true,
         lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
         order: [[ 0, 'desc' ]],
@@ -106,8 +107,8 @@
             orderable: false, searchable: false
           },  
           { data: 'reports',
-                    orderable: false, searchable: false
-                    },    
+            orderable: false, searchable: false
+          },
                 ]
       });
 
@@ -116,7 +117,7 @@
               fila = $(this).closest("tr");
               id = parseInt(fila.find('td:eq(1)').text());
               $("#id").val(id);
-              $("#AddReports").modal("show");
+              $("").modal("show");
               });
 
       $("#btnPrueba").click(function(){

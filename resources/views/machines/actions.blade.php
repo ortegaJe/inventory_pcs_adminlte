@@ -10,8 +10,7 @@
             class="btn btn-success btn-sm col start">
             <i class="fas fa-edit"></i>
         </button>
-        <button type="button" class="btn btn-primary btn-sm col start" onclick="window.location=" data-toggle="modal"
-            data-target="#AddReports">
+        <button type="button" class="btn btn-primary btn-sm col start" onclick="window.location=">
             <i class="fas fa-file-alt"></i>
         </button>
         <button type="submit" class="btn btn-danger btn-sm col start">

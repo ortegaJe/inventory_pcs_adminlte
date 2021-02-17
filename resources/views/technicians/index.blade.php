@@ -131,4 +131,19 @@
                   })
         });
 </script>
+
+<script>
+  $(document).ready(function(){
+  $.ajax({
+    url: '/technicians/script',
+    method: 'POST',
+    data:{
+      id: 1,
+      _token:$('input[name="_token"]').val()
+    }
+  }).done(function(res){
+    //alert(res);
+  });
+})
+</script>
 @endpush

@@ -10,9 +10,10 @@
         </button>
       </div>
       <div class="modal-body text-center">
+        @csrf
         <div class="row text-center">
           <input type="text" id="id" name="id" />
-          <input type="text" id="id2" name="id2" />
+          <input type="text" id="serial" name="serial" />
           <div class="col-md-6">
             <div class="card card-outline card-primary">
               <div class="card-header">
@@ -30,7 +31,7 @@
               </div>
               <!-- /.card-body -->
               <div class="card-footer">
-                <a href="#" class="btn btn-block btn-outline-primary">Generar</a>
+                <a href="" class="btn btn-block btn-outline-primary">Generar</a>
               </div>
             </div>
             <!-- /.card -->
@@ -93,6 +94,3 @@
     </div>
   </div>
 </div>
-
-@push('js')
-@endpush
