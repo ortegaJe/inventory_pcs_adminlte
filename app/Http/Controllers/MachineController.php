@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Campu;
+use App\CancelReport;
 use App\Exports\MachinesCsvExport;
 use App\Exports\MachinesExport;
 use App\Http\Requests\MachineFormRequest;
@@ -17,6 +19,8 @@ use Maatwebsite\Excel\Excel;
 use Yajra\DataTables\Facades\DataTables;
 use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
+use Hamcrest\Core\IsNull;
+use Symfony\Component\HttpFoundation\Response;
 
 class MachineController extends Controller
 {
@@ -388,6 +392,90 @@ class MachineController extends Controller
     ]);
   }
 
+  public function view()
+  {
+    return view('company.index');
+  }
+
+  public function get_company_data(Request $request)
+  {
+    DB::statement(DB::raw('set @rownum=0'));
+    $machines = DB::table('machines AS m')
+      ->leftJoin('types AS t', 't.id', '=', 'm.type_id')
+      ->leftJoin('campus AS c', 'c.id', '=', 'm.campus_id')
+      ->leftJoin('status_codes AS code_s', 'code_s.id_code', '=', 'm.id_statu')
+      ->leftJoin('status AS statu_description', 'statu_description.id_statu', '=', 'code_s.id_statu')
+      ->select([
+        DB::raw('@rownum  := @rownum  + 1 AS rownum'),
+        'm.id',
+        't.name',
+        'm.serial',
+        'm.serial_monitor',
+        'm.manufacturer',
+        'm.model',
+        'm.cpu',
+        'm.name_pc',
+        'm.ip_range',
+        'm.mac_address',
+        'm.anydesk',
+        'm.os',
+        'm.location',
+        'm.comment',
+        'm.created_at',
+        'c.campu_name',
+        'statu_description.description'
+      ])->where('m.status_deleted_at', '=', [1])
+      ->whereIn('m.id_statu', [1, 2, 3, 4])
+      ->whereNull('m.deleted_at')
+      ->orderByDesc('m.id')->paginate(20, ['*'], 'machines');
+
+    //dd($machines);
+
+    return \Request::ajax() ?
+      response()->json($machines, Response::HTTP_OK)
+      : abort(404);
+  }
+
+  public function save(Request $request)
+  {
+    CancelReport::updateOrCreate(
+      [
+        'id' => $request->id
+      ],
+      [
+        'name' => $request->s_t,
+        'address' => $request->code_inventor
+      ]
+    );
+
+    return response()->json(
+      [
+        'success' => true,
+        'message' => 'Data inserted successfully'
+      ]
+    );
+  }
+
+  public function update_data($id)
+  {
+    $comapny  = Machine::find($id);
+
+    return response()->json([
+      'data' => $comapny
+    ]);
+  }
+
+  public function delete($id)
+  {
+    $company = Machine::find($id);
+
+    $company->delete();
+
+    return response()->json([
+      'message' => 'Data deleted successfully!'
+    ]);
+  }
+
   public function ReportsPc()
   {
 
@@ -419,9 +507,77 @@ class MachineController extends Controller
       ])->where('m.status_deleted_at', '=', [1])
       ->whereIn('m.id_statu', [1, 2, 3, 4])
       ->whereNull('m.deleted_at')
-      ->orderByDesc('m.id')->paginate(20, ['*'], 'machines');;
+      ->orderByDesc('m.id')->paginate(20, ['*'], 'machines');
     //dd($td_machines);
     return view('machines.reportes.reportes_pc', ['machines' => $machines]);
+  }
+
+  public function createFormatReportsPcById($id)
+  {
+    $name_reports = DB::table('name_reports')->get();
+    $altsolucions = DB::table('altsolucions')->get();
+
+    if (Machine::findOrFail($id)) {
+      $machines = Machine::select('machines')
+        ->leftJoin('types', 'types.id', '=', 'machines.type_id')
+        ->leftJoin('campus', 'campus.id', '=', 'machines.campus_id')
+        ->leftJoin('status_codes', 'status_codes.id_code', '=', 'machines.id_statu')
+        ->leftJoin('status', 'status.id_statu', '=', 'status_codes.id_statu')
+        ->select([
+          'machines.id',
+          'types.name',
+          'machines.serial',
+          'machines.name_pc',
+          'machines.ip_range',
+          'machines.mac_address',
+          'campus.campu_name',
+          'status.description'
+        ])->where('machines.id', '=', $id)->get();
+
+      return view('machines.reportes.format_reports', [
+        'machines' => $machines,
+        'name_reports' => $name_reports,
+        'altsolucions' => $altsolucions,
+      ]);
+    } else {
+      abort(404, 'id no encontrado');
+    }
+  }
+
+  public function saveFormatReportsPcById(Request $request)
+  {
+    $cancel_reports = new CancelReport();
+
+    $cancel_reports->user_id = Auth::user()->id;
+    $cancel_reports->machine_id = $request['id-machine'];
+    $cancel_reports->act_fijo = $request['act-fijo'];
+    $cancel_reports->name_dependency = $request['name-depen'];
+    $cancel_reports->s_t = $request['alt-solucions'];
+    $cancel_reports->diagnostic = $request['diagnostic'];
+    $cancel_reports->observation = $request['observation'];
+    //dd($cancel_reports);
+
+    $cancel_reports->save();
+
+    return redirect(route('ReportPc.data'));
+  }
+
+  public function cancelFormatReportsPcById($id)
+  {
+    $name_reports = DB::table('name_reports')->get();
+
+    if ($cancel_report_by_pc = Machine::findOrFail($id)) {
+      $cancel_report_by_pc = DB::table('reportBajaComputers')
+        ->where('IDComputer', '=', $id)
+        ->get();
+      //dd($machines);
+      return view('machines.reportes.cancel_reports', [
+        'cancel_report_by_pc' => $cancel_report_by_pc,
+        'name_reports' => $name_reports,
+      ]);
+    } else {
+      abort(404, 'id no encontrado');
+    }
   }
 
   public function formatReportsPcById($id)
@@ -435,25 +591,6 @@ class MachineController extends Controller
         'name_reports' => $name_reports
       ]);*/
     return response()->json($machines);
-  }
-
-  public function cancelReportsPc($id)
-  {
-    $name_reports = DB::table('name_reports')->get();
-
-    if ($machines = Machine::findOrFail($id)) {
-      $machines = DB::table('reportBajaComputers')
-        ->where('IDComputer', '=', $id)
-        ->get();
-      //dd($machines);
-      //return response()->json($machines, 200);
-      return view('machines.reportes_pc', [
-        'machines' => $machines,
-        'name_reports' => $name_reports
-      ]);
-    } else {
-      abort(404, 'id no encontrado');
-    }
   }
 
   /**

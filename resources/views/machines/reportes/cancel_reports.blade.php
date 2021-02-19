@@ -51,7 +51,7 @@
         </table>
       </td>
     </tr>
-    @foreach($machines as $machine)
+    @foreach($cancel_report_by_pc as $machine)
     <tr style="height: 10px;">
       <td style="height: 10px; text-align: left; width: 99.9199%;" colspan="7">
         <h5><strong>1) IDENTIFICACION RESPONSABLE DEL
@@ -114,9 +114,7 @@
         <h5><strong>01</strong></h5>
       </td>
       <td style="width: 19.0858%; text-align: center; height: 63px;" width="97">
-        <div class="col-md-8 mb-3 text-center">
-          <input type="text" style="outline: none; text-align: center;" name="c-inv01">
-        </div>
+        <p>{{$machine->activoFijo}}</p>
       </td>
       <td style="width: 20.6897%; height: 63px; text-align: center;">
         <p>{{$machine->descriptionComputer}}</p>
@@ -128,19 +126,19 @@
         <p>{{$machine->location}}</p>
       </td>
       <td style="width: 30.4731%; text-align: center; height: 63px;" width="145">
-        <div class="col-md-8 mb-3 text-center">
-          <input type="text" style="outline: none; text-align: center;" name="name-dependency01">
-        </div>
+        <p>{{$machine->nameDependency}}</p>
       </td>
       <td style="width: 5.2927%; text-align: center; height: 117px;" rowspan="2">
-        <h5>&nbsp;</h5>
+        <h2>
+          <p><strong>{{$machine->ST}}</strong></p>
+        </h2>
       </td>
     </tr>
     <tr style="height: 150px;">
-      <td style="width: 19.0858%; height: 54px;" width="97"><strong>DIAGN&Oacute;STICO 01</strong></td>
+      <td style="width: 19.0858%; height: 54px;" width="97"><strong>DIAGN&Oacute;STICO</strong></td>
       <td style="width: 73.2158%; height: 54px;" colspan="4" width="542">
         <textarea class="form-control" maxlength="200" id="" name="obs" style="height: 150px;"
-          aria-label="With textarea"></textarea>
+          aria-label="With textarea" disabled>{{$machine->diagnostic}}</textarea>
       </td>
     </tr>
     <tr style="height: 30px;">
@@ -150,7 +148,7 @@
     <tr style="height: 150px;">
       <td style="text-align: left; height: 83px; width: 99.9199%;" colspan="7">
         <textarea class="form-control" maxlength="200" id="" name="obs" style="height: 150px;"
-          aria-label="With textarea"></textarea>
+          aria-label="With textarea" disabled>{{$machine->observation}}</textarea>
       </td>
     </tr>
     <tr style="height: 30px;">
@@ -176,7 +174,7 @@
 @endsection
 
 @push('js')
-<!--<script>
-    window.addEventListener("load", window.print());
-</script>-->
+<script>
+  window.addEventListener("load", window.print());
+</script>
 @endpush

@@ -24,9 +24,21 @@ Route::prefix('/dashboard/admin')->middleware('admin')->group(function () {
     Route::get('/export_excel', 'MachineController@export_excel');
     Route::get('/export_pdf', 'MachineController@exportPdf');
     Route::get('/reportes_pc', 'MachineController@ReportsPc')->name('ReportPc.data');
+    Route::get('/format_reports/{id}', 'MachineController@createFormatReportsPcById')->name('createFormatReportPcById.data');
+    Route::get('/format_reports/formato_baja_de_equipo/{id}', 'MachineController@cancelFormatReportsPcById')->name('cancelFormatReportsPcById.data');
+
     Route::get('/reportes_pc/{id}', 'MachineController@formatReportsPcById');
     Route::get('/cancel_reports/{id}', 'MachineController@CancelReportsPc')->name('cancelReportPc.data');
 });
+
+Route::post('/dashboard/admin/format_reports', 'MachineController@saveFormatReportsPcById')->name('saveFormatReportPcById.data');
+
+Route::get('/company', 'MachineController@view')->name('company.index');
+Route::get('/companies', 'MachineController@get_company_data')->name('data');
+Route::get('/addcompany', 'MachineController@view')->name('company.view');
+Route::post('/addcompany', 'MachineController@save')->name('company.save');
+Route::get('/addcompany/{id}/edit', 'MachineController@update_data')->name('company.update');
+Route::delete('/addcompany/{id}', 'MachineController@delete')->name('company.destroy');
 
 
 Route::get('datatables', 'DatatablesController@getIndex')->name('datatables.data');

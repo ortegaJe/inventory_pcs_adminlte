@@ -31,7 +31,7 @@
               </div>
               <!-- /.card-body -->
               <div class="card-footer">
-                <a href="" class="btn btn-block btn-outline-primary">Generar</a>
+                <a href="#" class="btn btn-block btn-outline-primary">Generar</a>
               </div>
             </div>
             <!-- /.card -->

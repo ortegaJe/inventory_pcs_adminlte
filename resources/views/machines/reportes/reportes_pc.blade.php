@@ -4,47 +4,13 @@
 
 @section('content')
 
-<style>
-  .parent~.cchild {
-    display: none;
-  }
-
-  .open .parent~.cchild {
-    display: table-row;
-  }
-
-  .parent {
-    cursor: pointer;
-  }
-
-  .parent>*:last-child {
-    width: 30px;
-  }
-
-  .parent i {
-    transform: rotate(0deg);
-    transition: transform .4s cubic-bezier(.4, 0, .2, 1);
-    margin: -.5rem;
-    padding: .5rem;
-
-  }
-
-  .open .parent i {
-    transform: rotate(180deg)
-  }
-</style>
-
 <div class="row">
   @include('machines.modal-choose-reports')
   <div class="col-12">
     <div class="card card-primary card-outline" style="height: 725px;">
       <div class="card-header border-0">
-        <h3 class="card-title" style="font-weight: 500; font-size:28px">Lista de equipos registrados
+        <h3 class="card-title" style="font-weight: 500; font-size:28px">Reportes de equipos
         </h3>
-        <a href="#">
-          <button type="button" class="btn bg-primary float-left btn-sm ml-2">
-            <i class="fa fa-plus"></i> Agregar equipo</button>
-        </a>
         <div class="card-tools">
           <div class="input-group input-group-sm" style="width: 150px;">
             <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
@@ -59,7 +25,7 @@
       </div>
       <!-- /.card-header -->
       <div class="card-body table-responsive p-0" style="height: 300px;">
-        <table class="table table-head-fixed text-nowrap">
+        <table class="table table-head-fixed table-hover text-nowrap">
           <thead>
             <tr>
               <th>ID</th>
@@ -68,7 +34,7 @@
               <th>IP</th>
               <th>MAC</th>
               <th>SEDE</th>
-              <th>REPORTES</th>
+              <th class="text-center">GENERAR REPORTE</th>
             </tr>
           </thead>
           <tbody>
@@ -81,16 +47,11 @@
               <td>{{$machine->mac_address}}</td>
               <td>{{$machine->campu_name}}</td>
               <td>
-                <button type="button" class="btn btn-primary float-left btn-create-report" style="margin-right: 5px;"
-                  onclick="getIdMachine({{$machine->id}})">
-                  <i class="fas fa-file-alt"></i> Generar
+                <button type="button" class="btn btn-primary btn-block float-left btn-create-report"
+                  style="margin-right: 5px;"
+                  onclick="window.location='{{ route('createFormatReportPcById.data', $machine->id) }}'">
+                  <i class="fas fa-pen"></i>
                 </button>
-                <a href="" class="btn-link text-secondary"><i class="far fa-fw fa-file-pdf"></i>
-                  UAT.pdf
-                </a>
-                <a href="" class="btn-link text-secondary"><i class="far fa-fw fa-file-pdf"></i>
-                  UAT.pdf
-                </a>
               </td>
             </tr>
             @endforeach
