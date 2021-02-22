@@ -29,8 +29,8 @@
         <form action="/dashboard/admin/format_reports" method="POST" enctype="multipart/form-data">
           @csrf
           @foreach($machines as $machine)
-          <input type="text" id="id-machine" name="id-machine" value="{{$machine->id}}" hidden>
-          <input type="text" id="id-format" name="id-format" value="1" hidden>
+          <input type="text" id="id-machine" name="id-machine" value="{{$machine->machine_id}}">
+          <input type="text" id="id-format" name="id-format" value="1">
           @endforeach
           <div class="form-row">
             <div class="col-md-6 mb-3">

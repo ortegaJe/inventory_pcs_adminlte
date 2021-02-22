@@ -518,21 +518,16 @@ class MachineController extends Controller
     $altsolucions = DB::table('altsolucions')->get();
 
     if (Machine::findOrFail($id)) {
-      $machines = Machine::select('machines')
-        ->leftJoin('types', 'types.id', '=', 'machines.type_id')
-        ->leftJoin('campus', 'campus.id', '=', 'machines.campus_id')
-        ->leftJoin('status_codes', 'status_codes.id_code', '=', 'machines.id_statu')
-        ->leftJoin('status', 'status.id_statu', '=', 'status_codes.id_statu')
+      $machines = DB::table('cancel_reports as cr')
+        ->leftJoin('machines as m', 'm.id', '=', 'cr.machine_id')
         ->select([
-          'machines.id',
-          'types.name',
-          'machines.serial',
-          'machines.name_pc',
-          'machines.ip_range',
-          'machines.mac_address',
-          'campus.campu_name',
-          'status.description'
-        ])->where('machines.id', '=', $id)->get();
+          'cr.machine_id',
+          'm.serial',
+          'cr.created_at',
+          'cr.has_report'
+        ])
+        ->where('cr.machine_id', '=', $id)->get();
+        //dd($machines);
 
       return view('machines.reportes.format_reports', [
         'machines' => $machines,
@@ -555,7 +550,7 @@ class MachineController extends Controller
     $cancel_reports->s_t = $request['alt-solucions'];
     $cancel_reports->diagnostic = $request['diagnostic'];
     $cancel_reports->observation = $request['observation'];
-    //dd($cancel_reports);
+    dd($cancel_reports);
 
     $cancel_reports->save();
 
@@ -578,19 +573,6 @@ class MachineController extends Controller
     } else {
       abort(404, 'id no encontrado');
     }
-  }
-
-  public function formatReportsPcById($id)
-  {
-    $name_reports = DB::table('name_reports')->get();
-
-    $machines = Machine::findOrFail($id);
-    //dd($machines);
-    /*return view('machines.format_reports', [
-        'machines' => $machines,
-        'name_reports' => $name_reports
-      ]);*/
-    return response()->json($machines);
   }
 
   /**
