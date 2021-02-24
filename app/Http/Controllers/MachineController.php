@@ -518,19 +518,23 @@ class MachineController extends Controller
     $altsolucions = DB::table('altsolucions')->get();
 
     if (Machine::findOrFail($id)) {
-      $machines = DB::table('cancel_reports as cr')
+      $if_pc_has_reports = DB::table('cancel_reports as cr')
         ->leftJoin('machines as m', 'm.id', '=', 'cr.machine_id')
         ->select([
+          'cr.id',
           'cr.machine_id',
           'm.serial',
-          'cr.created_at',
-          'cr.has_report'
+          'cr.created_at'
         ])
         ->where('cr.machine_id', '=', $id)->get();
-        //dd($machines);
+      //dd($machines);
+
+      $generate_new_reports = Machine::where('id', '=', $id)->limit(1)->get();
+      //dd($report_for_id);
 
       return view('machines.reportes.format_reports', [
-        'machines' => $machines,
+        'if_pc_has_reports' => $if_pc_has_reports,
+        'generate_new_reports' => $generate_new_reports,
         'name_reports' => $name_reports,
         'altsolucions' => $altsolucions,
       ]);
@@ -550,7 +554,7 @@ class MachineController extends Controller
     $cancel_reports->s_t = $request['alt-solucions'];
     $cancel_reports->diagnostic = $request['diagnostic'];
     $cancel_reports->observation = $request['observation'];
-    dd($cancel_reports);
+    //dd($cancel_reports);
 
     $cancel_reports->save();
 
@@ -560,10 +564,12 @@ class MachineController extends Controller
   public function cancelFormatReportsPcById($id)
   {
     $name_reports = DB::table('name_reports')->get();
+    $cancel_report_by_pc = Machine::findOrFail($id);
 
-    if ($cancel_report_by_pc = Machine::findOrFail($id)) {
+    if ($cancel_report_by_pc) {
       $cancel_report_by_pc = DB::table('reportBajaComputers')
         ->where('IDComputer', '=', $id)
+        //->limit(1)
         ->get();
       //dd($machines);
       return view('machines.reportes.cancel_reports', [

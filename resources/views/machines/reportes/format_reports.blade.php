@@ -33,27 +33,40 @@
           </tr>
         </thead>
         <tbody>
-          @foreach($machines as $machine)
           <tr>
+            @forelse($if_pc_has_reports as $if_pc_has_report)
             <td>
-              <a href="{{ route('cancelFormatReportsPcById.data', $machine->machine_id) }}"
+              <a href="{{ route('cancelFormatReportsPcById.data', $if_pc_has_report->machine_id) }}"
                 class="btn-link text-secondary"><i class="far fa-fw fa-file-pdf"></i>
-                INFORME TECNICO PARA BAJA ACTIVOS FIJOS - {{ $machine->serial }}.pdf
+                INFORME TECNICO PARA BAJA ACTIVOS FIJOS - {{ $if_pc_has_report->serial }}.pdf
               </a>
             </td>
+            <td class="text-muted">{{ \Carbon\Carbon::parse($if_pc_has_report->created_at)->toDayDateTimeString()}}</td>
+            <td>
+              <!--<button type="button" class="btn btn-success float-left btn-create-report" style="margin-right: 5px;"
+                data-toggle="modal" data-target="#AddCancelReport">
+                <i class="fas fa-file-alt"></i> Editar
+              </button>-->
+              <button type="button" class="btn btn-primary float-left btn-create-report ml-2" style="margin-right: 5px;"
+                data-toggle="modal" data-target="#AddCancelReport">
+                <i class="fas fa-file-alt"></i> Generar reporte
+              </button>
+            </td>
+          </tr>
+          @empty
+          <tr>
+            @foreach($generate_new_reports as $generate_new_report)
+            <td></td>
             <td></td>
             <td>
               <button type="button" class="btn btn-primary float-left btn-create-report ml-2" style="margin-right: 5px;"
                 data-toggle="modal" data-target="#AddCancelReport">
                 <i class="fas fa-file-alt"></i> Generar reporte
               </button>
-              <button type="button" class="btn btn-success float-left btn-create-report" style="margin-right: 5px;"
-                data-toggle="modal" data-target="#AddCancelReport">
-                <i class="fas fa-file-alt"></i> Editar
-              </button>
             </td>
+            @endforeach
           </tr>
-          @endforeach
+          @endforelse
       </table>
       <!-- /.table-responsive -->
     </div>

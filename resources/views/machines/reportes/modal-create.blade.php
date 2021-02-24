@@ -28,8 +28,12 @@
         @endif
         <form action="/dashboard/admin/format_reports" method="POST" enctype="multipart/form-data">
           @csrf
-          @foreach($machines as $machine)
-          <input type="text" id="id-machine" name="id-machine" value="{{$machine->machine_id}}">
+          @foreach($if_pc_has_reports as $if_pc_has_report)
+          <input type="text" id="id-machine" name="id-machine" value="{{$if_pc_has_report->machine_id}}">
+          <input type="text" id="id-format" name="id-format" value="1">
+          @endforeach
+          @foreach($generate_new_reports as $generate_new_report)
+          <input type="text" id="id-machine" name="id-machine" value="{{$generate_new_report->id}}">
           <input type="text" id="id-format" name="id-format" value="1">
           @endforeach
           <div class="form-row">
