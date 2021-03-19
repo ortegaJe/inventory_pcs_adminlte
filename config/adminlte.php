@@ -249,7 +249,7 @@ return [
                 ],
                 [
                     'text' => 'Reportes',
-                    'url'  => '/dashboard/admin/reportes_pc',
+                    'url'  => '/dashboard/admin/reportes-pc',
                     'icon' => 'fas fa-file-alt',
                     'can'  =>  'admin',
                 ],

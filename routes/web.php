@@ -23,21 +23,12 @@ Route::prefix('/dashboard/admin')->middleware('admin')->group(function () {
     Route::resource('/machines', 'MachineController');
     Route::get('/export_excel', 'MachineController@export_excel');
     Route::get('/export_pdf', 'MachineController@exportPdf');
-    Route::get('/reportes_pc', 'MachineController@ReportsPc')->name('ReportPc.data');
-    Route::get('/format_reports/{id}', 'MachineController@createFormatReportsPcById')->name('createFormatReportPcById.data');
-    Route::post('/format_reports', 'MachineController@saveFormatReportsPcById')->name('saveFormatReportPcById.data');
-    Route::get('/format_reports/formato_baja_de_equipo/{id}', 'MachineController@cancelFormatReportsPcById')->name('cancelFormatReportsPcById.data');
+    Route::resource('/reportes-pc', 'ReportController')->names('report.pc');
+    Route::match(['get', 'patch'], '/crearReporte={id}_SerialPc={serial?}', 'ReportController@createReport')->name('create.report.pc');
+    Route::match(['patch', 'get'], '/guardar-reporte/{id}', 'ReportController@saveReport')->name('save.report.pc');
+    Route::get('/reporte-generado/{id}=Repo={nombrerepo?}=SerialPc={serial?}', 'ReportController@generatedReport')->name('generated.report.pc');
+    //Route::get('/format_reports/formato_baja_de_equipo_9000/{repoid}/{$id}', 'MachineController@cancelFormatReportsPcById')->name('cancelFormatReportsPcById.data');
 });
-
-Route::get('/company', 'MachineController@view')->name('company.index');
-Route::get('/companies', 'MachineController@get_company_data')->name('data');
-Route::get('/addcompany', 'MachineController@view')->name('company.view');
-Route::post('/addcompany', 'MachineController@save')->name('company.save');
-Route::get('/addcompany/{id}/edit', 'MachineController@update_data')->name('company.update');
-Route::delete('/addcompany/{id}', 'MachineController@delete')->name('company.destroy');
-
-
-Route::get('datatables', 'DatatablesController@getIndex')->name('datatables.data');
 
 Route::post('/technicians/script', 'UserController@script');
 Route::get('/technicians/export', 'UserController@export')->middleware('admin');

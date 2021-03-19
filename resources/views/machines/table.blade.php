@@ -25,19 +25,18 @@
         loadingRecords: "<img src='images/Loading.gif'> Loading...",
         processing: "<img src='{{ asset('gif/load.gif') }}' width='32px'> Procesando..."
         },
-        columnDefs:[{
-                        targets:-1,
-                        data:null,
-                        defaultContent: "<button class='btn btn-danger btn-create-report'>Reportes</button>"
-                        }],
         columns: [
           { data: 'rownum', 
             name: 'rownum',
-            visible: true, searchable: false
+            visible: false, searchable: false
           },
           { data: 'id',
             name: 'm.id',
-            visible: true 
+            visible: false 
+          },
+          { data: 'm.created_at',
+            name: 'm.created_at',
+            visible: true, orderable: true, searchable: true
           },
           { data: 'name',
             name: 't.name',
@@ -95,18 +94,11 @@
             name: 'm.comment',
             visible: false, orderable: true, searchable: true
           },
-          { data: 'm.created_at',
-            name: 'm.created_at',
-            visible: true, orderable: true, searchable: true
-          },
           {
             data: 'statu_description.description',
             visible: true, orderable: true, searchable: true
           },
           { data: 'action',
-            orderable: false, searchable: false
-          },  
-          { data: 'reports',
             orderable: false, searchable: false
           },
                 ]

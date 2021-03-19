@@ -26,16 +26,11 @@
           @endif
         </div>
         @endif
-        <form action="/dashboard/admin/format_reports" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('save.report.pc', $cancel_repo_pc->id)}}" method="POST">
           @csrf
-          @foreach($if_pc_has_reports as $if_pc_has_report)
-          <input type="text" id="id-machine" name="id-machine" value="{{$if_pc_has_report->machine_id}}">
-          <input type="text" id="id-format" name="id-format" value="1">
-          @endforeach
-          @foreach($generate_new_reports as $generate_new_report)
-          <input type="text" id="id-machine" name="id-machine" value="{{$generate_new_report->id}}">
-          <input type="text" id="id-format" name="id-format" value="1">
-          @endforeach
+          @method('PATCH')
+          <input type="hidden" id="id-machine" name="id-machine" value="{{ $cancel_repo_pc->id}}">
+          <input type="hidden" id="id-format" name="id-format" value="{{$name_reports[0]->id}}">
           <div class="form-row">
             <div class="col-md-6 mb-3">
               <label for="act-fijo">Activo fijo:</label>
@@ -43,7 +38,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fas fa-barcode"></i></span>
                 </div>
-                <input type="text" class="form-control" name="act-fijo" style="text-transform:uppercase;"
+                <input type="text" class="form-control" name="act-fijo" id="act-fijo" style="text-transform:uppercase;"
                   onkeyup="javascript:this.value=this.value.toUpperCase();">
               </div>
             </div>
@@ -53,8 +48,8 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fas fa-user-lock"></i></span>
                 </div>
-                <input type="text" class="form-control" name="name-depen" style="text-transform:uppercase;"
-                  onkeyup="javascript:this.value=this.value.toUpperCase();" value="">
+                <input type="text" class="form-control" name="name-depen" id="name-depen"
+                  style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" value="">
               </div>
             </div>
           </div>
@@ -65,12 +60,12 @@
               <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-tools"></i></span>
               </div>
-              <select class="custom-select" name="alt-solucions" required>
+              <select class="custom-select" name="alt-solucions" id="alt-solucions" required>
                 <option selected disabled>Seleccionar solucion...</option>
                 @forelse ($altsolucions as $listasoluciones)
                 <option value="{{$listasoluciones->id}}">{{$listasoluciones->name}}</option>
                 @empty
-                <option value="null">NO HAY EXISTE SOLUCIONES TECNICAS REGISTRADAS</option>
+                <option value="">NO EXISTEN SOLUCIONES TECNICAS REGISTRADAS</option>
                 @endforelse
               </select>
             </div>
@@ -97,9 +92,9 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text">Observacion:</span>
                 </div>
-                <textarea style="height: 100px;" class="form-control" maxlength="200" id="" name="observation"
-                  style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
-                  aria-label="With textarea"></textarea>
+                <textarea style="height: 100px;" class="form-control" maxlength="200" id="observation"
+                  name="observation" style="text-transform:uppercase;"
+                  onkeyup="javascript:this.value=this.value.toUpperCase();" aria-label="With textarea"></textarea>
               </div>
             </div>
           </div>
@@ -121,9 +116,7 @@
             </div>
           </div>
         </form>
-
       </div>
-
     </div>
   </div>
 </div>

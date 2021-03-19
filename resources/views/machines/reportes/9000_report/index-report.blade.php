@@ -5,7 +5,6 @@
 @section('content')
 
 <div class="row">
-  @include('machines.modal-choose-reports')
   <div class="col-12">
     <div class="card card-primary card-outline" style="height: 725px;">
       <div class="card-header border-0">
@@ -25,7 +24,7 @@
       </div>
       <!-- /.card-header -->
       <div class="card-body table-responsive p-0" style="height: 300px;">
-        <table class="table table-head-fixed table-hover text-nowrap">
+        <table class="table table-head-fixed table-hover table-bordered text-nowrap">
           <thead>
             <tr>
               <th>ID</th>
@@ -34,23 +33,38 @@
               <th>IP</th>
               <th>MAC</th>
               <th>SEDE</th>
-              <th class="text-center">GENERAR REPORTE</th>
+              <th>ESTADO</th>
+              <th class="text-center">ACCIONES</th>
             </tr>
           </thead>
           <tbody>
             @foreach($machines as $machine)
-            <tr id="{{$machine->id}}">
-              <td>{{$machine->id}}</td>
+            <tr>
+              <td>{{$machine->repoID}}</td>
               <td>{{$machine->name}}</td>
               <td>{{$machine->serial}}</td>
               <td>{{$machine->ip_range}}</td>
               <td>{{$machine->mac_address}}</td>
               <td>{{$machine->campu_name}}</td>
-              <td>
-                <button type="button" class="btn btn-primary btn-block float-left btn-create-report"
-                  style="margin-right: 5px;"
-                  onclick="window.location='{{ route('createFormatReportPcById.data', $machine->id) }}'">
-                  <i class="fas fa-pen"></i>
+              @if($machine->EstadoPc == 'RENDIMIENTO OPTIMO')
+              <td class="text-center"><span class="badge bg-success">{{$machine->EstadoPc}}</span></td>
+              @endif
+              @if($machine->EstadoPc == 'RENDIMIENTO BAJO')
+              <td class="text-center"><span class="badge bg-warning">{{$machine->EstadoPc}}</span></td>
+              @endif
+              @if($machine->EstadoPc == 'HURTADO')
+              <td class="text-center"><span class="badge bg-orange">{{$machine->EstadoPc}}</span></td>
+              @endif
+              @if($machine->EstadoPc == 'DADO DE BAJA')
+              <td class="text-center"><span class="badge bg-secondary">{{$machine->EstadoPc}}</span></td>
+              @endif
+              @if($machine->EstadoPc == '')
+              <td class="text-center"><span class="badge bg-info">NO REGISTRA ESTADO</span></td>
+              @endif
+              <td class="text-center inline">
+                <button type="button" class="btn btn-primary btn-create-report" style="margin-right: 5px;"
+                  onclick="window.location='{{ route('create.report.pc', [$machine->repoID, $machine->serial]) }}'">
+                  <i class="fas fa-pen"></i> Crear reporte
                 </button>
               </td>
             </tr>
@@ -70,17 +84,4 @@
   </div>
 </div>
 
-@endsection
-
-@section('js')
-<script>
-  function getIdMachine(id)
-{
-  $.get('reportes_pc/',+id, function(){
-      $("#id").val(id);
-      $("#serial").val(serial);
-      $("#AddReports").modal("toggle");
-  })
-}
-</script>
 @endsection
