@@ -381,23 +381,6 @@ class MachineController extends Controller
     ]);
   }
 
-  public function cancelFormatReportsPcById($id)
-  {
-    $name_reports = DB::table('name_reports')->get();
-    Machine::findOrFail($id);
-
-    $cancel_report_by_pc = DB::table('reportBajaComputers')
-      //->where('IDCancelRepo', '=', $idrepo)
-      //->orWhere('IDComputer', '=', $id)
-      //->limit(1)
-      ->get();
-    //dd($machines);
-    return view('machines.reportes.cancel_reports', [
-      'cancel_report_by_pc' => $cancel_report_by_pc,
-      'name_reports' => $name_reports,
-    ]);
-  }
-
   /**
    * Update the specified resource in storage.
    *

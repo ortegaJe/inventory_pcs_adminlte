@@ -25,6 +25,7 @@
             <tr>
               <th>FECHA DE CREACIÓN</th>
               <th>REPORTE</th>
+              <th>ACCIONES</th>
             </tr>
           </thead>
           <tbody>
@@ -45,6 +46,13 @@
                     <i class="far fa-fw fa-file-pdf text-danger"></i>
                     {{$repo_cancel->NameRepoID = 'FORMATO INFORME TECNICO DE EQUIPOS'}}-{{ $repo_cancel->Serial}}.pdf
                   </a>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-success btn-update-report" data-toggle="modal"
+                    data-target="#UpCancelReport">
+                    <i class="fas fa-edit"></i> Editar
+                  </button>
+                  @include('machines.reportes.9000_report.modal-update')
                 </td>
               </tr>
               @endif

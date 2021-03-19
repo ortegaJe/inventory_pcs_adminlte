@@ -80,10 +80,10 @@ class ReportController extends Controller
 
     $data =
       [
+        'repos_cancel' => $repos_cancel,
         'name_reports' => $name_reports,
         'altsolucions' => $altsolucions,
         'cancel_repo_pc' => $cancel_repo_pc,
-        'repos_cancel' => $repos_cancel,
       ];
 
     return view('machines.reportes.9000_report.create-report')->with($data);
@@ -119,7 +119,7 @@ class ReportController extends Controller
       ->get();
 
     $pdf = PDF::loadView(
-      'machines.reportes.generated-report',
+      'machines.reportes.9000_report.generated-report',
       [
         'generated_report_pc' => $generated_report_pc,
         'name_reports' => $name_reports,
@@ -167,9 +167,37 @@ class ReportController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function edit($id)
+  public function edit($id, $serial)
   {
-    //
+    $cancel_repo_pcs = CancelReport::findOrFail($id);
+
+    $name_reports = DB::table('name_reports')->get();
+    $altsolucions = DB::table('altsolucions')->get();
+
+    $repos_cancel = DB::table('cancel_reports AS CR')
+      ->leftJoin('machines AS M', 'M.id', 'CR.machine_id')
+      ->leftJoin('name_reports AS NR', 'NR.id', 'CR.name_reports_id')
+      ->select([
+        'CR.id AS BajaRepoID',
+        'CR.name_reports_id AS NameRepoID',
+        'NR.name AS NombreRepo900',
+        'CR.machine_id AS ComputerID',
+        'M.serial AS Serial',
+        'CR.created_at AS FechaCreacion'
+      ])
+      ->where('CR.id', $id)
+      ->orderByDesc('CR.created_at')
+      ->paginate(8, ['*'], 'repos_cancel');
+
+    $data =
+      [
+        'cancel_repo_pcs' => $cancel_repo_pcs,
+        'name_reports' => $name_reports,
+        'altsolucions' => $altsolucions,
+        'repos_cancel' => $repos_cancel,
+      ];
+
+    return view('machines.reportes.9000_report.create-report')->with($data);
   }
 
   /**

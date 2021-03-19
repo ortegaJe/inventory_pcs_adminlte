@@ -15,7 +15,7 @@ return [
     */
 
     'title' => '',
-    'title_prefix' => 'Inventory | ',
+    'title_prefix' => 'InventoryPC | ',
     'title_postfix' => '',
 
     /*
@@ -45,7 +45,7 @@ return [
     |
     */
 
-    'logo' => '<b>Inventory</b>',
+    'logo' => '<b>Inventory<strong>PC</strong></b>',
     'logo_img' => 'vendor/adminlte/dist/img/server-storage.svg',
     'logo_img_class' => 'brand-image elevation-3',
     'logo_img_xl' => null,
