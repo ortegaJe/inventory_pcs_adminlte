@@ -1,11 +1,11 @@
-<div class="modal fade" id="AddCancelReport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="AddDeliveryReport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header bg-gradient-primary">
         <h5 class="modal-title" id="exampleModalLabel" style="font-weight: 600">
-          {{$name_reports[0]->code_report}} -
-          {{$name_reports[0]->name}}
+          {{$name_reports[1]->code_report}} -
+          {{$name_reports[1]->name}}
         </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -26,11 +26,11 @@
           @endif
         </div>
         @endif
-        <form action="{{ route('save.report.pc')}}" method="POST">
+        <form action="{{ route('save.report.acta.entrega.pc')}}" method="POST">
           @csrf
           @method('POST')
-          <input type="hidden" id="id-machine" name="id-machine" value="{{ $cancel_repo_pc->id}}">
-          <input type="hidden" id="id-format" name="id-format" value="{{$name_reports[0]->id}}">
+          <input type="text" id="id-machine" name="id-machine" value="{{ $cancel_repo_pc->id}}">
+          <input type="text" id="id-format" name="id-format" value="{{$name_reports[1]->id}}">
           <div class="form-row">
             <div class="col-md-6 mb-3">
               <label for="act-fijo">Activo fijo:</label>

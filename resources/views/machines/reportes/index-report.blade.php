@@ -27,8 +27,8 @@
         <table class="table table-head-fixed table-hover table-bordered text-nowrap">
           <thead>
             <tr>
-              <th>ID</th>
-              <th>TYPE</th>
+              <th>FECHA DE CREACIÓN</th>
+              <th>TIPO</th>
               <th>SERIAL</th>
               <th>IP</th>
               <th>MAC</th>
@@ -40,7 +40,7 @@
           <tbody>
             @foreach($machines as $machine)
             <tr>
-              <td>{{$machine->repoID}}</td>
+              <td class="text-muted">{{Carbon\Carbon::parse($machine->FechaCreacionPC)->format('d-m-Y h:i:s A')}}</td>
               <td>{{$machine->name}}</td>
               <td>{{$machine->serial}}</td>
               <td>{{$machine->ip_range}}</td>
@@ -62,8 +62,8 @@
               <td class="text-center"><span class="badge bg-info">NO REGISTRA ESTADO</span></td>
               @endif
               <td class="text-center inline">
-                <button type="button" class="btn btn-primary btn-create-report" style="margin-right: 5px;"
-                  onclick="window.location='{{ route('create.report.pc', [$machine->repoID, $machine->serial]) }}'">
+                <button type="button" class="btn btn-primary btn-sm btn-create-report" style="margin-right: 5px;"
+                  onclick="window.location='{{ route('create.report.pc', $machine->id) }}'">
                   <i class="fas fa-pen"></i> Crear reporte
                 </button>
               </td>
@@ -85,3 +85,6 @@
 </div>
 
 @endsection
+
+@push('js')
+@endpush

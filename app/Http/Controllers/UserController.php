@@ -144,7 +144,8 @@ class UserController extends Controller
             }
 
             if ($users->save()) :
-                return redirect('/dashboard/admin/technicians')->withErrors($validator)->with('user_created', 'Usuario fue agregado al inventario!');
+                return redirect('/dashboard/admin/technicians')->withErrors($validator)
+                    ->with('user_created', 'Usuario fue agregado al inventario!');
             endif;
         endif;
     }

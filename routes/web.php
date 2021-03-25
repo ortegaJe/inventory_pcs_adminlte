@@ -24,10 +24,13 @@ Route::prefix('/dashboard/admin')->middleware('admin')->group(function () {
     Route::get('/export_excel', 'MachineController@export_excel');
     Route::get('/export_pdf', 'MachineController@exportPdf');
     Route::resource('/reportes-pc', 'ReportController')->names('report.pc');
-    Route::match(['get', 'patch'], '/crearReporte={id}_SerialPc={serial?}', 'ReportController@createReport')->name('create.report.pc');
-    Route::match(['patch', 'get'], '/guardar-reporte/{id}', 'ReportController@saveReport')->name('save.report.pc');
+    Route::get('/crearReporte={id}', 'ReportController@createReport')->name('create.report.pc');
+    Route::post('/guardar-reporte', 'ReportController@saveReport')->name('save.report.pc');
     Route::get('/reporte-generado/{id}=Repo={nombrerepo?}=SerialPc={serial?}', 'ReportController@generatedReport')->name('generated.report.pc');
-    //Route::get('/format_reports/formato_baja_de_equipo_9000/{repoid}/{$id}', 'MachineController@cancelFormatReportsPcById')->name('cancelFormatReportsPcById.data');
+
+    //Route::get('/crearReporte={id}', 'ReportController@createReport')->name('create.report.acta.entrega.pc');
+    Route::post('/guardar-reporte-acta-entrega', 'ReportController@saveReportActaEntrega')->name('save.report.acta.entrega.pc');
+    Route::get('/reporte-generado-acta-entrega/{id}', 'ReportController@generatedReportActaEntrega')->name('generated.report.acta.entrega.pc');
 });
 
 Route::post('/technicians/script', 'UserController@script');
