@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\CancelReport;
+use App\HvPcReport;
 use App\Machine;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -45,7 +46,9 @@ class ReportController extends Controller
         'm.created_at AS FechaCreacionPC',
         'c.campu_name',
         'statu_description.description AS EstadoPc'
-      ])->where('m.status_deleted_at', '=', [1])
+      ])
+      ->where('m.status_deleted_at', '=', [1])
+      ->where('c.label', '=', 'C16')
       ->whereIn('m.id_statu', [1, 2, 3, 4])
       ->whereNull('m.deleted_at')
       ->orderByDesc('m.id')->paginate(20, ['*'], 'machines');
@@ -80,9 +83,6 @@ class ReportController extends Controller
       ->orderByDesc('CR.created_at')
       ->paginate(4, ['*'], 'repos_cancel');
 
-    //$name_reports = DB::table('name_reports')->get();
-    //$altsolucions = DB::table('altsolucions')->get();
-
     $delivery_repos = DB::table('delivery_reports AS DR')
       ->leftJoin('machines AS M', 'M.id', 'DR.machine_id')
       ->leftJoin('name_reports AS NR', 'NR.id', 'DR.name_reports_id')
@@ -97,12 +97,28 @@ class ReportController extends Controller
       ->where('DR.machine_id', $id)
       ->orderByDesc('DR.created_at')
       ->paginate(4, ['*'], 'delivery_repos');
+
+      $hvpc_repos = DB::table('hv_pc_reports AS HVPC')
+        ->leftJoin('machines AS M', 'M.id', 'HVPC.machine_id')
+        ->leftJoin('name_reports AS NR', 'NR.id', 'HVPC.name_reports_id')
+        ->select([
+          'HVPC.id AS id_hvpc',
+          'HVPC.name_reports_id AS names_repo_id',
+          'NR.name AS name_repo9002',
+          'HVPC.machine_id AS pc_id',
+          'M.serial AS serial',
+          'HVPC.created_at AS d_created'
+      ])
+        ->where('HVPC.machine_id', $id)
+        ->orderByDesc('HVPC.created_at')
+        ->paginate(4, ['*'], 'hvpc_repos');
     //dd($delivery_repo);
 
     $data =
       [
         'repos_cancel' => $repos_cancel,
         'delivery_repos' => $delivery_repos,
+        'hvpc_repos' => $hvpc_repos,
         'name_reports' => $name_reports,
         'altsolucions' => $altsolucions,
         'cancel_repo_pc' => $cancel_repo_pc,
@@ -141,7 +157,7 @@ class ReportController extends Controller
     );
     if ($validator->fails()) :
       return back()->withErrors($validator)->with(
-        'message',
+        'message_cancel_report',
         'Se ha producido un error:'
       )->with(
         'typealert',
@@ -187,40 +203,6 @@ class ReportController extends Controller
 
     return $pdf->stream('formato-informe-tecnico-de-equipos-' . $serial . '.pdf');
   }
-
-  /*public function createReportActaEntrega($id)
-  {
-    $cancel_repo_pc = Machine::findOrFail($id);
-
-    $name_reports = DB::table('name_reports')->get();
-    $altsolucions = DB::table('altsolucions')->get();
-
-    $repos_cancel = DB::table('delivery_reports AS DR')
-      ->leftJoin('machines AS M', 'M.id', 'DR.machine_id')
-      ->leftJoin('name_reports AS NR', 'NR.id', 'DR.name_reports_id')
-      ->select([
-        'DR.id AS BajaRepoID',
-        'DR.name_reports_id AS NameRepoID',
-        'NR.name AS NombreRepo900',
-        'DR.machine_id AS ComputerID',
-        'M.serial AS Serial',
-        'DR.created_at AS FechaCreacion'
-      ])
-      ->where('DR.machine_id', $id)
-      ->orderByDesc('DR.created_at')
-      ->paginate(4, ['*'], 'repos_cancel');
-    dd($repos_cancel);
-
-    $data =
-      [
-        'repos_cancel' => $repos_cancel,
-        'name_reports' => $name_reports,
-        'altsolucions' => $altsolucions,
-        'cancel_repo_pc' => $cancel_repo_pc,
-      ];
-
-    return view('machines.reportes.create-report')->with($data);
-  }*/
 
   public function saveReportActaEntrega(Request $request)
   {
@@ -297,6 +279,78 @@ class ReportController extends Controller
     );
 
     return $pdf->stream('formato-acta-de-entrega-equipos-computacionales.pdf');
+  }
+
+    public function saveReportHvPc(Request $request)
+  {
+
+      /*$hv_pc_reports = new HvPcReport();
+      $hv_pc_reports->date_maintenance = $request['fecha-mto'];
+      $hv_pc_reports->observations = $request['observation'];
+      $hv_pc_reports->name_reports_id = $request['id-format'];
+      $hv_pc_reports->user_id = Auth::user()->id;
+      $hv_pc_reports->machine_id = $request['id-machine'];
+      //dd($hv_pc_reports);
+      $hv_pc_reports->save();*/
+
+    $rules = [
+      'fecha-mto' => 'required|date',
+      'observation' => 'required',
+    ];
+
+    $messages = [
+      'fecha-mto.required' => 'Se requiere una fecha de mantenimiento',
+      'observation.required' => 'Se requiere un resumen del mantenimiento',
+    ];
+
+    $validator = Validator::make(
+      $request->all(),
+      $rules,
+      $messages
+    );
+    if ($validator->fails()) :
+      return back()->withErrors($validator)->with(
+        'message_hv_pc_report',
+        'Se ha producido un error:'
+      )->with(
+        'typealert',
+        'danger'
+      );
+    else :
+      $hv_pc_reports = new HvPcReport();
+      $hv_pc_reports->date_maintenance = $request['fecha-mto'];
+      $hv_pc_reports->observations = $request['observation'];
+      $hv_pc_reports->name_reports_id = $request['id-format'];
+      $hv_pc_reports->user_id = Auth::user()->id;
+      $hv_pc_reports->machine_id = $request['id-machine'];
+
+      if ($hv_pc_reports->save()) :
+        return back()
+          ->withErrors($validator)
+          ->with('report_created', 'Reporte creado!');
+      endif;
+    endif;
+  }
+
+  public function generatedReportHvPc($id)
+  {
+    HvPcReport::findOrFail($id);
+
+    $name_reports = DB::table('name_reports')->get();
+
+    $generated_report_pc = DB::table('view_hv_pc_repo')
+      ->where('hvrepo_id', $id)
+      ->get();
+
+    $pdf = PDF::loadView(
+      'machines.reportes.9002_report.generated-report',
+      [
+        'generated_report_pc' => $generated_report_pc,
+        'name_reports' => $name_reports,
+      ]
+    );
+
+    return $pdf->stream('formato-hoja-de-vida-equipos-computacionales.pdf');
   }
 
   /**

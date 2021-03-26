@@ -120,56 +120,58 @@
     </div>
   </div>
 
-  <div class="col-12">
+  <div class="col-sm-12">
     <div class="card card-primary card-outline">
       <div class="card-header border-0">
         <h3 class="card-title" style="font-weight: 500; font-size:28px">{{$name_reports[2]->code_report}} -
           {{$name_reports[2]->name}}
         </h3>
+        <button type="button" class="btn btn-primary btn-create-report ml-3" style="margin-right: 5px;"
+          data-toggle="modal" data-target="#AddHvPcReport">
+          <i class="fas fa-plus"></i> Nuevo
+        </button>
+        @include('machines.reportes.9002_report.modal-create')
         <div class="card-tools">
-          <div class="input-group input-group-sm" style="width: 150px;">
-            <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
-            <div class="input-group-append">
-              <button type="submit" class="btn btn-default">
-                <i class="fas fa-search"></i>
-              </button>
-            </div>
-          </div>
         </div>
       </div>
       <!-- /.card-header -->
       <div class="card-body table-responsive p-0">
-        <table class="table table-head-fixed table-hover text-nowrap">
+        <table id="repoTable" class="table table-head-fixed table-hover text-nowrap">
           <thead>
             <tr>
-              <th>REPORTE</th>
               <th>FECHA DE CREACIÓN</th>
+              <th>REPORTE</th>
               <th>ACCIONES</th>
             </tr>
           </thead>
           <tbody>
+            @foreach($hvpc_repos as $hvpc_repo)
             <tr>
+              <td class="text-muted">{{ \Carbon\Carbon::parse($hvpc_repo->d_created)->format('d-m-Y h:i:s A') }}
+              </td>
               <td>
-                <a href="" class="btn-link text-secondary"><i class="far fa-fw fa-file-pdf"></i>
-                  HOJA DE VIDA DE EQUIPOS DE CÓMPUTO.pdf
+                <a href="{{ route('generated.report.hv.pc', $hvpc_repo->id_hvpc)}}" target="_blank"
+                  class="btn-link text-secondary">
+                  <i class="far fa-fw fa-file-pdf text-danger"></i>
+                  {{$hvpc_repo->name_repo9002 = 'HOJA DE VIDA DE EQUIPOS DE CÓMPUTO'}}-{{ $hvpc_repo->serial}}.pdf
                 </a>
               </td>
-              <td></td>
               <td>
-                <button type="button" class="btn btn-primary float-left btn-create-report" style="margin-right: 5px;"
-                  onclick="window.location=" data-toggle="modal" data-target="#AddCancelReport">
-                  <i class="fas fa-file-alt"></i> Generar
+                <button type="button" class="btn btn-success btn-update-report" data-toggle="modal"
+                  data-target="#UpCancelReport">
+                  <i class="fas fa-edit"></i> Editar
                 </button>
+                {{--@include('machines.reportes.9000_report.modal-update')--}}
               </td>
             </tr>
-          </tbody>
+            @endforeach
         </table>
         <!-- /.table-responsive -->
       </div>
       <!-- /.card-body -->
-      <div class="card-footer clearfix">
+      <div class=" card-footer clearfix">
         <ul class="pagination pagination-xl m-0 float-right">
+          {{ $hvpc_repos->links() }}
         </ul>
       </div>
       <!-- /.card-footer -->
@@ -197,8 +199,16 @@
 
 <script>
   $(document).ready(function(){
-    @if($message = Session::get('message'))
+    @if($message = Session::get('message_cancel_report'))
     $('#AddCancelReport').modal('show');
+    @endif
+  })
+</script>
+
+<script>
+  $(document).ready(function(){
+    @if($message = Session::get('message_hv_pc_report'))
+    $('#AddHvPcReport').modal('show');
     @endif
   })
 </script>
