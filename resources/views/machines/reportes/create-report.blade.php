@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="row">
-  <div class="col-sm-12">
+  <div class="col-sm-12 mb-4">
     <div class="card card-primary card-outline">
       <div class="card-header border-0">
         <h3 class="card-title" style="font-weight: 500; font-size:28px">{{$name_reports[0]->code_report}} -
@@ -62,7 +62,7 @@
     </div>
   </div>
 
-  <div class="col-sm-12">
+  <div class="col-sm-12 mb-4">
     <div class="card card-primary card-outline">
       <div class="card-header border-0">
         <h3 class="card-title" style="font-weight: 500; font-size:28px">{{$name_reports[1]->code_report}} -
@@ -95,7 +95,7 @@
                 <a href="{{ route('generated.report.acta.entrega.pc', $delivery_repo->DeliveryRepoID)}}" target="_blank"
                   class="btn-link text-secondary">
                   <i class="far fa-fw fa-file-pdf text-danger"></i>
-                  {{$repo_cancel->NameRepoID = 'ACTA DE ENTREGA DE EQUIPOS COMPUTACIONALES'}}-{{ $delivery_repo->Serial}}.pdf
+                  {{$delivery_repo->NameRepoID = 'ACTA DE ENTREGA DE EQUIPOS COMPUTACIONALES'}}-{{ $delivery_repo->Serial}}.pdf
                 </a>
               </td>
               <td>
@@ -120,7 +120,7 @@
     </div>
   </div>
 
-  <div class="col-sm-12">
+  <div class="col-sm-12 mb-4">
     <div class="card card-primary card-outline">
       <div class="card-header border-0">
         <h3 class="card-title" style="font-weight: 500; font-size:28px">{{$name_reports[2]->code_report}} -

@@ -102,20 +102,8 @@
           </div>
 
           <div class="modal-footer">
-            <div class="btn-group w-100" style="height: 40px">
-              <span class="btn btn-secondary w-50" data-dismiss="modal">
-                <i class="fas fa-times"></i>
-                <span>Cerrar</span>
-              </span>
-              <button type="submit" class="btn btn-primary col start w-100">
-                <i class="fas fa-save"></i>
-                <span>Guardar</span>
-              </button>
-              <button type="reset" class="btn btn-secondary col cancel w-50">
-                <i class="fas fa-eraser"></i>
-                <span>Borrar todo</span>
-              </button>
-            </div>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary">Guardar</button>
           </div>
         </form>
       </div>

@@ -47,7 +47,7 @@
               </div>
             </div>
             <div class="col-md-4 mb-3">
-              <label for="name">Nombres:</label>
+              <label for="name">Primer nombre:</label>
               <div class="input-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -56,9 +56,21 @@
                   onkeyup="javascript:this.value=this.value.toUpperCase();" value="{{ old('name') }}">
               </div>
             </div>
-
             <div class="col-md-4 mb-3">
-              <label for="last-name">Apellidos:</label>
+              <label for="middle-name">Segundo nombre:</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-user"></i></span>
+                </div>
+                <input type="text" class="form-control" name="middle-name" style="text-transform:uppercase;"
+                  onkeyup="javascript:this.value=this.value.toUpperCase();" value="{{ old('middle-name') }}">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="col-md-4 mb-3">
+              <label for="last-name">Primer apellido:</label>
               <div class="input-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -67,9 +79,16 @@
                   style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
               </div>
             </div>
-          </div>
-
-          <div class="form-row">
+            <div class="col-md-4 mb-3">
+              <label for="second-surname">Segundo apellido:</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-user"></i></span>
+                </div>
+                <input type="text" class="form-control" name="second-surname" value="{{ old('second-surname') }}"
+                  style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
+              </div>
+            </div>
             <div class="col-md-4 mb-3">
               <label for="nick-name">Nickname:</label>
               <div class="input-group">

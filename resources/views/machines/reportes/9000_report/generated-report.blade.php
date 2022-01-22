@@ -137,7 +137,7 @@
     <tr>
       <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=7 height="17" align="left"
         valign=middle>
-        <font size=1>SEDE: {{$repo_pc->tecSede}}</font>
+        <font size=1>SEDE: {{$repo_pc->sedeComputer}}</font>
       </td>
     </tr>
     <tr>

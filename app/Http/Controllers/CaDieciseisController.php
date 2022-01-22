@@ -10,16 +10,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
-use Maatwebsite\Excel\Excel;
 use Barryvdh\DomPDF\Facade as PDF;
+use Maatwebsite\Excel\Excel;
 
 class CaDieciseisController extends Controller
 {
 
-    public function __construct()
+    public function __construct(Excel $excel)
     {
         $this->middleware('auth');
         $this->middleware('verified');
+        $this->excel = $excel;
     }
     /**
      * Display a listing of the resource.
@@ -101,21 +102,40 @@ class CaDieciseisController extends Controller
                     'statu_description.description'
                 )->where('label', '=', 'C16')
                 ->where('status_deleted_at', '=', 1)
-                ->whereIn('m.id_statu', [1, 2, 3, 4])
+                ->where('m.id_statu', '<>', 5)
                 ->whereNull('m.deleted_at')
-                ->orderByDesc('m.created_at', 'DESC');
+                ->orderByDesc('m.created_at');
 
             $datatables = DataTables::of($c16_machines);
 
             $datatables->addColumn('rownum', 'whereRaw', '@rownum  + 1');
 
-            $datatables->editColumn('m.created_at', function ($c16_machines) {
-                return $c16_machines->created_at ? with(new Carbon($c16_machines->created_at))
-                    ->toDayDateTimeString() : '';
+            $datatables->editColumn('m.created_at', function ($machines) {
+                return $machines->created_at ? with(new Carbon($machines->created_at))
+                    ->format('d-m-Y h:i:s A')    : '';
+            });
+            $datatables->addColumn('statu_description.description', function ($machines) {
+
+                switch ($machines->description) {
+                    case $machines->description == 'RENDIMIENTO OPTIMO':
+                        return '<span class="badge bg-success">' . $machines->description . '</span>';
+                        break;
+                    case $machines->description == 'RENDIMIENTO BAJO':
+                        return '<span class="badge bg-warning">' . $machines->description . '</span>';
+                        break;
+                    case $machines->description == 'HURTADO':
+                        return '<span class="badge bg-orange">' . $machines->description . '</span>';
+                        break;
+                    case $machines->description == 'DADO DE BAJA':
+                        return '<span class="badge bg-secondary">' . $machines->description . '</span>';
+                        break;
+                    default:
+                        echo "NO REGISTRA ESTADO";
+                }
             });
             $datatables->blacklist(['m.deleted_at']);
-            $datatables->addColumn('action', 'sedes.carrera_16.actions');
-            $datatables->rawColumns(['action']);
+            $datatables->addColumn('action', 'machines.actions');
+            $datatables->rawColumns(['action', 'statu_description.description']);
             return $datatables->make(true);
         }
 

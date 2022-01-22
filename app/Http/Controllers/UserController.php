@@ -128,6 +128,8 @@ class UserController extends Controller
             $users = new User();
             $users->cc = e($request->input('cc'));
             $users->name = e($request->input('name'));
+            $users->middle_name = e($request->input('middle-name'));
+            $users->second_surname = e($request->input('second-surname'));
             $users->last_name = e($request->input('last-name'));
             $users->nick_name = e($request->input('nick-name'));
             $users->email = e($request->input('email'));

@@ -29,93 +29,125 @@
         <form action="{{ route('save.report.acta.entrega.pc')}}" method="POST">
           @csrf
           @method('POST')
-          <input type="text" id="id-machine" name="id-machine" value="{{ $cancel_repo_pc->id}}">
-          <input type="text" id="id-format" name="id-format" value="{{$name_reports[1]->id}}">
+          <input type="hidden" id="id-machine" name="id-machine" value="{{ $cancel_repo_pc->id}}">
+          <input type="hidden" id="id-format" name="id-format" value="{{$name_reports[1]->id}}">
           <div class="form-row">
             <div class="col-md-6 mb-3">
-              <label for="act-fijo">Activo fijo:</label>
+              <label for="name-person">Nombre y Apellidos:</label>
               <div class="input-group">
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fas fa-barcode"></i></span>
+                  <span class="input-group-text"><i class="fas fa-user"></i></span>
                 </div>
-                <input type="text" class="form-control" name="act-fijo" id="act-fijo" style="text-transform:uppercase;"
-                  onkeyup="javascript:this.value=this.value.toUpperCase();" value="{{ old('act-fijo') }}">
+                <input type="text" class="form-control" name="name-person" style="text-transform:uppercase;"
+                  onkeyup="javascript:this.value=this.value.toUpperCase();">
               </div>
             </div>
             <div class="col-md-6 mb-3">
-              <label for="name-depen">Nombre de la dependencia:</label>
+              <label for="last-name-person">Apellidos:</label>
               <div class="input-group">
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fas fa-user-lock"></i></span>
+                  <span class="input-group-text"><i class="fas fa-user"></i></span>
                 </div>
-                <input type="text" class="form-control" name="name-depen" id="name-depen"
-                  style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
-                  value="{{ old('name-depen') }}">
+                <input type="text" class="form-control" name="last-name-person" style="text-transform:uppercase;"
+                  onkeyup="javascript:this.value=this.value.toUpperCase();">
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="position-person">Cargo:</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-briefcase"></i></span>
+                </div>
+                <input type="text" class="form-control" name="position-person" style="text-transform:uppercase;"
+                  onkeyup="javascript:this.value=this.value.toUpperCase();">
               </div>
             </div>
           </div>
-
-          <div class="col-sm-12 mb-3">
-            <label for="alt-solucions">Alternativas para solucion técnica:</label>
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fas fa-tools"></i></span>
+          <div class="row">
+            <div class="col-sm-6">
+              <!-- checkbox -->
+              <div class="form-group">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="has-wifi" value="1">
+                  <label class="form-check-label">WIFI</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="has-keyboard" value="1">
+                  <label class="form-check-label">Teclado</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="has-mouse" value="1">
+                  <label class="form-check-label">Mouse</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="has-webcam" value="1">
+                  <label class="form-check-label">Web cam</label>
+                </div>
               </div>
-              <select class="custom-select" name="alt-solucions" id="alt-solucions">
-                <option selected disabled>Seleccionar solucion...</option>
-                @forelse ($altsolucions as $listasoluciones)
-                <option value="{{$listasoluciones->id}}">{{$listasoluciones->name}}</option>
-                @empty
-                <option value="">NO EXISTEN SOLUCIONES TECNICAS REGISTRADAS</option>
-                @endforelse
-              </select>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="has-cover" value="1">
+                  <label class="form-check-label">Funda</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="has-briefcase" value="1">
+                  <label class="form-check-label">Maletín</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="has-charge-adapter" value="1">
+                  <label class="form-check-label">Adaptador</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="has-padlock" value="1">
+                  <label class="form-check-label">Candado</label>
+                </div>
+              </div>
             </div>
           </div>
-
           <div class="form-row">
-            <div class="col-md-12 mb-3">
+            <div class="col-md-6 mb-3">
               <div class="input-group">
                 <div class="input-group-prepend">
-                  <span class="input-group-text">Diagnostico:</span>
+                  <span class="input-group-text"><i class="fas fa-keyboard"></i></span>
                 </div>
-                <textarea style="height: 100px;" class="form-control" maxlength="200" id="diagnostic" name="diagnostic"
-                  style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
-                  aria-label="With textarea" value="{{ old('diagnostic') }}"></textarea>
+                <input type="text" class="form-control" name="serial-keyboard" style="text-transform:uppercase;"
+                  onkeyup="javascript:this.value=this.value.toUpperCase();" placeholder="Serial del teclado">
               </div>
             </div>
-          </div>
-
-          <br />
-
-          <div class="form-row">
-            <div class="col-md-12 mb-3">
+            <div class="col-md-6 mb-3">
               <div class="input-group">
                 <div class="input-group-prepend">
-                  <span class="input-group-text">Observacion:</span>
+                  <span class="input-group-text"><i class="fas fa-mouse"></i></span>
                 </div>
-                <textarea style="height: 100px;" class="form-control" maxlength="200" id="observation"
-                  name="observation" style="text-transform:uppercase;"
-                  onkeyup="javascript:this.value=this.value.toUpperCase();" aria-label="With textarea"
-                  value="{{ old('observation') }}"></textarea>
+                <input type="text" class="form-control" name="serial-mouse" style="text-transform:uppercase;"
+                  onkeyup="javascript:this.value=this.value.toUpperCase();" placeholder="Serial del teclado">
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-charging-station"></i></span>
+                </div>
+                <input type="text" class="form-control" name="serial-charge-adapter" style="text-transform:uppercase;"
+                  onkeyup="javascript:this.value=this.value.toUpperCase();" placeholder="Serial del adaptador">
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Otros accesorios:</span>
+                </div>
+                <input type="text" class="form-control" name="others-accesories" style="text-transform:uppercase;"
+                  onkeyup="javascript:this.value=this.value.toUpperCase();">
               </div>
             </div>
           </div>
 
           <div class="modal-footer">
-            <div class="btn-group w-100" style="height: 40px">
-              <span class="btn btn-secondary w-50" data-dismiss="modal">
-                <i class="fas fa-times"></i>
-                <span>Cerrar</span>
-              </span>
-              <button type="submit" class="btn btn-primary col start w-100">
-                <i class="fas fa-save"></i>
-                <span>Guardar</span>
-              </button>
-              <button type="reset" class="btn btn-secondary col cancel w-50">
-                <i class="fas fa-eraser"></i>
-                <span>Borrar todo</span>
-              </button>
-            </div>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary">Guardar</button>
           </div>
         </form>
       </div>

@@ -18,88 +18,89 @@
         //responsive: true,
         autoWidth: true,
         lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
-        order: [[ 16, 'desc' ]],
+        order: [[ 0, 'desc' ]],
         ajax: "{{ route('carrera_16.index')}}",
+        language: {
+        processing: "<img src='{{ asset('gif/load.gif') }}' width='32px'> Procesando..."
+        },
         columns: [
-          {data: 'rownum',
-          name: 'rownum',
-          visible: true,
-          searchable: false,
-          //orderable: true,
+          { data: 'rownum', 
+            name: 'rownum',
+            visible: false, searchable: false
           },
-         { data: 'id',
-          name: 'm.id',
-          visible: false
-          },
-          { data: 'name',
-          name: 't.name',
-          orderable: true, searchable: true
-          },
-          { data: 'serial',
-          name: 'm.serial',
-          visible: false, orderable: true, searchable: true
-          },
-          { data: 'serial_monitor',
-          name: 'm.serial_monitor',
-          visible: false, orderable: true, searchable: true
-          },
-          { data: 'manufacturer',
-          name: 'm.manufacturer',
-          orderable: true, searchable: true
-          },
-          { data: 'model',
-          name: 'm.model',
-          orderable: true, searchable: true
-          },
-          { data: 'cpu',
-          name: 'm.cpu',
-          visible: false, orderable: true, searchable: true
-          },
-          { data: 'name_pc',
-          name: 'm.name_pc',
-          orderable: true, searchable: true
-          },
-          { data: 'ip_range',
-          name: 'm.ip_range',
-          orderable: true, searchable: true
-          },
-          { data: 'mac_address',
-          name: 'm.mac_address',
-          orderable: true, searchable: true
-          },
-          { data: 'anydesk',
-          name: 'm.anydesk',
-          orderable: true, searchable: true
-          },
-          { data: 'os',
-          name: 'm.os',
-          visible: true, orderable: true, searchable: true
-          },
-          { data: 'campu_name',
-          name: 'c.campu_name',
-          orderable: true, searchable: true
-          },
-          { data: 'location',
-          name: 'm.location',
-          visible: false, orderable: true, searchable: true
-          },
-          { data: 'comment',
-          name: 'm.comment',
-          visible: false, orderable: true, searchable: true
+          { data: 'id',
+            name: 'm.id',
+            visible: false 
           },
           { data: 'm.created_at',
-          name: 'm.created_at',
-          visible: true, orderable: true, searchable: true
+            name: 'm.created_at',
+            visible: true, orderable: true, searchable: true
           },
-          { data: 'description',
-          name: 'statu_description.description',
-          visible: true, orderable: true, searchable: true
+          { data: 'name',
+            name: 't.name',
+            orderable: true, searchable: true 
+          },
+          { data: 'serial',
+            name: 'm.serial',
+            visible: false, orderable: true, searchable: true
+          },
+          { data: 'serial_monitor',
+            name: 'm.serial_monitor',
+            visible: false, orderable: true, searchable: true
+          },
+          { data: 'manufacturer',
+            name: 'm.manufacturer',
+            orderable: true, searchable: true, visible: false
+          },
+          { data: 'model',
+            name: 'm.model',
+            orderable: true, searchable: true, visible: false
+          },
+          { data: 'cpu',
+            name: 'm.cpu',
+            visible: false, orderable: true, searchable: true
+          },
+          { data: 'name_pc',
+            name: 'm.name_pc',
+            orderable: true, searchable: true
+          },
+          { data: 'ip_range',
+            name: 'm.ip_range',
+            orderable: true, searchable: true 
+          },
+          { data: 'mac_address',
+            name: 'm.mac_address',
+            orderable: true, searchable: true
+          },
+          { data: 'anydesk',
+            name: 'm.anydesk',
+            orderable: true, searchable: true
+          },
+          { data: 'os',
+            name: 'm.os',
+            visible: true, orderable: true, searchable: true
+          },
+          { data: 'campu_name',
+            name: 'c.campu_name',
+            orderable: true, searchable: true
+          },
+          { data: 'location',
+            name: 'm.location',
+            visible: false, orderable: true, searchable: true
+          },
+          { data: 'comment',
+            name: 'm.comment',
+            visible: false, orderable: true, searchable: true
+          },
+          {
+            data: 'statu_description.description',
+            visible: true, orderable: true, searchable: true
           },
           { data: 'action',
-           orderable: false, searchable: false
-          },        
+            orderable: false, searchable: false
+          },
                 ]
-      });
+      });    
     });
 </script>
 @stop

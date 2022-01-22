@@ -7,10 +7,10 @@
             <a href="https://laravel.com/" target="_blank" rel="noopener noreferrer"><img
                     src="{{ asset('dist/img/svg/laravel.svg') }}" alt="larevel-icon" width="25px"></a>
         </div>
-        <div class="float-left d-none d-sm-inline-block" style="margin-right: 0.2em">
+        {{-- <div class="float-left d-none d-sm-inline-block" style="margin-right: 0.2em">
             <a href="https://github.com/ortegaJe/laravelnventor" target="_blank" rel="noopener noreferrer"><img
                     src="{{ asset('dist/img/svg/github-icon.svg') }}" alt="" width="25px"></a>
-        </div>
+        </div>--}}
         <div class="float-left d-none d-sm-inline-block small mt-2">
             <span>Inventory Machines Project</span>
         </div>

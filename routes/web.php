@@ -34,7 +34,6 @@ Route::prefix('/dashboard/admin')->middleware('admin')->group(function () {
 
     Route::post('/guardar-reporte-hv-equipo-informatico', 'ReportController@saveReportHvPc')->name('save.report.hv.pc');
     Route::get('/reporte-generado-hv-equipo-informatico/{id}', 'ReportController@generatedReportHvPc')->name('generated.report.hv.pc');
-
 });
 
 Route::post('/technicians/script', 'UserController@script');

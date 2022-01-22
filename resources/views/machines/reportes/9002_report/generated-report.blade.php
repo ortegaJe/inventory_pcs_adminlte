@@ -317,7 +317,7 @@
       <td
         style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000"
         colspan=3 align="center" valign=top>
-        <font face="Arial" size=1 color="#000000">{{ $hv_pc_repo->hard_drive }}<br></font>
+        <span style="font-size: 10px">{{ $hv_pc_repo->hard_drive }}</span>
       </td>
       <td
         style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000"
@@ -466,7 +466,7 @@
       </td>
       <td
         style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000"
-        colspan=8 align="left" valign=top>
+        colspan=8 align="center" valign=top>
         <font face="Arial" size=1 color="#000000">{{ $hv_pc_repo->user }}</font>
       </td>
       <td
@@ -695,7 +695,7 @@
     <tr>
       <td
         style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000"
-        colspan=33 rowspan=7 height="50" align="left" valign=top>
+        colspan=33 rowspan=7 height="60" align="left" valign=top>
         <font face="Arial" size=1 color="#000000"><br></font>
       </td>
     </tr>

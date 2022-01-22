@@ -97,21 +97,41 @@ class MacarenaController extends Controller
                 ])
                 ->where('label', '=', 'MAC')
                 ->where('status_deleted_at', '=', 1)
-                ->whereIn('m.id_statu', [1, 2, 3, 4])
+                ->where('m.id_statu', '<>', 5)
                 ->whereNull('m.deleted_at')
-                ->orderByDesc('m.created_at', 'DESC');
+                ->orderByDesc('m.created_at');
 
             $datatables = DataTables::of($mac_machines);
 
             $datatables->addColumn('rownum', 'whereRaw', '@rownum  + 1');
 
-            $datatables->editColumn('m.created_at', function ($mac_machines) {
-                return $mac_machines->created_at ? with(new Carbon($mac_machines->created_at))
-                    ->toDayDateTimeString() : '';
+            $datatables->editColumn('m.created_at', function ($machines) {
+                return $machines->created_at ? with(new Carbon($machines->created_at))
+                    ->format('d-m-Y h:i:s A')    : '';
             });
+            $datatables->addColumn('statu_description.description', function ($machines) {
+
+                switch ($machines->description) {
+                    case $machines->description == 'RENDIMIENTO OPTIMO':
+                        return '<span class="badge bg-success">' . $machines->description . '</span>';
+                        break;
+                    case $machines->description == 'RENDIMIENTO BAJO':
+                        return '<span class="badge bg-warning">' . $machines->description . '</span>';
+                        break;
+                    case $machines->description == 'HURTADO':
+                        return '<span class="badge bg-orange">' . $machines->description . '</span>';
+                        break;
+                    case $machines->description == 'DADO DE BAJA':
+                        return '<span class="badge bg-secondary">' . $machines->description . '</span>';
+                        break;
+                    default:
+                        echo "NO REGISTRA ESTADO";
+                }
+            });
+
             $datatables->blacklist(['m.deleted_at']);
             $datatables->addColumn('action', 'sedes.macarena.actions');
-            $datatables->rawColumns(['action']);
+            $datatables->rawColumns(['action', 'statu_description.description']);
             return $datatables->make(true);
         }
 
@@ -191,7 +211,7 @@ class MacarenaController extends Controller
         $name_campu_table_index = DB::table('campus')->get();
         $status_code = DB::select('SELECT STATUS_CODE.id_code AS ID_CODE,STATUS.description AS DESCRIPTION,STATUS.ico AS BADGE,STATUS.created_at,STATUS.updated_at FROM status_codes AS STATUS_CODE 
                                     INNER JOIN status AS STATUS ON STATUS_CODE.id_statu = STATUS.id_statu
-                                        WHERE ID_CODE IN (1,2,3,4)', [1]);
+                                        WHERE ID_CODE <> 5', [1]);
         $mac_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'MAC')->get();
         $c16_campus = DB::table('campus')->select('id', 'campu_name')->where('label', '=', 'C16')->get();
 

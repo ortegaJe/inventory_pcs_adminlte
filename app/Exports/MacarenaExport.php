@@ -54,14 +54,17 @@ class MacarenaExport implements
                 'machines.location',
                 'machines.comment',
                 'machines.created_at',
-                'campus.campu_name'
+                'campus.campu_name',
+                'statu_description.description'
             )
             ->leftJoin('types', 'types.id', '=', 'machines.type_id')
             ->leftJoin('hdds', 'hdds.id', '=', 'machines.hard_drive_id')
             ->leftJoin('campus', 'campus.id', '=', 'machines.campus_id')
             ->leftJoin('rams AS ram0', 'ram0.id', '=', 'machines.ram_slot_00_id')
             ->leftJoin('rams AS ram1', 'ram1.id', '=', 'machines.ram_slot_01_id')
-            ->where('machines.status_deleted_at', '=', 1)
+            ->leftJoin('status_codes AS code_s', 'code_s.id_code', '=', 'machines.id_statu')
+            ->leftJoin('status AS statu_description', 'statu_description.id_statu', '=', 'code_s.id_statu')
+            //->where('machines.status_deleted_at', '=', 1)
             ->where('campus.label', '=', 'MAC')
             ->orderBy('rownum', 'ASC')
             ->get();

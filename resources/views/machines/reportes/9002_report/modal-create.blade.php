@@ -32,39 +32,34 @@
           <input type="hidden" id="id-machine" name="id-machine" value="{{ $cancel_repo_pc->id}}">
           <input type="hidden" id="id-format" name="id-format" value="{{$name_reports[2]->id}}">
 
-          <div class="card border-light mb-3" style="width: 36rem;">
-            <div class="card-header card-primary card-outline">
-              <h5><strong class="text-muted">Mantenimiento</strong></h5>
-            </div>
-            <div class="card-body">
-              <h5 class="card-title"></h5>
-              <div class="col-md-6 mb-3 mx-auto">
-                <label for="fecha-mto" class="text-muted">Fecha realización:</label>
-                <div class="input-group date">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fas fa-tools"></i></span>
-                  </div>
-                  <input type="date" class="form-control pull-right" name="fecha-mto" id="datepicker">
+          <h5 style="font-weight: 500; font-size:26px">Mantenimiento</h5>
+          <div class="form-row">
+            <div class="col-md-6 mb-3">
+              <label for="fecha-mto" class="text-muted">Fecha realización:</label>
+              <div class="input-group date">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-tools"></i></span>
                 </div>
+                <input type="date" class="form-control pull-right" name="fecha-mto" id="datepicker">
               </div>
-              <div class="form-row">
-                <div class="col-md-12 mb-3">
-                  <div class="input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">Observacion:</span>
-                    </div>
-                    <textarea style="height: 100px;" class="form-control" maxlength="200" id="observation"
-                      name="observation" style="text-transform:uppercase;"
-                      onkeyup="javascript:this.value=this.value.toUpperCase();" aria-label="With textarea"
-                      value=""></textarea>
-                  </div>
+            </div>
+            <div class="col-md-12 mb-3">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Observacion:</span>
                 </div>
+                <textarea style="height: 100px;" class="form-control" maxlength="200" id="observation"
+                  name="observation" style="text-transform:uppercase;"
+                  onkeyup="javascript:this.value=this.value.toUpperCase();" aria-label="With textarea"
+                  value=""></textarea>
               </div>
             </div>
           </div>
+
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Save changes</button> </div>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+          </div>
       </div>
       </form>
     </div>

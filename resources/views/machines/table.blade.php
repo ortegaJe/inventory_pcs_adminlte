@@ -16,13 +16,11 @@
         processing: true,
         serverSide: true,
         //responsive: true,
-        //select: true,
         autoWidth: true,
         lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
         order: [[ 0, 'desc' ]],
         ajax: "{{ route('machines.index')}}",
         language: {
-        loadingRecords: "<img src='images/Loading.gif'> Loading...",
         processing: "<img src='{{ asset('gif/load.gif') }}' width='32px'> Procesando..."
         },
         columns: [
@@ -103,32 +101,6 @@
           },
                 ]
       });
-
-      var fila;
-              $(document).on("click", ".btn-create-report", function(){
-              fila = $(this).closest("tr");
-              id = parseInt(fila.find('td:eq(1)').text());
-              $("#id").val(id);
-              $("").modal("show");
-              });
-
-      $("#btnPrueba").click(function(){
-            alert("crear formato");
-            });
-
-      $("#reload").click(function(){
-        $('#data-table').DataTable().ajax.reload();
-        });
-      
     });
-</script>
-
-<script>
-  function getDataFoReport(id){
-    $.get('/machines/'+id,function(machines){
-      $("#id2").val(machines.id);
-      $("#AddReports").modal("show");
-    });
-  }
 </script>
 @stop

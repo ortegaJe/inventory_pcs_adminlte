@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Campu;
-use App\CancelReport;
 use App\Exports\MachinesCsvExport;
 use App\Exports\MachinesExport;
 use App\Http\Requests\MachineFormRequest;
@@ -13,16 +11,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\UserSystemInfoHelper;
 use App\Http\Requests\StoreFormRequest;
-use App\PivotRepo;
-use App\PivotTableReport;
 use App\Type;
-use App\User;
 use Maatwebsite\Excel\Excel;
 use Yajra\DataTables\Facades\DataTables;
 use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
-use Hamcrest\Core\IsNull;
-use Symfony\Component\HttpFoundation\Response;
 
 class MachineController extends Controller
 {
@@ -138,8 +131,9 @@ class MachineController extends Controller
           'm.created_at',
           'c.campu_name',
           'statu_description.description'
-        ])->where('m.status_deleted_at', '=', [1])
-        ->whereIn('m.id_statu', [1, 2, 3, 4])
+        ])
+        ->where('m.status_deleted_at', '=', [1])
+        ->where('m.id_statu', '<>', 5)
         ->whereNull('m.deleted_at')
         ->orderByDesc('m.created_at');
 
@@ -167,9 +161,13 @@ class MachineController extends Controller
             return '<span class="badge bg-secondary">' . $machines->description . '</span>';
             break;
           default:
-            echo "NO REGISTRA ESTADO";
+            return "NO REGISTRA ESTADO";
         }
       });
+      /*$datatables->addColumn('option', function ($machines) {
+        return '<a href="" class="del_ btn btn-xs btn-danger" data-id=' . $machines->id . '>Delete</a>';
+      });*/
+
       $datatables->blacklist(['m.deleted_at']);
       $datatables->addColumn('action', 'machines.actions');
       $datatables->rawColumns(['action', 'statu_description.description']);
